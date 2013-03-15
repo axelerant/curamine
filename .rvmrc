@@ -1,0 +1,6 @@
+if [[ -s "/usr/local/rvm/environments/1.9.3@curamine" ]] ; then
+  . "/usr/local/rvm/environments/1.9.3@curamine"
+else
+  rvm --create use  "1.9.3@curamine"
+fi
+
