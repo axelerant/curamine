@@ -1,0 +1,30 @@
+ru:
+  label_wiki_text: Текст Wiki
+  label_link: Ссылка
+
+  field_is_for_new: Во время регистрации
+  field_hint: Подсказка
+
+  label_full_name: Полное имя
+  label_latest_version: Последняя версия
+  label_next_version: Следующая версия
+  label_tracker_column: Задачи %{tracker}
+  label_open_tracker_column: Открытые задачи %{tracker}
+  label_priority_column: "%{priority} задачи"
+  label_open_priority_column: Открытые %{priority} задачи
+  label_issue_status_column: "%{status} задачи"
+  label_last_activity: Последние действия
+  label_maximum_downloads: Максимальные загрузки
+  label_latest_downloads: Последние загрузки
+  label_repository_type: Тип хранилища
+  label_latest_files: Последние файлы
+  label_project_module: Модуль %{module}
+  label_total_issues: Все задачи
+  label_total_open_issues: Все открытые задачи
+  label_assigned_issues: Назначенные задачи
+  label_assigned_open_issues: Назначенные открытые задачи
+  label_repository_files: Файлов в хранилище
+  label_forum_messages: Сообщений в форумах
+
+  description_available_columns: Доступные колонки
+  description_selected_columns: Выбранные колонки

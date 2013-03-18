@@ -1,0 +1,6 @@
+table.list.projects-listing th, table.list.users-listing th {
+    white-space: normal;
+}
+textarea#custom_field_default_value {
+    width: 99%;
+}

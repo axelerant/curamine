@@ -1,0 +1,29 @@
+tr:
+  label_wiki_text: Wiki metni
+  label_link: Bağlantı
+
+  field_is_for_new: Kayıt esnasında
+  field_hint: İpucu
+
+  label_full_name: Tam isim
+  label_latest_version: En son sürüm
+  label_next_version: Sonraki sürüm
+  label_tracker_column: "%{tracker} iş"
+  label_open_tracker_column: Açık olan %{tracker} iş
+  label_priority_column: "%{priority} iş"
+  label_open_priority_column: Açık olan %{priority} iş
+  label_issue_status_column: "%{status} iş"
+  label_last_activity: Son etkinlik
+  label_maximum_downloads: En çok indirme
+  label_latest_downloads: Son indirmeler
+  label_repository_type: Depo tipi
+  label_latest_files: Son dosyalar
+  label_project_module: "%{module} modul"
+  label_total_issues: Toplam iş
+  label_total_open_issues: Toplam açık olan iş
+  label_assigned_issues: Atanmış işler
+  label_assigned_open_issues: Açık olan atanmış işler
+  label_repository_files: Depo dosyaları
+
+  description_available_columns: Uygun sütunlar
+  description_selected_columns: Seçili sütunlar

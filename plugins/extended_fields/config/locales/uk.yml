@@ -1,0 +1,30 @@
+uk:
+  label_wiki_text: Текст Wiki
+  label_link: Посилання
+
+  field_is_for_new: Під час реєстрації
+  field_hint: Підказка
+
+  label_full_name: Повне ім'я
+  label_latest_version: Остання версія
+  label_next_version: Наступна версія
+  label_tracker_column: Завдання %{tracker}
+  label_open_tracker_column: Відкриті завдання %{tracker}
+  label_priority_column: "%{priority} завдання"
+  label_open_priority_column: Відкриті %{priority} завдання
+  label_issue_status_column: "%{status} завдання"
+  label_last_activity: Останні дії
+  label_maximum_downloads: Максимальні завантаження
+  label_latest_downloads: Останні завантаження
+  label_repository_type: Тип репозиторію
+  label_latest_files: Останні файли
+  label_project_module: Модуль %{module}
+  label_total_issues: Усі завдання
+  label_total_open_issues: Усі відкриті завдання
+  label_assigned_issues: Призначені завдання
+  label_assigned_open_issues: Призначені відкриті завдання
+  label_repository_files: Файлів у репозиторію
+  label_forum_messages: Повідомлень у форумах
+
+  description_available_columns: Доступні колонки
+  description_selected_columns: Вибрані колонки

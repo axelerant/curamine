@@ -1,0 +1,75 @@
+<div class="contextual">
+<%= link_to l(:label_user_new), { :action => 'new' }, :class => 'icon icon-add' %>
+</div>
+
+<h2><%=l(:label_user_plural)%></h2>
+
+<% form = form_tag({}, :onsubmit => 'selectAllOptions("selected_columns");', :method => :get, :id => 'user_list_form') do %>
+<fieldset><legend><%= l(:label_filter_plural) %></legend>
+<label for='status'><%= l(:field_status) %>:</label>
+<%= select_tag 'status', users_status_options_for_select(@status), :class => "small", :onchange => "this.form.onsubmit(); this.form.submit(); return false;"  %>
+
+<% if @groups.present? %>
+<label for='group_id'><%= l(:label_group) %>:</label>
+<%= select_tag 'group_id', content_tag('option') + options_from_collection_for_select(@groups, :id, :name, params[:group_id].to_i), :onchange => "this.form.onsubmit(); this.form.submit(); return false;" %>
+<% end %>
+
+<label for='name'><%= l(:label_user) %>:</label>
+<%= text_field_tag 'name', params[:name], :size => 30 %>
+</fieldset>
+
+  <fieldset class="collapsible collapsed">
+    <legend onclick="toggleFieldset(this);"><%= l(:field_column_names) %></legend>
+    <div style="display: none;">
+      <%= render(:partial => 'custom_fields/columns', :locals => { :object => User }) %>
+    </div>
+  </fieldset>
+
+  <%= hidden_field_tag('save', '') %>
+
+  <p class="buttons hide-when-print">
+    <% if defined? observe_field %>
+      <% user_list_form = "$('user_list_form')" %>
+    <% else %>
+      <% user_list_form = "$('#user_list_form')[0]" %>
+    <% end %>
+    <%= link_to_function(l(:button_apply), "var user_list_form = #{user_list_form}; user_list_form.onsubmit(); user_list_form.submit();", :class => 'icon icon-checked') %>
+    <%= link_to(l(:button_clear), { :action => 'index' }, :class => 'icon icon-reload') %>
+    <%= link_to_function(l(:button_save), "var user_list_form = #{user_list_form}; user_list_form['save'].value = '1'; user_list_form.onsubmit(); user_list_form.submit();", :class => 'icon icon-save') %>
+  </p>
+
+<% end %>
+<%= form if Rails::VERSION::MAJOR >= 3 %>
+
+<div class="autoscroll">
+<table class="list users-listing">
+  <thead><tr>
+      <% @list_settings.columns.each do |column| %>
+        <% if %w(login firstname lastname mail admin created_on last_login_on).include?(column.name.to_s) %>
+          <%= sort_header_tag(column.name.to_s, :caption => column.caption) %>
+        <% else %>
+          <th><%= h(column.caption) %></th>
+        <% end %>
+      <% end %>
+    <th></th>
+  </tr></thead>
+  <tbody>
+<% for user in @users -%>
+  <tr class="user <%= cycle("odd", "even") %> <%= %w(anon active registered locked)[user.status] %>">
+    <% @list_settings.columns.each do |column| %>
+      <td class="<%= h(column.css_classes) %>" align="<%= h(column.align) %>"><%= extended_column_content(column, user) %></td>
+    <% end %>
+    <td class="buttons">
+      <%= change_status_link(user) %>
+      <% if UsersController.method_defined?(:destroy) %>
+        <%= link_to(l(:button_delete), user_path(user, :back_url => users_path(params)), :confirm => l(:text_are_you_sure), :method => :delete, :class => 'icon icon-del') unless User.current == user %>
+      <% end %>
+    </td>
+  </tr>
+<% end -%>
+  </tbody>
+</table>
+</div>
+<p class="pagination"><%= pagination_links_full @user_pages, @user_count %></p>
+
+<% html_title(l(:label_user_plural)) -%>

@@ -1,0 +1,66 @@
+<% projects = Project.all_public.active(:order => 'name').collect{ |project| [ project.name, project.id ] } %>
+
+<% unless defined? observe_field %>
+
+  <% if custom_field.field_format == 'project' %>
+
+    <% blank_option = ''.html_safe %>
+    <% if custom_field.is_required? %>
+      <% unless custom_field.default_value.present? %>
+        <% blank_option = content_tag(:option, "--- #{l(:actionview_instancetag_blank_option)} ---") %>
+      <% end %>
+    <% else %>
+      <% blank_option = content_tag(:option) %>
+    <% end %>
+
+    <p>
+      <%= form.select(:default_value, blank_option + options_for_select(projects, custom_field.default_value)) %>
+    </p>
+
+  <% end %>
+
+<% end %>
+
+<p><%= form.text_field(:hint, :size => 50) %></p>
+
+<!-- Rails 3 + jQuery -->
+<% unless defined? observe_field %>
+  <%= javascript_tag('$("#custom_field_multiple").parent().hide()') if custom_field.field_format == 'project' %>
+
+  <% if Redmine::VERSION::MAJOR > 1 && Redmine::VERSION::MINOR > 1 %>
+    <%= javascript_tag('toggle_extended_field_format();') %>
+  <% end %>
+
+<!-- Rails 2 + prototype -->
+<% else %>
+  <%= javascript_tag('toggle_extended_field_format();') %>
+<% end %>
+
+<% content_for :header_tags do %>
+
+  <script type="text/javascript">
+  //<![CDATA[
+    var projects = <%= projects.to_json.html_safe %>;
+    var actionview_instancetag_blank_option = '<%= "--- #{l(:actionview_instancetag_blank_option)} ---" %>';
+  //]]>
+  </script>
+
+  <!-- Rails 2 + prototype -->
+  <% if defined? observe_field %>
+    <%= javascript_include_tag('extended_prototype', :plugin => 'extended_fields') %>
+
+    <script type="text/javascript">
+    //<![CDATA[
+      Event.observe(window, 'load', function() {
+        Event.observe('custom_field_field_format', 'change', toggle_extended_field_format);
+        toggle_extended_field_format();
+      });
+    //]]>
+    </script>
+
+  <!-- Rails 3 + jQuery -->
+  <% else %>
+    <%= javascript_include_tag('extended_jquery', :plugin => 'extended_fields') %>
+  <% end %>
+
+<% end %>

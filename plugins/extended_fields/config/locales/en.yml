@@ -1,0 +1,30 @@
+en:
+  label_wiki_text: Wiki text
+  label_link: Link
+
+  field_is_for_new: On registration
+  field_hint: Hint
+
+  label_full_name: Full name
+  label_latest_version: Latest version
+  label_next_version: Next version
+  label_tracker_column: "%{tracker} issues"
+  label_open_tracker_column: Open %{tracker} issues
+  label_priority_column: "%{priority} issues"
+  label_open_priority_column: Open %{priority} issues
+  label_issue_status_column: "%{status} issues"
+  label_last_activity: Last activity
+  label_maximum_downloads: Maximum downloads
+  label_latest_downloads: Latest downloads
+  label_repository_type: Repository type
+  label_latest_files: Latest files
+  label_project_module: "%{module} module"
+  label_total_issues: Total issues
+  label_total_open_issues: Total open issues
+  label_assigned_issues: Assigned issues
+  label_assigned_open_issues: Assigned open issues
+  label_repository_files: Repository files
+  label_forum_messages: Forum messages
+
+  description_available_columns: Available Columns
+  description_selected_columns: Selected Columns

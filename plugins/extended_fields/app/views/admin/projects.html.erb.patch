@@ -1,0 +1,75 @@
+--- /usr/share/redmine/app/views/admin/projects.html.erb	2012-09-16 15:54:13.000000000 +0300
++++ projects.html.erb	2012-09-22 23:03:26.260691074 +0300
+@@ -4,37 +4,56 @@
+ 
+ <h2><%=l(:label_project_plural)%></h2>
+ 
+-<%= form_tag({}, :method => :get) do %>
++<% form = form_tag({}, :onsubmit => 'selectAllOptions("selected_columns");', :method => :get, :id => 'project_list_form') do %>
+ <fieldset><legend><%= l(:label_filter_plural) %></legend>
+ <label for='status'><%= l(:field_status) %> :</label>
+-<%= select_tag 'status', project_status_options_for_select(@status), :class => "small", :onchange => "this.form.submit(); return false;"  %>
++<%= select_tag 'status', project_status_options_for_select(@status), :class => "small", :onchange => "this.form.onsubmit(); this.form.submit(); return false;" %>
+ <label for='name'><%= l(:label_project) %>:</label>
+ <%= text_field_tag 'name', params[:name], :size => 30 %>
+-<%= submit_tag l(:button_apply), :class => "small", :name => nil %>
+-<%= link_to l(:button_clear), {:controller => 'admin', :action => 'projects'}, :class => 'icon icon-reload' %>
+ </fieldset>
++
++  <fieldset class="collapsible collapsed">
++    <legend onclick="toggleFieldset(this);"><%= l(:field_column_names) %></legend>
++    <div style="display: none;">
++      <%= render(:partial => 'custom_fields/columns', :locals => { :object => Project }) %>
++    </div>
++  </fieldset>
++
++  <%= hidden_field_tag('save', '') %>
++
++  <p class="buttons hide-when-print">
++    <% if defined? observe_field %>
++      <% project_list_form = "$('project_list_form')" %>
++    <% else %>
++      <% project_list_form = "$('#project_list_form')[0]" %>
++    <% end %>
++    <%= link_to_function(l(:button_apply), "var project_list_form = #{project_list_form}; project_list_form.onsubmit(); project_list_form.submit();", :class => 'icon icon-checked') %>
++    <%= link_to(l(:button_clear), { :controller => 'admin', :action => 'projects' }, :class => 'icon icon-reload') %>
++    <%= link_to_function(l(:button_save), "var project_list_form = #{project_list_form}; project_list_form['save'].value = '1'; project_list_form.onsubmit(); project_list_form.submit();", :class => 'icon icon-save') %>
++  </p>
++
+ <% end %>
+-&nbsp;
++<%= form if Rails::VERSION::MAJOR >= 3 %>
+ 
+ <div class="autoscroll">
+-<table class="list">
++<table class="list projects-listing">
+   <thead><tr>
+-  <th><%=l(:label_project)%></th>
+-  <th><%=l(:field_is_public)%></th>
+-  <th><%=l(:field_created_on)%></th>
++    <% @list_settings.columns.each do |column| %>
++      <th><%= h(column.caption) %></th>
++    <% end %>
+   <th></th>
+   </tr></thead>
+   <tbody>
+ <% project_tree(@projects) do |project, level| %>
+-  <tr class="<%= cycle("odd", "even") %> <%= project.css_classes %> <%= level > 0 ? "idnt idnt-#{level}" : nil %>">
+-  <td class="name"><span><%= link_to_project(project, {:action => (project.active? ? 'settings' : 'show')}, :title => project.short_description) %></span></td>
+-  <td align="center"><%= checked_image project.is_public? %></td>
+-  <td align="center"><%= format_date(project.created_on) %></td>
++  <tr class="<%= cycle("odd", "even") %> <%= project.respond_to?(:css_classes) ? project.css_classes : css_project_classes(project) %> <%= level > 0 ? "idnt idnt-#{level}" : nil %>">
++    <% @list_settings.columns.each do |column| %>
++      <td class="<%= h(column.css_classes) %>" align="<%= h(column.align) %>"><%= extended_column_content(column, project) %></td>
++    <% end %>
+   <td class="buttons">
+-    <%= link_to(l(:button_archive), { :controller => 'projects', :action => 'archive', :id => project, :status => params[:status] }, :data => {:confirm => l(:text_are_you_sure)}, :method => :post, :class => 'icon icon-lock') unless project.archived? %>
+-    <%= link_to(l(:button_unarchive), { :controller => 'projects', :action => 'unarchive', :id => project, :status => params[:status] }, :method => :post, :class => 'icon icon-unlock') if project.archived? && (project.parent.nil? || !project.parent.archived?) %>
++    <%= link_to(l(:button_archive), { :controller => 'projects', :action => 'archive', :id => project, :status => params[:status] }, :confirm => l(:text_are_you_sure), :method => :post, :class => 'icon icon-lock') if project.active? %>
++    <%= link_to(l(:button_unarchive), { :controller => 'projects', :action => 'unarchive', :id => project, :status => params[:status] }, :method => :post, :class => 'icon icon-unlock') if !project.active? && (project.parent.nil? || project.parent.active?) %>
+     <%= link_to(l(:button_copy), { :controller => 'projects', :action => 'copy', :id => project }, :class => 'icon icon-copy') %>
+-    <%= link_to(l(:button_delete), project_path(project), :method => :delete, :class => 'icon icon-del') %>
++    <%= link_to(l(:button_delete), project_destroy_confirm_path(project), :class => 'icon icon-del') %>
+   </td>
+   </tr>
+ <% end %>

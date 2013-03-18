@@ -1,0 +1,47 @@
+--- /usr/share/redmine/app/views/issues/_list.html.erb	2012-09-16 15:54:13.000000000 +0300
++++ _list.html.erb	2012-09-22 23:23:53.292727423 +0300
+@@ -1,9 +1,14 @@
+-<%= form_tag({}) do -%>
++<% form = form_tag({}) do -%>
+ <%= hidden_field_tag 'back_url', url_for(params), :id => nil %>
+ <div class="autoscroll">
+ <table class="list issues">
+     <thead><tr>
+-        <th class="checkbox hide-when-print"><%= link_to image_tag('toggle_check.png'), {}, :onclick => 'toggleIssuesSelection(this); return false;',
++        <% if defined? observe_field %>
++          <% this_form = "Element.up(this, 'form')" %>
++        <% else %>
++          <% this_form = "this" %>
++        <% end %>
++        <th class="checkbox hide-when-print"><%= link_to image_tag('toggle_check.png'), {}, :onclick => "toggleIssuesSelection(#{this_form}); return false;",
+                                                            :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}" %>
+         </th>
+     <%= sort_header_tag('id', :caption => '#', :default_order => 'desc') %>
+@@ -16,10 +21,11 @@
+   <% issue_list(issues) do |issue, level| -%>
+   <% if @query.grouped? && (group = @query.group_by_column.value(issue)) != previous_group %>
+     <% reset_cycle %>
++    <% group_name = group ? group.to_s : group %>
+     <tr class="group open">
+       <td colspan="<%= query.columns.size + 2 %>">
+         <span class="expander" onclick="toggleRowGroup(this);">&nbsp;</span>
+-        <%= group.blank? ? 'None' : column_content(@query.group_by_column, issue) %> <span class="count">(<%= @issue_count_by_group[group] %>)</span>
++        <%= group.blank? ? 'None' : column_content(@query.group_by_column, issue) %> <span class="count">(<%= @issue_count_by_group[group_name] %>)</span>
+         <%= link_to_function("#{l(:button_collapse_all)}/#{l(:button_expand_all)}", "toggleAllRowGroups(this)", :class => 'toggle-all') %>
+       </td>
+     </tr>
+@@ -27,11 +33,12 @@
+   <% end %>
+   <tr id="issue-<%= issue.id %>" class="hascontextmenu <%= cycle('odd', 'even') %> <%= issue.css_classes %> <%= level > 0 ? "idnt idnt-#{level}" : nil %>">
+     <td class="checkbox hide-when-print"><%= check_box_tag("ids[]", issue.id, false, :id => nil) %></td>
+-    <td class="id"><%= link_to issue.id, issue_path(issue) %></td>
+-        <%= raw query.columns.map {|column| "<td class=\"#{column.css_classes}\">#{column_content(column, issue)}</td>"}.join %>
++    <td class="id"><%= link_to issue.id, :controller => 'issues', :action => 'show', :id => issue %></td>
++        <% query.columns.each do |column| %><%= content_tag 'td', column_content(column, issue), :class => column.css_classes %><% end %>
+   </tr>
+   <% end -%>
+   </tbody>
+ </table>
+ </div>
+ <% end -%>
++<%= form if Rails::VERSION::MAJOR >= 3 %>
