@@ -1,0 +1,3 @@
+<% mention = custom_field.value.start_with?('@') ? custom_field.value : "@#{custom_field.value}" %>
+<% username = custom_field.value.gsub(%r{^@}, '') %>
+<%= link_to(h(mention), "http://twitter.com/#{username}", :class => 'external') %>

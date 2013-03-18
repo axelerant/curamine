@@ -1,0 +1,39 @@
+input.user_custom_field_values_company {
+    width: 90%;
+}
+input.user_custom_field_values_company_website {
+    width: 90%;
+}
+input.user_custom_field_values_position {
+    width: 90%;
+}
+input.user_custom_field_values_personal_website {
+    width: 90%;
+}
+input.user_custom_field_values_blog {
+    width: 90%;
+}
+input.user_custom_field_values_facebook {
+    width: 90%;
+}
+input.user_custom_field_values_twitter {
+    width: 90%;
+}
+input.user_custom_field_values_linkedin {
+    width: 90%;
+}
+div.author p {
+    margin: 0px;
+}
+div.author p.icons {
+    padding-top: 3px;
+}
+div.small .company, div.small .position {
+    font-size: 8pt;
+}
+iframe.follow-button {
+    margin-top: 0.25em;
+}
+#sidebar iframe.follow-button:first-child {
+    margin-top: 1em;
+}

@@ -1,0 +1,5 @@
+<% link = custom_field.value.match(%r{^[0-9]+$}) ?
+          "http://www.facebook.com/profile.php?id=#{custom_field.value}" :
+          "http://www.facebook.com/#{custom_field.value}" %>
+<% facebook = link.gsub(%r{^http://}, '') %>
+<%= link_to(h(facebook), link, :class => 'external') %>

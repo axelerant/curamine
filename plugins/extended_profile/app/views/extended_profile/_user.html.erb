@@ -1,0 +1,38 @@
+<% facebook = custom_value_for_user('Facebook', user) %>
+<% twitter = custom_value_for_user('Twitter', user) %>
+
+<% if (facebook && facebook.value) || (twitter && twitter.value) %>
+  <% content_for(:sidebar) do %>
+
+    <% if facebook && facebook.value %>
+      <% facebook_link = (facebook.value =~ %r{^[0-9]+$}) ? "http://www.facebook.com/profile.php?id=#{facebook.value}" : "http://www.facebook.com/#{facebook.value}" %>
+      <% follow_link = '//www.facebook.com/plugins/follow.php?' + {
+           :href => facebook_link,
+           :layout => :button_count,
+           :show_faces => :false,
+           :colorscheme => :light,
+           :width => 150
+         }.collect{ |name, value| name.to_s + '=' + CGI.escape(value.to_s) }.join('&') %>
+      <%= content_tag(:iframe, nil, :src => follow_link,
+                                    :scrolling => 'no',
+                                    :frameborder => '0',
+                                    :allowtransparency => 'true',
+                                    :class => 'follow-button',
+                                    :style => 'height: 21px;') %>
+    <% end %>
+
+    <% if twitter && twitter.value %>
+      <% follow_link = '//platform.twitter.com/widgets/follow_button.html?' + {
+           :screen_name => twitter.value,
+           :show_screen_name => :false
+         }.collect{ |name, value| name.to_s + '=' + CGI.escape(value.to_s) }.join('&') %>
+      <%= content_tag(:iframe, nil, :src => follow_link,
+                                    :scrolling => 'no',
+                                    :frameborder => '0',
+                                    :allowtransparency => 'true',
+                                    :class => 'follow-button',
+                                    :style => 'height: 21px;') %>
+    <% end %>
+
+  <% end %>
+<% end %>

@@ -1,0 +1,50 @@
+<% company = custom_value_for_user('Company', user) %>
+<% if company && company.value %>
+  <% company_site = custom_value_for_user('Company website', user) %>
+  <% if company_site && company_site.value %>
+    <% link = (company_site.value =~ %r{^https?://}) ? company_site.value : "http://#{company_site.value}" %>
+    <%= link_to(h(show_value(company)), link, :class => 'company') %>
+  <% else %>
+    <p class="company"><%= h(show_value(company)) %></p>
+  <% end %>
+<% end %>
+
+<% position = custom_value_for_user('Position', user) %>
+<% if position && position.value %>
+  <p class="position"><%= h(show_value(position)) %></p>
+<% end %>
+
+<% blog = custom_value_for_user('Blog', user) %>
+<% github = custom_value_for_user('Github', user) %>
+<% facebook = custom_value_for_user('Facebook', user) %>
+<% twitter = custom_value_for_user('Twitter', user) %>
+<% linkedin = custom_value_for_user('LinkedIn', user) %>
+<% google = custom_value_for_user('Google Plus', user) %>
+<% if (blog && blog.value) || (github && github.value) || (facebook && facebook.value) || (twitter && twitter.value) || (linkedin && linkedin.value) || (google && google.value) %>
+  <p class="icons">
+    <% if blog && blog.value %>
+      <% link = (blog.value =~ %r{^https?://}) ? blog.value : "http://#{blog.value}" %>
+      <%= link_to(image_tag('blog.png', :plugin => 'extended_profile'), link) %>
+    <% end %>
+    <% if github && github.value %>
+      <% link = "https://github.com/#{github.value}" %>
+      <%= link_to(image_tag('github.png', :plugin => 'extended_profile'), link) %>
+    <% end %>
+    <% if facebook && facebook.value %>
+      <% link = (facebook.value =~ %r{^[0-9]+$}) ? "http://www.facebook.com/profile.php?id=#{facebook.value}" : "http://www.facebook.com/#{facebook.value}" %>
+      <%= link_to(image_tag('facebook.png', :plugin => 'extended_profile'), link) %>
+    <% end %>
+    <% if twitter && twitter.value %>
+      <% link = "http://twitter.com/#{twitter.value}" %>
+      <%= link_to(image_tag('twitter.png', :plugin => 'extended_profile'), link) %>
+    <% end %>
+    <% if linkedin && linkedin.value %>
+      <% link = (linkedin.value =~ %r{^https?://}) ? linkedin.value : "http://#{linkedin.value}" %>
+      <%= link_to(image_tag('linkedin.png', :plugin => 'extended_profile'), link) %>
+    <% end %>
+    <% if google && google.value %>
+      <% link = "https://plus.google.com/#{github.value}" %>
+      <%= link_to(image_tag('google_plus.png', :plugin => 'extended_profile'), link) %>
+    <% end %>
+  </p>
+<% end %>
