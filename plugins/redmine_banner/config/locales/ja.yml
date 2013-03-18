@@ -1,0 +1,24 @@
+# English strings go here for Rails i18n
+ja:
+  banner: "バナー"
+  setting_banner_display_part: "表示位置"
+  label_header_only: "ヘッダのみ"
+  label_footer_only: "フッタのみ"
+  label_both: "ヘッダ / フッタ両方とも"
+  label_banner_message: "バナーメッセージ"
+  label_message_type: "メッセージタイプ"
+  label_start_datetime: "表示開始時刻"
+  label_end_datetime: "表示終了時刻"
+  label_use_timer: "タイマーを利用する"
+  error_banner_date_range: "日付の範囲が正しく設定されていません。"
+  redmine_banner_title: "バナーの設定画面へ"
+  button_off: "表示オフ"
+  banner_off: "バナーの表示を停止します。"
+  permission_manage_banner: "バナーの管理"
+  project_module_banner: "バナー"
+  page_overview_only: "概要ページ"
+  page_all: "全てのページ"
+  page_overview_and_issues: "概要とチケットトラッキングのページ"
+  page_new_issue_only: "新規チケットのページ"  
+  
+  

@@ -1,0 +1,44 @@
+<% 
+    return unless BannerHelper.is_enabled?(@project)
+    banner = Banner.find(:first, :conditions => ['project_id = ?', @project.id])
+    return '' unless banner && banner.enable_banner?
+       
+    display_part = banner.display_part
+    return '' unless BannerHelper.is_action_to_display?(@_controller, display_part)
+%>
+<div id="project_banner_area" class="banner_area">
+<div class="banner banner_<%= banner.style %>" id="banner_content">
+  <%= textilizable banner.banner_description %>
+</div>
+ 
+<% 
+if authorize_for(:banner, :edit)
+%> 
+  <div id="banner_edit">
+<%= link_to l(:button_edit), 
+  {:controller => 'projects', :action => "settings", :id => @project, :tab => 'banner'}, 
+  {:class => 'icon banner-icon-edit', :title => l(:button_edit)} %>
+    
+<a class="icon banner-icon-off" 
+   href="#" 
+   onclick="if (confirm('<%= l(:text_are_you_sure) %> ')) {  
+   $.ajax({
+          url: '<%= url_for(:controller => :banner, :action => 'project_banner_off', :project_id => @project) %>',
+          type: 'get',
+          success: function(data){
+              $('#project_banner_area').remove(); return false;
+          }
+          //data: 'authenticity_token=' + encodeURIComponent('<%= form_authenticity_token %>')
+        });
+   }" 
+   title="<%= l(:banner_off) %>"><%= l(:button_off) %></a> 
+  </div>
+<% end %>
+  
+</div>
+<script type="text/javascript">
+  $(document).ready(function(){
+    console.info("project body bottom");
+    ($('#content')).prepend($('#project_banner_area'));
+  });  
+</script>

@@ -1,0 +1,23 @@
+# English strings go here for Rails i18n
+en:
+  banner: "Banner"
+  setting_banner_display_part: "Display Location" 
+  label_header_only: "Header only"
+  label_footer_only: "Footer only"
+  label_both: "Both Header / Footer"
+  label_banner_message: "Banner message"
+  label_message_type: "Message type"
+  label_start_datetime: "Start datetime"
+  label_end_datetime: "End datetime"
+  label_use_timer: "Use timer"
+  error_banner_date_range: "Start date should be prior to End date."  
+  redmine_banner_title: "Go to Banner Setting."
+  button_off: "Off"
+  banner_off: "Turn off banner message."
+  permission_manage_banner: "Manage Banner"
+  project_module_banner: "Banner"
+  page_overview_only: "Overview only"
+  page_all: "All the page"
+  page_overview_and_issues: "Overview and Issues"
+  page_new_issue_only: "New issue only"  
+    

@@ -1,0 +1,30 @@
+<% 
+-%>
+<div id="banner_area" class="banner_area global_banner">
+<div class="banner banner_<%= Setting.plugin_redmine_banner['type'] %>" id="banner_content">
+  <%= textilizable Setting.plugin_redmine_banner['banner_description'] %>
+</div>
+<% 
+if User.current.admin? && (params[:controller] != 'settings' &&  params[:action] != 'settings' && params[:id]  != 'redmine_banner') 
+%> 
+  <div id="banner_edit">
+<%= link_to l(:button_edit), 
+  {:controller => 'settings', :action => 'plugin', :id => 'redmine_banner'}, 
+  {:class => 'icon banner-icon-edit', :title => l(:button_edit)} %>
+
+    <a class="icon banner-icon-off" 
+   href="#" 
+   onclick="if (confirm('<%= l(:text_are_you_sure) %> ')) {  
+   $.ajax({
+          url: '<%= url_for(:controller => :banner, :action => 'off', :moderate => 'yes') %>',
+          type: 'get',
+          success: function(data){
+              $('.global_banner').each(function() {$(this).remove();});; return false;
+          }
+        });
+   }" 
+   title="<%= l(:banner_off) %>"><%= l(:button_off) %></a>     
+  </div>
+<% end %>  
+</div>
+
