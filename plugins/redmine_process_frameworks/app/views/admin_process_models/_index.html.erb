@@ -1,0 +1,54 @@
+<% @is_model =  tab[:name] =="ProcessModel" %>
+<table class="list">
+    <tr>
+        <th align="center" style="width:20%">
+            <%= l(:field_name) %>
+        </th>
+        <th style="width:20%">
+            <%=l(:label_used_by) %>
+        </th>
+        <%if @is_model %>
+	        <th align="center" style="width:30%">
+	            <%= l(:label_sort) %>
+	        </th>
+        <% end %>
+        <th align="center" style="width:10%">
+        </th>
+    </tr>
+    <% for list in @all_lists[tab[:name]] %>
+    <tr>
+        <td align="left" >
+            <%= link_to list.name,{:action => 'show_details',:type=> tab[:name],:elem =>list} %>
+        </td>
+        <td align="center">
+            <%=my_check_image check_used(list) %>
+        </td>
+        <%if @is_model %>
+				<%if  list.position<=0%>
+					 <td></td>
+						<td class="buttons">
+		        <%= link_to l(:version_status_open), {:action => 'open_close_model',:elem => list}, :class => 'icon icon-unlock'%>
+	        <%else %>
+		        <td align="center">
+		            <%= reorder_links('process_model', {:action =>'sort_model',:id=> list})%>
+		        </td>
+		        <td class="buttons">
+	        	<%= link_to l(:version_status_closed), {:action => 'open_close_model',:elem => list}, :class => 'icon icon-lock' %>
+	        <%end %>
+				<%else %>
+					<td class="buttons">
+        <%end %>
+				<%if tab[:name]!="PfTask"%>
+				   <%= link_to  l(:label_administration),{:action => 'show_subs',:parent_id =>list,:parent_type=> tab[:name]},:class =>'icon icon-edit'%>
+        <%end%>  
+					  <%= link_to l(:button_delete), {:action => 'delete_elem', :elem => list, :type =>tab[:name]},
+            :confirm => l(:text_are_you_sure), :class => 'icon icon-del' %>
+        </td>
+    </tr>
+    <%end %>
+</table>
+<p class="pagination"><%=pagination_links @all_pages[tab[:name]],:params=>{:tab=>tab[:name]}%></p>
+
+<p>
+    <%= link_to l(:label_new), {:action => 'new_elem', :type => tab[:name]}, :class => 'icon icon-add' %>
+</p>

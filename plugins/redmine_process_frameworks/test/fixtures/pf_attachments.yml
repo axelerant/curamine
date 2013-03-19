@@ -1,0 +1,35 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+one:
+  id: 1
+
+  id: 1
+
+  foreign_id: 1
+  
+  type: MyString
+
+  filename: MyString
+
+  disk_filename: MyString
+
+  filesize: 1
+
+  description: MyText
+
+two:
+  id: 2
+
+  id: 1
+
+  foreign_id: 1
+  
+  type: MyString
+
+  filename: MyString
+
+  disk_filename: MyString
+
+  filesize: 1
+
+  description: MyText
+

@@ -1,0 +1,39 @@
+# English strings go here for Rails i18n
+en:
+  my_label: "My label"
+  project_module_process_frameworks: Process Framework
+  label_process_framework:   Process Framework Model
+  label_process_type:        Process Type 
+  label_config_process_framework: Configuration Process Framework Model
+  label_select_process_type: Select Process Model
+  label_sure:                Confirm
+  label_warning_select_pro_model: Select Process Framework Model First!
+  view_select_process:       View Process Model
+  view_curr_process:         View Current Process
+  label_export_process_framework: Export Process Model
+  label_import_process_framework: Import Process Model
+  label_view_process_framework: View Process Framework
+  lable_import_successfully:    Import Successfully
+  lable_import_unsuccessfully:  Import Failed, please the file type!
+  lable_please_select_file_first:  Check file first!
+  lable_model_already_exist:      The importing model exists!
+  label_details:             Details
+  label_belong:              Belongs To
+  label_attachment:          Attachment
+  label_wei:                 TBD
+  label_yijing:              Already
+  label_config_model:        Configurated Process Model
+  label_select:              select
+  label_model:               Model
+  label_model_name:          Model Name
+  label_cann_blank:          Null Illegal
+  label_confirm_str:         Project's template has been configured,are you sure to re-configure it?
+  label_remove:              Remove
+  label_add:                 Add
+  label_please_select:      Please select
+  label_dispoint:           Revocation
+  
+  
+  
+  
+  

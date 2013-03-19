@@ -1,0 +1,20 @@
+<h2><%=link_to l(:project_module_process_frameworks),:controller=>'admin_process_models',:action => 'index'%>
+    &#187;<%=l(:label_new)%><%=link_to @name,:controller=>'admin_process_models',:action => 'index', :tab=> @type_name%></h2>
+
+<div id="issue_descr_fields">	
+       <%= form_for  :type,:url=>{:action=>'save_elem',:type_name=>@type_name,:parent_id=>@parent_id},:method=>"post" do |f| %>	 
+			<div class="box tabular">
+			
+			<p><label for="name"><%=l(:field_name)%></label><%= f.text_field :name, :required => true, :size => 60 %></p>
+			<p><label for="description"><%=l(:field_description)%></label><%= f.text_area :description,:cols => 60, :rows => 15, :class => 'wiki-edit' %></p>
+			</div>			
+			<%= wikitoolbar_for 'type_description' %>
+			<!--<%if @type_name=="Action" || @type_name=="PfTask"%>
+			  <p><strong> <%= l(:label_attachment)%></strong></p>
+			  <p id="attachments_form"><%= label_tag('attachments[1][file]', l(:label_attachment_plural))%>
+			  <%= render :partial => 'attachments/form' %></p>
+			<%end%> -->
+		   <div style="margin-left:10%;"><%= submit_tag l(:button_save) %></div>
+         <% end %>
+</div>
+

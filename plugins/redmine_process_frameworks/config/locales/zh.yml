@@ -1,0 +1,36 @@
+# Chinese (China) translations for Ruby on Rails 
+# by tsechingho (http://github.com/tsechingho)
+
+
+zh:
+  project_module_process_frameworks: 过程框架
+  label_process_framework:   过程框架模型
+  label_process_type:        过程类型
+  label_config_process_framework: 配置过程框架模版
+  label_select_process_type: 选择过程模版
+  label_sure:                确定
+  label_warning_select_pro_model:  请先选择过程模版！
+  view_select_process:       查看过程模版
+  view_curr_process:          查看当前过程
+  label_export_process_framework: 导出过程模版
+  label_import_process_framework: 导入过程模版
+  label_view_process_framework: 查看过程框架
+  lable_import_successfully:      导入成功
+  lable_import_unsuccessfully:      导入文件失败，请检查文件类型
+  lable_please_select_file_first:  请先选择文件
+  lable_model_already_exist:      导入的模型已经存在！
+  label_details:                  详情
+  label_belong:                   从属
+  label_attachment:               附件
+  label_wei:                 未
+  label_yijing:              已经
+  label_config_model:        配置过模版
+  label_select:              选择
+  label_model:               模版
+  label_model_name:          模版名
+  label_cann_blank:          不能为空
+  label_confirm_str:         项目已经配置过模板，您确定要再次配置吗？
+  label_remove:              移除
+  label_add:                 添加
+  label_please_select:      请选择
+  label_dispoint:           撤销

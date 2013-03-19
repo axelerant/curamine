@@ -1,0 +1,55 @@
+<%= stylesheet_link_tag  "/plugin_assets/redmine_process_frameworks/stylesheets/show_details.css" %>
+<script>
+    Element.show("show_details")
+</script>
+<div class="contextual">
+    <strong>
+    <a href ="#" onClick="Element.hide('show_details')">
+    <%= l(:version_status_closed) %></strong>
+</a>
+</div>
+<h4 style="text-align:left;"><%= l(:label_details) %></h4>
+<table>
+    <tr>
+        <%if @plat.nil?;  @plat = @activi_model_list[0]; end;
+          if @plat.nil?;  @plat = Activity.new; end; %>
+        <br>
+        <th width =45>
+            <%= l(:field_type) %>:&nbsp;
+        </th>
+        <td>
+            <%= @plat.class.to_p_name %>
+        </td>
+    </tr>
+    <tr>
+        <th>
+            <%= l(:field_name) %>:&nbsp;
+        </th>
+        <td>
+            <%= @plat[:name] %>
+        </td>
+    </tr>
+</table>
+<hr>
+<p>
+    <strong><%= l(:field_description) %></strong>
+</p>
+<p>
+    <div class="wiki">
+        <tr>
+            <%= textilizable @plat, :description %>
+        </tr>
+    </div>
+</p>
+<% case @plat
+when Action,PfTask %>
+<% attachs = @plat.attachments
+for attachment in attachs %>
+<p>
+    <%= link_to_attachment attachment, :class => 'icon icon-attachment' -%>
+    <%= h(" - #{attachment.description}") unless attachment.description.blank? %>
+    <span class="size">(<%= number_to_human_size attachment.filesize %>)</span>,<%= format_time(attachment.created_on) %>
+    <%end %>
+</p>
+<% end %>
+</div>

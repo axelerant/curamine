@@ -1,0 +1,74 @@
+
+<%= stylesheet_link_tag "/plugin_assets/redmine_process_frameworks/stylesheets/checktree.css" %>
+<%= javascript_include_tag "prototype","effects","/plugin_assets/redmine_process_frameworks/javascripts/checktree.js" %>
+<h2><%= l(:label_config_process_framework) %></h2>
+<div class="selec_main">
+    <%= form_tag({:controller => "init_select", :action => "save_process_framework",:selected_model=>@selected_model , :project_id => @project}, :method => "post") do %>
+    <div id="checktree">
+        <p>
+            <a herf="#" id="AllOpen" onclick="Mychecktree.SetNodes(0);Hd(this);
+ Sw('AllClose');"  style="display:none;">全部展开</a>
+            <a id="AllClose" onclick="Mychecktree.SetNodes(1);Hd(this);
+ Sw('AllOpen');" >全部折叠</a>
+        </p>
+        <ul id="checkboxs">
+            <% for activity in @activi_model_list %>
+            <% @actions = activity.actions %>
+            <% if @actions.empty? then %>
+	            <li class = "Child">
+	                <%= check_box_tag  :"activity_#{activity.id}","yes",true %>
+	                <%= link_my_remote activity %>
+	            </li>
+            <% else %>
+            <li class= "Closed">
+                <%= check_box_tag  :"activity_#{activity.id}","yes",true %>
+                <%= link_my_remote activity %>
+                <ul>
+                    <% @actions.each do |action| %>
+                    <% @tasks = action.pf_tasks %>
+                    <% if @tasks.empty? then %>
+                    <li class = "Child">
+                        <%= check_box_tag :"action_#{action.id}","yes",true %>
+                        <%= link_my_remote action %>
+                    </li>
+                    <% else %>
+                    <li>
+                        <%= check_box_tag :"action_#{action.id}","yes",true %><%= link_my_remote action %>
+                        <ul>
+                            <% @tasks.each do |task| %>
+                            <li class = "Child">
+                                <%= check_box_tag :"task_#{task.id}","yes",true %>
+                                <%= link_my_remote task %>
+                            </li>
+                            <% end %>
+                        </ul>
+                    </li>
+                    <% end %>
+                    <% end %>
+                </ul>
+            </li>
+            <% end %>
+            <% end %>
+        </ul>
+    </div>
+    <%    if @project.if_config_pf
+    confirm_str =  l(:label_confirm_str)
+    end %>
+    <div style="margin-left:4px;">
+        <%= submit_tag l(:button_submit),:confirm =>  confirm_str, :class => "submit" %>
+    </div>
+</div>
+<div id= "show_details">
+    <%= render :partial=>"show_details" %>
+</div>
+<% end %>
+<script type="text/javascript">
+    
+    var Mychecktree = new CheckTreeMenu("checktree", "li");
+    Mychecktree.InitCss("Opened", "Closed", "Child", "/plugin_assets/redmine_process_frameworks/images/s.gif");
+    Mychecktree.SetNodes(0);
+    new CheckList("checkboxs", "input", "a");
+</script>
+<% content_for :sidebar do %>
+<%= render :partial => "pf_sidebar" , :plugin => 'redmine_process_framework' %>
+<% end %>

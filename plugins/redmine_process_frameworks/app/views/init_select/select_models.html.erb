@@ -1,0 +1,61 @@
+<%= stylesheet_link_tag "/plugin_assets/redmine_process_frameworks/stylesheets/model_attribute.css" %>
+
+<div class="contextual">
+    <%=form_tag({:controller => "init_select", :action => "import_process_framework", :project_id => @project},
+     :multipart => true) do %>
+    <%= file_field_tag "xml_file" %>
+    <%= submit_tag "#{l(:label_import_process_framework)}" %>
+    <% end %>
+</div>
+<h2><%= l(:label_select_process_type) %></h2>
+
+<div class="model">
+    <div class="prompt">
+        <%= @project[:name] %>
+        <% if @project[:if_config_pf] %>
+        <%=l(:label_yijing) + l(:label_config_model) %>&nbsp;<%= ProcessModel.find(@project[:model_id]).name %>
+        <% view_str = l(:button_view)
+        else view_str = l(:view_curr_process) %>
+        <%=l(:label_wei)+ l(:label_config_model) %>&nbsp;<%end %>
+        <div class="prompt_show">
+            <%= link_to  view_str,{:action => "view_process_framework",:project_id => @project},:class=>"icon icon-copy"%>&nbsp;
+						 <% if @project[:if_config_pf] %>
+						 <%= link_to l(:label_dispoint),{:action =>"remove_model",:project_id =>@project},:class=>"icon icon-move"%>
+						 <% end %>
+        </div>
+    </div>
+    <% @process_models.each do |model| 
+       if model.position >0%>
+    <div class="model_box">
+        <div class="contextual">
+            <%= link_to l(:label_select),{:action => "select_activities",:project_id => @project,
+            :selected_model=> model} %>&nbsp;&nbsp;
+        </div>
+        <div class="title">
+            <%= model[:name] %>
+        </div>
+        <p style="font-style:italic;margin-left:5px;">
+            <%= authoring model[:date], model.get_author %>.
+        </p>
+        <fieldset id="filters" class=" collapsed collapsible">
+            <legend onclick="toggleFieldset(this);">
+                <%= l(:field_description) %>
+            </legend>
+            <div style="display:none;">
+                <table>
+                    <tr>
+                        <td>
+                         <%= textilizable   model, :description %>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </fieldset>
+    </div>
+    <%end
+	end %>
+</div>
+
+<% content_for :sidebar do %>
+<%= render :partial => "init_select/pf_sidebar" , :plugin => 'redmine_process_framework' %>
+<% end %>

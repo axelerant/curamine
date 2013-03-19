@@ -1,0 +1,57 @@
+
+
+
+h4 {margin:0;padding:0;font-size:18px;text-align:center;}
+
+
+
+#checktree ul {
+	margin:0 0 0 17px;
+	padding: 0;
+	display:block;
+	align: center;
+}
+
+#checktree li {
+	list-style:none;
+	padding:0;
+	font-size:12pt;
+	overflow:hidden;
+	white-space:nowrap;
+	text-overflow:ellipsis;
+	}
+#checktree li li{font-style:italic;font-size:10pt;}
+#checktree li li li{font-size:9pt;font-style:normal;}
+#checktree img.s {width:17px;height:15px;cursor:pointer;vertical-align:middle;}
+#checktree .Opened img.s {background:url(../images/opened.gif) no-repeat 4px 6px;}
+#checktree .Closed img.s {background:url(../images/closed.gif) no-repeat 3px 6px;}
+#checktree .Closed ul {display:none;}
+#checktree a,#checktree a:visited{cursor:pointer;}
+#checktree li a.selected, #checktree li a.selected:hover {background:#fff; color:#555;}
+#checktree .Child img.s 
+{
+	background:url(../images/child.gif) 
+	no-repeat 3px 5px;
+	cursor:default;
+	font-style:italic;
+	font-size:7pt;
+}
+
+#checktree
+{
+	width:100%;
+	hight: auto;
+	border:1px solid #99BEEF;
+	background:#f6f7f8;
+	color:inherit;
+	margin:3px;
+	padding:3px;
+}
+#checktree {padding-bottom:15px;}
+
+.selec_main
+{
+	float:left;
+	width:40%;
+	background:#fff;
+}

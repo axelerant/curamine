@@ -1,0 +1,42 @@
+<h2><%=link_to @type_name[0],:controller=>'admin_process_models',:action => 'index', :tab=> @type_name[2]%>   
+		       &#187;<%=@type_name[1]%></h2>
+
+<table class="list">
+    <tr>
+        <th  style="width:20%"> <%= l(:field_name) %></th>
+				<th style="width:30%"><%= l(:label_sort) %></th>
+        <th style="width:10%"></th>
+    </tr>
+    <%@this_type = eval(@type_name[2]).get_sub_name
+		for list in @subs %>
+    <tr>
+        <td align="left">
+            <%= list.name %>
+        </td>
+        <td align="center">
+            <%= reorder_links(list.class.name.downcase+"s", {:action => 'sort_elem', :elem => list,
+                 :type => @this_type,:parent_id=>@parent_id}) %>
+        </td>
+        <td class="buttons">
+        	<%if @this_type!="PfTask"%>
+				   <%= link_to  l(:label_administration),{:action => 'show_subs',:parent_id =>list,:parent_type=> @this_type},:class =>'icon icon-edit'%>
+          <%end%>  
+            <%= link_to l(:label_remove), {:action => 'remove_elem', :elem => list,
+                 :type => @this_type, :parent_id => @parent_id},
+            :confirm => l(:text_are_you_sure), :class => 'icon icon-move' %>
+         </td>
+    </tr>
+    <%end %>
+</table>
+<br>
+<div style="padding:4px;">
+    <%= form_tag({:action => "add_elem",:parent_id=>@parent_id,:type =>@this_type},:method => "post") do %>
+    <%=collection_select(:select, :select_id, @empty_subs,:id,:name,options ={:prompt => "#{l(:label_please_select)+eval(@this_type).to_p_name}"}) %>
+    &nbsp;&nbsp;&nbsp;
+		 <% if !@empty_subs.empty? %>
+      <%=submit_tag l(:label_add), :class => "submit" %>
+     <%end %>
+    <%end %>&nbsp;&nbsp;&nbsp;
+    <%= link_to l(:label_new), {:action => 'new_elem', :type => @this_type,:parent_id=>@parent_id}, :class => 'icon icon-add' %>
+</div>
+
