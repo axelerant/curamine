@@ -1,0 +1,43 @@
+== Traceability Plugin
+
+Traceability is a Redmine plugin to show the traceability matrix between the
+issues of two (or even three!) trackers of a project.
+
+== Features
+
+* Shows a summary view of the relations between two configured trackers
+  (e.g. requirements vs. test cases). It can also use an intermediate tracker
+  to show relations between three trackers (e.g. tasks vs. test cases through
+  requirements).
+
+== Getting the plugin
+
+A copy of the plugin can be found in the {downloads}[http://forja.cenatic.es/]
+at Cenatic Forge and also on
+{Gitorious}[http://gitorious.org/redmine_traceability/redmine_traceability/master].
+
+== Install
+
+1. Follow the Redmine plugin installation steps at:
+   http://www.redmine.org/wiki/redmine/Plugins
+2. Restart your Redmine web servers (e.g. mongrel, thin, mod_rails)
+
+== Usage
+
+After installation you have to configure wich trackers the plugin will operate
+on (Administration -> Plugins -> Traceability Matrix -> Configure). The plugin
+adds a new module (Traceability Matrix) which you can enable in the desired
+projects. There is also a new permission (View traceability matrix) which you
+should grant to the user roles allowed to see the matrix.
+
+The matrix shows wich issues of one tracker are related to issues of the other
+one (possible through an intermediate tracker).
+
+== License
+
+This plugin is licensed under the GNU GPL v2.  See LICENSE.txt for details.
+
+== Project help
+
+If you need help you can contact the maintainer on the bug tracker at
+http://forja.cenatic.es/

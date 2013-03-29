@@ -1,0 +1,13 @@
+# Spanish strings go here
+es:
+  project_module_traceability: Matriz de Trazabilidad
+  permission_view_mt: Ver la matriz de trazabilidad
+
+  traceability:
+    plugin_name: Matriz de Trazabilidad
+    plugin_description: Plugin para mostrar la matriz de trazabilidad entre dos trackers
+    menu_item_name: Trazabilidad
+    setup: Se produjo un error. Por favor, revise la configuración del plugin
+    first_tracker: Primer tipo (filas)
+    second_tracker: Segundo tipo (columnas)
+    intermediate_tracker: Tipo intermedio

@@ -1,0 +1,29 @@
+= Redmine default version
+
+With this plugin its possible to add a default version to a project. Heavily based on patches provided by http://www.redmine.org/issues/1828 (plugin evolved since these patches)
+
+The latest update of this plugin should work for Redmine versions 1.2.x - 1.4.x, as well as 2.0.x. This also includes support for rails 2 and 3.
+
+== Installation
+
+1. Follow the Redmine plugin installation steps at: http://www.redmine.org/wiki/redmine/Plugins 
+2. Restart your Redmine web servers (e.g. apache, mongrel, thin, mod_rails)
+
+== Uninstall
+
+1. rake db:migrate:plugin NAME=redmine_default_version VERSION=0 RAILS_ENV=production 
+2. rm -r vendor/plugins/redmine_default_version
+
+== Usage	
+
+First you have to setup a version then you can choose a default version in project -> settings. 
+
+== License
+
+This plugin is licensed under the GNU GPL v2. 
+
+== Project help
+
+If you need help you can contact the maintainer at the Bug Tracker. The bug tracker is located at https://github.com/benasher44/redmine_default_version/issues 
+
+

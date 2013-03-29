@@ -1,0 +1,6 @@
+# Simplified Chinese strings go here for Rails i18n
+# Author: Steven.W
+# Based on file: en.yml
+
+zh:
+  field_default_version: 默认版本

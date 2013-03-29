@@ -1,0 +1,16 @@
+<p>
+  <label><%=l :'traceability.first_tracker' %> <span class="required">*</span></label>
+  <%= select_tag 'settings[tracker0]',
+                 options_from_collection_for_select(Tracker.all, :id, :name, @settings['tracker0'].to_i) %>
+</p>
+<p>
+  <label><%=l :'traceability.second_tracker' %> <span class="required">*</span></label>
+  <%= select_tag 'settings[tracker1]',
+                 options_from_collection_for_select(Tracker.all, :id, :name, @settings['tracker1'].to_i) %>
+</p>
+<p>
+  <label><%=l :'traceability.intermediate_tracker' %></label>
+  <%= select_tag 'settings[tracker2]',
+                 '<option></option>' +
+                 options_from_collection_for_select(Tracker.all, :id, :name, @settings['tracker2'].to_i) %>
+</p>

@@ -1,0 +1,5 @@
+The main authors of this plugin are:
+ * Gumer Coronel <gcoronel@emergya.info>
+ * Clara Meniz <cmeniz@emergya.es>
+
+and the main contributors:

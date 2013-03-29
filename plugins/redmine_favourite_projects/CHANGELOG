@@ -1,0 +1,31 @@
+0.6.2
+    * Added Russian translation (with thanks to AlexStein)
+0.6.1
+    * modified assets paths to be relative to support redmine installs under subdirs
+0.6
+    * Converted jumpbox to a searchable jQuery version
+0.5.1
+    * Opera bugfix (with thanks to logical-and)
+0.5
+    * Made compatible with Redmine 2.0 (with thanks to ksauzz)
+    * Cross-compatible with Redmine 1.x
+0.4.5
+    * Reverted favourite_project_modules_links function modularity change to work with Redmine 1.4.x
+0.4.4
+    * Added Japanese translation (with thanks to ksauzz)
+0.4.3
+    * Fixed bug with go_to_module functions for a number of users
+0.4.2
+    * Fixed tabulation problem with zh locale
+0.4.1
+    * Updated routes to be compatible with Redmine > 1.4
+0.4
+    * Added separate English and British English locales
+0.3 (11-11-2011)
+    * Favourites now deleted when associated user or project gets deleted.
+0.2.0
+    * Favourites can now be added to Top Menu and configurable through settings.
+0.1.0 (7-7-2011)
+    * Favourites can now be added to Jump to a Project dropdown and configurable through settings. 
+0.0.2
+    Initial source by Syntactic Vexation as of 15-3-2011
