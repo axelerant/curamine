@@ -6,10 +6,10 @@
     <%= form_tag({:controller => "init_select", :action => "save_process_framework",:selected_model=>@selected_model , :project_id => @project}, :method => "post") do %>
     <div id="checktree">
         <p>
-            <a herf="#" id="AllOpen" onclick="Mychecktree.SetNodes(0);Hd(this);
- Sw('AllClose');"  style="display:none;">全部展开</a>
+            <a href="#" id="AllOpen" onclick="Mychecktree.SetNodes(0);Hd(this);
+ Sw('AllClose');"  style="display:none;">Expand</a>
             <a id="AllClose" onclick="Mychecktree.SetNodes(1);Hd(this);
- Sw('AllOpen');" >全部折叠</a>
+ Sw('AllOpen');" >Collapse</a>
         </p>
         <ul id="checkboxs">
             <% for activity in @activi_model_list %>
