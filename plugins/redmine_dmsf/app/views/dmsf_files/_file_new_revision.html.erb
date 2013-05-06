@@ -50,13 +50,13 @@ end
 					</p>
 					<div class="data clear">
 						<%= radio_button_tag("version", 0, @revision.version == @file.last_revision.version, :id => "fileSameVersionRadio") %>
-						<%= @file.last_revision.major_version %>.<%= @file.last_revision.minor_version %> <%= l(:option_version_same) %><br /> 
+						<%= l(:option_version_same) %> <%= @file.last_revision.major_version %>.<%= @file.last_revision.minor_version %> <br /> 
 						<%= radio_button_tag("version", 1, 
 								@revision.major_version == @file.last_revision.major_version && @revision.minor_version != @file.last_revision.minor_version,
 								:id => "fileMinorVersionRadio") %> 
-						<%= @file.last_revision.major_version %>.<%= @file.last_revision.minor_version + 1 %> <%= l(:option_version_minor) %><br />
+						<%= l(:option_version_minor) %> <%= @file.last_revision.major_version %>.<%= @file.last_revision.minor_version + 1 %> <br />
 						<%= radio_button_tag("version", 2, @revision.major_version != @file.last_revision.major_version) %> 
-						<%= @file.last_revision.major_version + 1 %>.0 <%= l(:option_version_major) %><br />
+						<%= l(:option_version_major) %> <%= @file.last_revision.major_version + 1 %>.0 <br />
 					</div>
 					<p>
 						<%= label_tag("workflow", l(:label_workflow) + ":") %>

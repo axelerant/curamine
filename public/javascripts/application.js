@@ -469,11 +469,32 @@ function randomKey(size) {
 
 // Can't use Rails' remote select because we need the form data
 function updateIssueFrom(url) {
+    //change the target versions only for 'Closed' and 'New'
+    var sel_text = $('#issue_status_id').find(":selected").text();
+
+    if(sel_text == "Closed")
+        chngTrgVerTo("Closed Requests");
+    else if(sel_text == "New")
+        chngTrgVerTo("Service Requests");
+    
   $.ajax({
     url: url,
     type: 'post',
     data: $('#issue-form').serialize()
   });
+}
+
+function chngTrgVerTo(txt)
+{
+    $('#issue_fixed_version_id option').each(function() {
+        //change only if it exists
+        if($(this).text() == txt)
+        {
+            val = $(this).val();
+            $('#issue_fixed_version_id').val(val);
+            return;
+        }
+    });
 }
 
 function updateBulkEditFrom(url) {
