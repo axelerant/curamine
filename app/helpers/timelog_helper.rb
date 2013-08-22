@@ -71,6 +71,21 @@ module TimelogHelper
     sum
   end
 
+  def calculate_availability(columns, hours)
+    hours = hours.to_f
+    availability = case columns
+                   when "week"
+                     hours/35
+                   when "month"
+                     hours/140
+                   when "day"
+                     hours/7
+                   when "year"
+                     hours/1680
+                   end
+    "%.1f" % (availability * 100)
+  end
+
   def options_for_period_select(value)
     options_for_select([[l(:label_all_time), 'all'],
                         [l(:label_today), 'today'],
