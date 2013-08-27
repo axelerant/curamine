@@ -101,7 +101,15 @@ class TimelogController < ApplicationController
 
   def report
     retrieve_date_range
+    #criteria = params[:criteria].dup rescue nil
+    #remove "utilization" from the criteria
+    #criteria.delete("utilization") if criteria.present?
+    
     @report = Redmine::Helpers::TimeReport.new(@project, @issue, params[:criteria], params[:columns], @from, @to)
+
+    @show_utilization = (params[:criteria].present? and params[:criteria].include? "utilization")
+    #hack insert dummy criteria "utilization"
+    # @report.criteria << "utilization" if params[:criteria].present? and params[:criteria].include? "utilization"
 
     respond_to do |format|
       format.html { render :layout => !request.xhr? }

@@ -375,6 +375,7 @@ en:
   setting_gravatar_enabled: Use Gravatar user icons
   setting_gravatar_default: Default Gravatar image
   setting_diff_max_lines_displayed: Maximum number of diff lines displayed
+  setting_standard_man_hours_a_day: Standard man hours a day
   setting_file_max_size_displayed: Maximum size of text files displayed inline
   setting_repository_log_display_limit: Maximum number of revisions displayed on file log
   setting_openid: Allow OpenID login and registration
@@ -781,6 +782,7 @@ en:
   label_year: Year
   label_month: Month
   label_week: Week
+  utilization: Utilization
   label_date_from: From
   label_date_to: To
   label_language_based: Based on user's language

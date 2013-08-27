@@ -19,8 +19,9 @@
                                                                             [l(:label_week), 'week'],
                                                                             [l(:label_day_plural).titleize, 'day']], @report.columns),
                                                         :onchange => "this.form.submit();" %>
-
-  <label for='criterias'><%= l(:button_add) %></label>: <%= select_tag('criteria[]', options_for_select([[]] + (@report.available_criteria.keys - @report.criteria).collect{|k| [l_or_humanize(@report.available_criteria[k][:label]), k]}),
+  <% select_opts = [[]] + (@report.available_criteria.keys - @report.criteria).collect{|k| [l_or_humanize(@report.available_criteria[k][:label]), k]} %>
+  <% select_opts = select_opts + [[l(:utilization), "utilization"]] if @report.criteria.count > 0 %>
+  <label for='criterias'><%= l(:button_add) %></label>: <%= select_tag('criteria[]', options_for_select(select_opts),
                                                           :onchange => "this.form.submit();",
                                                           :style => 'width: 200px',
                                                           :id => nil,

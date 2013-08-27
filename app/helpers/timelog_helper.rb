@@ -73,17 +73,18 @@ module TimelogHelper
 
   def calculate_availability(columns, hours)
     hours = hours.to_f
+    std_hours = Setting.standard_man_hours_a_day.to_i
     availability = case columns
                    when "week"
-                     hours/35
+                     hours/(std_hours * 5)
                    when "month"
-                     hours/140
+                     hours/(std_hours * 5 * 4)
                    when "day"
-                     hours/7
+                     hours/std_hours
                    when "year"
-                     hours/1680
+                     hours/(std_hours * 5 * 4 * 12)
                    end
-    "%.1f" % (availability * 100)
+    "%.0f" % (availability * 100)
   end
 
   def options_for_period_select(value)
