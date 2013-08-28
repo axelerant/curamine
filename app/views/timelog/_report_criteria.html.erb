@@ -9,7 +9,7 @@
   <% @report.periods.each do |period| -%>
     <% sum = sum_hours(select_hours(hours_for_value, @report.columns, period.to_s)); total += sum -%>
       <td class="hours"><%= html_hours("%.2f" % sum) if sum > 0; %> 
-      <% if @show_utilization %>
+      <% if @show_utilization and sum > 0 %>
         <br/>
         (<%= calculate_availability(@report.columns, "%.2f" % sum) %>%)
       <% end %>
