@@ -11,7 +11,7 @@
       <td class="hours"><%= html_hours("%.2f" % sum) if sum > 0; %> 
       <% if @show_utilization and sum > 0 %>
         <br/>
-        (<%= calculate_availability(@report.columns, "%.2f" % sum) %>%)
+        (<%= calculate_availability(@report.columns, "%.2f" % sum, period.to_s) %>%)
       <% end %>
       </td>
   <% end -%>
