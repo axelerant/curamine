@@ -1,5 +1,6 @@
 <h2><%= l(:label_home) %></h2>
 
+
 <div class="splitcontentleft">
   <%= textilizable Setting.welcome_text %>
   <% if @news.any? %>
@@ -11,6 +12,18 @@
   <% end %>
   <%= call_hook(:view_welcome_index_left, :projects => @projects) %>
 </div>
+
+<div class="splitcontentright">
+  <%= textilizable Setting.welcome_text %>
+  <% if @latest_notes.any? %>
+  <div class="news box">
+  <h3> My NoteBook</h3>
+    <%= render :partial => 'news/news', :collection => @latest_notes %>
+  </div>
+  <% end %>
+  <%= call_hook(:view_welcome_index_left, :projects => @projects) %>
+</div>
+
 
 <div class="splitcontentright">
     <% if @projects.any? %>
