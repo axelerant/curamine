@@ -17,7 +17,7 @@
   <% if @latest_notes.any? %>
   <div class="news box">
   <h3> My NoteBook</h3>
-    <%= render :partial => 'news/news', :collection => @latest_notes %>
+    <%= render :partial => 'news/notebook', :collection => @latest_notes, :as => :note %>
   </div>
   <% end %>
   <%= call_hook(:view_welcome_index_left, :projects => @projects) %>
