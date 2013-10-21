@@ -1,5 +1,5 @@
-<p><%= link_to h(note.title), news_path(note) %>
-<%= "(#{l(:label_x_comments, :count => note.comments_count)})" if note.comments_count > 0 %>
+<p><%#= link_to h(note.title), news_path(note) %>
+<%#= "(#{l(:label_x_comments, :count => note.comments_count)})" if note.comments_count > 0 %>
 <br />
 <%= textilizable(note, :description) %>
-<span class="author"><%= authoring note.created_on, note.author %></span></p>
+<!-- <span class="author"><%= authoring note.created_on, note.author %></span></p> -->
