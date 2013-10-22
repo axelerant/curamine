@@ -16,11 +16,10 @@
 <div class="splitcontentright">
   <% if @latest_notes.any? %>
   <div class="news box">
-  <h3>Assets</h3>
+  <h3>Organizational Assets</h3>
     <%= render :partial => 'news/notebook', :collection => @latest_notes, :as => :note %>
   </div>
   <% end %>
-  <%= call_hook(:view_welcome_index_left, :projects => @projects) %>
 </div>
 
 
