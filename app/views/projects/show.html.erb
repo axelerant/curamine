@@ -20,12 +20,12 @@
 <div class="splitcontentleft">
   <% if @latest_notes.any? %>
   <div class="news box">
-    <h3>Project NoteBook</h3>
+    <h3>Project Assets</h3>
     <%= render :partial => 'news/notebook', :collection => @latest_notes, :as => :note %>
   </div>
   <% end %>
-  <%= call_hook(:view_projects_show_right, :project => @project) %>
 </div>
+
 <div class="splitcontentright">
   <%= render :partial => 'members_box' %>
 

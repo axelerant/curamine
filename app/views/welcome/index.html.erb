@@ -16,7 +16,7 @@
 <div class="splitcontentright">
   <% if @latest_notes.any? %>
   <div class="news box">
-  <h3> My NoteBook</h3>
+  <h3>Assets</h3>
     <%= render :partial => 'news/notebook', :collection => @latest_notes, :as => :note %>
   </div>
   <% end %>

@@ -1,5 +1,5 @@
 <div class="news_selectors">
 <%= radio_button :news_category, :news_type, "news", :checked => true %> <%= label_tag :news_type_news, 'Regular News' %> <br/>
-<%= radio_button :news_category, :news_type, "project" %> <%= label_tag :news_type_project, 'Project Note (Visible in current project notebook)' %> <br/>
-<%= radio_button :news_category, :news_type, "user" %> <%= label_tag :news_type_user, "User Note (Visible in users' notebook)" %> <br/>
+<%= radio_button :news_category, :news_type, "project" %> <%= label_tag :news_type_project, 'Project (Visible to current project)' %> <br/>
+<%= radio_button :news_category, :news_type, "user" %> <%= label_tag :news_type_user, "Global (Visible to all)" %> <br/>
 </div>
