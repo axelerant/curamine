@@ -39,6 +39,11 @@ class News < ActiveRecord::Base
     :conditions => Project.allowed_to_condition(args.shift || User.current, :view_news, *args)
   }}
 
+  scope :is_note, lambda { where(:is_note => true) }
+  scope :is_news, lambda { where("is_note = ? OR is_note = ?", false, nil) }
+
+  scope :note_scope, lambda { |scope| is_note.where(:note_scope => scope) }
+
   safe_attributes 'title', 'summary', 'description'
 
   def visible?(user=User.current)
@@ -52,7 +57,11 @@ class News < ActiveRecord::Base
 
   # returns latest news for projects visible by user
   def self.latest(user = User.current, count = 5)
-    visible(user).includes([:author, :project]).order("#{News.table_name}.created_on DESC").limit(count).all
+    is_news.visible(user).includes([:author, :project]).order("#{News.table_name}.created_on DESC").limit(count).all
+  end
+
+  def self.latest_notes(user = User.current)
+    note_scope("user").visible(user).order("#{News.table_name}.created_on DESC").all
   end
 
   private

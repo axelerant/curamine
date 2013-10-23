@@ -18,6 +18,29 @@
 <% end %>
 
 <div class="splitcontentleft">
+  <% if @latest_notes.any? %>
+  <div class="news box">
+    <h3>Project Assets</h3>
+    <%= render :partial => 'news/notebook', :collection => @latest_notes, :as => :note %>
+  </div>
+  <% end %>
+</div>
+
+<div class="splitcontentright">
+  <%= render :partial => 'members_box' %>
+
+  <% if @news.any? && authorize_for('news', 'index') %>
+  <div class="news box">
+    <h3><%=l(:label_news_latest)%></h3>
+    <%= render :partial => 'news/news', :collection => @news %>
+    <p><%= link_to l(:label_news_view_all), :controller => 'news', :action => 'index', :project_id => @project %></p>
+  </div>
+  <% end %>
+  <%= call_hook(:view_projects_show_right, :project => @project) %>
+</div>
+
+
+<div class="splitcontentleft">
   <% if @project.description.present? %>
   <div class="wiki">
     <%= textilizable @project.description %>
@@ -63,19 +86,6 @@
   </div>
   <% end %>
   <%= call_hook(:view_projects_show_left, :project => @project) %>
-</div>
-
-<div class="splitcontentright">
-  <%= render :partial => 'members_box' %>
-
-  <% if @news.any? && authorize_for('news', 'index') %>
-  <div class="news box">
-    <h3><%=l(:label_news_latest)%></h3>
-    <%= render :partial => 'news/news', :collection => @news %>
-    <p><%= link_to l(:label_news_view_all), :controller => 'news', :action => 'index', :project_id => @project %></p>
-  </div>
-  <% end %>
-  <%= call_hook(:view_projects_show_right, :project => @project) %>
 </div>
 
 <% content_for :sidebar do %>

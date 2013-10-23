@@ -70,6 +70,16 @@ class NewsController < ApplicationController
     @news = News.new(:project => @project, :author => User.current)
     @news.safe_attributes = params[:news]
     @news.save_attachments(params[:attachments])
+
+    # demarcate between news and a note here
+    if params[:news_category].present?
+      news_type = params[:news_category][:news_type]
+      if "news" != news_type
+        @news.is_note = true
+        @news.note_scope = news_type
+      end
+    end
+
     if @news.save
       render_attachment_warning_if_needed(@news)
       flash[:notice] = l(:notice_successful_create)
