@@ -1,0 +1,57 @@
+<h2><%= l(:label_automatic_memberships)%></h2>
+
+<%= form_tag(automatic_memberships_path, :id => 'automatic_memberships_form') do %>
+<%= hidden_field_tag 'automatic_memberships[0]', '', :id => nil %>
+<div class="autoscroll">
+	<table class="list permissions">
+		<thead>
+			<tr>
+				<th><%= l(:label_user)%></th>
+				<% @roles.each do |role| %>
+				<th> <%= content_tag(role.builtin? ? 'em' : 'span', h(role.name)) %>
+				<%= link_to_function(image_tag('toggle_check.png'), "toggleCheckboxesBySelector('input.role-#{role.id}')",
+				:title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}") %> </th>
+				<% end %>
+			</tr>
+		</thead>
+		<tbody>
+
+			<% @users.each do |user| %>
+			<tr class="<%= cycle('odd', 'even') %> user-<%= user.id %>">
+				<td> <%= link_to_function(image_tag('toggle_check.png'), "toggleCheckboxesBySelector('.user-#{user.id} input')",
+				:title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}") %>
+				<%= user %> </td>
+				<% @roles.each do |role| %>
+				<td align="center"> <%= check_box_tag "automatic_memberships[#{user.id}][]", role.id, (user.automatic_membership_roles.pluck(:role_id).include?(role.id)), :id => nil, :class => "role-#{role.id}" %> </td>
+				<% end %>
+			</tr>
+			<% end %>
+
+			<tr class="group open">
+				<td><span class="expander" onclick="toggleRowGroup(this);">&nbsp;</span> <%= l(:label_group) %> </td>
+				<% @roles.each do |role| %>
+				<td class="role"><%= h(role.name) %></td>
+				<% end %>
+			</tr>
+
+			<% @groups.each do |group| %>
+			<tr class="<%= cycle('odd', 'even') %> group-<%= group.id %>">
+				<td> <%= link_to_function(image_tag('toggle_check.png'), "toggleCheckboxesBySelector('.group-#{group.id} input')",
+				:title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}") %>
+				<%= group %> </td>
+				<% @roles.each do |role| %>
+				<td align="center"> <%= check_box_tag "automatic_memberships[#{group.id}][]", role.id, (group.automatic_membership_roles.collect(&:role_id).include?(role.id) rescue false), :id => nil, :class => "role-#{role.id}" %> </td>
+				<% end %>
+			</tr>
+			<% end %>
+
+		</tbody>
+	</table>
+</div>
+<p>
+	<%= check_all_links 'automatic_memberships_form' %>
+</p>
+<p>
+	<%= submit_tag l(:button_save) %>
+</p>
+<% end %>
