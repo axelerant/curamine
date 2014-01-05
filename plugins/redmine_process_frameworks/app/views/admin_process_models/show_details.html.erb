@@ -1,46 +1,56 @@
 <h2><%=@elem.name%></h2>
 
 <div style="font-size:15px">
-<table class="list">
-    <tr>
+  <%= form_for @elem, :as => :attrs, :url => {:action=>'update_elem', :type => @type}, :method => :put do |f| %>	 
+    <table class="list">
+      <tr>
         <br>
-        <th align="right" width="50px"><%=l(:field_type)%></th>
-				<td align="left">
-             <%= @elem.class.to_p_name %>
-        </td>
-    </tr>
-		<tr>
-        <br>
-        <th align="right" width="50px"><%=l(:field_name)%></th>
-				<td align="left">
-             <%=  @elem.name %>
-        </td>
-    </tr>
-    <tr>
-     <th align="right" width="50px"><%= l(:field_description) %></th>
-        
-        <td align="left"><div class="wiki">
-            <%= textilizable @elem, :description %>
-        </div></td>  
-    </tr>
-		<% if @elem.kind_of?(ProcessModel)%>
-		  <div style="font-style:italic;margin-left:5px;font-size:12px;">
-            <%= authoring @elem[:date], @elem.get_author %>.
-       </div>
-			 <br>
-    <%end %>
-</p>
-</table>
+          <th align="right" width="50px"><%=l(:field_type)%></th>
+          <td align="left">
+            <%= @elem.class.to_p_name %>
+          </td>
+        </tr>
+        <tr>
+          <br>
+            <th align="right" width="50px"><%=l(:field_name)%></th>
+            <td align="left">
+              <%= f.text_field :name, :required => true, :size => 60 %>
+            </td>
+          </tr>
 
-<% case @elem
+          <tr>
+            <th align="right" width="50px"><%= l(:field_description) %></th>
+            
+            <td align="left">
+              <div class="wiki">
+                <%= f.text_area :description,:cols => 60, :rows => 15, :class => 'wiki-edit' %>
+              </div>
+            </td>  
+          </tr>
+
+          <% if @elem.kind_of?(ProcessModel)%>
+		        <div style="font-style:italic;margin-left:5px;font-size:12px;">
+              <%= authoring @elem[:date], @elem.get_author %>.
+            </div>
+            <br>
+          <%end %>
+        </table>
+
+        <div style="margin-left:10%;"><%= submit_tag l(:button_save) %>&nbsp;<%= link_to "Cancel", :back %><div>
+
+      <% end %> <!-- end form -->
+
+<!--
+      <% case @elem
 when Action,PfTask %>
 <% attachs = @elem.attachments
 for attachment in attachs %>
 <p>
-    <%= link_to_attachment attachment, :class => 'icon icon-attachment' -%>
+  <%= link_to_attachment attachment, :class => 'icon icon-attachment' -%>
     <%= h(" - #{attachment.description}") unless attachment.description.blank? %>
-    <span class="size">(<%= number_to_human_size attachment.filesize %>)</span>,<%= format_time(attachment.created_on) %>
-    <%end %>
+  <span class="size">(<%= number_to_human_size attachment.filesize %>)</span>,<%= format_time(attachment.created_on) %>
+<%end %>
 </p>
 <% end %>
+-->
 </div>

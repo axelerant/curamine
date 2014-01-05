@@ -46,7 +46,7 @@ function ClickInput(){
 		var li = li.parentNode.parentNode; 
 		 while(li.tagName.toLowerCase() == 'li'){ 
 		    var input = li.childNodes[1] ;
-		    if(input.tagName.toLowerCase() == 'input'){ 
+		    if((typeof(input.tagName) !== "undefined") && input.tagName.toLowerCase() == 'input'){ 
 		        if (this.checked !="") {
 					input.checked = 'true';
 				}
@@ -62,8 +62,10 @@ function CheckTreeMenu(id,TagName0) {
   
   this.InitCss = function (ClassName0,ClassName1,ClassName2,ImgUrl) {
   	var links = Ob('checkboxs').getElementsByTagName('a');
-	links[0].style.background = "#80609F";
-	links[0].style.color='#ffffff'
+        if (typeof(links[0]) !== "undefined") {
+	  links[0].style.background = "#80609F";
+	  links[0].style.color='#ffffff'
+        }
 	  this.ClassName0=ClassName0;
 	  this.ClassName1=ClassName1;
 	  this.ClassName2=ClassName2;

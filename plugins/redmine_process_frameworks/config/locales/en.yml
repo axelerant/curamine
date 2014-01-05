@@ -20,9 +20,9 @@ en:
   label_details:             Details
   label_belong:              Belongs To
   label_attachment:          Attachment
-  label_wei:                 TBD
-  label_yijing:              Already
-  label_config_model:        Configurated Process Model
+  label_wei:                 Please select a
+  label_yijing:              Current configured
+  label_config_model:        Process Model
   label_select:              select
   label_model:               Model
   label_model_name:          Model Name
@@ -31,7 +31,7 @@ en:
   label_remove:              Remove
   label_add:                 Add
   label_please_select:      Please select
-  label_dispoint:           Revocation
+  label_dispoint:           Deselect
   
   
   

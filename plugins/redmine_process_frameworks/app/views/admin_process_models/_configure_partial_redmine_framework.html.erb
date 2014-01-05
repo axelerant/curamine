@@ -1,0 +1,59 @@
+<% trackers = Tracker.all %>
+<% priorities = IssuePriority.all %>
+<% statuses = IssueStatus.all %>
+
+<table>
+  <tbody>
+    <tr><th>Issues:</th><td></td></tr>
+    <tr>
+      <th>Default Tracker: </th>
+      <td>
+        <%= select_tag "settings[issue_default_tracker]", options_from_collection_for_select(trackers, :id, :name, settings['issue_default_tracker']) %>
+      </td>
+    </tr>
+
+    <tr>
+      <th>Default Priority: </th>
+      <td>
+        <%= select_tag "settings[issue_default_priority]", options_from_collection_for_select(priorities, :id, :name, settings['issue_default_priority']) %>
+      </td>
+    </tr>
+
+    <tr>
+      <th>Default Status: </th>
+      <td>
+        <%= select_tag "settings[issue_default_status]", options_from_collection_for_select(statuses, :id, :name, settings['issue_default_status']) %>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<br/><br/><br/>
+
+<table>
+  <tbody>
+    <tr><th>Sub-Issues:</th><td></td></tr>
+    <tr>
+      <th>Default Tracker: </th>
+      <td>
+        <%= select_tag "settings[sub_issue_default_tracker]", options_from_collection_for_select(trackers, :id, :name, settings['sub_issue_default_tracker']) %>
+      </td>
+    </tr>
+
+    <tr>
+      <th>Default Priority: </th>
+      <td>
+        <%= select_tag "settings[sub_issue_default_priority]", options_from_collection_for_select(priorities, :id, :name, settings['sub_issue_default_priority']) %>
+      </td>
+    </tr>
+
+    <tr>
+      <th>Default Status: </th>
+      <td>
+        <%= select_tag "settings[sub_issue_default_status]", options_from_collection_for_select(statuses, :id, :name, settings['sub_issue_default_status']) %>
+      </td>
+    </tr>
+
+
+  </tbody>
+</table>

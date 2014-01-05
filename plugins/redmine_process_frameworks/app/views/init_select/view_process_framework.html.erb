@@ -1,90 +1,90 @@
-<%= javascript_include_tag "prototype","effects","/plugin_assets/redmine_process_frameworks/javascripts/filexport.js" %>
+<%= javascript_include_tag "filexport.js", :plugin => "redmine_process_frameworks" %>
 <style>
-    .desc {
-        font-size: 12px;
-    }
+  .desc {
+  font-size: 12px;
+  }
 </style>
 <% @gantt.view = self %>
 <div class="contextual">
-    <%=button_to_function l(:label_export_process_framework),"show_hide_div()" %>
+  <%=button_to_function l(:label_export_process_framework),"show_hide_div()" %>
 </div>
 <h2><%= l(:label_process_framework) %></h2>
 <div id = "content" style="border-right:none">
-    <% zoom = 1
+  <% zoom = 1
     @gantt.zoom.times { zoom = zoom * 2 }
-    subject_width = 730
-    header_heigth = 18
-    # Width of the entire chart
-    g_width = (@gantt.date_to - @gantt.date_from + 1)*zoom
-    g_height = [(20 * (@gantt.number_of_rows + 6))+150, 206].max
+ subject_width = 730
+ header_heigth = 18
+ # Width of the entire chart
+ g_width = (@gantt.date_to - @gantt.date_from + 1)*zoom
+ g_height = [(20 * (@gantt.number_of_rows + 6))+150, 206].max
     t_height = g_height + header_heigth %>
     <table width="100%" style="border:0; border-collapse: collapse;">
-        <tr>
-            <td style="width:<%= subject_width %>px; padding:0px;">
-                <div style="position:relative;height:<%= t_height + 24 %>px;width:<%= subject_width + 1 %>px;">
-                    <div style="right:-2px;width:<%= subject_width %>px;height:<%= header_heigth %>px;background: #eee;" class="gantt_hdr"></div>
-                    <div style="right:-2px;width:<%= subject_width %>px;height:<%= t_height %>px;border-left: 1px solid #c0c0c0;overflow:hidden;" class="gantt_hdr"></div>
-                    <div class="gantt_subjects">
-                        <%= @gantt.subjects.html_safe %>
-                    </div>
-                </div>
-            </td>
-        </tr>
-    </table>
-	</div>
-    <span onmousemove="movediv(event)";  onmouseup="obj=0">
-        <div id="mdiv" style="position:absolute; visibility:hidden;top:178px; left:260px;background:#E9F0F8; 
- border:1px solid #AFB799;  font-family:verdana;  font-size:12px;color=#111;">
-            <table align="center" width="400" cellpadding="0" cellspacing="0" border="0">
-                <tr onmousedown="finddiv(event, 'mdiv' )" style="cursor:move;z-index:100">
-                    <td bgcolor="#4574C4" width="282">
-                        <font>
-                            &nbsp;<%= l(:label_export_process_framework) %>
-                        </font>
-                    </td>
-                    <td bgcolor="#4574C4" align="right">
-                        <img style="cursor:pointer;" src="/images/close.png" alt="close" onclick="show_hide_div()" align="center"/>&nbsp;
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2">
-                        <% model_temp = ProcessModel.new
-                        model_temp.id =0
-                        if @project.if_config_pf?
-                        model_temp = ProcessModel.find(@project.model_id)
+      <tr>
+        <td style="width:<%= subject_width %>px; padding:0px;">
+        <div style="position:relative;height:<%= t_height + 24 %>px;width:<%= subject_width + 1 %>px;">
+        <div style="right:-2px;width:<%= subject_width %>px;height:<%= header_heigth %>px;background: #eee;" class="gantt_hdr"></div>
+        <div style="right:-2px;width:<%= subject_width %>px;height:<%= t_height %>px;border-left: 1px solid #c0c0c0;overflow:hidden;" class="gantt_hdr"></div>
+        <div class="gantt_subjects">
+          <%= @gantt.subjects.html_safe %>
+        </div>
+      </div>
+    </td>
+  </tr>
+</table>
+</div>
+<span onmousemove="movediv(event)";  onmouseup="obj=0">
+  <div id="mdiv" style="position:absolute; visibility:hidden;top:178px; left:260px;background:#E9F0F8;
+  border:1px solid #AFB799;  font-family:verdana;  font-size:12px;color=#111;">
+    <table align="center" width="400" cellpadding="0" cellspacing="0" border="0">
+      <tr onmousedown="finddiv(event, 'mdiv' )" style="cursor:move;z-index:100">
+        <td bgcolor="#4574C4" width="282">
+          <font>
+            &nbsp;<%= l(:label_export_process_framework) %>
+          </font>
+        </td>
+        <td bgcolor="#4574C4" align="right">
+          <img style="cursor:pointer;" src="<%=Redmine::Utils::relative_url_root%>/images/close.png" alt="close" onclick="show_hide_div()" align="center"/>&nbsp;
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <% model_temp = ProcessModel.new
+            model_temp.id =0
+ if @project.if_config_pf?
+   model_temp = ProcessModel.find(@project.model_id)
                         end %>
                         <%= form_tag({:controller => "init_select", :action=> "export_process_framework",
                         :project_id => @project}, :method => "post") do %>
                         <table cellpadding="0" cellspacing="0" border="0" style="padding:7px;">
-                            <tr>
-                                <th width=50px;align="right">
-                                    <%=label_tag l(:label_model_name) %>
-                                </th>
-                                <td align="left">
-                                    <%= text_field_tag :filename,model_temp.name,
+                          <tr>
+                            <th width=50px;align="right">
+                              <%=label_tag l(:label_model_name) %>
+                            </th>
+                            <td align="left">
+                              <%= text_field_tag :filename,model_temp.name,
                                     :size =>38 ,:tabindex => '1' %>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th width=50px;align="right">
-                                    <%=label_tag l(:field_description) %>
-                                </th>
-                                <td align="left">
-                                    <%= text_area_tag :file_desc,model_temp.description,:cols=>40,
+                            </td>
+                          </tr>
+                          <tr>
+                            <th width=50px;align="right">
+                              <%=label_tag l(:field_description) %>
+                            </th>
+                            <td align="left">
+                              <%= text_area_tag :file_desc,model_temp.description,:cols=>40,
                                     :class=>"desc",:tabindex => '2' %>
-									<%= wikitoolbar_for 'file_desc' %>
-                                </td>
-                            </tr>
+                                    <%#= wikitoolbar_for 'file_desc' %>
+                            </td>
+                          </tr>
                         </table>
                         <div style="float:left;padding-left:140px;">
-                            <%= submit_tag l(:label_export_to),:onclick=>"show_hide_div()" %>
+                          <%= submit_tag "Download the file",:onclick=>"show_hide_div()" %>
                         </div>
-                        <%end %>
-                    </td>
-                </tr>
-            </table>
-        </div>
-    </span>
-    <% content_for :sidebar do %>
-    <%= render :partial => "pf_sidebar" , :plugin => 'redmine_process_framework' %>
-    <% end %>
+                      <%end %>
+        </td>
+      </tr>
+    </table>
+  </div>
+</span>
+<% content_for :sidebar do %>
+  <%= render :partial => "pf_sidebar" , :plugin => 'redmine_process_framework' %>
+<% end %>
