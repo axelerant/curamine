@@ -29,6 +29,7 @@ platforms :mri, :mingw do
   end
 end
 
+=begin
 # Database gems
 platforms :mri, :mingw do
   group :postgresql do
@@ -39,7 +40,7 @@ platforms :mri, :mingw do
     gem "sqlite3"
   end
 end
-
+=end
 platforms :mri_18, :mingw_18 do
   group :mysql do
     gem "mysql", "~> 2.8.1"
@@ -96,3 +97,5 @@ Dir.glob File.expand_path("../plugins/*/Gemfile", __FILE__) do |file|
 end
 
 gem 'holidays'
+gem 'debugger'
+

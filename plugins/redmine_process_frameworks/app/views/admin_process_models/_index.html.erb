@@ -22,6 +22,7 @@
         </td>
         <td align="center">
             <%=my_check_image check_used(list) %>
+            <%= ("(" + list.process_model.name + ")" if tab[:name] =="Activity") rescue ""%>
         </td>
         <%if @is_model %>
 				<%if  list.position<=0%>
