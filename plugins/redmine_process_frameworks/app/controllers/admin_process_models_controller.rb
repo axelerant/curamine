@@ -8,10 +8,10 @@ class AdminProcessModelsController < ApplicationController
   def index
     @tab = params[:tab] || 'ProcessModel'
 
-    model_pages,model_list = paginate :process_models, :per_page => 25, :order => "position"
-    activity_pages, activity_list = paginate :activities, :per_page => 25, :order => "position"
-    action_pages, action_list = paginate :actions, :per_page => 25, :order => "position"
-    task_pages, task_list = paginate :pf_tasks, :per_page => 25, :order => "position"
+    model_pages,model_list = paginate :process_models, :per_page => 200, :order => "position"
+    activity_pages, activity_list = paginate :activities, :per_page => 200, :order => "position"
+    action_pages, action_list = paginate :actions, :per_page => 200, :order => "position"
+    task_pages, task_list = paginate :pf_tasks, :per_page => 200, :order => "position"
 
 
     @all_lists = {"ProcessModel" => model_list,"Activity" =>activity_list,"Action" =>action_list,"PfTask"=>task_list}
