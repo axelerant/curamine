@@ -1,7 +1,7 @@
 <%= javascript_include_tag "jquery.dataTables/jquery.dataTables.min.js", :plugin => "redmine_process_frameworks" %>
 
 <% @is_model =  tab[:name] =="ProcessModel" %>
-<table class="list">
+<table class="list datatable-enable">
   <thead>
     <tr>
       <th align="center" style="width:20%">
@@ -51,8 +51,6 @@
         <td align="center">
           <%= list.action.activity.name rescue ""%> 
         </td>
-      <% end %>
-      <% if "PfTask" == tab[:name] %>
         <td align="center">
           <%= list.action.name rescue ""%> 
         </td>
@@ -87,3 +85,38 @@
       <p>
         <%= link_to l(:label_new), {:action => 'new_elem', :type => tab[:name]}, :class => 'icon icon-add' %>
       </p>
+
+<style type="text/css">
+.even{
+    background-color: #ddffdd;
+}
+
+.odd {
+    background-color: #c4ffc4;
+}
+
+.row-fluid{
+    float:left;
+    padding: 10px 0px 20px 0px;
+    width: 100%;
+}
+
+.span6{
+    float:left;
+    width: 40%;
+}
+</style>
+
+<script type="text/javascript">
+//enable datatables
+$(document).ready(function() {
+    $('.datatable-enable').dataTable({
+        "sDom": "<'row-fluid'<'span6'l><'span6'f>r>t<'row-fluid'<'span6'i><'span6'p>>",
+        "iDisplayLength": 100,
+        "bRetrieve": true,
+        "oLanguage": {
+         "sLengthMenu": "_MENU_ records per page"
+       }
+    });
+});
+</script>
