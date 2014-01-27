@@ -1,0 +1,19 @@
+# German strings go here for Rails i18n
+de:
+  daily_status: "Täglicher Status"
+  label_last_status_not_available: "Seit %{days} Tagen kein Status gemeldet."
+  label_status_saved: "Status gespeichert"
+  label_email_sent_to_all_members: " , und einen Mail wurde an alle Mitglieder versandt."
+  label_today_no_status: "Für heute ist noch kein Status gemeldet worden"
+  label_no_status: "Kein Status gemeldet."
+  label_send_email: "Email an Mitglieder senden"
+  label_sent_email: "Mail für den heutigen Status wurde bereits versandt."
+  label_update: "Update"
+  label_cancel: "Abbruch"
+  label_email_subject: "Täglicher Status: "
+  label_thanks: "Vielen Dank,"
+  label_add_update_today_status: "Status für heute melden"
+  label_edit_today_status: "Status für heute aktualisieren"
+  label_invalid_date_format: "Ungültiges Datumsformat.Bitte im Format JJJJ-MM-TT angeben."
+  label_email_note: "Der Status wird an alle Projetmitglieder versendet"
+  manage_daily_status: Beobachter hinzufügen
