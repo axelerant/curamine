@@ -1,0 +1,20 @@
+# English strings go here for Rails i18n
+en:
+  daily_status: "Daily Status"
+  label_last_status_not_available: "%{days} days ago status not available."
+  label_status_saved: "Status Saved"
+  label_email_sent_to_all_members: " , and mail has been sent to all members."
+  label_today_no_status: "No status available for today"
+  label_no_status: "No status available."
+  label_send_email_project_members: "Send Email to Members"
+  label_send_email_project_watchers: "Send Email to Watchers"
+  label_sent_email: "Email already sent for today's this update."
+  label_update: "Update"
+  label_cancel: "Cancel"
+  label_email_subject: "Daily Status: "
+  label_thanks: "Thanks,"
+  label_add_update_today_status: "Add/Update Today's Status"
+  label_edit_today_status: "Edit Today's Status"
+  label_invalid_date_format: "Invalid date format.It should be in YYYY-mm-dd"
+  label_email_note: "Daily status email will be sent to all project members"
+  manage_daily_status: Add watchers
