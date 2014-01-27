@@ -1,28 +1,24 @@
+# -*- coding: utf-8 -*-
 class AdminProcessModelsController < ApplicationController
-  
-   unloadable   #向上兼容不同版本的  rails
-   
+
+  unloadable
+
   layout 'admin'
   before_filter :require_admin
-  
-  
-  
   def index
     @tab = params[:tab] || 'ProcessModel'
-    
-     model_pages,model_list = paginate :process_models, :per_page => 25, :order => "position"
-     activity_pages, activity_list = paginate :activities, :per_page => 25, :order => "position"
-     action_pages, action_list = paginate :actions, :per_page => 25, :order => "position"
-     task_pages, task_list = paginate :pf_tasks, :per_page => 25, :order => "position"
-    
-    
+
+    model_pages,model_list = paginate :process_models, :per_page => 2000, :order => "position"
+    activity_pages, activity_list = paginate :activities, :per_page => 2000, :order => "position"
+    action_pages, action_list = paginate :actions, :per_page => 2000, :order => "position"
+    task_pages, task_list = paginate :pf_tasks, :per_page => 2000, :order => "position"
+
+
     @all_lists = {"ProcessModel" => model_list,"Activity" =>activity_list,"Action" =>action_list,"PfTask"=>task_list}
     @all_pages = {"ProcessModel" => model_pages,"Activity" =>activity_pages,"Action" =>action_pages,"PfTask"=>task_pages}
-
-
   end
-  
-  
+
+
   def show_subs
     @parent_id  = params[:parent_id]
     elem = eval(params[:parent_type]).find(@parent_id)
@@ -32,14 +28,14 @@ class AdminProcessModelsController < ApplicationController
       return
     end
     respond_to do |format|
-      format.html  
-      format.xml { render :xml => @subs} 
-      format.xml { render :xml => @type_name} 
-      format.xml { render :xml => @empty_subs} 
-      format.xml { render :xml => @parent_id} 
+      format.html
+      format.xml { render :xml => @subs}
+      format.xml { render :xml => @type_name}
+      format.xml { render :xml => @empty_subs}
+      format.xml { render :xml => @parent_id}
     end
   end
-  
+
   def open_close_model
     model = ProcessModel.find(params[:elem])
     if model.position==0
@@ -49,10 +45,10 @@ class AdminProcessModelsController < ApplicationController
       model.position = -model.position
     end
     model.update_attributes(model.attributes)
-    
+
     redirect_to  :controller => 'admin_process_models',:action => 'index', :tab =>'ProcessModel'
   end
-  
+
   def sort_model
     model = ProcessModel.find(params[:id])
     if request.post? and  model.update_attributes(params[:process_model])
@@ -63,7 +59,7 @@ class AdminProcessModelsController < ApplicationController
     end
     redirect_to :action => 'index', :tab =>'ProcessModel'
   end
-  
+
   def sort_elem
     elem = eval(params[:type]).find(params[:elem])
     if request.post? and  elem.update_attributes(params[:"#{params[:type].downcase}s"])
@@ -74,20 +70,20 @@ class AdminProcessModelsController < ApplicationController
     end
     redirect_to :action => 'show_subs', :parent_id =>params[:parent_id], :parent_type => eval(params[:type]).get_parent_name
   end
-  
-  # link to a page new elem 
+
+  # link to a page new elem
   def new_elem
     @type_name =  params[:type]
     @name =eval(@type_name).to_p_name
     @parent_id = params[:parent_id]
   end
-  
-  #save a elem into database, not relationship 
+
+  #save a elem into database, not relationship
   def save_elem
     type = params[:type_name]
-    
+
     parent_id = params[:parent_id].nil?? -1:params[:parent_id]
-    
+
     if request.post? and  elem = eval(type).new(params[:type])
       case type
       when "ProcessModel"
@@ -112,7 +108,7 @@ class AdminProcessModelsController < ApplicationController
       redirect_to :action =>'show_subs',:parent_id => parent_id, :parent_type => elem.class.get_parent_name
     end
   end
-  
+
   #add element to parent elem(relaition)
    def add_elem
     type = params[:type]
@@ -124,7 +120,7 @@ class AdminProcessModelsController < ApplicationController
       return
     end
      elem = eval(type).find(select_id)
-      case type 
+      case type
         when "Activity"
         elem.model_id = params[:parent_id]
         when "Action"
@@ -136,9 +132,9 @@ class AdminProcessModelsController < ApplicationController
       elem.position = position_elem.nil?? 1: (position_elem.position+1)
       elem.update_attributes(elem.attributes)
     redirect_to :action => 'show_subs', :parent_id =>params[:parent_id], :parent_type => parent_type
-    
+
   end
-  
+
   #delete element, include record in database
   def delete_elem
     elem = eval(params[:type]).find(params[:elem])
@@ -169,8 +165,8 @@ class AdminProcessModelsController < ApplicationController
     flash[:error] = l(:error_can_not_delete_custom_field)
     redirect_to :action => 'index',:tab =>params[:type]
   end
-  
-  
+
+
   #remoce elem ,only relationship
   def remove_elem
     elem =eval(params[:type]).find(params[:elem])
@@ -186,13 +182,26 @@ class AdminProcessModelsController < ApplicationController
     elem.update_attributes(elem.attributes)
     redirect_to :action => 'show_subs', :parent_id =>params[:parent_id], :parent_type =>eval(params[:type]).get_parent_name
   end
-  
+
   #get data from database
   def show_details
-    type = params[:type]
-    @elem= eval(type).find(params[:elem])
-  
+    @type = params[:type]
+    @elem= eval(@type).find(params[:elem])
   end
+
+  def update_elem
+    type = params[:type]
+    @elem = eval(type).find(params[:elem])
+
+    if @elem.update_attributes(params["attrs"])
+      flash[:notice] = "Updated successfully"
+    else
+      flash[:error] = "Failed to update! Try again or report to Redmine admin."
+    end
+
+    redirect_to :action => :index, :tab => type
+  end
+
   private
   #get parent's all subs   id is parent_is,elem is a parent
    def get_subs_name(elem,id)
@@ -212,6 +221,6 @@ class AdminProcessModelsController < ApplicationController
     end
      @type_name =[elem.class.to_p_name,elem.name, elem.class.name]
   end
-  
-  
+
+
 end

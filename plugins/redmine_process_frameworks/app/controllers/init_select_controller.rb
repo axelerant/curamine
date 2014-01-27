@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 
 class InitSelectController < ApplicationController
    unloadable   #向上兼容不同版本的  rails
@@ -51,6 +52,7 @@ class InitSelectController < ApplicationController
     @project.model_id = params[:selected_model]
     @project.if_config_pf = true
     @project.save
+    default_settings = Setting.plugin_redmine_process_frameworks
     #activities_save
     sys_activities = ProcessModel.find(@project.model_id).activities
     sys_activities.each do |a|
@@ -68,7 +70,7 @@ class InitSelectController < ApplicationController
           if params[:"action_#{ac.id}"]=="yes" then
             act = Issue.find(:first,:conditions=>["subject=? and fixed_version_id=?",ac.name,ver.id])
             if act.nil?
-              actions_issue_save(ac,ver.id) 
+              actions_issue_save(ac,ver.id, default_settings) 
               act = Issue.find(:first,:conditions=>["subject=? and fixed_version_id=?",ac.name,ver.id])
             else
               act.author_id   = User.current.id
@@ -80,7 +82,7 @@ class InitSelectController < ApplicationController
               if params[:"task_#{t.id}"]=="yes" then
                 ta = Issue.find(:first,:conditions=>["subject=? and parent_id=?",t.name,act.id])
                 if ta.nil?
-                  tasks_issue_save(t,ver.id,act.id) 
+                  tasks_issue_save(t,ver.id,act.id, default_settings) 
                   ta = Issue.find(:first,:conditions=>["subject=? and parent_id=?",t.name,act.id])
                 else
                   ta.author_id = User.current.id
@@ -252,7 +254,7 @@ class InitSelectController < ApplicationController
       ver.name = activity.name
       ver.description = activity.description
       version = Version.find(:first, :conditions => ["project_id = ?",@project.id], :order => 'effective_date DESC')
-      if version.nil?
+      if version.nil? or version.effective_date.blank?
          tmp_date = Time.now.advance(:days => 7)
       else
          tmp_date =version.effective_date.advance(:days => 7)
@@ -265,28 +267,28 @@ class InitSelectController < ApplicationController
   
   
   #ac_issue_save 
-  def actions_issue_save  (action,version_id)
+  def actions_issue_save  (action,version_id, default_settings)
     ac_issue=Issue.new        
     ac_issue.subject=action.name
     ac_issue.description=action.description
-    ac_issue.priority_id=4   #优先级默认为普通
-    ac_issue.status_id=1     #状态默认为新建                     
-    ac_issue.tracker_id=3     #跟踪默认为支持
+    ac_issue.priority_id = default_settings['issue_default_priority'] || 4
+    ac_issue.status_id = default_settings['issue_default_status'] || 1
+    ac_issue.tracker_id = default_settings['issue_default_tracker'] || 3
     ac_issue.project_id = @project.id   
     ac_issue.fixed_version_id=version_id
     ac_issue.author_id = User.current.id   
     ac_issue.if_pf = true
     ac_issue.save
   end    
+
   #sub_issue_save
-  def tasks_issue_save  (task,version_id,parent_id)
-    
+  def tasks_issue_save  (task,version_id,parent_id, default_settings)
     sub_issue=Issue.new                
     sub_issue.subject=task.name
     sub_issue.description=task.description 
-    sub_issue.priority_id=4   #优先级默认为普通
-    sub_issue.status_id=1     #状态默认为新建                     
-    sub_issue.tracker_id=3    #跟踪默认为支持
+    sub_issue.priority_id = default_settings['sub_issue_default_priority'] || 4
+    sub_issue.status_id = default_settings['sub_issue_default_status'] || 1
+    sub_issue.tracker_id = default_settings['sub_issue_default_tracker'] || 3
     sub_issue.parent_issue_id=parent_id                  
     sub_issue.project_id=@project.id
     sub_issue.fixed_version_id=version_id

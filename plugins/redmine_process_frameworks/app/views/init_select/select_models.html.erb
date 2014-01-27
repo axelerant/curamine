@@ -1,4 +1,4 @@
-<%= stylesheet_link_tag "/plugin_assets/redmine_process_frameworks/stylesheets/model_attribute.css" %>
+<%= stylesheet_link_tag "model_attribute.css", :plugin => 'redmine_process_frameworks' %>
 
 <div class="contextual">
     <%=form_tag({:controller => "init_select", :action => "import_process_framework", :project_id => @project},
@@ -11,28 +11,36 @@
 
 <div class="model">
     <div class="prompt">
-        <%= @project[:name] %>
+        <%#= @project[:name] %>
         <% if @project[:if_config_pf] %>
-        <%=l(:label_yijing) + l(:label_config_model) %>&nbsp;<%= ProcessModel.find(@project[:model_id]).name %>
+          <% current_process_model = ProcessModel.find(@project[:model_id]) %>
+
+        <%=l(:label_yijing) + " " + l(:label_config_model) %>:&nbsp;<b>"<%= current_process_model.name %>"</b>
         <% view_str = l(:button_view)
         else view_str = l(:view_curr_process) %>
-        <%=l(:label_wei)+ l(:label_config_model) %>&nbsp;<%end %>
-        <div class="prompt_show">
+        <%=l(:label_wei) + " " +  l(:label_config_model) %>&nbsp;<%end %>
+        <span class="prompt_show">
             <%= link_to  view_str,{:action => "view_process_framework",:project_id => @project},:class=>"icon icon-copy"%>&nbsp;
 						 <% if @project[:if_config_pf] %>
 						 <%= link_to l(:label_dispoint),{:action =>"remove_model",:project_id =>@project},:class=>"icon icon-move"%>
 						 <% end %>
-        </div>
+        </span>
     </div>
     <% @process_models.each do |model| 
        if model.position >0%>
-    <div class="model_box">
+       <% if (current_process_model.present? and model[:name] == current_process_model.name) %>
+         <% is_current = true; else; is_current = false; end %>
+    <div class="model_box <% if is_current %>current_model<% end %>">
         <div class="contextual">
-            <%= link_to l(:label_select),{:action => "select_activities",:project_id => @project,
+          <% select_name = is_current ? "Modify" : l(:label_select) %>
+            <%= link_to select_name,{:action => "select_activities",:project_id => @project,
             :selected_model=> model} %>&nbsp;&nbsp;
         </div>
         <div class="title">
-            <%= model[:name] %>
+            <%= model[:name] %> 
+            <% if is_current %>
+              <font style='font-size:9pt'>(Current)</font>
+            <% end %>
         </div>
         <p style="font-style:italic;margin-left:5px;">
             <%= authoring model[:date], model.get_author %>.
@@ -45,7 +53,7 @@
                 <table>
                     <tr>
                         <td>
-                         <%= textilizable   model, :description %>
+                         <%= textilizable model, :description %>
                         </td>
                     </tr>
                 </table>

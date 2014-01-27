@@ -394,7 +394,7 @@ module ApplicationHelper
   def pagination_links_full(paginator, count=nil, options={})
     page_param = options.delete(:page_param) || :page
     per_page_links = options.delete(:per_page_links)
-    url_param = params.dup
+    url_param = params.dup.merge(options)
 
     html = ''
     if paginator.current.previous

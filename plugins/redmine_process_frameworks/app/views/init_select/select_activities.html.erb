@@ -1,7 +1,26 @@
+<% content_for :header_tags do %>
+  <%= stylesheet_link_tag 'checktree.css', :plugin => 'redmine_process_frameworks' %>
+  <%= javascript_include_tag "checktree.js", :plugin => 'redmine_process_frameworks' %>
 
-<%= stylesheet_link_tag "/plugin_assets/redmine_process_frameworks/stylesheets/checktree.css" %>
-<%= javascript_include_tag "prototype","effects","/plugin_assets/redmine_process_frameworks/javascripts/checktree.js" %>
-<h2><%= l(:label_config_process_framework) %></h2>
+  <script type="text/javascript">
+//    jQuery.jstree._themes = '<%=Redmine::Utils::relative_url_root%>/plugin_assets/redmine_impasse/stylesheets/themes/';
+
+  jQuery(function($) {
+    // create a convenient toggleLoading function
+    var toggleLoading = function() { $("#loading").toggle() };
+
+    $(".link-name")
+      .bind("ajax:loading",  toggleLoading)
+      .bind("ajax:complete", toggleLoading)
+      .bind("ajax:success", function(event, data, status, xhr) {
+        target = '#' + $(this).attr('update-target')
+        $(target).html(data);
+      });
+    });
+  </script>
+<% end %>
+
+<h2><%= l(:label_config_process_framework) %> <a style="font-size:8pt" target="_blank" href="/settings/plugin/redmine_process_frameworks">(Configure Globals)</a></h2>
 <div class="selec_main">
     <%= form_tag({:controller => "init_select", :action => "save_process_framework",:selected_model=>@selected_model , :project_id => @project}, :method => "post") do %>
     <div id="checktree">
@@ -63,9 +82,9 @@
 </div>
 <% end %>
 <script type="text/javascript">
-    
+
     var Mychecktree = new CheckTreeMenu("checktree", "li");
-    Mychecktree.InitCss("Opened", "Closed", "Child", "/plugin_assets/redmine_process_frameworks/images/s.gif");
+    Mychecktree.InitCss("Opened", "Closed", "Child", "<%=Redmine::Utils::relative_url_root%>/plugin_assets/redmine_process_frameworks/images/s.gif");
     Mychecktree.SetNodes(0);
     new CheckList("checkboxs", "input", "a");
 </script>

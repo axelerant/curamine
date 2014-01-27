@@ -1,54 +1,122 @@
+<%= javascript_include_tag "jquery.dataTables/jquery.dataTables.min.js", :plugin => "redmine_process_frameworks" %>
+
 <% @is_model =  tab[:name] =="ProcessModel" %>
-<table class="list">
+<table class="list datatable-enable">
+  <thead>
     <tr>
+      <th align="center" style="width:20%">
+        <%= l(:field_name) %>
+      </th>
+      <th style="width:20%">
+        <%=l(:label_used_by) %>
+      </th>
+      <%if @is_model %>
+	      <th align="center" style="width:30%">
+          <%= l(:label_sort) %>
+        </th>
+      <% end %>
+      <% if "Action" == tab[:name] || "PfTask" == tab[:name] %>
         <th align="center" style="width:20%">
-            <%= l(:field_name) %>
+          Version
         </th>
-        <th style="width:20%">
-            <%=l(:label_used_by) %>
+      <% end %>
+
+      <% if "PfTask" == tab[:name] %>
+        <th align="center" style="width:20%">
+          Parent Issue
         </th>
-        <%if @is_model %>
-	        <th align="center" style="width:30%">
-	            <%= l(:label_sort) %>
-	        </th>
-        <% end %>
-        <th align="center" style="width:10%">
-        </th>
+      <% end %>
+
+      <th align="center" style="width:10%">
+      </th>
     </tr>
-    <% for list in @all_lists[tab[:name]] %>
+  </thead>
+  <% for list in @all_lists[tab[:name]] %>
     <tr>
-        <td align="left" >
-            <%= link_to list.name,{:action => 'show_details',:type=> tab[:name],:elem =>list} %>
+      <td align="left" >
+        <%= link_to list.name,{:action => 'show_details',:type=> tab[:name],:elem =>list} %>
+      </td>
+      <td align="center">
+        <%=my_check_image check_used(list) %>
+        <%= ("(" + list.process_model.name + ")" if tab[:name] =="Activity") rescue ""%>
+        <%= ("(" + list.activity.process_model.name + ")" if tab[:name] =="Action") rescue ""%>
+        <%= ("(" + list.action.activity.process_model.name + ")" if tab[:name] =="PfTask") rescue ""%>
+      </td>
+      <% if "Action" == tab[:name] %>
+        <td align="center">
+          <%= list.activity.name rescue ""%> 
+        </td>
+      <% end %>
+      <% if "PfTask" == tab[:name] %>
+        <td align="center">
+          <%= list.action.activity.name rescue ""%> 
         </td>
         <td align="center">
-            <%=my_check_image check_used(list) %>
+          <%= list.action.name rescue ""%> 
         </td>
-        <%if @is_model %>
+      <% end %>
+      
+      <%if @is_model %>
 				<%if  list.position<=0%>
-					 <td></td>
-						<td class="buttons">
+					<td></td>
+          <td class="buttons">
 		        <%= link_to l(:version_status_open), {:action => 'open_close_model',:elem => list}, :class => 'icon icon-unlock'%>
 	        <%else %>
 		        <td align="center">
-		            <%= reorder_links('process_model', {:action =>'sort_model',:id=> list})%>
+              <%= reorder_links('process_model', {:action =>'sort_model',:id=> list})%>
 		        </td>
 		        <td class="buttons">
-	        	<%= link_to l(:version_status_closed), {:action => 'open_close_model',:elem => list}, :class => 'icon icon-lock' %>
-	        <%end %>
-				<%else %>
-					<td class="buttons">
-        <%end %>
-				<%if tab[:name]!="PfTask"%>
-				   <%= link_to  l(:label_administration),{:action => 'show_subs',:parent_id =>list,:parent_type=> tab[:name]},:class =>'icon icon-edit'%>
-        <%end%>  
-					  <%= link_to l(:button_delete), {:action => 'delete_elem', :elem => list, :type =>tab[:name]},
+              <%= link_to l(:version_status_closed), {:action => 'open_close_model',:elem => list}, :class => 'icon icon-lock' %>
+	          <%end %>
+				  <%else %>
+					  <td class="buttons">
+          <%end %>
+          <%if tab[:name]!="PfTask"%>
+				    <%= link_to  l(:label_administration),{:action => 'show_subs',:parent_id =>list,:parent_type=> tab[:name]},:class =>'icon icon-edit'%>
+          <%end%>  
+          <%= link_to l(:button_delete), {:action => 'delete_elem', :elem => list, :type =>tab[:name]},
             :confirm => l(:text_are_you_sure), :class => 'icon icon-del' %>
-        </td>
-    </tr>
-    <%end %>
-</table>
-<p class="pagination"><%=pagination_links @all_pages[tab[:name]],:params=>{:tab=>tab[:name]}%></p>
+            </td>
+          </tr>
+        <%end %>
+      </table>
+      <p class="pagination"><%= pagination_links_full @all_pages[tab[:name]], nil , :tab => tab[:name] %></p>
 
-<p>
-    <%= link_to l(:label_new), {:action => 'new_elem', :type => tab[:name]}, :class => 'icon icon-add' %>
-</p>
+      <p>
+        <%= link_to l(:label_new), {:action => 'new_elem', :type => tab[:name]}, :class => 'icon icon-add' %>
+      </p>
+
+<style type="text/css">
+.even{
+    background-color: #ddffdd;
+}
+
+.odd {
+    background-color: #c4ffc4;
+}
+
+.row-fluid{
+    float:left;
+    padding: 10px 0px 20px 0px;
+    width: 100%;
+}
+
+.span6{
+    float:left;
+    width: 40%;
+}
+</style>
+
+<script type="text/javascript">
+//enable datatables
+$(document).ready(function() {
+    $('.datatable-enable').dataTable({
+        "sDom": "<'row-fluid'<'span6'l><'span6'f>r>t<'row-fluid'<'span6'i><'span6'p>>",
+        "iDisplayLength": 100,
+        "bRetrieve": true,
+        "oLanguage": {
+         "sLengthMenu": "_MENU_ records per page"
+       }
+    });
+});
+</script>

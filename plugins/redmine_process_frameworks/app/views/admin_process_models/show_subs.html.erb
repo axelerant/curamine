@@ -1,5 +1,5 @@
 <h2><%=link_to @type_name[0],:controller=>'admin_process_models',:action => 'index', :tab=> @type_name[2]%>   
-		       &#187;<%=@type_name[1]%></h2>
+		       &#187;<%= @type_name[1] %></h2>
 
 <table class="list">
     <tr>
@@ -11,7 +11,7 @@
 		for list in @subs %>
     <tr>
         <td align="left">
-            <%= list.name %>
+          <%= link_to list.name,{:action => 'show_details',:type=> @this_type,:elem =>list} %>
         </td>
         <td align="center">
             <%= reorder_links(list.class.name.downcase+"s", {:action => 'sort_elem', :elem => list,
