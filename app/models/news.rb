@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2012  Jean-Philippe Lang
+# Copyright (C) 2006-2013  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -33,16 +33,11 @@ class News < ActiveRecord::Base
   acts_as_watchable
 
   after_create :add_author_as_watcher
+  after_create :send_notification
 
-  scope :visible, lambda {|*args| {
-    :include => :project,
-    :conditions => Project.allowed_to_condition(args.shift || User.current, :view_news, *args)
-  }}
-
-  scope :is_note, lambda { where(:is_note => true) }
-  scope :is_news, lambda { where("is_note = ? OR is_note = ?", false, nil) }
-
-  scope :note_scope, lambda { |scope| is_note.where(:note_scope => scope) }
+  scope :visible, lambda {|*args|
+    includes(:project).where(Project.allowed_to_condition(args.shift || User.current, :view_news, *args))
+  }
 
   safe_attributes 'title', 'summary', 'description'
 
@@ -55,18 +50,24 @@ class News < ActiveRecord::Base
     user.allowed_to?(:comment_news, project)
   end
 
-  # returns latest news for projects visible by user
-  def self.latest(user = User.current, count = 5)
-    is_news.visible(user).includes([:author, :project]).order("#{News.table_name}.created_on DESC").limit(count).all
+  def recipients
+    project.users.select {|user| user.notify_about?(self)}.map(&:mail)
   end
 
-  def self.latest_notes(user = User.current)
-    note_scope("user").visible(user).order("#{News.table_name}.created_on DESC").all
+  # returns latest news for projects visible by user
+  def self.latest(user = User.current, count = 5)
+    visible(user).includes([:author, :project]).order("#{News.table_name}.created_on DESC").limit(count).all
   end
 
   private
 
   def add_author_as_watcher
     Watcher.create(:watchable => self, :user => author)
+  end
+
+  def send_notification
+    if Setting.notified_events.include?('news_added')
+      Mailer.news_added(self).deliver
+    end
   end
 end

@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2012  Jean-Philippe Lang
+# Copyright (C) 2006-2013  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -31,7 +31,7 @@ class VersionsController < ApplicationController
   def index
     respond_to do |format|
       format.html {
-        @trackers = @project.trackers.find(:all, :order => 'position')
+        @trackers = @project.trackers.sorted.all
         retrieve_selected_tracker_ids(@trackers, @trackers.select {|t| t.is_in_roadmap?})
         @with_subprojects = params[:with_subprojects].nil? ? Setting.display_subprojects_issues? : (params[:with_subprojects] == '1')
         project_ids = @with_subprojects ? @project.self_and_descendants.collect(&:id) : [@project.id]
@@ -46,11 +46,11 @@ class VersionsController < ApplicationController
 
         @issues_by_version = {}
         if @selected_tracker_ids.any? && @versions.any?
-          issues = Issue.visible.all(
-            :include => [:project, :status, :tracker, :priority, :fixed_version],
-            :conditions => {:tracker_id => @selected_tracker_ids, :project_id => project_ids, :fixed_version_id => @versions.map(&:id)},
-            :order => "#{Project.table_name}.lft, #{Tracker.table_name}.position, #{Issue.table_name}.id"
-          )
+          issues = Issue.visible.
+            includes(:project, :tracker).
+            preload(:status, :priority, :fixed_version).
+            where(:tracker_id => @selected_tracker_ids, :project_id => project_ids, :fixed_version_id => @versions.map(&:id)).
+            order("#{Project.table_name}.lft, #{Tracker.table_name}.position, #{Issue.table_name}.id")
           @issues_by_version = issues.group_by(&:fixed_version)
         end
         @versions.reject! {|version| !project_ids.include?(version.project_id) && @issues_by_version[version].blank?}
@@ -64,9 +64,10 @@ class VersionsController < ApplicationController
   def show
     respond_to do |format|
       format.html {
-        @issues = @version.fixed_issues.visible.find(:all,
-          :include => [:status, :tracker, :priority],
-          :order => "#{Tracker.table_name}.position, #{Issue.table_name}.id")
+        @issues = @version.fixed_issues.visible.
+          includes(:status, :tracker, :priority).
+          reorder("#{Tracker.table_name}.position, #{Issue.table_name}.id").
+          all
       }
       format.api
     end
@@ -95,7 +96,7 @@ class VersionsController < ApplicationController
         respond_to do |format|
           format.html do
             flash[:notice] = l(:notice_successful_create)
-            redirect_back_or_default :controller => 'projects', :action => 'settings', :tab => 'versions', :id => @project
+            redirect_back_or_default settings_project_path(@project, :tab => 'versions')
           end
           format.js
           format.api do
@@ -124,7 +125,7 @@ class VersionsController < ApplicationController
         respond_to do |format|
           format.html {
             flash[:notice] = l(:notice_successful_update)
-            redirect_back_or_default :controller => 'projects', :action => 'settings', :tab => 'versions', :id => @project
+            redirect_back_or_default settings_project_path(@project, :tab => 'versions')
           }
           format.api  { render_api_ok }
         end
@@ -141,21 +142,21 @@ class VersionsController < ApplicationController
     if request.put?
       @project.close_completed_versions
     end
-    redirect_to :controller => 'projects', :action => 'settings', :tab => 'versions', :id => @project
+    redirect_to settings_project_path(@project, :tab => 'versions')
   end
 
   def destroy
     if @version.fixed_issues.empty?
       @version.destroy
       respond_to do |format|
-        format.html { redirect_back_or_default :controller => 'projects', :action => 'settings', :tab => 'versions', :id => @project }
+        format.html { redirect_back_or_default settings_project_path(@project, :tab => 'versions') }
         format.api  { render_api_ok }
       end
     else
       respond_to do |format|
         format.html {
           flash[:error] = l(:notice_unable_delete_version)
-          redirect_to :controller => 'projects', :action => 'settings', :tab => 'versions', :id => @project
+          redirect_to settings_project_path(@project, :tab => 'versions')
         }
         format.api  { head :unprocessable_entity }
       end

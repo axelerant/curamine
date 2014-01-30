@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2012  Jean-Philippe Lang
+# Copyright (C) 2006-2013  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -86,7 +86,7 @@ class EnumerationTest < ActiveSupport::TestCase
 
   def test_destroy_with_reassign
     Enumeration.find(4).destroy(Enumeration.find(6))
-    assert_nil Issue.find(:first, :conditions => {:priority_id => 4})
+    assert_nil Issue.where(:priority_id => 4).first
     assert_equal 6, Enumeration.find(6).objects_count
   end
 

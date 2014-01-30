@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2012  Jean-Philippe Lang
+# Copyright (C) 2006-2013  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -38,7 +38,7 @@ class WorkflowsController < ApplicationController
         }
       }
       if @role.save
-        redirect_to :action => 'edit', :role_id => @role, :tracker_id => @tracker, :used_statuses_only => params[:used_statuses_only]
+        redirect_to workflows_edit_path(:role_id => @role, :tracker_id => @tracker, :used_statuses_only => params[:used_statuses_only])
         return
       end
     end
@@ -64,7 +64,7 @@ class WorkflowsController < ApplicationController
 
     if request.post? && @role && @tracker
       WorkflowPermission.replace_permissions(@tracker, @role, params[:permissions] || {})
-      redirect_to :action => 'permissions', :role_id => @role, :tracker_id => @tracker, :used_statuses_only => params[:used_statuses_only]
+      redirect_to workflows_permissions_path(:role_id => @role, :tracker_id => @tracker, :used_statuses_only => params[:used_statuses_only])
       return
     end
 
@@ -106,12 +106,12 @@ class WorkflowsController < ApplicationController
     if request.post?
       if params[:source_tracker_id].blank? || params[:source_role_id].blank? || (@source_tracker.nil? && @source_role.nil?)
         flash.now[:error] = l(:error_workflow_copy_source)
-      elsif @target_trackers.nil? || @target_roles.nil?
+      elsif @target_trackers.blank? || @target_roles.blank?
         flash.now[:error] = l(:error_workflow_copy_target)
       else
         WorkflowRule.copy(@source_tracker, @source_role, @target_trackers, @target_roles)
         flash[:notice] = l(:notice_successful_update)
-        redirect_to :action => 'copy', :source_tracker_id => @source_tracker, :source_role_id => @source_role
+        redirect_to workflows_copy_path(:source_tracker_id => @source_tracker, :source_role_id => @source_role)
       end
     end
   end

@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2012  Jean-Philippe Lang
+# Copyright (C) 2006-2013  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -26,7 +26,7 @@ class RolesController < ApplicationController
   def index
     respond_to do |format|
       format.html {
-        @role_pages, @roles = paginate :roles, :per_page => 25, :order => 'builtin, position'
+        @role_pages, @roles = paginate Role.sorted, :per_page => 25
         render :action => "index", :layout => false if request.xhr?
       }
       format.api {
@@ -58,7 +58,7 @@ class RolesController < ApplicationController
         @role.workflow_rules.copy(copy_from)
       end
       flash[:notice] = l(:notice_successful_create)
-      redirect_to :action => 'index'
+      redirect_to roles_path
     else
       @roles = Role.sorted.all
       render :action => 'new'
@@ -71,7 +71,7 @@ class RolesController < ApplicationController
   def update
     if request.put? and @role.update_attributes(params[:role])
       flash[:notice] = l(:notice_successful_update)
-      redirect_to :action => 'index'
+      redirect_to roles_path
     else
       render :action => 'edit'
     end
@@ -79,10 +79,10 @@ class RolesController < ApplicationController
 
   def destroy
     @role.destroy
-    redirect_to :action => 'index'
+    redirect_to roles_path
   rescue
     flash[:error] =  l(:error_can_not_remove_role)
-    redirect_to :action => 'index'
+    redirect_to roles_path
   end
 
   def permissions
@@ -94,7 +94,7 @@ class RolesController < ApplicationController
         role.save
       end
       flash[:notice] = l(:notice_successful_update)
-      redirect_to :action => 'index'
+      redirect_to roles_path
     end
   end
 

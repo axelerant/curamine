@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2012  Jean-Philippe Lang
+# Copyright (C) 2006-2013  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -24,17 +24,15 @@ class Project < ActiveRecord::Base
   STATUS_ARCHIVED   = 9
 
   # Maximum length for project identifiers
-  IDENTIFIER_MAX_LENGTH = 12
+  IDENTIFIER_MAX_LENGTH = 100
 
   # Specific overidden Activities
   has_many :time_entry_activities
-  has_many :members, :include => [:principal, :roles], :conditions => "#{User.table_name}.type='User' AND #{User.table_name}.status=#{User::STATUS_ACTIVE}"
+  has_many :members, :include => [:principal, :roles], :conditions => "#{Principal.table_name}.type='User' AND #{Principal.table_name}.status=#{Principal::STATUS_ACTIVE}"
   has_many :memberships, :class_name => 'Member'
   has_many :member_principals, :class_name => 'Member',
                                :include => :principal,
-                               :conditions => "#{Principal.table_name}.type='Group' OR (#{Principal.table_name}.type='User' AND #{Principal.table_name}.status=#{User::STATUS_ACTIVE})"
-  has_many :users, :through => :members
-  has_many :principals, :through => :member_principals, :source => :principal
+                               :conditions => "#{Principal.table_name}.type='Group' OR (#{Principal.table_name}.type='User' AND #{Principal.table_name}.status=#{Principal::STATUS_ACTIVE})"
 
   has_many :enabled_modules, :dependent => :delete_all
   has_and_belongs_to_many :trackers, :order => "#{Tracker.table_name}.position"
@@ -42,7 +40,7 @@ class Project < ActiveRecord::Base
   has_many :issue_changes, :through => :issues, :source => :journals
   has_many :versions, :dependent => :destroy, :order => "#{Version.table_name}.effective_date DESC, #{Version.table_name}.name DESC"
   has_many :time_entries, :dependent => :delete_all
-  has_many :queries, :dependent => :delete_all
+  has_many :queries, :class_name => 'IssueQuery', :dependent => :delete_all
   has_many :documents, :dependent => :destroy
   has_many :news, :dependent => :destroy, :include => :author
   has_many :issue_categories, :dependent => :delete_all, :order => "#{IssueCategory.table_name}.name"
@@ -77,19 +75,22 @@ class Project < ActiveRecord::Base
   validates_length_of :homepage, :maximum => 255
   validates_length_of :identifier, :in => 1..IDENTIFIER_MAX_LENGTH
   # donwcase letters, digits, dashes but not digits only
-  validates_format_of :identifier, :with => /^(?!\d+$)[a-z0-9\-_]*$/, :if => Proc.new { |p| p.identifier_changed? }
+  validates_format_of :identifier, :with => /\A(?!\d+$)[a-z0-9\-_]*\z/, :if => Proc.new { |p| p.identifier_changed? }
   # reserved words
   validates_exclusion_of :identifier, :in => %w( new )
 
   after_save :update_position_under_parent, :if => Proc.new {|project| project.name_changed?}
+  after_save :update_inherited_members, :if => Proc.new {|project| project.inherit_members_changed?}
   before_destroy :delete_all_members
 
-  scope :has_module, lambda { |mod| { :conditions => ["#{Project.table_name}.id IN (SELECT em.project_id FROM #{EnabledModule.table_name} em WHERE em.name=?)", mod.to_s] } }
-  scope :active, { :conditions => "#{Project.table_name}.status = #{STATUS_ACTIVE}"}
-  scope :status, lambda {|arg| arg.blank? ? {} : {:conditions => {:status => arg.to_i}} }
-  scope :all_public, { :conditions => { :is_public => true } }
-  scope :visible, lambda {|*args| {:conditions => Project.visible_condition(args.shift || User.current, *args) }}
-  scope :allowed_to, lambda {|*args| 
+  scope :has_module, lambda {|mod|
+    where("#{Project.table_name}.id IN (SELECT em.project_id FROM #{EnabledModule.table_name} em WHERE em.name=?)", mod.to_s)
+  }
+  scope :active, lambda { where(:status => STATUS_ACTIVE) }
+  scope :status, lambda {|arg| where(arg.blank? ? nil : {:status => arg.to_i}) }
+  scope :all_public, lambda { where(:is_public => true) }
+  scope :visible, lambda {|*args| where(Project.visible_condition(args.shift || User.current, *args)) }
+  scope :allowed_to, lambda {|*args|
     user = User.current
     permission = nil
     if args.first.is_a?(Symbol)
@@ -98,14 +99,14 @@ class Project < ActiveRecord::Base
       user = args.shift
       permission = args.shift
     end
-    { :conditions => Project.allowed_to_condition(user, permission, *args) }
+    where(Project.allowed_to_condition(user, permission, *args))
   }
   scope :like, lambda {|arg|
     if arg.blank?
-      {}
+      where(nil)
     else
       pattern = "%#{arg.to_s.strip.downcase}%"
-      {:conditions => ["LOWER(identifier) LIKE :p OR LOWER(name) LIKE :p", {:p => pattern}]}
+      where("LOWER(identifier) LIKE :p OR LOWER(name) LIKE :p", :p => pattern)
     end
   }
 
@@ -123,7 +124,12 @@ class Project < ActiveRecord::Base
       self.enabled_module_names = Setting.default_projects_modules
     end
     if !initialized.key?('trackers') && !initialized.key?('tracker_ids')
-      self.trackers = Tracker.sorted.all
+      default = Setting.default_projects_tracker_ids
+      if default.is_a?(Array)
+        self.trackers = Tracker.where(:id => default.map(&:to_i)).sorted.all
+      else
+        self.trackers = Tracker.sorted.all
+      end
     end
   end
 
@@ -138,8 +144,8 @@ class Project < ActiveRecord::Base
   # returns latest created projects
   # non public projects will be returned only if user is a member of those
   def self.latest(user=nil, count=5)
-    visible(user).find(:all, :limit => count, :order => "created_on DESC")	
-  end	
+    visible(user).limit(count).order("created_on DESC").all
+  end
 
   # Returns true if the project is visible to +user+ or to the current user.
   def visible?(user=User.current)
@@ -180,7 +186,7 @@ class Project < ActiveRecord::Base
     else
       statement_by_role = {}
       unless options[:member]
-        role = user.logged? ? Role.non_member : Role.anonymous
+        role = user.builtin_role
         if role.allowed_to?(permission)
           statement_by_role[role] = "#{Project.table_name}.is_public = #{connection.quoted_true}"
         end
@@ -205,6 +211,14 @@ class Project < ActiveRecord::Base
         "((#{base_statement}) AND (#{statement_by_role.values.join(' OR ')}))"
       end
     end
+  end
+
+  def principals
+    @principals ||= Principal.active.joins(:members).where("#{Member.table_name}.project_id = ?", id).uniq
+  end
+
+  def users
+    @users ||= User.active.joins(:members).where("#{Member.table_name}.project_id = ?", id).uniq
   end
 
   # Returns the Systemwide and project specific activities
@@ -277,7 +291,10 @@ class Project < ActiveRecord::Base
     self.find(*args)
   end
 
+  alias :base_reload :reload
   def reload(*args)
+    @principals = nil
+    @users = nil
     @shared_versions = nil
     @rolled_up_versions = nil
     @rolled_up_trackers = nil
@@ -287,7 +304,9 @@ class Project < ActiveRecord::Base
     @allowed_parents = nil
     @allowed_permissions = nil
     @actions_allowed = nil
-    super
+    @start_date = nil
+    @due_date = nil
+    base_reload(*args)
   end
 
   def to_param
@@ -308,9 +327,12 @@ class Project < ActiveRecord::Base
     # Check that there is no issue of a non descendant project that is assigned
     # to one of the project or descendant versions
     v_ids = self_and_descendants.collect {|p| p.version_ids}.flatten
-    if v_ids.any? && Issue.find(:first, :include => :project,
-                                        :conditions => ["(#{Project.table_name}.lft < ? OR #{Project.table_name}.rgt > ?)" +
-                                                        " AND #{Issue.table_name}.fixed_version_id IN (?)", lft, rgt, v_ids])
+    if v_ids.any? &&
+      Issue.
+        includes(:project).
+        where("#{Project.table_name}.lft < ? OR #{Project.table_name}.rgt > ?", lft, rgt).
+        where("#{Issue.table_name}.fixed_version_id IN (?)", v_ids).
+        exists?
       return false
     end
     Project.transaction do
@@ -338,7 +360,7 @@ class Project < ActiveRecord::Base
   # by the current user
   def allowed_parents
     return @allowed_parents if @allowed_parents
-    @allowed_parents = Project.find(:all, :conditions => Project.allowed_to_condition(User.current, :add_subprojects))
+    @allowed_parents = Project.where(Project.allowed_to_condition(User.current, :add_subprojects)).all
     @allowed_parents = @allowed_parents - self_and_descendants
     if User.current.allowed_to?(:add_project, nil, :global => true) || (!new_record? && parent.nil?)
       @allowed_parents << nil
@@ -406,16 +428,19 @@ class Project < ActiveRecord::Base
   # Returns an array of the trackers used by the project and its active sub projects
   def rolled_up_trackers
     @rolled_up_trackers ||=
-      Tracker.find(:all, :joins => :projects,
-                         :select => "DISTINCT #{Tracker.table_name}.*",
-                         :conditions => ["#{Project.table_name}.lft >= ? AND #{Project.table_name}.rgt <= ? AND #{Project.table_name}.status <> #{STATUS_ARCHIVED}", lft, rgt],
-                         :order => "#{Tracker.table_name}.position")
+      Tracker.
+        joins(:projects).
+        joins("JOIN #{EnabledModule.table_name} ON #{EnabledModule.table_name}.project_id = #{Project.table_name}.id AND #{EnabledModule.table_name}.name = 'issue_tracking'").
+        select("DISTINCT #{Tracker.table_name}.*").
+        where("#{Project.table_name}.lft >= ? AND #{Project.table_name}.rgt <= ? AND #{Project.table_name}.status <> #{STATUS_ARCHIVED}", lft, rgt).
+        sorted.
+        all
   end
 
   # Closes open and locked project versions that are completed
   def close_completed_versions
     Version.transaction do
-      versions.find(:all, :conditions => {:status => %w(open locked)}).each do |version|
+      versions.where(:status => %w(open locked)).all.each do |version|
         if version.completed?
           version.update_attribute(:status, 'closed')
         end
@@ -426,33 +451,36 @@ class Project < ActiveRecord::Base
   # Returns a scope of the Versions on subprojects
   def rolled_up_versions
     @rolled_up_versions ||=
-      Version.scoped(:include => :project,
-                     :conditions => ["#{Project.table_name}.lft >= ? AND #{Project.table_name}.rgt <= ? AND #{Project.table_name}.status <> #{STATUS_ARCHIVED}", lft, rgt])
+      Version.
+        includes(:project).
+        where("#{Project.table_name}.lft >= ? AND #{Project.table_name}.rgt <= ? AND #{Project.table_name}.status <> ?", lft, rgt, STATUS_ARCHIVED)
   end
 
   # Returns a scope of the Versions used by the project
   def shared_versions
     if new_record?
-      Version.scoped(:include => :project,
-                     :conditions => "#{Project.table_name}.status <> #{Project::STATUS_ARCHIVED} AND #{Version.table_name}.sharing = 'system'")
+      Version.
+        includes(:project).
+        where("#{Project.table_name}.status <> ? AND #{Version.table_name}.sharing = 'system'", STATUS_ARCHIVED)
     else
       @shared_versions ||= begin
         r = root? ? self : root
-        Version.scoped(:include => :project,
-                       :conditions => "#{Project.table_name}.id = #{id}" +
-                                      " OR (#{Project.table_name}.status <> #{Project::STATUS_ARCHIVED} AND (" +
-                                          " #{Version.table_name}.sharing = 'system'" +
-                                          " OR (#{Project.table_name}.lft >= #{r.lft} AND #{Project.table_name}.rgt <= #{r.rgt} AND #{Version.table_name}.sharing = 'tree')" +
-                                          " OR (#{Project.table_name}.lft < #{lft} AND #{Project.table_name}.rgt > #{rgt} AND #{Version.table_name}.sharing IN ('hierarchy', 'descendants'))" +
-                                          " OR (#{Project.table_name}.lft > #{lft} AND #{Project.table_name}.rgt < #{rgt} AND #{Version.table_name}.sharing = 'hierarchy')" +
-                                          "))")
+        Version.
+          includes(:project).
+          where("#{Project.table_name}.id = #{id}" +
+                  " OR (#{Project.table_name}.status <> #{Project::STATUS_ARCHIVED} AND (" +
+                    " #{Version.table_name}.sharing = 'system'" +
+                    " OR (#{Project.table_name}.lft >= #{r.lft} AND #{Project.table_name}.rgt <= #{r.rgt} AND #{Version.table_name}.sharing = 'tree')" +
+                    " OR (#{Project.table_name}.lft < #{lft} AND #{Project.table_name}.rgt > #{rgt} AND #{Version.table_name}.sharing IN ('hierarchy', 'descendants'))" +
+                    " OR (#{Project.table_name}.lft > #{lft} AND #{Project.table_name}.rgt < #{rgt} AND #{Version.table_name}.sharing = 'hierarchy')" +
+                  "))")
       end
     end
   end
 
   # Returns a hash of project users grouped by role
   def users_by_role
-    members.find(:all, :include => [:user, :roles]).inject({}) do |h, m|
+    members.includes(:user, :roles).all.inject({}) do |h, m|
       m.roles.each do |r|
         h[r] ||= []
         h[r] << m.user
@@ -485,10 +513,14 @@ class Project < ActiveRecord::Base
     members.select {|m| m.principal.present? && (m.mail_notification? || m.principal.mail_notification == 'all')}.collect {|m| m.principal}
   end
 
-  # Returns an array of all custom fields enabled for project issues
+  # Returns a scope of all custom fields enabled for project issues
   # (explictly associated custom fields and custom fields enabled for all projects)
   def all_issue_custom_fields
-    @all_issue_custom_fields ||= (IssueCustomField.for_all + issue_custom_fields).uniq.sort
+    @all_issue_custom_fields ||= IssueCustomField.
+      sorted.
+      where("is_for_all = ? OR id IN (SELECT DISTINCT cfp.custom_field_id" +
+        " FROM #{table_name_prefix}custom_fields_projects#{table_name_suffix} cfp" +
+        " WHERE cfp.project_id = ?)", true, id)
   end
 
   # Returns an array of all custom fields enabled for project time entries
@@ -531,20 +563,20 @@ class Project < ActiveRecord::Base
 
   # The earliest start date of a project, based on it's issues and versions
   def start_date
-    [
+    @start_date ||= [
      issues.minimum('start_date'),
-     shared_versions.collect(&:effective_date),
-     shared_versions.collect(&:start_date)
-    ].flatten.compact.min
+     shared_versions.minimum('effective_date'),
+     Issue.fixed_version(shared_versions).minimum('start_date')
+    ].compact.min
   end
 
   # The latest due date of an issue or version
   def due_date
-    [
+    @due_date ||= [
      issues.maximum('due_date'),
-     shared_versions.collect(&:effective_date),
-     shared_versions.collect {|v| v.fixed_issues.maximum('due_date')}
-    ].flatten.compact.max
+     shared_versions.maximum('effective_date'),
+     Issue.fixed_version(shared_versions).maximum('due_date')
+    ].compact.max
   end
 
   def overdue?
@@ -560,7 +592,7 @@ class Project < ActiveRecord::Base
       total / self_and_descendants.count
     else
       if versions.count > 0
-        total = versions.collect(&:completed_pourcent).sum
+        total = versions.collect(&:completed_percent).sum
 
         total / versions.count
       else
@@ -642,6 +674,9 @@ class Project < ActiveRecord::Base
   safe_attributes 'enabled_module_names',
     :if => lambda {|project, user| project.new_record? || user.allowed_to?(:select_project_modules, project) }
 
+  safe_attributes 'inherit_members',
+    :if => lambda {|project, user| project.parent.nil? || project.parent.visible?(user)}
+
   # Returns an array of projects that are in this project's hierarchy
   #
   # Example: parents, children, siblings
@@ -653,7 +688,7 @@ class Project < ActiveRecord::Base
 
   # Returns an auto-generated project identifier based on the last identifier used
   def self.next_identifier
-    p = Project.find(:first, :order => 'created_on DESC')
+    p = Project.order('id DESC').first
     p.nil? ? nil : p.identifier.to_s.succ
   end
 
@@ -690,27 +725,17 @@ class Project < ActiveRecord::Base
     end
   end
 
-
-  # Copies +project+ and returns the new instance.  This will not save
-  # the copy
+  # Returns a new unsaved Project instance with attributes copied from +project+
   def self.copy_from(project)
-    begin
-      project = project.is_a?(Project) ? project : Project.find(project)
-      if project
-        # clear unique attributes
-        attributes = project.attributes.dup.except('id', 'name', 'identifier', 'status', 'parent_id', 'lft', 'rgt')
-        copy = Project.new(attributes)
-        copy.enabled_modules = project.enabled_modules
-        copy.trackers = project.trackers
-        copy.custom_values = project.custom_values.collect {|v| v.clone}
-        copy.issue_custom_fields = project.issue_custom_fields
-        return copy
-      else
-        return nil
-      end
-    rescue ActiveRecord::RecordNotFound
-      return nil
-    end
+    project = project.is_a?(Project) ? project : Project.find(project)
+    # clear unique attributes
+    attributes = project.attributes.dup.except('id', 'name', 'identifier', 'status', 'parent_id', 'lft', 'rgt')
+    copy = Project.new(attributes)
+    copy.enabled_modules = project.enabled_modules
+    copy.trackers = project.trackers
+    copy.custom_values = project.custom_values.collect {|v| v.clone}
+    copy.issue_custom_fields = project.issue_custom_fields
+    copy
   end
 
   # Yields the given block for each project with its level in the tree
@@ -726,6 +751,44 @@ class Project < ActiveRecord::Base
   end
 
   private
+
+  def after_parent_changed(parent_was)
+    remove_inherited_member_roles
+    add_inherited_member_roles
+  end
+
+  def update_inherited_members
+    if parent
+      if inherit_members? && !inherit_members_was
+        remove_inherited_member_roles
+        add_inherited_member_roles
+      elsif !inherit_members? && inherit_members_was
+        remove_inherited_member_roles
+      end
+    end
+  end
+
+  def remove_inherited_member_roles
+    member_roles = memberships.map(&:member_roles).flatten
+    member_role_ids = member_roles.map(&:id)
+    member_roles.each do |member_role|
+      if member_role.inherited_from && !member_role_ids.include?(member_role.inherited_from)
+        member_role.destroy
+      end
+    end
+  end
+
+  def add_inherited_member_roles
+    if inherit_members? && parent
+      parent.memberships.each do |parent_member|
+        member = Member.find_or_new(self.id, parent_member.user_id)
+        parent_member.member_roles.each do |parent_member_role|
+          member.member_roles << MemberRole.new(:role => parent_member_role.role, :inherited_from => parent_member_role.id)
+        end
+        member.save!
+      end
+    end
+  end
 
   # Copies wiki from +project+
   def copy_wiki(project)
@@ -788,10 +851,13 @@ class Project < ActiveRecord::Base
 
     # Get issues sorted by root_id, lft so that parent issues
     # get copied before their children
-    project.issues.find(:all, :order => 'root_id, lft').each do |issue|
+    project.issues.reorder('root_id, lft').all.each do |issue|
       new_issue = Issue.new
       new_issue.copy_from(issue, :subtasks => false, :link => false)
       new_issue.project = self
+      # Changing project resets the custom field values
+      # TODO: handle this in Issue#project=
+      new_issue.custom_field_values = issue.custom_field_values.inject({}) {|h,v| h[v.custom_field_id] = v.value; h}
       # Reassign fixed_versions by name, since names are unique per project
       if issue.fixed_version && issue.fixed_version.project == project
         new_issue.fixed_version = self.versions.detect {|v| v.name == issue.fixed_version.name}
@@ -874,7 +940,7 @@ class Project < ActiveRecord::Base
   # Copies queries from +project+
   def copy_queries(project)
     project.queries.each do |query|
-      new_query = ::Query.new
+      new_query = IssueQuery.new
       new_query.attributes = query.attributes.dup.except("id", "project_id", "sort_criteria")
       new_query.sort_criteria = query.sort_criteria if query.sort_criteria
       new_query.project = self
@@ -895,7 +961,7 @@ class Project < ActiveRecord::Base
 
   def allowed_permissions
     @allowed_permissions ||= begin
-      module_names = enabled_modules.all(:select => :name).collect {|m| m.name}
+      module_names = enabled_modules.loaded? ? enabled_modules.map(&:name) : enabled_modules.pluck(:name)
       Redmine::AccessControl.modules_permissions(module_names).collect {|p| p.name}
     end
   end
@@ -931,13 +997,11 @@ class Project < ActiveRecord::Base
   def system_activities_and_project_overrides(include_inactive=false)
     if include_inactive
       return TimeEntryActivity.shared.
-        find(:all,
-             :conditions => ["id NOT IN (?)", self.time_entry_activities.collect(&:parent_id)]) +
+        where("id NOT IN (?)", self.time_entry_activities.collect(&:parent_id)).all +
         self.time_entry_activities
     else
       return TimeEntryActivity.shared.active.
-        find(:all,
-             :conditions => ["id NOT IN (?)", self.time_entry_activities.collect(&:parent_id)]) +
+        where("id NOT IN (?)", self.time_entry_activities.collect(&:parent_id)).all +
         self.time_entry_activities.active
     end
   end
@@ -956,6 +1020,7 @@ class Project < ActiveRecord::Base
 
   # Inserts/moves the project so that target's children or root projects stay alphabetically sorted
   def set_or_update_position_under(target_parent)
+    parent_was = parent
     sibs = (target_parent.nil? ? self.class.roots : target_parent.children)
     to_be_inserted_before = sibs.sort_by {|c| c.name.to_s.downcase}.detect {|c| c.name.to_s.downcase > name.to_s.downcase }
 
@@ -971,6 +1036,9 @@ class Project < ActiveRecord::Base
     else
       # move_to_child_of adds the project in last (ie.right) position
       move_to_child_of(target_parent)
+    end
+    if parent_was != target_parent
+      after_parent_changed(parent_was)
     end
   end
 end

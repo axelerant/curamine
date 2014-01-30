@@ -133,6 +133,7 @@ zh:
         not_same_project: "不属于同一个项目"
         circular_dependency: "此关联将导致循环依赖"
         cant_link_an_issue_with_a_descendant: "问题不能关联到它的子任务"
+        earlier_than_minimum_start_date: "cannot be earlier than %{date} because of preceding issues"
 
   actionview_instancetag_blank_option: 请选择
 
@@ -166,7 +167,7 @@ zh:
   notice_not_authorized_archived_project: 要访问的项目已经归档。
   notice_email_sent: "邮件已发送至 %{value}"
   notice_email_error: "发送邮件时发生错误 (%{value})"
-  notice_feeds_access_key_reseted: 您的RSS存取键已被重置。
+  notice_feeds_access_key_reseted: 您的Atom存取键已被重置。
   notice_api_access_key_reseted: 您的API访问键已被重置。
   notice_failed_to_save_issues: "%{count} 个问题保存失败（共选择 %{total} 个问题）：%{ids}."
   notice_failed_to_save_members: "成员保存失败: %{errors}."
@@ -212,8 +213,6 @@ zh:
   mail_subject_wiki_content_updated: "'%{id}' wiki页面已更新。"
   mail_body_wiki_content_updated: "'%{id}' wiki页面已由 %{author} 更新。"
 
-  gui_validation_error: 1 个错误
-  gui_validation_error_plural: "%{count} 个错误"
 
   field_name: 名称
   field_description: 描述
@@ -327,7 +326,7 @@ zh:
   setting_host_name: 主机名称
   setting_text_formatting: 文本格式
   setting_wiki_compression: 压缩Wiki历史文档
-  setting_feeds_limit: RSS Feed内容条数限制
+  setting_feeds_limit: Atom Feed内容条数限制
   setting_default_projects_public: 新建项目默认为公开项目
   setting_autofetch_changesets: 自动获取程序变更
   setting_sys_api_enabled: 启用用于版本库管理的Web Service
@@ -400,7 +399,6 @@ zh:
   permission_edit_own_time_entries: 编辑自己的耗时
   permission_manage_news: 管理新闻
   permission_comment_news: 为新闻添加评论
-  permission_manage_documents: 管理文档
   permission_view_documents: 查看文档
   permission_manage_files: 管理文件
   permission_view_files: 查看文件
@@ -525,8 +523,6 @@ zh:
   label_text: 文本
   label_attribute: 属性
   label_attribute_plural: 属性
-  label_download: "%{count} 次下载"
-  label_download_plural: "%{count} 次下载"
   label_no_data: 没有任何数据可供显示
   label_change_status: 变更状态
   label_history: 历史记录
@@ -629,8 +625,6 @@ zh:
   label_repository: 版本库
   label_repository_plural: 版本库
   label_browse: 浏览
-  label_modification: "%{count} 个更新"
-  label_modification_plural: "%{count} 个更新"
   label_branch: 分支
   label_tag: 标签
   label_revision: 修订
@@ -726,9 +720,9 @@ zh:
   label_language_based: 根据用户的语言
   label_sort_by: "根据 %{value} 排序"
   label_send_test_email: 发送测试邮件
-  label_feeds_access_key: RSS存取键
-  label_missing_feeds_access_key: 缺少RSS存取键
-  label_feeds_access_key_created_on: "RSS存取键是在 %{value} 之前建立的"
+  label_feeds_access_key: Atom存取键
+  label_missing_feeds_access_key: 缺少Atom存取键
+  label_feeds_access_key_created_on: "Atom存取键是在 %{value} 之前建立的"
   label_module_plural: 模块
   label_added_time_by: "由 %{author} 在 %{age} 之前添加"
   label_updated_time: " 更新于 %{value} 之前"
@@ -1082,6 +1076,29 @@ zh:
   label_cross_project_hierarchy: 与项目继承层次共享
   label_cross_project_system: 与所有项目共享
   button_hide: 隐藏
-  setting_non_working_week_days: Non-working days
-  label_in_the_next_days: in the next
-  label_in_the_past_days: in the past
+  setting_non_working_week_days: 非工作日
+  label_in_the_next_days: 在未来几天之内
+  label_in_the_past_days: 在过去几天之内
+  label_attribute_of_user: 用户是 %{name}
+  text_turning_multiple_off: 如果您停用多重值设定，重复的值将被移除，以使每个项目仅保留一个值
+  label_attribute_of_issue: 问题是 %{name}
+  permission_add_documents: 添加文档
+  permission_edit_documents: 编辑文档
+  permission_delete_documents: 删除文档
+  label_gantt_progress_line: 进度线
+  setting_jsonp_enabled: 启用JSONP支持
+  field_inherit_members: 继承父项目成员
+  field_closed_on: 结束日期
+  field_generate_password: 生成密码
+  setting_default_projects_tracker_ids: 新建项目默认跟踪标签
+  label_total_time: 合计
+  notice_account_not_activated_yet: 您的账号尚未激活. 若您要重新收取激活邮件, 请<a href="%{url}">单击此链接</a>.
+  notice_account_locked: 您的帐号已被锁定
+  label_hidden: 隐藏
+  label_visibility_private: 仅对我可见
+  label_visibility_roles: 仅对选取角色可见
+  label_visibility_public: 对任何人可见
+  field_must_change_passwd: 下次登录时必须修改密码
+  notice_new_password_must_be_different: 新密码必须和旧密码不同
+  setting_mail_handler_excluded_filenames: 移除符合下列名称的附件
+  text_convert_available: ImageMagick convert available (optional)

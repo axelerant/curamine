@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2012  Jean-Philippe Lang
+# Copyright (C) 2006-2013  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -19,39 +19,43 @@ class CustomField < ActiveRecord::Base
   include Redmine::SubclassFactory
 
   has_many :custom_values, :dependent => :delete_all
+  has_and_belongs_to_many :roles, :join_table => "#{table_name_prefix}custom_fields_roles#{table_name_suffix}", :foreign_key => "custom_field_id"
   acts_as_list :scope => 'type = \'#{self.class}\''
   serialize :possible_values
 
   validates_presence_of :name, :field_format
   validates_uniqueness_of :name, :scope => :type
   validates_length_of :name, :maximum => 30
-  validates_inclusion_of :field_format, :in => Redmine::CustomFieldFormat.available_formats
-
+  validates_inclusion_of :field_format, :in => Proc.new { Redmine::CustomFieldFormat.available_formats }
   validate :validate_custom_field
+
   before_validation :set_searchable
+  after_save :handle_multiplicity_change
+  after_save do |field|
+    if field.visible_changed? && field.visible
+      field.roles.clear
+    end
+  end
 
-  CUSTOM_FIELDS_TABS = [
-    {:name => 'IssueCustomField', :partial => 'custom_fields/index',
-     :label => :label_issue_plural},
-    {:name => 'TimeEntryCustomField', :partial => 'custom_fields/index',
-     :label => :label_spent_time},
-    {:name => 'ProjectCustomField', :partial => 'custom_fields/index',
-     :label => :label_project_plural},
-    {:name => 'VersionCustomField', :partial => 'custom_fields/index',
-     :label => :label_version_plural},
-    {:name => 'UserCustomField', :partial => 'custom_fields/index',
-     :label => :label_user_plural},
-    {:name => 'GroupCustomField', :partial => 'custom_fields/index',
-     :label => :label_group_plural},
-    {:name => 'TimeEntryActivityCustomField', :partial => 'custom_fields/index',
-     :label => TimeEntryActivity::OptionName},
-    {:name => 'IssuePriorityCustomField', :partial => 'custom_fields/index',
-     :label => IssuePriority::OptionName},
-    {:name => 'DocumentCategoryCustomField', :partial => 'custom_fields/index',
-     :label => DocumentCategory::OptionName}
-  ]
+  scope :sorted, lambda { order("#{table_name}.position ASC") }
+  scope :visible, lambda {|*args|
+    user = args.shift || User.current
+    if user.admin?
+      # nop
+    elsif user.memberships.any?
+      where("#{table_name}.visible = ? OR #{table_name}.id IN (SELECT DISTINCT cfr.custom_field_id FROM #{Member.table_name} m" +
+        " INNER JOIN #{MemberRole.table_name} mr ON mr.member_id = m.id" +
+        " INNER JOIN #{table_name_prefix}custom_fields_roles#{table_name_suffix} cfr ON cfr.role_id = mr.role_id" +
+        " WHERE m.user_id = ?)",
+        true, user.id)
+    else
+      where(:visible => true)
+    end
+  }
 
-  CUSTOM_FIELDS_NAMES = CUSTOM_FIELDS_TABS.collect{|v| v[:name]}
+  def visible_by?(project, user=User.current)
+    visible? || user.admin?
+  end
 
   def field_format=(arg)
     # cannot change format of a saved custom field
@@ -119,8 +123,10 @@ class CustomField < ActiveRecord::Base
         values.each do |value|
           value.force_encoding('UTF-8') if value.respond_to?(:force_encoding)
         end
+        values
+      else
+        []
       end
-      values || []
     end
   end
 
@@ -169,7 +175,7 @@ class CustomField < ActiveRecord::Base
       keyword
     end
   end
- 
+
   # Returns a ORDER BY clause that can used to sort customized
   # objects by their value of the custom field.
   # Returns nil if the custom field can not be used for sorting.
@@ -178,18 +184,12 @@ class CustomField < ActiveRecord::Base
     case field_format
       when 'string', 'text', 'list', 'date', 'bool'
         # COALESCE is here to make sure that blank and NULL values are sorted equally
-        "COALESCE((SELECT cv_sort.value FROM #{CustomValue.table_name} cv_sort" +
-          " WHERE cv_sort.customized_type='#{self.class.customized_class.base_class.name}'" +
-          " AND cv_sort.customized_id=#{self.class.customized_class.table_name}.id" +
-          " AND cv_sort.custom_field_id=#{id} LIMIT 1), '')"
+        "COALESCE(#{join_alias}.value, '')"
       when 'int', 'float'
         # Make the database cast values into numeric
         # Postgresql will raise an error if a value can not be casted!
         # CustomValue validations should ensure that it doesn't occur
-        "(SELECT CAST(cv_sort.value AS decimal(60,3)) FROM #{CustomValue.table_name} cv_sort" +
-          " WHERE cv_sort.customized_type='#{self.class.customized_class.base_class.name}'" +
-          " AND cv_sort.customized_id=#{self.class.customized_class.table_name}.id" +
-          " AND cv_sort.custom_field_id=#{id} AND cv_sort.value <> '' AND cv_sort.value IS NOT NULL LIMIT 1)"
+        "CAST(CASE #{join_alias}.value WHEN '' THEN '0' ELSE #{join_alias}.value END AS decimal(30,3))"
       when 'user', 'version'
         value_class.fields_for_order_statement(value_join_alias)
       else
@@ -199,16 +199,13 @@ class CustomField < ActiveRecord::Base
 
   # Returns a GROUP BY clause that can used to group by custom value
   # Returns nil if the custom field can not be used for grouping.
-  def group_statement 
+  def group_statement
     return nil if multiple?
     case field_format
       when 'list', 'date', 'bool', 'int'
         order_statement
       when 'user', 'version'
-        "COALESCE((SELECT cv_sort.value FROM #{CustomValue.table_name} cv_sort" +
-          " WHERE cv_sort.customized_type='#{self.class.customized_class.base_class.name}'" +
-          " AND cv_sort.customized_id=#{self.class.customized_class.table_name}.id" +
-          " AND cv_sort.custom_field_id=#{id} LIMIT 1), '')"
+        "COALESCE(#{join_alias}.value, '')"
       else
         nil
     end
@@ -221,13 +218,35 @@ class CustomField < ActiveRecord::Base
           " ON #{join_alias}.customized_type = '#{self.class.customized_class.base_class.name}'" +
           " AND #{join_alias}.customized_id = #{self.class.customized_class.table_name}.id" +
           " AND #{join_alias}.custom_field_id = #{id}" +
+          " AND (#{visibility_by_project_condition})" +
           " AND #{join_alias}.value <> ''" +
           " AND #{join_alias}.id = (SELECT max(#{join_alias}_2.id) FROM #{CustomValue.table_name} #{join_alias}_2" +
             " WHERE #{join_alias}_2.customized_type = #{join_alias}.customized_type" +
             " AND #{join_alias}_2.customized_id = #{join_alias}.customized_id" +
             " AND #{join_alias}_2.custom_field_id = #{join_alias}.custom_field_id)" +
           " LEFT OUTER JOIN #{value_class.table_name} #{value_join_alias}" +
-          " ON CAST(#{join_alias}.value as decimal(60,0)) = #{value_join_alias}.id"
+          " ON CAST(CASE #{join_alias}.value WHEN '' THEN '0' ELSE #{join_alias}.value END AS decimal(30,0)) = #{value_join_alias}.id"
+      when 'int', 'float'
+        "LEFT OUTER JOIN #{CustomValue.table_name} #{join_alias}" +
+          " ON #{join_alias}.customized_type = '#{self.class.customized_class.base_class.name}'" +
+          " AND #{join_alias}.customized_id = #{self.class.customized_class.table_name}.id" +
+          " AND #{join_alias}.custom_field_id = #{id}" +
+          " AND (#{visibility_by_project_condition})" +
+          " AND #{join_alias}.value <> ''" +
+          " AND #{join_alias}.id = (SELECT max(#{join_alias}_2.id) FROM #{CustomValue.table_name} #{join_alias}_2" +
+            " WHERE #{join_alias}_2.customized_type = #{join_alias}.customized_type" +
+            " AND #{join_alias}_2.customized_id = #{join_alias}.customized_id" +
+            " AND #{join_alias}_2.custom_field_id = #{join_alias}.custom_field_id)"
+      when 'string', 'text', 'list', 'date', 'bool'
+        "LEFT OUTER JOIN #{CustomValue.table_name} #{join_alias}" +
+          " ON #{join_alias}.customized_type = '#{self.class.customized_class.base_class.name}'" +
+          " AND #{join_alias}.customized_id = #{self.class.customized_class.table_name}.id" +
+          " AND #{join_alias}.custom_field_id = #{id}" +
+          " AND (#{visibility_by_project_condition})" +
+          " AND #{join_alias}.id = (SELECT max(#{join_alias}_2.id) FROM #{CustomValue.table_name} #{join_alias}_2" +
+            " WHERE #{join_alias}_2.customized_type = #{join_alias}.customized_type" +
+            " AND #{join_alias}_2.customized_id = #{join_alias}.customized_id" +
+            " AND #{join_alias}_2.custom_field_id = #{join_alias}.custom_field_id)"
       else
         nil
     end
@@ -239,6 +258,33 @@ class CustomField < ActiveRecord::Base
 
   def value_join_alias
     join_alias + "_" + field_format
+  end
+
+  def visibility_by_project_condition(project_key=nil, user=User.current)
+    if visible? || user.admin?
+      "1=1"
+    elsif user.anonymous?
+      "1=0"
+    else
+      project_key ||= "#{self.class.customized_class.table_name}.project_id"
+      "#{project_key} IN (SELECT DISTINCT m.project_id FROM #{Member.table_name} m" +
+        " INNER JOIN #{MemberRole.table_name} mr ON mr.member_id = m.id" +
+        " INNER JOIN #{table_name_prefix}custom_fields_roles#{table_name_suffix} cfr ON cfr.role_id = mr.role_id" +
+        " WHERE m.user_id = #{user.id} AND cfr.custom_field_id = #{id})"
+    end
+  end
+
+  def self.visibility_condition
+    if user.admin?
+      "1=1"
+    elsif user.anonymous?
+      "#{table_name}.visible"
+    else
+      "#{project_key} IN (SELECT DISTINCT m.project_id FROM #{Member.table_name} m" +
+        " INNER JOIN #{MemberRole.table_name} mr ON mr.member_id = m.id" +
+        " INNER JOIN #{table_name_prefix}custom_fields_roles#{table_name_suffix} cfr ON cfr.role_id = mr.role_id" +
+        " WHERE m.user_id = #{user.id} AND cfr.custom_field_id = #{id})"
+    end
   end
 
   def <=>(field)
@@ -257,12 +303,12 @@ class CustomField < ActiveRecord::Base
 
   def self.customized_class
     self.name =~ /^(.+)CustomField$/
-    begin; $1.constantize; rescue nil; end
+    $1.constantize rescue nil
   end
 
   # to move in project_custom_field
   def self.for_all
-    find(:all, :conditions => ["is_for_all=?", true], :order => 'position')
+    where(:is_for_all => true).order('position').all
   end
 
   def type_name
@@ -322,5 +368,21 @@ class CustomField < ActiveRecord::Base
       end
     end
     errs
+  end
+
+  # Removes multiple values for the custom field after setting the multiple attribute to false
+  # We kepp the value with the highest id for each customized object
+  def handle_multiplicity_change
+    if !new_record? && multiple_was && !multiple
+      ids = custom_values.
+        where("EXISTS(SELECT 1 FROM #{CustomValue.table_name} cve WHERE cve.custom_field_id = #{CustomValue.table_name}.custom_field_id" +
+          " AND cve.customized_type = #{CustomValue.table_name}.customized_type AND cve.customized_id = #{CustomValue.table_name}.customized_id" +
+          " AND cve.id > #{CustomValue.table_name}.id)").
+        pluck(:id)
+
+      if ids.any?
+        custom_values.where(:id => ids).delete_all
+      end
+    end
   end
 end

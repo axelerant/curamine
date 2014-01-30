@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2012  Jean-Philippe Lang
+# Copyright (C) 2006-2013  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,12 +17,13 @@
 
 require 'cgi'
 
+if RUBY_VERSION < '1.9'
+  require 'iconv'
+end
+
 module Redmine
   module Scm
     module Adapters
-      class CommandFailed < StandardError #:nodoc:
-      end
-
       class AbstractAdapter #:nodoc:
 
         # raised if scm command exited with error, e.g. unknown revision.
@@ -214,13 +215,39 @@ module Redmine
           Rails.logger
         end
 
+        # Path to the file where scm stderr output is logged
+        # Returns nil if the log file is not writable
+        def self.stderr_log_file
+          if @stderr_log_file.nil?
+            writable = false
+            path = Redmine::Configuration['scm_stderr_log_file'].presence
+            path ||= Rails.root.join("log/#{Rails.env}.scm.stderr.log").to_s
+            if File.exists?(path)
+              if File.file?(path) && File.writable?(path) 
+                writable = true
+              else
+                logger.warn("SCM log file (#{path}) is not writable")
+              end
+            else
+              begin
+                File.open(path, "w") {}
+                writable = true
+              rescue => e
+                logger.warn("SCM log file (#{path}) cannot be created: #{e.message}")
+              end
+            end
+            @stderr_log_file = writable ? path : false
+          end
+          @stderr_log_file || nil
+        end
+
         def self.shellout(cmd, options = {}, &block)
           if logger && logger.debug?
             logger.debug "Shelling out: #{strip_credential(cmd)}"
-          end
-          if Rails.env == 'development'
-            # Capture stderr when running in dev environment
-            cmd = "#{cmd} 2>>#{shell_quote(Rails.root.join('log/scm.stderr.log').to_s)}"
+            # Capture stderr in a log file
+            if stderr_log_file
+              cmd = "#{cmd} 2>>#{shell_quote(stderr_log_file)}"
+            end
           end
           begin
             mode = "r+"

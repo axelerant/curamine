@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2012  Jean-Philippe Lang
+# Copyright (C) 2006-2013  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -68,15 +68,11 @@ class Repository::Bazaar < Repository
           full_path = File.join(root_url, e.path)
           e.size = File.stat(full_path).size if File.file?(full_path)
         end
-        c = Change.find(
-               :first,
-               :include    => :changeset,
-               :conditions => [
-                   "#{Change.table_name}.revision = ? and #{Changeset.table_name}.repository_id = ?",
-                   e.lastrev.revision,
-                   id
-                   ],
-               :order => "#{Changeset.table_name}.revision DESC")
+        c = Change.
+              includes(:changeset).
+              where("#{Change.table_name}.revision = ? and #{Changeset.table_name}.repository_id = ?", e.lastrev.revision, id).
+              order("#{Changeset.table_name}.revision DESC").
+              first
         if c
           e.lastrev.identifier = c.changeset.revision
           e.lastrev.name       = c.changeset.revision

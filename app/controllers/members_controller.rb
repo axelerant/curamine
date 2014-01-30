@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2012  Jean-Philippe Lang
+# Copyright (C) 2006-2013  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -26,8 +26,8 @@ class MembersController < ApplicationController
   def index
     @offset, @limit = api_offset_and_limit
     @member_count = @project.member_principals.count
-    @member_pages = Paginator.new self, @member_count, @limit, params['page']
-    @offset ||= @member_pages.current.offset
+    @member_pages = Paginator.new @member_count, @limit, params['page']
+    @offset ||= @member_pages.offset
     @members =  @project.member_principals.all(
       :order => "#{Member.table_name}.id",
       :limit  =>  @limit,
@@ -63,7 +63,7 @@ class MembersController < ApplicationController
     end
 
     respond_to do |format|
-      format.html { redirect_to :controller => 'projects', :action => 'settings', :tab => 'members', :id => @project }
+      format.html { redirect_to_settings_in_projects }
       format.js { @members = members }
       format.api {
         @member = members.first
@@ -82,7 +82,7 @@ class MembersController < ApplicationController
     end
     saved = @member.save
     respond_to do |format|
-      format.html { redirect_to :controller => 'projects', :action => 'settings', :tab => 'members', :id => @project }
+      format.html { redirect_to_settings_in_projects }
       format.js
       format.api {
         if saved
@@ -99,7 +99,7 @@ class MembersController < ApplicationController
       @member.destroy
     end
     respond_to do |format|
-      format.html { redirect_to :controller => 'projects', :action => 'settings', :tab => 'members', :id => @project }
+      format.html { redirect_to_settings_in_projects }
       format.js
       format.api {
         if @member.destroyed?
@@ -112,7 +112,14 @@ class MembersController < ApplicationController
   end
 
   def autocomplete
-    @principals = Principal.active.not_member_of(@project).like(params[:q]).all(:limit => 100)
-    render :layout => false
+    respond_to do |format|
+      format.js
+    end
+  end
+
+  private
+
+  def redirect_to_settings_in_projects
+    redirect_to settings_project_path(@project, :tab => 'members')
   end
 end

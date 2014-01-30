@@ -127,6 +127,7 @@ uk:
         not_same_project: "не відносяться до одного проекту"
         circular_dependency: "Такий зв'язок приведе до циклічної залежності"
         cant_link_an_issue_with_a_descendant: "An issue can not be linked to one of its subtasks"
+        earlier_than_minimum_start_date: "cannot be earlier than %{date} because of preceding issues"
 
   actionview_instancetag_blank_option: Оберіть
 
@@ -160,7 +161,7 @@ uk:
   notice_not_authorized: У вас немає прав для відвідини даної сторінки.
   notice_email_sent: "Відправлено листа %{value}"
   notice_email_error: "Під час відправки листа відбулася помилка (%{value})"
-  notice_feeds_access_key_reseted: Ваш ключ доступу RSS було скинуто.
+  notice_feeds_access_key_reseted: Ваш ключ доступу Atom було скинуто.
   notice_failed_to_save_issues: "Не вдалося зберегти %{count} пункт(ів) з %{total} вибраних: %{ids}."
   notice_no_issue_selected: "Не вибрано жодної задачі! Будь ласка, відзначте задачу, яку ви хочете відредагувати."
   notice_account_pending: "Ваш обліковий запис створено і він чекає на підтвердження адміністратором."
@@ -174,8 +175,6 @@ uk:
   mail_subject_account_activation_request: "Запит на активацію облікового запису %{value}"
   mail_body_account_activation_request: "Новий користувач (%{value}) зареєструвався. Його обліковий запис чекає на ваше підтвердження:"
 
-  gui_validation_error: 1 помилка
-  gui_validation_error_plural: "%{count} помилки(ок)"
 
   field_name: Ім'я
   field_description: Опис
@@ -363,8 +362,6 @@ uk:
   label_text: Довгий текст
   label_attribute: Атрибут
   label_attribute_plural: атрибути
-  label_download: "%{count} Завантажено"
-  label_download_plural: "%{count} Завантажень"
   label_no_data: Немає даних для відображення
   label_change_status: Змінити статус
   label_history: Історія
@@ -453,8 +450,6 @@ uk:
   label_day_plural: днів(я)
   label_repository: Репозиторій
   label_browse: Проглянути
-  label_modification: "%{count} зміна"
-  label_modification_plural: "%{count} змін"
   label_revision: Версія
   label_revision_plural: Версій
   label_added: додано
@@ -538,7 +533,7 @@ uk:
   label_language_based: На основі мови користувача
   label_sort_by: "Сортувати за %{value}"
   label_send_test_email: Послати email для перевірки
-  label_feeds_access_key_created_on: "Ключ доступу RSS створений %{value} назад "
+  label_feeds_access_key_created_on: "Ключ доступу Atom створений %{value} назад "
   label_module_plural: Модулі
   label_added_time_by: "Доданий %{author} %{age} назад"
   label_updated_time: "Оновлений %{value} назад"
@@ -754,7 +749,6 @@ uk:
   permission_comment_news: Comment news
   permission_delete_messages: Delete messages
   permission_select_project_modules: Select project modules
-  permission_manage_documents: Manage documents
   permission_edit_wiki_pages: Edit wiki pages
   permission_add_issue_watchers: Add watchers
   permission_view_gantt: View gantt chart
@@ -877,11 +871,11 @@ uk:
   label_revision_id: Revision %{value}
   label_api_access_key: API access key
   label_api_access_key_created_on: API access key created %{value} ago
-  label_feeds_access_key: RSS access key
+  label_feeds_access_key: Atom access key
   notice_api_access_key_reseted: Your API access key was reset.
   setting_rest_api_enabled: Enable REST web service
   label_missing_api_access_key: Missing an API access key
-  label_missing_feeds_access_key: Missing a RSS access key
+  label_missing_feeds_access_key: Missing a Atom access key
   button_show: Show
   text_line_separated: Multiple values allowed (one line for each value).
   setting_mail_handler_body_delimiters: Truncate emails after one of these lines
@@ -929,7 +923,6 @@ uk:
   label_principal_search: "Search for user or group:"
   label_user_search: "Search for user:"
   field_visible: Visible
-  setting_emails_header: Emails header
   setting_commit_logtime_activity_id: Activity for logged time
   text_time_logged_by_changeset: Applied in changeset %{value}.
   setting_commit_logtime_enabled: Enable time logging
@@ -970,8 +963,6 @@ uk:
   text_scm_command: Command
   text_scm_command_version: Version
   label_git_report_last_commit: Report last commit for files and directories
-  text_scm_config: You can configure your scm commands in config/configuration.yml. Please restart the application after editing it.
-  text_scm_command_not_available: Scm command is not available. Please check settings on the administration panel.
   notice_issue_successful_create: Issue %{id} created.
   label_between: between
   setting_issue_group_assignment: Allow issue assignment to groups
@@ -1076,3 +1067,32 @@ uk:
   setting_non_working_week_days: Non-working days
   label_in_the_next_days: in the next
   label_in_the_past_days: in the past
+  label_attribute_of_user: User's %{name}
+  text_turning_multiple_off: If you disable multiple values, multiple values will be
+    removed in order to preserve only one value per item.
+  label_attribute_of_issue: Issue's %{name}
+  permission_add_documents: Add documents
+  permission_edit_documents: Edit documents
+  permission_delete_documents: Delete documents
+  label_gantt_progress_line: Progress line
+  setting_jsonp_enabled: Enable JSONP support
+  field_inherit_members: Inherit members
+  field_closed_on: Closed
+  field_generate_password: Generate password
+  setting_default_projects_tracker_ids: Default trackers for new projects
+  label_total_time: Всього
+  text_scm_config: You can configure your SCM commands in config/configuration.yml. Please restart the application after editing it.
+  text_scm_command_not_available: SCM command is not available. Please check settings on the administration panel.
+  setting_emails_header: Email header
+  notice_account_not_activated_yet: You haven't activated your account yet. If you want
+    to receive a new activation email, please <a href="%{url}">click this link</a>.
+  notice_account_locked: Your account is locked.
+  label_hidden: Hidden
+  label_visibility_private: to me only
+  label_visibility_roles: to these roles only
+  label_visibility_public: to any users
+  field_must_change_passwd: Must change password at next logon
+  notice_new_password_must_be_different: The new password must be different from the
+    current password
+  setting_mail_handler_excluded_filenames: Exclude attachments by name
+  text_convert_available: ImageMagick convert available (optional)

@@ -1,7 +1,7 @@
 # encoding: utf-8
 #
 # Redmine - project management software
-# Copyright (C) 2006-2012  Jean-Philippe Lang
+# Copyright (C) 2006-2013  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -46,7 +46,7 @@ module ProjectsHelper
     end
 
     options = ''
-    options << "<option value=''></option>" if project.allowed_parents.include?(nil)
+    options << "<option value=''>&nbsp;</option>" if project.allowed_parents.include?(nil)
     options << project_tree_options_for_select(project.allowed_parents.compact, :selected => selected)
     content_tag('select', options.html_safe, :name => 'project[parent_id]', :id => 'project_parent_id')
   end
@@ -69,10 +69,11 @@ module ProjectsHelper
       grouped[version.project.name] << [version.name, version.id]
     end
 
+    selected = selected.is_a?(Version) ? selected.id : selected
     if grouped.keys.size > 1
-      grouped_options_for_select(grouped, selected && selected.id)
+      grouped_options_for_select(grouped, selected)
     else
-      options_for_select((grouped.values.first || []), selected && selected.id)
+      options_for_select((grouped.values.first || []), selected)
     end
   end
 

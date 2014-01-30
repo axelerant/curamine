@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2012  Jean-Philippe Lang
+# Copyright (C) 2006-2013  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -28,17 +28,9 @@ module Redmine
       lines = 0
       @truncated = false
       diff_table = DiffTable.new(diff_type, diff_style)
-      diff.each do |line|
-        line_encoding = nil
-        if line.respond_to?(:force_encoding)
-          line_encoding = line.encoding
-          # TODO: UTF-16 and Japanese CP932 which is imcompatible with ASCII
-          #       In Japan, diffrence between file path encoding
-          #       and file contents encoding is popular.
-          line.force_encoding('ASCII-8BIT')
-        end
-        unless diff_table.add_line line
-          line.force_encoding(line_encoding) if line_encoding
+      diff.each do |line_raw|
+        line = Redmine::CodesetUtil.to_utf8_by_setting(line_raw)
+        unless diff_table.add_line(line)
           self << diff_table if diff_table.length > 0
           diff_table = DiffTable.new(diff_type, diff_style)
         end
@@ -83,7 +75,7 @@ module Redmine
           @parsing = true
         end
       else
-        if line =~ /^[^\+\-\s@\\]/
+        if line =~ %r{^[^\+\-\s@\\]}
           @parsing = false
           return false
         elsif line =~ /^@@ (\+|\-)(\d+)(,\d+)? (\+|\-)(\d+)(,\d+)? @@/
@@ -207,9 +199,27 @@ module Redmine
         while starting < max && line_left[starting] == line_right[starting]
           starting += 1
         end
+        if (! "".respond_to?(:force_encoding)) && starting < line_left.size
+          while line_left[starting].ord.between?(128, 191) && starting > 0
+            starting -= 1
+          end
+        end
         ending = -1
-        while ending >= -(max - starting) && line_left[ending] == line_right[ending]
+        while ending >= -(max - starting) && (line_left[ending] == line_right[ending])
           ending -= 1
+        end
+        if (! "".respond_to?(:force_encoding)) && ending > (-1 * line_left.size)
+          while line_left[ending].ord.between?(128, 255) && ending < -1
+            if line_left[ending].ord.between?(128, 191)
+              if line_left[ending + 1].ord.between?(128, 191)
+                ending += 1
+              else
+                break
+              end
+            else
+              ending += 1
+            end
+          end
         end
         unless starting == 0 && ending == -1
           [starting, ending]
@@ -268,6 +278,12 @@ module Redmine
     private
 
     def line_to_html(line, offsets)
+      html = line_to_html_raw(line, offsets)
+      html.force_encoding('UTF-8') if html.respond_to?(:force_encoding)
+      html
+    end
+
+    def line_to_html_raw(line, offsets)
       if offsets
         s = ''
         unless offsets.first == 0

@@ -1,7 +1,7 @@
 # encoding: utf-8
 #
 # Redmine - project management software
-# Copyright (C) 2006-2012  Jean-Philippe Lang
+# Copyright (C) 2006-2013  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -36,7 +36,7 @@ module ContextMenusHelper
 
   def bulk_update_custom_field_context_menu_link(field, text, value)
     context_menu_link h(text),
-      {:controller => 'issues', :action => 'bulk_update', :ids => @issue_ids, :issue => {'custom_field_values' => {field.id => value}}, :back_url => @back},
+      bulk_update_issues_path(:ids => @issue_ids, :issue => {'custom_field_values' => {field.id => value}}, :back_url => @back),
       :method => :post,
       :selected => (@issue && @issue.custom_field_value(field) == value)
   end

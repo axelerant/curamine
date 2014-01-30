@@ -133,6 +133,7 @@ en-GB:
         not_same_project: "doesn't belong to the same project"
         circular_dependency: "This relation would create a circular dependency"
         cant_link_an_issue_with_a_descendant: "An issue cannot be linked to one of its subtasks"
+        earlier_than_minimum_start_date: "cannot be earlier than %{date} because of preceding issues"
 
   actionview_instancetag_blank_option: Please select
 
@@ -151,7 +152,7 @@ en-GB:
   notice_account_invalid_creditentials: Invalid user or password
   notice_account_password_updated: Password was successfully updated.
   notice_account_wrong_password: Wrong password
-  notice_account_register_done: Account was successfully created. To activate your account, click on the link that was emailed to you.
+  notice_account_register_done: Account was successfully created. An email containing the instructions to activate your account was sent to %{email}.
   notice_account_unknown_email: Unknown user.
   notice_can_t_change_password: This account uses an external authentication source. Impossible to change the password.
   notice_account_lost_email_sent: An email with instructions to choose a new password has been sent to you.
@@ -166,7 +167,7 @@ en-GB:
   notice_not_authorized_archived_project: The project you're trying to access has been archived.
   notice_email_sent: "An email was sent to %{value}"
   notice_email_error: "An error occurred while sending mail (%{value})"
-  notice_feeds_access_key_reseted: Your RSS access key was reset.
+  notice_feeds_access_key_reseted: Your Atom access key was reset.
   notice_api_access_key_reseted: Your API access key was reset.
   notice_failed_to_save_issues: "Failed to save %{count} issue(s) on %{total} selected: %{ids}."
   notice_failed_to_save_members: "Failed to save member(s): %{errors}."
@@ -213,8 +214,6 @@ en-GB:
   mail_subject_wiki_content_updated: "'%{id}' wiki page has been updated"
   mail_body_wiki_content_updated: "The '%{id}' wiki page has been updated by %{author}."
 
-  gui_validation_error: 1 error
-  gui_validation_error_plural: "%{count} errors"
 
   field_name: Name
   field_description: Description
@@ -340,8 +339,8 @@ en-GB:
   setting_time_format: Time format
   setting_cross_project_issue_relations: Allow cross-project issue relations
   setting_issue_list_default_columns: Default columns displayed on the issue list
-  setting_emails_header: Emails header
-  setting_emails_footer: Emails footer
+  setting_emails_header: Email header
+  setting_emails_footer: Email footer
   setting_protocol: Protocol
   setting_per_page_options: Objects per page options
   setting_user_format: Users display format
@@ -404,7 +403,6 @@ en-GB:
   permission_edit_own_time_entries: Edit own time logs
   permission_manage_news: Manage news
   permission_comment_news: Comment news
-  permission_manage_documents: Manage documents
   permission_view_documents: View documents
   permission_manage_files: Manage files
   permission_view_files: View files
@@ -531,8 +529,6 @@ en-GB:
   label_text: Long text
   label_attribute: Attribute
   label_attribute_plural: Attributes
-  label_download: "%{count} Download"
-  label_download_plural: "%{count} Downloads"
   label_no_data: No data to display
   label_change_status: Change status
   label_history: History
@@ -637,8 +633,6 @@ en-GB:
   label_repository: Repository
   label_repository_plural: Repositories
   label_browse: Browse
-  label_modification: "%{count} change"
-  label_modification_plural: "%{count} changes"
   label_branch: Branch
   label_tag: Tag
   label_revision: Revision
@@ -734,9 +728,9 @@ en-GB:
   label_language_based: Based on user's language
   label_sort_by: "Sort by %{value}"
   label_send_test_email: Send a test email
-  label_feeds_access_key: RSS access key
-  label_missing_feeds_access_key: Missing a RSS access key
-  label_feeds_access_key_created_on: "RSS access key created %{value} ago"
+  label_feeds_access_key: Atom access key
+  label_missing_feeds_access_key: Missing a Atom access key
+  label_feeds_access_key_created_on: "Atom access key created %{value} ago"
   label_module_plural: Modules
   label_added_time_by: "Added by %{author} %{age} ago"
   label_updated_time_by: "Updated by %{author} %{age} ago"
@@ -881,7 +875,7 @@ en-GB:
   text_tip_issue_begin_day: task beginning this day
   text_tip_issue_end_day: task ending this day
   text_tip_issue_begin_end_day: task beginning and ending this day
-  text_project_identifier_info: 'Only lower case letters (a-z), numbers, dashes and underscores are allowed.<br />Once saved, the identifier cannot be changed.'
+  text_project_identifier_info: 'Only lower case letters (a-z), numbers, dashes and underscores are allowed, must start with a lower case letter.<br />Once saved, the identifier cannot be changed.'
   text_caracters_maximum: "%{count} characters maximum."
   text_caracters_minimum: "Must be at least %{count} characters long."
   text_length_between: "Length between %{min} and %{max} characters."
@@ -979,8 +973,8 @@ en-GB:
   text_scm_command: Command
   text_scm_command_version: Version
   label_git_report_last_commit: Report last commit for files and directories
-  text_scm_config: You can configure your scm commands in config/configuration.yml. Please restart the application after editing it.
-  text_scm_command_not_available: Scm command is not available. Please check settings on the administration panel.
+  text_scm_config: You can configure your SCM commands in config/configuration.yml. Please restart the application after editing it.
+  text_scm_command_not_available: SCM command is not available. Please check settings on the administration panel.
   notice_issue_successful_create: Issue %{id} created.
   label_between: between
   label_diff: diff
@@ -1083,3 +1077,29 @@ en-GB:
   setting_non_working_week_days: Non-working days
   label_in_the_next_days: in the next
   label_in_the_past_days: in the past
+  label_attribute_of_user: User's %{name}
+  text_turning_multiple_off: If you disable multiple values, multiple values will be
+    removed in order to preserve only one value per item.
+  label_attribute_of_issue: Issue's %{name}
+  permission_add_documents: Add documents
+  permission_edit_documents: Edit documents
+  permission_delete_documents: Delete documents
+  label_gantt_progress_line: Progress line
+  setting_jsonp_enabled: Enable JSONP support
+  field_inherit_members: Inherit members
+  field_closed_on: Closed
+  field_generate_password: Generate password
+  setting_default_projects_tracker_ids: Default trackers for new projects
+  label_total_time: Total
+  notice_account_not_activated_yet: You haven't activated your account yet. If you want
+    to receive a new activation email, please <a href="%{url}">click this link</a>.
+  notice_account_locked: Your account is locked.
+  label_hidden: Hidden
+  label_visibility_private: to me only
+  label_visibility_roles: to these roles only
+  label_visibility_public: to any users
+  field_must_change_passwd: Must change password at next logon
+  notice_new_password_must_be_different: The new password must be different from the
+    current password
+  setting_mail_handler_excluded_filenames: Exclude attachments by name
+  text_convert_available: ImageMagick convert available (optional)

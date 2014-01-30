@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2012  Jean-Philippe Lang
+# Copyright (C) 2006-2013  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -16,18 +16,11 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 require File.expand_path('../../test_helper', __FILE__)
-require 'workflows_controller'
-
-# Re-raise errors caught by the controller.
-class WorkflowsController; def rescue_action(e) raise e end; end
 
 class WorkflowsControllerTest < ActionController::TestCase
   fixtures :roles, :trackers, :workflows, :users, :issue_statuses
 
   def setup
-    @controller = WorkflowsController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
     User.current = nil
     @request.session[:user_id] = 1 # admin
   end
@@ -37,7 +30,7 @@ class WorkflowsControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'index'
 
-    count = WorkflowTransition.count(:all, :conditions => 'role_id = 1 AND tracker_id = 2')
+    count = WorkflowTransition.where(:role_id => 1, :tracker_id => 2).count
     assert_tag :tag => 'a', :content => count.to_s,
                             :attributes => { :href => '/workflows/edit?role_id=1&amp;tracker_id=2' }
   end
@@ -102,9 +95,9 @@ class WorkflowsControllerTest < ActionController::TestCase
       }
     assert_redirected_to '/workflows/edit?role_id=2&tracker_id=1'
 
-    assert_equal 3, WorkflowTransition.count(:conditions => {:tracker_id => 1, :role_id => 2})
-    assert_not_nil  WorkflowTransition.find(:first, :conditions => {:role_id => 2, :tracker_id => 1, :old_status_id => 3, :new_status_id => 2})
-    assert_nil      WorkflowTransition.find(:first, :conditions => {:role_id => 2, :tracker_id => 1, :old_status_id => 5, :new_status_id => 4})
+    assert_equal 3, WorkflowTransition.where(:tracker_id => 1, :role_id => 2).count
+    assert_not_nil  WorkflowTransition.where(:role_id => 2, :tracker_id => 1, :old_status_id => 3, :new_status_id => 2).first
+    assert_nil      WorkflowTransition.where(:role_id => 2, :tracker_id => 1, :old_status_id => 5, :new_status_id => 4).first
   end
 
   def test_post_edit_with_additional_transitions
@@ -115,27 +108,27 @@ class WorkflowsControllerTest < ActionController::TestCase
       }
     assert_redirected_to '/workflows/edit?role_id=2&tracker_id=1'
 
-    assert_equal 4, WorkflowTransition.count(:conditions => {:tracker_id => 1, :role_id => 2})
+    assert_equal 4, WorkflowTransition.where(:tracker_id => 1, :role_id => 2).count
 
-    w = WorkflowTransition.find(:first, :conditions => {:role_id => 2, :tracker_id => 1, :old_status_id => 4, :new_status_id => 5})
+    w = WorkflowTransition.where(:role_id => 2, :tracker_id => 1, :old_status_id => 4, :new_status_id => 5).first
     assert ! w.author
     assert ! w.assignee
-    w = WorkflowTransition.find(:first, :conditions => {:role_id => 2, :tracker_id => 1, :old_status_id => 3, :new_status_id => 1})
+    w = WorkflowTransition.where(:role_id => 2, :tracker_id => 1, :old_status_id => 3, :new_status_id => 1).first
     assert w.author
     assert ! w.assignee
-    w = WorkflowTransition.find(:first, :conditions => {:role_id => 2, :tracker_id => 1, :old_status_id => 3, :new_status_id => 2})
+    w = WorkflowTransition.where(:role_id => 2, :tracker_id => 1, :old_status_id => 3, :new_status_id => 2).first
     assert ! w.author
     assert w.assignee
-    w = WorkflowTransition.find(:first, :conditions => {:role_id => 2, :tracker_id => 1, :old_status_id => 3, :new_status_id => 4})
+    w = WorkflowTransition.where(:role_id => 2, :tracker_id => 1, :old_status_id => 3, :new_status_id => 4).first
     assert w.author
     assert w.assignee
   end
 
   def test_clear_workflow
-    assert WorkflowTransition.count(:conditions => {:tracker_id => 1, :role_id => 2}) > 0
+    assert WorkflowTransition.where(:role_id => 1, :tracker_id => 2).count > 0
 
-    post :edit, :role_id => 2, :tracker_id => 1
-    assert_equal 0, WorkflowTransition.count(:conditions => {:tracker_id => 1, :role_id => 2})
+    post :edit, :role_id => 1, :tracker_id => 2
+    assert_equal 0, WorkflowTransition.where(:role_id => 1, :tracker_id => 2).count
   end
 
   def test_get_permissions
@@ -204,6 +197,23 @@ class WorkflowsControllerTest < ActionController::TestCase
       assert_select 'option[value=]'
       assert_select 'option[value=readonly]', :text => 'Read-only'
       assert_select 'option[value=required]', 0
+    end
+  end
+
+  def test_get_permissions_should_disable_hidden_custom_fields
+    cf1 = IssueCustomField.generate!(:tracker_ids => [1], :visible => true)
+    cf2 = IssueCustomField.generate!(:tracker_ids => [1], :visible => false, :role_ids => [1])
+    cf3 = IssueCustomField.generate!(:tracker_ids => [1], :visible => false, :role_ids => [1, 2])
+
+    get :permissions, :role_id => 2, :tracker_id => 1
+    assert_response :success
+    assert_template 'permissions'
+
+    assert_select 'select[name=?]:not(.disabled)', "permissions[#{cf1.id}][1]"
+    assert_select 'select[name=?]:not(.disabled)', "permissions[#{cf3.id}][1]"
+
+    assert_select 'select[name=?][disabled=disabled]', "permissions[#{cf2.id}][1]" do
+      assert_select 'option[value=][selected=selected]', :text => 'Hidden'
     end
   end
 
@@ -304,9 +314,32 @@ class WorkflowsControllerTest < ActionController::TestCase
     assert_equal source_t3, status_transitions(:tracker_id => 3, :role_id => 3)
   end
 
+  def test_post_copy_with_incomplete_source_specification_should_fail
+    assert_no_difference 'WorkflowRule.count' do
+      post :copy,
+        :source_tracker_id => '', :source_role_id => '2',
+        :target_tracker_ids => ['2', '3'], :target_role_ids => ['1', '3']
+      assert_response 200
+      assert_select 'div.flash.error', :text => 'Please select a source tracker or role' 
+    end
+  end
+
+  def test_post_copy_with_incomplete_target_specification_should_fail
+    assert_no_difference 'WorkflowRule.count' do
+      post :copy,
+        :source_tracker_id => '1', :source_role_id => '2',
+        :target_tracker_ids => ['2', '3']
+      assert_response 200
+      assert_select 'div.flash.error', :text => 'Please select target tracker(s) and role(s)'
+    end
+  end
+
   # Returns an array of status transitions that can be compared
   def status_transitions(conditions)
-    WorkflowTransition.find(:all, :conditions => conditions,
-                        :order => 'tracker_id, role_id, old_status_id, new_status_id').collect {|w| [w.old_status, w.new_status_id]}
+    WorkflowTransition.
+      where(conditions).
+      order('tracker_id, role_id, old_status_id, new_status_id').
+      all.
+      collect {|w| [w.old_status, w.new_status_id]}
   end
 end

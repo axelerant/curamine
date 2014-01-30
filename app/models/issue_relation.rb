@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2012  Jean-Philippe Lang
+# Copyright (C) 2006-2013  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -15,21 +15,21 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-# Class used to represent the relations of an issue
-class IssueRelations < Array
-  include Redmine::I18n
-
-  def initialize(issue, *args)
-    @issue = issue
-    super(*args)
-  end
-
-  def to_s(*args)
-    map {|relation| "#{l(relation.label_for(@issue))} ##{relation.other_issue(@issue).id}"}.join(', ')
-  end
-end
-
 class IssueRelation < ActiveRecord::Base
+  # Class used to represent the relations of an issue
+  class Relations < Array
+    include Redmine::I18n
+
+    def initialize(issue, *args)
+      @issue = issue
+      super(*args)
+    end
+
+    def to_s(*args)
+      map {|relation| "#{l(relation.label_for(@issue))} ##{relation.other_issue(@issue).id}"}.join(', ')
+    end
+  end
+
   belongs_to :issue_from, :class_name => 'Issue', :foreign_key => 'issue_from_id'
   belongs_to :issue_to, :class_name => 'Issue', :foreign_key => 'issue_to_id'
 
@@ -72,6 +72,8 @@ class IssueRelation < ActiveRecord::Base
 
   attr_protected :issue_from_id, :issue_to_id
   before_save :handle_issue_order
+  after_create  :create_journal_after_create
+  after_destroy :create_journal_after_delete
 
   def visible?(user=User.current)
     (issue_from.nil? || issue_from.visible?(user)) && (issue_to.nil? || issue_to.visible?(user))
@@ -178,5 +180,31 @@ class IssueRelation < ActiveRecord::Base
       self.issue_from = issue_tmp
       self.relation_type = TYPES[relation_type][:reverse]
     end
+  end
+
+  def create_journal_after_create
+    journal = issue_from.init_journal(User.current)
+    journal.details << JournalDetail.new(:property => 'relation',
+                                         :prop_key => label_for(issue_from).to_s,
+                                         :value    => issue_to.id)
+    journal.save
+    journal = issue_to.init_journal(User.current)
+    journal.details << JournalDetail.new(:property => 'relation',
+                                         :prop_key => label_for(issue_to).to_s,
+                                         :value    => issue_from.id)
+    journal.save
+  end
+
+  def create_journal_after_delete
+    journal = issue_from.init_journal(User.current)
+    journal.details << JournalDetail.new(:property  => 'relation',
+                                         :prop_key  => label_for(issue_from).to_s,
+                                         :old_value => issue_to.id)
+    journal.save
+    journal = issue_to.init_journal(User.current)
+    journal.details << JournalDetail.new(:property  => 'relation',
+                                         :prop_key  => label_for(issue_to).to_s,
+                                         :old_value => issue_from.id)
+    journal.save
   end
 end

@@ -1,7 +1,7 @@
 # encoding: utf-8
 #
 # Redmine - project management software
-# Copyright (C) 2006-2012  Jean-Philippe Lang
+# Copyright (C) 2006-2013  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,11 +17,14 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require 'iconv'
 require 'tcpdf'
 require 'fpdf/chinese'
 require 'fpdf/japanese'
 require 'fpdf/korean'
+
+if RUBY_VERSION < '1.9'
+  require 'iconv'
+end
 
 module Redmine
   module Export
@@ -86,7 +89,7 @@ module Redmine
 
         def SetTitle(txt)
           txt = begin
-            utf16txt = Iconv.conv('UTF-16BE', 'UTF-8', txt)
+            utf16txt = to_utf16(txt)
             hextxt = "<FEFF"  # FEFF is BOM
             hextxt << utf16txt.unpack("C*").map {|x| sprintf("%02X",x) }.join
             hextxt << ">"
@@ -114,6 +117,15 @@ module Redmine
           # Strip {{toc}} tags
           html.gsub!(/<p>\{\{([<>]?)toc\}\}<\/p>/i, '')
           html
+        end
+
+        # Encodes an UTF-8 string to UTF-16BE
+        def to_utf16(str)
+          if str.respond_to?(:encode)
+            str.encode('UTF-16BE')
+          else
+            Iconv.conv('UTF-16BE', 'UTF-8', str)
+          end
         end
 
         def RDMCell(w ,h=0, txt='', border=0, ln=0, align='', fill=0, link='')
@@ -160,7 +172,7 @@ module Redmine
 
         def bookmark_title(txt)
           txt = begin
-            utf16txt = Iconv.conv('UTF-16BE', 'UTF-8', txt)
+            utf16txt = to_utf16(txt)
             hextxt = "<FEFF"  # FEFF is BOM
             hextxt << utf16txt.unpack("C*").map {|x| sprintf("%02X",x) }.join
             hextxt << ">"
@@ -244,7 +256,7 @@ module Redmine
       def fetch_row_values(issue, query, level)
         query.inline_columns.collect do |column|
           s = if column.is_a?(QueryCustomFieldColumn)
-            cv = issue.custom_field_values.detect {|v| v.custom_field_id == column.custom_field.id}
+            cv = issue.visible_custom_field_values.detect {|v| v.custom_field_id == column.custom_field.id}
             show_value(cv)
           else
             value = issue.send(column.name)
@@ -302,11 +314,11 @@ module Redmine
         col_width_avg.map! {|x| x / k}
 
         # calculate columns width
-        ratio = table_width / col_width_avg.inject(0) {|s,w| s += w}
+        ratio = table_width / col_width_avg.inject(0, :+)
         col_width = col_width_avg.map {|w| w * ratio}
 
         # correct max word width if too many columns
-        ratio = table_width / word_width_max.inject(0) {|s,w| s += w}
+        ratio = table_width / word_width_max.inject(0, :+)
         word_width_max.map! {|v| v * ratio} if ratio < 1
 
         # correct and lock width of some columns
@@ -342,7 +354,7 @@ module Redmine
 
           # calculate column normalizing ratio
           if free_col_width == 0
-            ratio = table_width / col_width.inject(0) {|s,w| s += w}
+            ratio = table_width / col_width.inject(0, :+)
           else
             ratio = (table_width - fix_col_width) / free_col_width
           end
@@ -368,7 +380,7 @@ module Redmine
         col_width
       end
 
-      def render_table_header(pdf, query, col_width, row_height, col_id_width, table_width)
+      def render_table_header(pdf, query, col_width, row_height, table_width)
         # headers
         pdf.SetFontStyle('B',8)
         pdf.SetFillColor(230, 230, 230)
@@ -377,13 +389,12 @@ module Redmine
         base_x = pdf.GetX
         base_y = pdf.GetY
         max_height = issues_to_pdf_write_cells(pdf, query.inline_columns, col_width, row_height, true)
-        pdf.Rect(base_x, base_y, table_width + col_id_width, max_height, 'FD');
+        pdf.Rect(base_x, base_y, table_width, max_height, 'FD');
         pdf.SetXY(base_x, base_y);
 
         # write the cells on page
-        pdf.RDMCell(col_id_width, row_height, "#", "T", 0, 'C', 1)
         issues_to_pdf_write_cells(pdf, query.inline_columns, col_width, row_height, true)
-        issues_to_pdf_draw_borders(pdf, base_x, base_y, base_y + max_height, col_id_width, col_width)
+        issues_to_pdf_draw_borders(pdf, base_x, base_y, base_y + max_height, 0, col_width)
         pdf.SetY(base_y + max_height);
 
         # rows
@@ -405,30 +416,30 @@ module Redmine
         # Landscape A4 = 210 x 297 mm
         page_height   = 210
         page_width    = 297
+        left_margin   = 10
         right_margin  = 10
         bottom_margin = 20
-        col_id_width  = 10
         row_height    = 4
 
         # column widths
-        table_width = page_width - right_margin - 10  # fixed left margin
+        table_width = page_width - right_margin - left_margin
         col_width = []
         unless query.inline_columns.empty?
-          col_width = calc_col_width(issues, query, table_width - col_id_width, pdf)
-          table_width = col_width.inject(0) {|s,v| s += v}
+          col_width = calc_col_width(issues, query, table_width, pdf)
+          table_width = col_width.inject(0, :+)
         end
 
-				# use full width if the description is displayed
+        # use full width if the description is displayed
         if table_width > 0 && query.has_column?(:description)
-          col_width = col_width.map {|w| w = w * (page_width - right_margin - 10 - col_id_width) / table_width}
-          table_width = col_width.inject(0) {|s,v| s += v}
+          col_width = col_width.map {|w| w * (page_width - right_margin - left_margin) / table_width}
+          table_width = col_width.inject(0, :+)
         end
 
         # title
         pdf.SetFontStyle('B',11)
         pdf.RDMCell(190,10, title)
         pdf.Ln
-        render_table_header(pdf, query, col_width, row_height, col_id_width, table_width)
+        render_table_header(pdf, query, col_width, row_height, table_width)
         previous_group = false
         issue_list(issues) do |issue, level|
           if query.grouped? &&
@@ -437,7 +448,7 @@ module Redmine
             group_label = group.blank? ? 'None' : group.to_s.dup
             group_label << " (#{query.issue_count_by_group[group]})"
             pdf.Bookmark group_label, 0, -1
-            pdf.RDMCell(table_width + col_id_width, row_height * 2, group_label, 1, 1, 'L')
+            pdf.RDMCell(table_width, row_height * 2, group_label, 1, 1, 'L')
             pdf.SetFontStyle('',8)
             previous_group = group
           end
@@ -456,15 +467,14 @@ module Redmine
           space_left = page_height - base_y - bottom_margin
           if max_height > space_left
             pdf.AddPage("L")
-            render_table_header(pdf, query, col_width, row_height, col_id_width, table_width)
+            render_table_header(pdf, query, col_width, row_height, table_width)
             base_x = pdf.GetX
             base_y = pdf.GetY
           end
 
           # write the cells on page
-          pdf.RDMCell(col_id_width, row_height, issue.id.to_s, "T", 0, 'C', 1)
           issues_to_pdf_write_cells(pdf, col_values, col_width, row_height)
-          issues_to_pdf_draw_borders(pdf, base_x, base_y, base_y + max_height, col_id_width, col_width)
+          issues_to_pdf_draw_borders(pdf, base_x, base_y, base_y + max_height, 0, col_width)
           pdf.SetY(base_y + max_height);
 
           if query.has_column?(:description) && issue.description?
@@ -483,8 +493,7 @@ module Redmine
       end
 
       # Renders MultiCells and returns the maximum height used
-      def issues_to_pdf_write_cells(pdf, col_values, col_widths,
-                                    row_height, head=false)
+      def issues_to_pdf_write_cells(pdf, col_values, col_widths, row_height, head=false)
         base_y = pdf.GetY
         max_height = row_height
         col_values.each_with_index do |column, i|
@@ -501,9 +510,11 @@ module Redmine
       end
 
       # Draw lines to close the row (MultiCell border drawing in not uniform)
+      #
+      #  parameter "col_id_width" is not used. it is kept for compatibility.
       def issues_to_pdf_draw_borders(pdf, top_x, top_y, lower_y,
-                                     id_width, col_widths)
-        col_x = top_x + id_width
+                                     col_id_width, col_widths)
+        col_x = top_x
         pdf.Line(col_x, top_y, col_x, lower_y)    # id right border
         col_widths.each do |width|
           col_x += width
@@ -560,8 +571,8 @@ module Redmine
           right << nil
         end
 
-        half = (issue.custom_field_values.size / 2.0).ceil
-        issue.custom_field_values.each_with_index do |custom_value, i|
+        half = (issue.visible_custom_field_values.size / 2.0).ceil
+        issue.visible_custom_field_values.each_with_index do |custom_value, i|
           (i < half ? left : right) << [custom_value.custom_field.name, show_value(custom_value)]
         end
 
@@ -672,7 +683,7 @@ module Redmine
             pdf.RDMCell(190,5, title)
             pdf.Ln
             pdf.SetFontStyle('I',8)
-            details_to_strings(journal.details, true).each do |string|
+            details_to_strings(journal.visible_details, true).each do |string|
               pdf.RDMMultiCell(190,5, "- " + string)
             end
             if journal.notes?

@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2012  Jean-Philippe Lang
+# Copyright (C) 2006-2013  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -62,8 +62,8 @@ class WorkflowRule < ActiveRecord::Base
     else
       transaction do
         delete_all :tracker_id => target_tracker.id, :role_id => target_role.id
-        connection.insert "INSERT INTO #{WorkflowRule.table_name} (tracker_id, role_id, old_status_id, new_status_id, author, assignee, field_name, rule, type)" +
-                          " SELECT #{target_tracker.id}, #{target_role.id}, old_status_id, new_status_id, author, assignee, field_name, rule, type" +
+        connection.insert "INSERT INTO #{WorkflowRule.table_name} (tracker_id, role_id, old_status_id, new_status_id, author, assignee, field_name, #{connection.quote_column_name 'rule'}, type)" +
+                          " SELECT #{target_tracker.id}, #{target_role.id}, old_status_id, new_status_id, author, assignee, field_name, #{connection.quote_column_name 'rule'}, type" +
                           " FROM #{WorkflowRule.table_name}" +
                           " WHERE tracker_id = #{source_tracker.id} AND role_id = #{source_role.id}"
       end

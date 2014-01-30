@@ -67,8 +67,8 @@ et:
         one:   "umbes tund"
         other: "umbes %{count} tundi"
       x_hours:
-        one:   "1 hour"
-        other: "%{count} hours"
+        one:   "1 tund"
+        other: "%{count} tundi"
       x_days:
         one:   "1 päev"
         other: "%{count} päeva"
@@ -146,6 +146,7 @@ et:
         not_same_project: "ei kuulu sama projekti juurde"
         circular_dependency: "See suhe looks vastastikuse sõltuvuse"
         cant_link_an_issue_with_a_descendant: "Teemat ei saa sidustada tema enda alamteemaga"
+        earlier_than_minimum_start_date: "cannot be earlier than %{date} because of preceding issues"
 
   actionview_instancetag_blank_option: "Palun vali"
 
@@ -179,7 +180,7 @@ et:
   notice_not_authorized_archived_project: "See projekt on arhiveeritud."
   notice_email_sent: "%{value}-le saadeti kiri"
   notice_email_error: "Kirja saatmisel tekkis viga (%{value})"
-  notice_feeds_access_key_reseted: "Sinu RSS juurdepääsuvõti nulliti."
+  notice_feeds_access_key_reseted: "Sinu Atom juurdepääsuvõti nulliti."
   notice_api_access_key_reseted: "Sinu API juurdepääsuvõti nulliti."
   notice_failed_to_save_issues: "%{count} teemat %{total}-st ei õnnestunud salvestada: %{ids}."
   notice_failed_to_save_time_entries: "%{count} ajakulu kannet %{total}-st ei õnnestunud salvestada: %{ids}."
@@ -231,8 +232,6 @@ et:
   mail_subject_wiki_content_updated: "Uuendati '%{id}' vikilehte"
   mail_body_wiki_content_updated: "'%{id}' vikilehte uuendati %{author} poolt."
 
-  gui_validation_error: "1 viga"
-  gui_validation_error_plural: "%{count} viga"
 
   field_name: "Nimi"
   field_description: "Kirjeldus"
@@ -438,7 +437,6 @@ et:
   permission_edit_own_time_entries: "Omi ajakulu kandeid muuta"
   permission_manage_news: "Uudiseid hallata"
   permission_comment_news: "Uudiseid kommenteerida"
-  permission_manage_documents: "Dokumente hallata"
   permission_view_documents: "Dokumente näha"
   permission_manage_files: "Faile hallata"
   permission_view_files: "Faile näha"
@@ -569,8 +567,6 @@ et:
   label_text: "Pikk tekst"
   label_attribute: "Atribuut"
   label_attribute_plural: "Atribuudid"
-  label_download: "%{count} allalaadimine"
-  label_download_plural: "%{count} allalaadimist"
   label_no_data: "Pole"
   label_change_status: "Muuda olekut"
   label_history: "Ajalugu"
@@ -681,8 +677,6 @@ et:
   label_repository_new: "Uus hoidla"
   label_repository_plural: "Hoidlad"
   label_browse: "Sirvi"
-  label_modification: "%{count} muudatus"
-  label_modification_plural: "%{count} muudatust"
   label_branch: "Haru"
   label_tag: "Sildiga"
   label_revision: "Sissekanne"
@@ -779,9 +773,9 @@ et:
   label_language_based: "Kasutaja keele põhjal"
   label_sort_by: "Sorteeri %{value} järgi"
   label_send_test_email: "Saada kontrollkiri"
-  label_feeds_access_key: "RSS juurdepääsuvõti"
-  label_missing_feeds_access_key: "RSS juurdepääsuvõti on puudu"
-  label_feeds_access_key_created_on: "RSS juurdepääsuvõti loodi %{value} tagasi"
+  label_feeds_access_key: "Atom juurdepääsuvõti"
+  label_missing_feeds_access_key: "Atom juurdepääsuvõti on puudu"
+  label_feeds_access_key_created_on: "Atom juurdepääsuvõti loodi %{value} tagasi"
   label_module_plural: "Moodulid"
   label_added_time_by: "Lisatud %{author} poolt %{age} tagasi"
   label_updated_time_by: "Uuendatud %{author} poolt %{age} tagasi"
@@ -1094,3 +1088,29 @@ et:
   setting_non_working_week_days: Non-working days
   label_in_the_next_days: in the next
   label_in_the_past_days: in the past
+  label_attribute_of_user: User's %{name}
+  text_turning_multiple_off: If you disable multiple values, multiple values will be
+    removed in order to preserve only one value per item.
+  label_attribute_of_issue: Issue's %{name}
+  permission_add_documents: Add documents
+  permission_edit_documents: Edit documents
+  permission_delete_documents: Delete documents
+  label_gantt_progress_line: Progress line
+  setting_jsonp_enabled: Enable JSONP support
+  field_inherit_members: Inherit members
+  field_closed_on: Closed
+  field_generate_password: Generate password
+  setting_default_projects_tracker_ids: Default trackers for new projects
+  label_total_time: "Kokku"
+  notice_account_not_activated_yet: You haven't activated your account yet. If you want
+    to receive a new activation email, please <a href="%{url}">click this link</a>.
+  notice_account_locked: Your account is locked.
+  label_hidden: Hidden
+  label_visibility_private: to me only
+  label_visibility_roles: to these roles only
+  label_visibility_public: to any users
+  field_must_change_passwd: Must change password at next logon
+  notice_new_password_must_be_different: The new password must be different from the
+    current password
+  setting_mail_handler_excluded_filenames: Exclude attachments by name
+  text_convert_available: ImageMagick convert available (optional)

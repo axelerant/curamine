@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2012  Jean-Philippe Lang
+# Copyright (C) 2006-2013  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -19,6 +19,7 @@ class MessagesController < ApplicationController
   menu_item :boards
   default_search_scope :messages
   before_filter :find_board, :only => [:new, :preview]
+  before_filter :find_attachments, :only => [:preview]
   before_filter :find_message, :except => [:new, :preview]
   before_filter :authorize, :except => [:preview, :edit, :destroy]
 
@@ -34,16 +35,18 @@ class MessagesController < ApplicationController
     page = params[:page]
     # Find the page of the requested reply
     if params[:r] && page.nil?
-      offset = @topic.children.count(:conditions => ["#{Message.table_name}.id < ?", params[:r].to_i])
+      offset = @topic.children.where("#{Message.table_name}.id < ?", params[:r].to_i).count
       page = 1 + offset / REPLIES_PER_PAGE
     end
 
     @reply_count = @topic.children.count
-    @reply_pages = Paginator.new self, @reply_count, REPLIES_PER_PAGE, page
-    @replies =  @topic.children.find(:all, :include => [:author, :attachments, {:board => :project}],
-                                           :order => "#{Message.table_name}.created_on ASC",
-                                           :limit => @reply_pages.items_per_page,
-                                           :offset => @reply_pages.current.offset)
+    @reply_pages = Paginator.new @reply_count, REPLIES_PER_PAGE, page
+    @replies =  @topic.children.
+      includes(:author, :attachments, {:board => :project}).
+      reorder("#{Message.table_name}.created_on ASC").
+      limit(@reply_pages.per_page).
+      offset(@reply_pages.offset).
+      all
 
     @reply = Message.new(:subject => "RE: #{@message.subject}")
     render :action => "show", :layout => false if request.xhr?
@@ -115,7 +118,6 @@ class MessagesController < ApplicationController
 
   def preview
     message = @board.messages.find_by_id(params[:id])
-    @attachements = message.attachments if message
     @text = (params[:message] || params[:reply])[:content]
     @previewed = message
     render :partial => 'common/preview'
@@ -123,7 +125,7 @@ class MessagesController < ApplicationController
 
 private
   def find_message
-    find_board
+    return unless find_board
     @message = @board.messages.find(params[:id], :include => :parent)
     @topic = @message.root
   rescue ActiveRecord::RecordNotFound
@@ -135,5 +137,6 @@ private
     @project = @board.project
   rescue ActiveRecord::RecordNotFound
     render_404
+    nil
   end
 end

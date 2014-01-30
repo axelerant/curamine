@@ -117,8 +117,10 @@ ru:
         many:  "около %{count} часов"
         other: "около %{count} часа"
       x_hours:
-        one:   "1 час"
-        other: "%{count} часов"
+        one:   "%{count} час"
+        few:   "%{count} часа"
+        many:  "%{count} часов"
+        other: "%{count} часа"
       x_days:
         one:   "%{count} день"
         few:   "%{count} дня"
@@ -145,7 +147,7 @@ ru:
         many:  "больше %{count} лет"
         other: "больше %{count} лет"
       almost_x_years:
-        one:   "почти 1 год"
+        one:   "почти %{count} год"
         few:   "почти %{count} года"
         many:  "почти %{count} лет"
         other: "почти %{count} года"
@@ -204,6 +206,7 @@ ru:
         not_same_project: "не относится к одному проекту"
         circular_dependency: "Такая связь приведет к циклической зависимости"
         cant_link_an_issue_with_a_descendant: "Задача не может быть связана со своей подзадачей"
+        earlier_than_minimum_start_date: "cannot be earlier than %{date} because of preceding issues"
 
   support:
     array:
@@ -399,11 +402,6 @@ ru:
   general_text_yes: 'да'
   general_text_Yes: 'Да'
 
-  gui_validation_error: 1 ошибка
-  gui_validation_error_plural: "%{count} ошибок"
-  gui_validation_error_plural2: "%{count} ошибки"
-  gui_validation_error_plural5: "%{count} ошибок"
-
   label_activity: Действия
   label_add_another_file: Добавить ещё один файл
   label_added_time_by: "Добавил(а) %{author} %{age} назад"
@@ -490,10 +488,6 @@ ru:
   label_document_added: Добавлен документ
   label_document_new: Новый документ
   label_document_plural: Документы
-  label_download: "%{count} загрузка"
-  label_download_plural: "%{count} скачиваний"
-  label_download_plural2: "%{count} загрузки"
-  label_download_plural5: "%{count} загрузок"
   label_downloads_abbr: Скачиваний
   label_duplicated_by: дублируется
   label_duplicates: дублирует
@@ -505,8 +499,8 @@ ru:
   label_equals: соответствует
   label_example: Пример
   label_export_to: Экспортировать в
-  label_feed_plural: RSS
-  label_feeds_access_key_created_on: "Ключ доступа RSS создан %{value} назад"
+  label_feed_plural: Atom
+  label_feeds_access_key_created_on: "Ключ доступа Atom создан %{value} назад"
   label_f_hour: "%{value} час"
   label_f_hour_plural: "%{value} часов"
   label_file_added: Добавлен файл
@@ -575,10 +569,6 @@ ru:
   label_message_posted: Добавлено сообщение
   label_me: мне
   label_min_max_length: Минимальная - максимальная длина
-  label_modification: "%{count} изменение"
-  label_modification_plural: "%{count} изменений"
-  label_modification_plural2: "%{count} изменения"
-  label_modification_plural5: "%{count} изменений"
   label_modified: изменено
   label_module_plural: Модули
   label_months_from: месяцев(ца) с
@@ -728,31 +718,31 @@ ru:
   label_workflow: Последовательность действий
   label_x_closed_issues_abbr:
     zero:  "0 закрыто"
-    one:   "1 закрыт"
+    one:   "%{count} закрыта"
     few:   "%{count} закрыто"
     many:  "%{count} закрыто"
     other: "%{count} закрыто"
   label_x_comments:
     zero:  "нет комментариев"
-    one:   "1 комментарий"
+    one:   "%{count} комментарий"
     few:   "%{count} комментария"
     many:  "%{count} комментариев"
     other: "%{count} комментариев"
   label_x_open_issues_abbr:
     zero:  "0 открыто"
-    one:   "1 открыт"
+    one:   "%{count} открыта"
     few:   "%{count} открыто"
     many:  "%{count} открыто"
     other: "%{count} открыто"
   label_x_open_issues_abbr_on_total:
     zero:  "0 открыто / %{total}"
-    one:   "1 открыт / %{total}"
+    one:   "%{count} открыта / %{total}"
     few:   "%{count} открыто / %{total}"
     many:  "%{count} открыто / %{total}"
     other: "%{count} открыто / %{total}"
   label_x_projects:
     zero:  "нет проектов"
-    one:   "1 проект"
+    one:   "%{count} проект"
     few:   "%{count} проекта"
     many:  "%{count} проектов"
     other: "%{count} проектов"
@@ -785,7 +775,7 @@ ru:
   notice_email_sent: "Отправлено письмо %{value}"
   notice_failed_to_save_issues: "Не удалось сохранить %{count} пункт(ов) из %{total} выбранных: %{ids}."
   notice_failed_to_save_members: "Не удалось сохранить участника(ов): %{errors}."
-  notice_feeds_access_key_reseted: Ваш ключ доступа RSS был сброшен.
+  notice_feeds_access_key_reseted: Ваш ключ доступа Atom был сброшен.
   notice_file_not_found: Страница, на которую Вы пытаетесь зайти, не существует или удалена.
   notice_locking_conflict: Информация обновлена другим пользователем.
   notice_no_issue_selected: "Не выбрано ни одной задачи! Пожалуйста, отметьте задачи, которые Вы хотите отредактировать."
@@ -824,7 +814,6 @@ ru:
   permission_manage_project_activities: Управление типами действий для проекта
   permission_manage_boards: Управление форумами
   permission_manage_categories: Управление категориями задач
-  permission_manage_documents: Управление документами
   permission_manage_files: Управление файлами
   permission_manage_issue_relations: Управление связыванием задач
   permission_manage_members: Управление участниками
@@ -878,7 +867,7 @@ ru:
   setting_display_subprojects_issues: Отображение подпроектов по умолчанию
   setting_emails_footer: Подстрочные примечания письма
   setting_enabled_scm: Включённые SCM
-  setting_feeds_limit: Ограничение количества заголовков для RSS потока
+  setting_feeds_limit: Ограничение количества заголовков для Atom потока
   setting_file_max_size_displayed: Максимальный размер текстового файла для отображения
   setting_gravatar_enabled: Использовать аватар пользователя из Gravatar
   setting_host_name: Имя компьютера
@@ -919,7 +908,7 @@ ru:
   text_email_delivery_not_configured: "Параметры работы с почтовым сервером не настроены и функция уведомления по email не активна.\nНастроить параметры для Вашего SMTP-сервера Вы можете в файле config/configuration.yml. Для применения изменений перезапустите приложение."
   text_enumeration_category_reassign_to: 'Назначить им следующее значение:'
   text_enumeration_destroy_question: "%{count} объект(а,ов) связаны с этим значением."
-  text_file_repository_writable: Хранилище с доступом на запись
+  text_file_repository_writable: Хранилище файлов доступно для записи
   text_issue_added: "Создана новая задача %{id} (%{author})."
   text_issue_category_destroy_assignments: Удалить назначения категории
   text_issue_category_destroy_question: "Несколько задач (%{count}) назначено в данную категорию. Что Вы хотите предпринять?"
@@ -934,7 +923,7 @@ ru:
   text_load_default_configuration: Загрузить конфигурацию по умолчанию
   text_min_max_length_info: 0 означает отсутствие ограничений
   text_no_configuration_data: "Роли, трекеры, статусы задач и оперативный план не были сконфигурированы.\nНастоятельно рекомендуется загрузить конфигурацию по-умолчанию. Вы сможете её изменить потом."
-  text_plugin_assets_writable: Каталог модулей доступен для записи
+  text_plugin_assets_writable: Каталог ресурсов модулей доступен для записи
   text_project_destroy_confirmation: Вы настаиваете на удалении данного проекта и всей относящейся к нему информации?
   text_reassign_time_entries: 'Перенести зарегистрированное время на следующую задачу:'
   text_regexp_info: "например: ^[A-Z0-9]+$"
@@ -1017,12 +1006,12 @@ ru:
   permission_view_issues: Просмотр задач
   label_display_used_statuses_only: Отображать только те статусы, которые используются в этом трекере
   label_api_access_key_created_on: Ключ доступ к API был создан %{value} назад
-  label_feeds_access_key: Ключ доступа к RSS
+  label_feeds_access_key: Ключ доступа к Atom
   notice_api_access_key_reseted: Ваш ключ доступа к API был сброшен.
   setting_rest_api_enabled: Включить веб-сервис REST
   button_show: Показать
   label_missing_api_access_key: Отсутствует ключ доступа к API
-  label_missing_feeds_access_key: Отсутствует ключ доступа к RSS
+  label_missing_feeds_access_key: Отсутствует ключ доступа к Atom
   setting_mail_handler_body_delimiters: Урезать письмо после одной из этих строк
   permission_add_subprojects: Создание подпроектов
   label_subproject_new: Новый подпроект
@@ -1092,17 +1081,17 @@ ru:
   label_between: между
   setting_issue_group_assignment: Разрешить назначение задач группам пользователей
   label_diff: Разница(diff)
-  text_git_repository_note: Repository is bare and local (e.g. /gitrepo, c:\gitrepo)
+  text_git_repository_note: Хранилище пустое и локальное (т.е. /gitrepo, c:\gitrepo)
   description_query_sort_criteria_direction: Порядок сортировки
-  description_project_scope: Search scope
+  description_project_scope: Область поиска
   description_filter: Фильтр
-  description_user_mail_notification: Mail notification settings
-  description_date_from: Enter start date
-  description_message_content: Message content
-  description_available_columns: Available Columns
-  description_date_range_interval: Choose range by selecting start and end date
-  description_issue_category_reassign: Choose issue category
-  description_search: Searchfield
+  description_user_mail_notification: Настройки почтовых оповещений
+  description_date_from: Введите дату начала
+  description_message_content: Содержание сообщения
+  description_available_columns: Доступные столбцы
+  description_date_range_interval: Выберите диапазон, установив дату начала и дату окончания
+  description_issue_category_reassign: Выберите категорию задачи
+  description_search: Поле поиска
   description_notes: Примечания
   description_date_range_list: Выберите диапазон из списка
   description_choose_project: Проекты
@@ -1122,11 +1111,10 @@ ru:
   error_attachment_too_big: Этот файл нельзя загрузить из-за превышения максимального размера файла (%{max_size})
   notice_failed_to_save_time_entries: "Невозможно сохранить %{count} затраченное время для %{total} выбранных: %{ids}."
   label_x_issues:
-    zero:  0 Задач
-    one:   1 Задача
-    few:   "%{count} Задач"
-    many:  "%{count} Задач"
-    other: "%{count} Задач"
+    one:   "%{count} задача"
+    few:   "%{count} задачи"
+    many:  "%{count} задач"
+    other: "%{count} Задачи"
   label_repository_new: Новое хранилище
   field_repository_is_default: Хранилище по умолчанию
   label_copy_attachments: Копировать вложения
@@ -1142,14 +1130,14 @@ ru:
   permission_manage_related_issues: Управление связанными задачами
   field_auth_source_ldap_filter: Фильтр LDAP
   label_search_for_watchers: Найти наблюдателей
-  notice_account_deleted: "Ваша учетная запись полностью удалена" 
-  setting_unsubscribe: "Разрешить пользователям удалять свои учетные записи" 
-  button_delete_my_account: "Удалить мою учетную запись" 
-  text_account_destroy_confirmation: "Ваша учетная запись будет полностью удалена без возможности восстановления.\nВы уверены, что хотите продолжить?" 
+  notice_account_deleted: "Ваша учетная запись полностью удалена"
+  setting_unsubscribe: "Разрешить пользователям удалять свои учетные записи"
+  button_delete_my_account: "Удалить мою учетную запись"
+  text_account_destroy_confirmation: "Ваша учетная запись будет полностью удалена без возможности восстановления.\nВы уверены, что хотите продолжить?"
   error_session_expired: Срок вашей сессии истек. Пожалуйста войдите еще раз
   text_session_expiration_settings: "Внимание! Изменение этих настроек может привести к завершению текущих сессий, включая вашу."
   setting_session_lifetime: Максимальная продолжительность сессии
-  setting_session_timeout: Таймут сессии 
+  setting_session_timeout: Таймаут сессии
   label_session_expiration: Срок истечения сессии
   permission_close_project: Закрывать / открывать проекты
   label_show_closed_projects: Просматривать закрытые проекты
@@ -1158,7 +1146,7 @@ ru:
   project_status_active: открытые
   project_status_closed: закрытые
   project_status_archived: архивированные
-  text_project_closed: Проект закрыт и находиться в режиме только для чтения.
+  text_project_closed: Проект закрыт и находится в режиме только для чтения.
   notice_user_successful_create: Пользователь %{id} создан.
   field_core_fields: Стандартные поля
   field_timeout: Таймаут (в секундах)
@@ -1184,13 +1172,41 @@ ru:
   permission_set_notes_private: Размещение приватных комментариев
   label_no_issues_in_project: нет задач в проекте
   label_any: все
-  label_last_n_weeks: последние %{count} недель
+  label_last_n_weeks:
+    one:   "последняя %{count} неделя"
+    few:   "последние %{count} недели"
+    many:  "последние %{count} недель"
+    other: "последние %{count} недели"
   setting_cross_project_subtasks: Разрешить подзадачи в между проектами
   label_cross_project_descendants: С подпроектами
   label_cross_project_tree: С деревом проектов
   label_cross_project_hierarchy: С иерархией проектов
   label_cross_project_system: Со всеми проектами
   button_hide: Скрыть
-  setting_non_working_week_days: Не рабочие дни
+  setting_non_working_week_days: Нерабочие дни
   label_in_the_next_days: в средующие дни
   label_in_the_past_days: в прошлые дни
+  label_attribute_of_user: Пользователь %{name}
+  text_turning_multiple_off: Если отключить множественные значения, лишние значения из списка будут удалены, чтобы осталось только по одному значению.
+  label_attribute_of_issue: Задача %{name}
+  permission_add_documents: Добавить документы
+  permission_edit_documents: Редактировать документы
+  permission_delete_documents: Удалить документы
+  label_gantt_progress_line: Линия прогресса
+  setting_jsonp_enabled: Поддержка JSONP
+  field_inherit_members: Наследовать участников
+  field_closed_on: Закрыта
+  field_generate_password: Создание пароля
+  setting_default_projects_tracker_ids: Трекеры по умолчанию для новых проектов
+  label_total_time: Общее время
+  notice_account_not_activated_yet: Вы пока не имеете активированных учетных записей.
+    Чтобы получить письмо с активацией, перейдите по <a href="%{url}">ссылке</a>.
+  notice_account_locked: Ваша учетная запись заблокирована.
+  label_hidden: Скрытый
+  label_visibility_private: только мне
+  label_visibility_roles: только этим ролям
+  label_visibility_public: всем пользователям
+  field_must_change_passwd: Изменить пароль при следующем входе
+  notice_new_password_must_be_different: Новый пароль должен отличаться от текущего
+  setting_mail_handler_excluded_filenames: Исключать вложения по имени
+  text_convert_available: Доступно использование ImageMagick (необязательно)

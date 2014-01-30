@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2012  Jean-Philippe Lang
+# Copyright (C) 2006-2013  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -16,19 +16,12 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 require File.expand_path('../../test_helper', __FILE__)
-require 'issue_categories_controller'
-
-# Re-raise errors caught by the controller.
-class IssueCategoriesController; def rescue_action(e) raise e end; end
 
 class IssueCategoriesControllerTest < ActionController::TestCase
   fixtures :projects, :users, :members, :member_roles, :roles, :enabled_modules, :issue_categories,
            :issues
 
   def setup
-    @controller = IssueCategoriesController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
     User.current = nil
     @request.session[:user_id] = 2
   end
@@ -133,7 +126,7 @@ class IssueCategoriesControllerTest < ActionController::TestCase
   end
 
   def test_destroy_category_in_use_with_reassignment
-    issue = Issue.find(:first, :conditions => {:category_id => 1})
+    issue = Issue.where(:category_id => 1).first
     delete :destroy, :id => 1, :todo => 'reassign', :reassign_to_id => 2
     assert_redirected_to '/projects/ecookbook/settings/categories'
     assert_nil IssueCategory.find_by_id(1)
@@ -142,7 +135,7 @@ class IssueCategoriesControllerTest < ActionController::TestCase
   end
 
   def test_destroy_category_in_use_without_reassignment
-    issue = Issue.find(:first, :conditions => {:category_id => 1})
+    issue = Issue.where(:category_id => 1).first
     delete :destroy, :id => 1, :todo => 'nullify'
     assert_redirected_to '/projects/ecookbook/settings/categories'
     assert_nil IssueCategory.find_by_id(1)

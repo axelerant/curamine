@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2012  Jean-Philippe Lang
+# Copyright (C) 2006-2013  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -21,7 +21,7 @@ class NewsTest < ActiveSupport::TestCase
   fixtures :projects, :users, :roles, :members, :member_roles, :enabled_modules, :news
 
   def valid_news
-    { :title => 'Test news', :description => 'Lorem ipsum etc', :author => User.find(:first) }
+    { :title => 'Test news', :description => 'Lorem ipsum etc', :author => User.first }
   end
 
   def setup

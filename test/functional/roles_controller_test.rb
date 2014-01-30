@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2012  Jean-Philippe Lang
+# Copyright (C) 2006-2013  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -21,9 +21,6 @@ class RolesControllerTest < ActionController::TestCase
   fixtures :roles, :users, :members, :member_roles, :workflows, :trackers
 
   def setup
-    @controller = RolesController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
     User.current = nil
     @request.session[:user_id] = 1 # admin
   end
@@ -34,7 +31,7 @@ class RolesControllerTest < ActionController::TestCase
     assert_template 'index'
 
     assert_not_nil assigns(:roles)
-    assert_equal Role.find(:all, :order => 'builtin, position'), assigns(:roles)
+    assert_equal Role.order('builtin, position').all, assigns(:roles)
 
     assert_tag :tag => 'a', :attributes => { :href => '/roles/1/edit' },
                             :content => 'Manager'
@@ -163,7 +160,7 @@ class RolesControllerTest < ActionController::TestCase
     assert_template 'permissions'
 
     assert_not_nil assigns(:roles)
-    assert_equal Role.find(:all, :order => 'builtin, position'), assigns(:roles)
+    assert_equal Role.order('builtin, position').all, assigns(:roles)
 
     assert_tag :tag => 'input', :attributes => { :type => 'checkbox',
                                                  :name => 'permissions[3][]',

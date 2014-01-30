@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2012  Jean-Philippe Lang
+# Copyright (C) 2006-2013  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -58,61 +58,48 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
   end
 
   if ldap_configured?
-    context '#authenticate' do
-      setup do
-        @auth = AuthSourceLdap.find(1)
-        @auth.update_attribute :onthefly_register, true
-      end
+    test '#authenticate with a valid LDAP user should return the user attributes' do
+      auth = AuthSourceLdap.find(1)
+      auth.update_attribute :onthefly_register, true
 
-      context 'with a valid LDAP user' do
-        should 'return the user attributes' do
-          attributes =  @auth.authenticate('example1','123456')
-          assert attributes.is_a?(Hash), "An hash was not returned"
-          assert_equal 'Example', attributes[:firstname]
-          assert_equal 'One', attributes[:lastname]
-          assert_equal 'example1@redmine.org', attributes[:mail]
-          assert_equal @auth.id, attributes[:auth_source_id]
-          attributes.keys.each do |attribute|
-            assert User.new.respond_to?("#{attribute}="), "Unexpected :#{attribute} attribute returned"
-          end
-        end
+      attributes =  auth.authenticate('example1','123456')
+      assert attributes.is_a?(Hash), "An hash was not returned"
+      assert_equal 'Example', attributes[:firstname]
+      assert_equal 'One', attributes[:lastname]
+      assert_equal 'example1@redmine.org', attributes[:mail]
+      assert_equal auth.id, attributes[:auth_source_id]
+      attributes.keys.each do |attribute|
+        assert User.new.respond_to?("#{attribute}="), "Unexpected :#{attribute} attribute returned"
       end
+    end
 
-      context 'with an invalid LDAP user' do
-        should 'return nil' do
-          assert_equal nil, @auth.authenticate('nouser','123456')
-        end
-      end
+    test '#authenticate with an invalid LDAP user should return nil' do
+      auth = AuthSourceLdap.find(1)
+      assert_equal nil, auth.authenticate('nouser','123456')
+    end
 
-      context 'without a login' do
-        should 'return nil' do
-          assert_equal nil, @auth.authenticate('','123456')
-        end
-      end
+    test '#authenticate without a login should return nil' do
+      auth = AuthSourceLdap.find(1)
+      assert_equal nil, auth.authenticate('','123456')
+    end
 
-      context 'without a password' do
-        should 'return nil' do
-          assert_equal nil, @auth.authenticate('edavis','')
-        end
-      end
+    test '#authenticate without a password should return nil' do
+      auth = AuthSourceLdap.find(1)
+      assert_equal nil, auth.authenticate('edavis','')
+    end
 
-      context 'without filter' do
-        should 'return any user' do
-          assert @auth.authenticate('example1','123456')
-          assert @auth.authenticate('edavis', '123456')
-        end
-      end
+    test '#authenticate without filter should return any user' do
+      auth = AuthSourceLdap.find(1)
+      assert auth.authenticate('example1','123456')
+      assert auth.authenticate('edavis', '123456')
+    end
 
-      context 'with filter' do
-        setup do
-          @auth.filter = "(mail=*@redmine.org)"
-        end
+    test '#authenticate with filter should return user who matches the filter only' do
+      auth = AuthSourceLdap.find(1)
+      auth.filter = "(mail=*@redmine.org)"
 
-        should 'return user who matches the filter only' do
-          assert @auth.authenticate('example1','123456')
-          assert_nil @auth.authenticate('edavis', '123456')
-        end
-      end
+      assert auth.authenticate('example1','123456')
+      assert_nil auth.authenticate('edavis', '123456')
     end
 
     def test_authenticate_should_timeout
@@ -123,6 +110,30 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
       assert_raise AuthSourceTimeoutException do
         auth_source.authenticate 'example1', '123456'
       end
+    end
+
+    def test_search_should_return_matching_entries
+      results = AuthSource.search("exa")
+      assert_equal 1, results.size
+      result = results.first
+      assert_kind_of Hash, result
+      assert_equal "example1", result[:login]
+      assert_equal "Example", result[:firstname]
+      assert_equal "One", result[:lastname]
+      assert_equal "example1@redmine.org", result[:mail]
+      assert_equal 1, result[:auth_source_id]
+    end
+
+    def test_search_with_no_match_should_return_an_empty_array
+      results = AuthSource.search("wro")
+      assert_equal [], results
+    end
+
+    def test_search_with_exception_should_return_an_empty_array
+      Net::LDAP.stubs(:new).raises(Net::LDAP::LdapError, 'Cannot connect')
+
+      results = AuthSource.search("exa")
+      assert_equal [], results
     end
   else
     puts '(Test LDAP server not configured)'

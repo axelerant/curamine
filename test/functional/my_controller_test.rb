@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2012  Jean-Philippe Lang
+# Copyright (C) 2006-2013  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -16,20 +16,13 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 require File.expand_path('../../test_helper', __FILE__)
-require 'my_controller'
-
-# Re-raise errors caught by the controller.
-class MyController; def rescue_action(e) raise e end; end
 
 class MyControllerTest < ActionController::TestCase
   fixtures :users, :user_preferences, :roles, :projects, :members, :member_roles,
   :issues, :issue_statuses, :trackers, :enumerations, :custom_fields, :auth_sources
 
   def setup
-    @controller = MyController.new
-    @request    = ActionController::TestRequest.new
     @request.session[:user_id] = 2
-    @response   = ActionController::TestResponse.new
   end
 
   def test_index
@@ -56,6 +49,17 @@ class MyControllerTest < ActionController::TestCase
       assert_select 'td.subject a[href=/issues/1]'
       assert_select 'td.hours', :text => '2.50'
     end
+  end
+
+  def test_page_with_all_blocks
+    blocks = MyController::BLOCKS.keys
+    preferences = User.find(2).pref
+    preferences[:my_page_layout] = {'top' => blocks}
+    preferences.save!
+
+    get :page
+    assert_response :success
+    assert_select 'div.mypage-box', blocks.size
   end
 
   def test_my_account_should_show_editable_custom_fields

@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2012  Jean-Philippe Lang
+# Copyright (C) 2006-2013  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -16,18 +16,11 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 require File.expand_path('../../test_helper', __FILE__)
-require 'settings_controller'
-
-# Re-raise errors caught by the controller.
-class SettingsController; def rescue_action(e) raise e end; end
 
 class SettingsControllerTest < ActionController::TestCase
   fixtures :users
 
   def setup
-    @controller = SettingsController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
     User.current = nil
     @request.session[:user_id] = 1 # admin
   end
@@ -79,12 +72,67 @@ class SettingsControllerTest < ActionController::TestCase
                               :notified_events => %w(issue_added issue_updated news_added),
                               :emails_footer => 'Test footer'
                               }
-    assert_redirected_to '/settings/edit'
+    assert_redirected_to '/settings'
     assert_equal 'functional@test.foo', Setting.mail_from
     assert !Setting.bcc_recipients?
     assert_equal %w(issue_added issue_updated news_added), Setting.notified_events
     assert_equal 'Test footer', Setting.emails_footer
     Setting.clear_cache
+  end
+
+  def test_edit_commit_update_keywords
+    with_settings :commit_update_keywords => [
+      {"keywords" => "fixes, resolves", "status_id" => "3"},
+      {"keywords" => "closes", "status_id" => "5", "done_ratio" => "100", "if_tracker_id" => "2"}
+    ] do
+      get :edit
+    end
+    assert_response :success
+    assert_select 'tr.commit-keywords', 2
+    assert_select 'tr.commit-keywords:nth-child(1)' do
+      assert_select 'input[name=?][value=?]', 'settings[commit_update_keywords][keywords][]', 'fixes, resolves'
+      assert_select 'select[name=?]', 'settings[commit_update_keywords][status_id][]' do
+        assert_select 'option[value=3][selected=selected]'
+      end
+    end
+    assert_select 'tr.commit-keywords:nth-child(2)' do
+      assert_select 'input[name=?][value=?]', 'settings[commit_update_keywords][keywords][]', 'closes'
+      assert_select 'select[name=?]', 'settings[commit_update_keywords][status_id][]' do
+        assert_select 'option[value=5][selected=selected]', :text => 'Closed'
+      end
+      assert_select 'select[name=?]', 'settings[commit_update_keywords][done_ratio][]' do
+        assert_select 'option[value=100][selected=selected]', :text => '100 %'
+      end
+      assert_select 'select[name=?]', 'settings[commit_update_keywords][if_tracker_id][]' do
+        assert_select 'option[value=2][selected=selected]', :text => 'Feature request'
+      end
+    end
+  end
+
+  def test_edit_without_commit_update_keywords_should_show_blank_line
+    with_settings :commit_update_keywords => [] do
+      get :edit
+    end
+    assert_response :success
+    assert_select 'tr.commit-keywords', 1 do
+      assert_select 'input[name=?]:not([value])', 'settings[commit_update_keywords][keywords][]'
+    end
+  end
+
+  def test_post_edit_commit_update_keywords
+    post :edit, :settings => {
+      :commit_update_keywords => {
+        :keywords => ["resolves", "closes"],
+        :status_id => ["3", "5"],
+        :done_ratio => ["", "100"],
+        :if_tracker_id => ["", "2"]
+      }
+    }
+    assert_redirected_to '/settings'
+    assert_equal([
+      {"keywords" => "resolves", "status_id" => "3"},
+      {"keywords" => "closes", "status_id" => "5", "done_ratio" => "100", "if_tracker_id" => "2"}
+    ], Setting.commit_update_keywords)
   end
 
   def test_get_plugin_settings
@@ -108,11 +156,31 @@ class SettingsControllerTest < ActionController::TestCase
     assert_response 404
   end
 
+  def test_get_non_configurable_plugin_settings
+    Redmine::Plugin.register(:foo) {}
+
+    get :plugin, :id => 'foo'
+    assert_response 404
+
+    Redmine::Plugin.clear
+  end
+
   def test_post_plugin_settings
     Setting.expects(:plugin_foo=).with({'sample_setting' => 'Value'}).returns(true)
-    Redmine::Plugin.register(:foo) {}
+    Redmine::Plugin.register(:foo) do
+      settings :partial => 'not blank' # so that configurable? is true
+    end
 
     post :plugin, :id => 'foo', :settings => {'sample_setting' => 'Value'}
     assert_redirected_to '/settings/plugin/foo'
+  end
+
+  def test_post_non_configurable_plugin_settings
+    Redmine::Plugin.register(:foo) {}
+
+    post :plugin, :id => 'foo', :settings => {'sample_setting' => 'Value'}
+    assert_response 404
+
+    Redmine::Plugin.clear
   end
 end

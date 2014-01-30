@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2012  Jean-Philippe Lang
+# Copyright (C) 2006-2013  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -16,12 +16,11 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class PreviewsController < ApplicationController
-  before_filter :find_project
+  before_filter :find_project, :find_attachments
 
   def issue
     @issue = @project.issues.find_by_id(params[:id]) unless params[:id].blank?
     if @issue
-      @attachements = @issue.attachments
       @description = params[:issue] && params[:issue][:description]
       if @description && @description.gsub(/(\r?\n|\n\r?)/, "\n") == @issue.description.to_s.gsub(/(\r?\n|\n\r?)/, "\n")
         @description = nil
@@ -37,7 +36,6 @@ class PreviewsController < ApplicationController
   def news
     if params[:id].present? && news = News.visible.find_by_id(params[:id])
       @previewed = news
-      @attachments = news.attachments
     end
     @text = (params[:news] ? params[:news][:description] : nil)
     render :partial => 'common/preview'

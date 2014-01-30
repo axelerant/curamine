@@ -1,6 +1,6 @@
 <%= error_messages_for 'member' %>
 <% roles = Role.find_all_givable
-   members = @project.member_principals.find(:all, :include => [:roles, :principal]).sort %>
+   members = @project.member_principals.includes(:member_roles, :roles, :principal).all.sort %>
 
 <div class="splitcontentleft">
 <% if members.any? %>
@@ -15,22 +15,32 @@
   <% members.each do |member| %>
   <% next if member.new_record? %>
   <tr id="member-<%= member.id %>" class="<%= cycle 'odd', 'even' %> member">
-  <td class="<%= member.principal.class.name.downcase %>"><%= link_to_user member.principal %></td>
+  <td class="name <%= member.principal.class.name.downcase %>"><%= link_to_user member.principal %></td>
   <td class="roles">
-    <span id="member-<%= member.id %>-roles"><%=h member.roles.sort.collect(&:to_s).join(', ') %></span>
-      <%= form_for(member, {:as => :membership, :remote => true, :url => membership_path(member),
-                                          :method => :put,
-                                          :html => { :id => "member-#{member.id}-roles-form", :class => 'hol' }}
+    <span id="member-<%= member.id %>-roles"><%= member.roles.sort.collect(&:to_s).join(', ') %></span>
+      <%= form_for(member,
+                   {:as => :membership, :remote => true,
+                    :url => membership_path(member),
+                    :method => :put,
+                    :html => { :id => "member-#{member.id}-roles-form", :class => 'hol' }}
              ) do |f| %>
-        <p><% roles.each do |role| %>
-        <label><%= check_box_tag 'membership[role_ids][]', role.id, member.roles.include?(role),
-                                                       :disabled => member.member_roles.detect {|mr| mr.role_id == role.id && !mr.inherited_from.nil?} %> <%=h role %></label><br />
-        <% end %></p>
+        <p>
+          <% roles.each do |role| %>
+          <label>
+            <%= check_box_tag('membership[role_ids][]',
+                              role.id, member.roles.include?(role),
+                              :disabled => member.member_roles.detect {
+                                 |mr| mr.role_id == role.id && !mr.inherited_from.nil?
+                                 } ) %> <%= role %>
+          </label><br />
+          <% end %>
+        </p>
         <%= hidden_field_tag 'membership[role_ids][]', '' %>
-        <p><%= submit_tag l(:button_change), :class => "small" %>
-        <%= link_to_function l(:button_cancel),
-                             "$('#member-#{member.id}-roles').show(); $('#member-#{member.id}-roles-form').hide(); return false;"
-             %></p>
+        <p>
+          <%= submit_tag l(:button_save), :class => "small" %>
+          <%= link_to_function(l(:button_cancel),
+                               "$('#member-#{member.id}-roles').show(); $('#member-#{member.id}-roles-form').hide(); return false;") %>
+        </p>
       <% end %>
   </td>
   <td class="buttons">
@@ -51,26 +61,28 @@
 <% end %>
 </div>
 
-<% principals = Principal.active.not_member_of(@project).all(:limit => 100, :order => 'type, login, lastname ASC') %>
-
 <div class="splitcontentright">
-<% if roles.any? && principals.any? %>
-  <%= form_for(@member, {:as => :membership, :url => project_memberships_path(@project), :remote => true, :method => :post}) do |f| %>
-    <fieldset><legend><%=l(:label_member_new)%></legend>
-
-    <p><%= label_tag "principal_search", l(:label_principal_search) %><%= text_field_tag 'principal_search', nil %></p>
-    <%= javascript_tag "observeSearchfield('principal_search', 'principals', '#{ escape_javascript autocomplete_project_memberships_path(@project) }')" %>
-
-    <div id="principals">
-      <%= principals_check_box_tags 'membership[user_ids][]', principals %>
-    </div>
-
-    <p><%= l(:label_role_plural) %>:
-    <% roles.each do |role| %>
-      <label><%= check_box_tag 'membership[role_ids][]', role.id %> <%=h role %></label>
-     <% end %></p>
-
-    <p><%= submit_tag l(:button_add), :id => 'member-add-submit' %></p>
+<% if roles.any? %>
+  <%= form_for(@member,
+               {:as => :membership, :url => project_memberships_path(@project),
+                :remote => true, :method => :post}) do |f| %>
+    <fieldset>
+      <legend><%=l(:label_member_new)%></legend>
+      <p>
+        <%= label_tag("principal_search", l(:label_principal_search)) %>
+        <%= text_field_tag('principal_search', nil) %>
+      </p>
+      <%= javascript_tag "observeSearchfield('principal_search', null, '#{ escape_javascript autocomplete_project_memberships_path(@project, :format => 'js') }')" %>
+      <div id="principals_for_new_member">
+        <%= render_principals_for_new_members(@project) %>
+      </div>
+      <p>
+        <%= l(:label_role_plural) %>:
+        <% roles.each do |role| %>
+          <label><%= check_box_tag 'membership[role_ids][]', role.id %> <%= role %></label>
+        <% end %>
+      </p>
+      <p><%= submit_tag l(:button_add), :id => 'member-add-submit' %></p>
     </fieldset>
   <% end %>
 <% end %>

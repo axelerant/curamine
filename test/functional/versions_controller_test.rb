@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2012  Jean-Philippe Lang
+# Copyright (C) 2006-2013  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -16,18 +16,13 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 require File.expand_path('../../test_helper', __FILE__)
-require 'versions_controller'
-
-# Re-raise errors caught by the controller.
-class VersionsController; def rescue_action(e) raise e end; end
 
 class VersionsControllerTest < ActionController::TestCase
-  fixtures :projects, :versions, :issues, :users, :roles, :members, :member_roles, :enabled_modules, :issue_statuses, :issue_categories
+  fixtures :projects, :versions, :issues, :users, :roles, :members,
+           :member_roles, :enabled_modules, :issue_statuses,
+           :issue_categories
 
   def setup
-    @controller = VersionsController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
     User.current = nil
   end
 
@@ -42,12 +37,12 @@ class VersionsControllerTest < ActionController::TestCase
     assert !assigns(:versions).include?(Version.find(1))
     # Context menu on issues
     assert_select "script", :text => Regexp.new(Regexp.escape("contextMenuInit('/issues/context_menu')"))
-    # Links to versions anchors
-    assert_tag 'a', :attributes => {:href => '#2.0'},
-                    :ancestor => {:tag => 'div', :attributes => {:id => 'sidebar'}}
-    # Links to completed versions in the sidebar
-    assert_tag 'a', :attributes => {:href => '/versions/1'},
-                    :ancestor => {:tag => 'div', :attributes => {:id => 'sidebar'}}
+    assert_select "div#sidebar" do
+      # Links to versions anchors
+      assert_select 'a[href=?]', '#2.0'
+      # Links to completed versions in the sidebar
+      assert_select 'a[href=?]', '/versions/1'
+    end
   end
 
   def test_index_with_completed_versions
@@ -178,16 +173,18 @@ class VersionsControllerTest < ActionController::TestCase
     Version.update_all("status = 'open'")
     @request.session[:user_id] = 2
     put :close_completed, :project_id => 'ecookbook'
-    assert_redirected_to :controller => 'projects', :action => 'settings', :tab => 'versions', :id => 'ecookbook'
+    assert_redirected_to :controller => 'projects', :action => 'settings',
+                         :tab => 'versions', :id => 'ecookbook'
     assert_not_nil Version.find_by_status('closed')
   end
 
   def test_post_update
     @request.session[:user_id] = 2
     put :update, :id => 2,
-                :version => { :name => 'New version name',
-                              :effective_date => Date.today.strftime("%Y-%m-%d")}
-    assert_redirected_to :controller => 'projects', :action => 'settings', :tab => 'versions', :id => 'ecookbook'
+                :version => {:name => 'New version name',
+                             :effective_date => Date.today.strftime("%Y-%m-%d")}
+    assert_redirected_to :controller => 'projects', :action => 'settings',
+                         :tab => 'versions', :id => 'ecookbook'
     version = Version.find(2)
     assert_equal 'New version name', version.name
     assert_equal Date.today, version.effective_date
@@ -207,7 +204,8 @@ class VersionsControllerTest < ActionController::TestCase
     assert_difference 'Version.count', -1 do
       delete :destroy, :id => 3
     end
-    assert_redirected_to :controller => 'projects', :action => 'settings', :tab => 'versions', :id => 'ecookbook'
+    assert_redirected_to :controller => 'projects', :action => 'settings',
+                         :tab => 'versions', :id => 'ecookbook'
     assert_nil Version.find_by_id(3)
   end
 
@@ -216,7 +214,8 @@ class VersionsControllerTest < ActionController::TestCase
     assert_no_difference 'Version.count' do
       delete :destroy, :id => 2
     end
-    assert_redirected_to :controller => 'projects', :action => 'settings', :tab => 'versions', :id => 'ecookbook'
+    assert_redirected_to :controller => 'projects', :action => 'settings',
+                         :tab => 'versions', :id => 'ecookbook'
     assert flash[:error].match(/Unable to delete version/)
     assert Version.find_by_id(2)
   end

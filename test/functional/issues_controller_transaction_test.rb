@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2012  Jean-Philippe Lang
+# Copyright (C) 2006-2013  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -19,6 +19,7 @@ require File.expand_path('../../test_helper', __FILE__)
 require 'issues_controller'
 
 class IssuesControllerTransactionTest < ActionController::TestCase
+  tests IssuesController
   fixtures :projects,
            :users,
            :roles,
@@ -46,9 +47,6 @@ class IssuesControllerTransactionTest < ActionController::TestCase
   self.use_transactional_fixtures = false
 
   def setup
-    @controller = IssuesController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
     User.current = nil
   end
 
@@ -106,7 +104,7 @@ class IssuesControllerTransactionTest < ActionController::TestCase
     assert_template 'edit'
     attachment = Attachment.first(:order => 'id DESC')
     assert_tag 'input', :attributes => {:name => 'attachments[p0][token]', :value => attachment.token}
-    assert_tag 'span', :content => /testfile.txt/
+    assert_tag 'input', :attributes => {:name => 'attachments[p0][filename]', :value => 'testfile.txt'}
   end
 
   def test_update_stale_issue_without_notes_should_not_show_add_notes_option
@@ -254,7 +252,7 @@ class IssuesControllerTransactionTest < ActionController::TestCase
   end
 
   def test_index_should_rescue_invalid_sql_query
-    Query.any_instance.stubs(:statement).returns("INVALID STATEMENT")
+    IssueQuery.any_instance.stubs(:statement).returns("INVALID STATEMENT")
 
     get :index
     assert_response 500

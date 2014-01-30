@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2012  Jean-Philippe Lang
+# Copyright (C) 2006-2013  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,7 +17,7 @@
 
 require File.expand_path('../../../test_helper', __FILE__)
 
-class ApiTest::WikiPagesTest < ActionController::IntegrationTest
+class Redmine::ApiTest::WikiPagesTest < Redmine::ApiTest::Base
   fixtures :projects, :users, :roles, :members, :member_roles,
            :enabled_modules, :wikis, :wiki_pages, :wiki_contents,
            :wiki_content_versions, :attachments
@@ -90,6 +90,7 @@ class ApiTest::WikiPagesTest < ActionController::IntegrationTest
       assert_select 'version', :text => '2'
       assert_select 'text'
       assert_select 'author'
+      assert_select 'comments', :text => 'Small update'
       assert_select 'created_on'
       assert_select 'updated_on'
     end

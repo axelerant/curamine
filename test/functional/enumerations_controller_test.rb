@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2012  Jean-Philippe Lang
+# Copyright (C) 2006-2013  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -117,7 +117,7 @@ class EnumerationsControllerTest < ActionController::TestCase
   end
 
   def test_destroy_enumeration_in_use_with_reassignment
-    issue = Issue.find(:first, :conditions => {:priority_id => 4})
+    issue = Issue.where(:priority_id => 4).first
     assert_difference 'IssuePriority.count', -1 do
       delete :destroy, :id => 4, :reassign_to_id => 6
     end
@@ -125,5 +125,12 @@ class EnumerationsControllerTest < ActionController::TestCase
     assert_nil Enumeration.find_by_id(4)
     # check that the issue was reassign
     assert_equal 6, issue.reload.priority_id
+  end
+
+  def test_destroy_enumeration_in_use_with_blank_reassignment
+    assert_no_difference 'IssuePriority.count' do
+      delete :destroy, :id => 4, :reassign_to_id => ''
+    end
+    assert_response :success
   end
 end

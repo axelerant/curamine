@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2012  Jean-Philippe Lang
+# Copyright (C) 2006-2013  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -46,6 +46,24 @@ class AuthSource < ActiveRecord::Base
 
   def account_password=(arg)
     write_ciphered_attribute(:account_password, arg)
+  end
+
+  def searchable?
+    false
+  end
+
+  def self.search(q)
+    results = []
+    AuthSource.all.each do |source|
+      begin
+        if source.searchable?
+          results += source.search(q)
+        end
+      rescue AuthSourceException => e
+        logger.error "Error while searching users in #{source.name}: #{e.message}"
+      end
+    end
+    results
   end
 
   def allow_password_changes?

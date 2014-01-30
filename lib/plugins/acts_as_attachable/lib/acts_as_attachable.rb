@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2012  Jean-Philippe Lang
+# Copyright (C) 2006-2013  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -78,6 +78,7 @@ module Redmine
           end
           if attachments.is_a?(Array)
             attachments.each do |attachment|
+              next unless attachment.is_a?(Hash)
               a = nil
               if file = attachment['file']
                 next unless file.size > 0

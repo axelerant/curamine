@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2012  Jean-Philippe Lang
+# Copyright (C) 2006-2013  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -87,9 +87,6 @@ file_max_size_displayed:
 diff_max_lines_displayed:
   format: int
   default: 1500
-standard_man_hours_a_day:
-  format: int
-  default: 8
 enabled_scm:
   serialized: true
   default:
@@ -109,13 +106,9 @@ commit_cross_project_ref:
   default: 0
 commit_ref_keywords:
   default: 'refs,references,IssueID'
-commit_fix_keywords:
-  default: 'fixes,closes'
-commit_fix_status_id:
-  format: int
-  default: 0
-commit_fix_done_ratio:
-  default: 100
+commit_update_keywords:
+  serialized: true
+  default: []
 commit_logtime_enabled:
   default: 0
 commit_logtime_activity_id:
@@ -150,6 +143,8 @@ notified_events:
   - issue_updated
 mail_handler_body_delimiters:
   default: ''
+mail_handler_excluded_filenames:
+  default: ''
 mail_handler_api_enabled:
   default: 0
 mail_handler_api_key:
@@ -182,6 +177,9 @@ default_projects_modules:
   - boards
   - calendar
   - gantt
+default_projects_tracker_ids:
+  serialized: true
+  default: 
 # Role given to a non-admin user who creates a project
 new_project_user_role_id:
   format: int
@@ -213,6 +211,8 @@ gravatar_default:
 start_of_week:
   default: ''
 rest_api_enabled:
+  default: 0
+jsonp_enabled:
   default: 0
 default_notification_option:
   default: 'only_my_events'

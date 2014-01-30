@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2012  Jean-Philippe Lang
+# Copyright (C) 2006-2013  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -35,13 +35,13 @@ class Tracker < ActiveRecord::Base
   has_and_belongs_to_many :custom_fields, :class_name => 'IssueCustomField', :join_table => "#{table_name_prefix}custom_fields_trackers#{table_name_suffix}", :association_foreign_key => 'custom_field_id'
   acts_as_list
 
-  attr_protected :field_bits
+  attr_protected :fields_bits
 
   validates_presence_of :name
   validates_uniqueness_of :name
   validates_length_of :name, :maximum => 30
 
-  scope :sorted, order("#{table_name}.position ASC")
+  scope :sorted, lambda { order("#{table_name}.position ASC") }
   scope :named, lambda {|arg| where("LOWER(#{table_name}.name) = LOWER(?)", arg.to_s.strip)}
 
   def to_s; name end

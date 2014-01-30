@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2012  Jean-Philippe Lang
+# Copyright (C) 2006-2013  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -48,9 +48,9 @@ class IssueRelationsController < ApplicationController
     saved = @relation.save
 
     respond_to do |format|
-      format.html { redirect_to :controller => 'issues', :action => 'show', :id => @issue }
+      format.html { redirect_to issue_path(@issue) }
       format.js {
-        @relations = @issue.relations.select {|r| r.other_issue(@issue) && r.other_issue(@issue).visible? }
+        @relations = @issue.reload.relations.select {|r| r.other_issue(@issue) && r.other_issue(@issue).visible? }
       }
       format.api {
         if saved
@@ -67,7 +67,7 @@ class IssueRelationsController < ApplicationController
     @relation.destroy
 
     respond_to do |format|
-      format.html { redirect_to issue_path } # TODO : does this really work since @issue is always nil? What is it useful to?
+      format.html { redirect_to issue_path(@relation.issue_from) }
       format.js
       format.api  { render_api_ok }
     end

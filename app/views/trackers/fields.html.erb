@@ -1,7 +1,7 @@
-<h2><%= link_to l(:label_tracker_plural), trackers_path %> &#187; <%= l(:field_summary) %></h2>
+<%= title [l(:label_tracker_plural), trackers_path], l(:field_summary) %>
 
 <% if @trackers.any? %>
-  <%= form_tag({}) do %>
+  <%= form_tag fields_trackers_path do %>
     <div class="autoscroll">
     <table class="list">
     <thead>
@@ -25,13 +25,13 @@
       </tr>
       <% Tracker::CORE_FIELDS.each do |field| %>
       <tr class="<%= cycle("odd", "even") %>">
-        <td>
+        <td class="name">
           <%= link_to_function(image_tag('toggle_check.png'), "toggleCheckboxesBySelector('input.core-field-#{field}')",
                                                               :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}") %>
           <%= l("field_#{field}".sub(/_id$/, '')) %>
         </td>
         <% @trackers.each do |tracker| %>
-        <td align="center">
+        <td>
           <%= check_box_tag "trackers[#{tracker.id}][core_fields][]", field, tracker.core_fields.include?(field),
                             :class => "tracker-#{tracker.id} core-field-#{field}" %>
         </td>
@@ -47,13 +47,13 @@
         </tr>
         <% @custom_fields.each do |field| %>
         <tr class="<%= cycle("odd", "even") %>">
-          <td>
+          <td class="name">
             <%= link_to_function(image_tag('toggle_check.png'), "toggleCheckboxesBySelector('input.custom-field-#{field.id}')",
                                                                 :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}") %>
             <%= field.name %>
           </td>
           <% @trackers.each do |tracker| %>
-          <td align="center">
+          <td>
             <%= check_box_tag "trackers[#{tracker.id}][custom_field_ids][]", field.id, tracker.custom_fields.include?(field),
                               :class => "tracker-#{tracker.id} custom-field-#{field.id}" %>
           </td>
@@ -73,5 +73,3 @@
 <% else %>
   <p class="nodata"><%= l(:label_no_data) %></p>
 <% end %>
-
-<% html_title l(:field_summary) %>

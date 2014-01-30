@@ -133,6 +133,12 @@ default:
   scm_bazaar_command:
   scm_darcs_command:
 
+  # Absolute path to the SCM commands errors (stderr) log file.
+  # The default is to log in the 'log' directory of your Redmine instance.
+  # Example:
+  # scm_stderr_log_file: /var/log/redmine_scm_stderr.log
+  scm_stderr_log_file:
+
   # Key used to encrypt sensitive data in the database (SCM and LDAP passwords).
   # If you don't want to enable data encryption, just leave it blank.
   # WARNING: losing/changing this key will make encrypted data unreadable.
@@ -187,6 +193,14 @@ default:
   #     rmagick_font_path: /usr/share/fonts/ipa-mincho/ipam.ttf
   #
   rmagick_font_path:
+
+  # Maximum number of simultaneous AJAX uploads
+  #max_concurrent_ajax_uploads: 2
+
+  # Configure OpenIdAuthentication.store
+  #
+  # allowed values: :memory, :file, :memcache
+  #openid_authentication_store: :memory
 
 # specific configuration options for production environment
 # that overrides the default ones

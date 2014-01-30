@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2012  Jean-Philippe Lang
+# Copyright (C) 2006-2013  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -18,14 +18,11 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class IssueNestedSetTest < ActiveSupport::TestCase
-  fixtures :projects, :users, :members, :member_roles, :roles,
+  fixtures :projects, :users, :roles,
            :trackers, :projects_trackers,
-           :versions,
-           :issue_statuses, :issue_categories, :issue_relations, :workflows,
+           :issue_statuses, :issue_categories, :issue_relations,
            :enumerations,
-           :issues,
-           :custom_fields, :custom_fields_projects, :custom_fields_trackers, :custom_values,
-           :time_entries
+           :issues
 
   def test_create_root_issue
     issue1 = Issue.generate!
@@ -60,7 +57,7 @@ class IssueNestedSetTest < ActiveSupport::TestCase
     child = Issue.new(:project_id => 2, :tracker_id => 1, :author_id => 1,
                       :subject => 'child', :parent_issue_id => issue.id)
     assert !child.save
-    assert_not_nil child.errors[:parent_issue_id]
+    assert_not_equal [], child.errors[:parent_issue_id]
   end
 
   def test_move_a_root_to_child
@@ -166,23 +163,42 @@ class IssueNestedSetTest < ActiveSupport::TestCase
     child.reload
     child.parent_issue_id = grandchild.id
     assert !child.save
-    assert_not_nil child.errors[:parent_issue_id]
+    assert_not_equal [], child.errors[:parent_issue_id]
   end
 
-  def test_moving_an_issue_should_keep_valid_relations_only
-    issue1 = Issue.generate!
-    issue2 = Issue.generate!
-    issue3 = Issue.generate!(:parent_issue_id => issue2.id)
-    issue4 = Issue.generate!
-    r1 = IssueRelation.create!(:issue_from => issue1, :issue_to => issue2, :relation_type => IssueRelation::TYPE_PRECEDES)
-    r2 = IssueRelation.create!(:issue_from => issue1, :issue_to => issue3, :relation_type => IssueRelation::TYPE_PRECEDES)
-    r3 = IssueRelation.create!(:issue_from => issue2, :issue_to => issue4, :relation_type => IssueRelation::TYPE_PRECEDES)
-    issue2.reload
-    issue2.parent_issue_id = issue1.id
-    issue2.save!
-    assert !IssueRelation.exists?(r1.id)
-    assert !IssueRelation.exists?(r2.id)
-    assert IssueRelation.exists?(r3.id)
+  def test_updating_a_root_issue_should_not_trigger_update_nested_set_attributes_on_parent_change
+    issue = Issue.find(Issue.generate!.id)
+    issue.parent_issue_id = ""
+    issue.expects(:update_nested_set_attributes_on_parent_change).never
+    issue.save!
+  end
+
+  def test_updating_a_child_issue_should_not_trigger_update_nested_set_attributes_on_parent_change
+    issue = Issue.find(Issue.generate!(:parent_issue_id => 1).id)
+    issue.parent_issue_id = "1"
+    issue.expects(:update_nested_set_attributes_on_parent_change).never
+    issue.save!
+  end
+
+  def test_moving_a_root_issue_should_trigger_update_nested_set_attributes_on_parent_change
+    issue = Issue.find(Issue.generate!.id)
+    issue.parent_issue_id = "1"
+    issue.expects(:update_nested_set_attributes_on_parent_change).once
+    issue.save!
+  end
+
+  def test_moving_a_child_issue_to_another_parent_should_trigger_update_nested_set_attributes_on_parent_change
+    issue = Issue.find(Issue.generate!(:parent_issue_id => 1).id)
+    issue.parent_issue_id = "2"
+    issue.expects(:update_nested_set_attributes_on_parent_change).once
+    issue.save!
+  end
+
+  def test_moving_a_child_issue_to_root_should_trigger_update_nested_set_attributes_on_parent_change
+    issue = Issue.find(Issue.generate!(:parent_issue_id => 1).id)
+    issue.parent_issue_id = ""
+    issue.expects(:update_nested_set_attributes_on_parent_change).once
+    issue.save!
   end
 
   def test_destroy_should_destroy_children
@@ -321,6 +337,17 @@ class IssueNestedSetTest < ActiveSupport::TestCase
     assert_equal (50 * 20 + 20 * 10) / 30, parent.reload.done_ratio
   end
 
+  def test_parent_done_ratio_with_child_estimate_to_0_should_reach_100
+    parent = Issue.generate!
+    issue1 = Issue.generate!(:parent_issue_id => parent.id)
+    issue2 = Issue.generate!(:parent_issue_id => parent.id, :estimated_hours => 0)
+    assert_equal 0, parent.reload.done_ratio
+    issue1.reload.update_attribute :status_id, 5
+    assert_equal 50, parent.reload.done_ratio
+    issue2.reload.update_attribute :status_id, 5
+    assert_equal 100, parent.reload.done_ratio
+  end
+
   def test_parent_estimate_should_be_sum_of_leaves
     parent = Issue.generate!
     Issue.generate!(:estimated_hours => nil, :parent_issue_id => parent.id)
@@ -367,7 +394,7 @@ class IssueNestedSetTest < ActiveSupport::TestCase
     c.reload
 
     assert_equal 5, c.issues.count
-    ic1, ic2, ic3, ic4, ic5 = c.issues.find(:all, :order => 'subject')
+    ic1, ic2, ic3, ic4, ic5 = c.issues.order('subject').all
     assert ic1.root?
     assert_equal ic1, ic2.parent
     assert_equal ic1, ic3.parent

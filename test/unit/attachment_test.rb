@@ -1,7 +1,7 @@
 # encoding: utf-8
 #
 # Redmine - project management software
-# Copyright (C) 2006-2012  Jean-Philippe Lang
+# Copyright (C) 2006-2013  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -42,6 +42,13 @@ class AttachmentTest < ActiveSupport::TestCase
     assert_nil Attachment.new.container
   end
 
+  def test_filename_should_remove_eols
+    assert_equal "line_feed", Attachment.new(:filename => "line\nfeed").filename
+    assert_equal "line_feed", Attachment.new(:filename => "some\npath/line\nfeed").filename
+    assert_equal "carriage_return", Attachment.new(:filename => "carriage\rreturn").filename
+    assert_equal "carriage_return", Attachment.new(:filename => "some\rpath/carriage\rreturn").filename
+  end
+
   def test_create
     a = Attachment.new(:container => Issue.find(1),
                        :file => uploaded_test_file("testfile.txt", "text/plain"),
@@ -52,8 +59,23 @@ class AttachmentTest < ActiveSupport::TestCase
     assert_equal 'text/plain', a.content_type
     assert_equal 0, a.downloads
     assert_equal '1478adae0d4eb06d35897518540e25d6', a.digest
+
+    assert a.disk_directory
+    assert_match %r{\A\d{4}/\d{2}\z}, a.disk_directory
+
     assert File.exist?(a.diskfile)
     assert_equal 59, File.size(a.diskfile)
+  end
+
+  def test_copy_should_preserve_attributes
+    a = Attachment.find(1)
+    copy = a.copy
+
+    assert_save copy
+    copy = Attachment.order('id DESC').first
+    %w(filename filesize content_type author_id created_on description digest disk_filename disk_directory diskfile).each do |attribute|
+      assert_equal a.send(attribute), copy.send(attribute), "#{attribute} was different"
+    end
   end
 
   def test_size_should_be_validated_for_new_file
@@ -78,7 +100,7 @@ class AttachmentTest < ActiveSupport::TestCase
   def test_description_length_should_be_validated
     a = Attachment.new(:description => 'a' * 300)
     assert !a.save
-    assert_not_nil a.errors[:description]
+    assert_not_equal [], a.errors[:description]
   end
 
   def test_destroy
@@ -168,42 +190,55 @@ class AttachmentTest < ActiveSupport::TestCase
     end
   end
 
-  context "Attachmnet.attach_files" do
-    should "attach the file" do
-      issue = Issue.first
-      assert_difference 'Attachment.count' do
-        Attachment.attach_files(issue,
-          '1' => {
-            'file' => uploaded_test_file('testfile.txt', 'text/plain'),
-            'description' => 'test'
-          })
-      end
+  def test_move_from_root_to_target_directory_should_move_root_files
+    a = Attachment.find(20)
+    assert a.disk_directory.blank?
+    # Create a real file for this fixture
+    File.open(a.diskfile, "w") do |f|
+      f.write "test file at the root of files directory"
+    end
+    assert a.readable?
+    Attachment.move_from_root_to_target_directory
 
-      attachment = Attachment.first(:order => 'id DESC')
-      assert_equal issue, attachment.container
-      assert_equal 'testfile.txt', attachment.filename
-      assert_equal 59, attachment.filesize
-      assert_equal 'test', attachment.description
-      assert_equal 'text/plain', attachment.content_type
-      assert File.exists?(attachment.diskfile)
-      assert_equal 59, File.size(attachment.diskfile)
+    a.reload
+    assert_equal '2012/05', a.disk_directory
+    assert a.readable?
+  end
+
+  test "Attachmnet.attach_files should attach the file" do
+    issue = Issue.first
+    assert_difference 'Attachment.count' do
+      Attachment.attach_files(issue,
+        '1' => {
+          'file' => uploaded_test_file('testfile.txt', 'text/plain'),
+          'description' => 'test'
+        })
     end
 
-    should "add unsaved files to the object as unsaved attachments" do
-      # Max size of 0 to force Attachment creation failures
-      with_settings(:attachment_max_size => 0) do
-        @project = Project.find(1)
-        response = Attachment.attach_files(@project, {
-                                             '1' => {'file' => mock_file, 'description' => 'test'},
-                                             '2' => {'file' => mock_file, 'description' => 'test'}
-                                           })
+    attachment = Attachment.first(:order => 'id DESC')
+    assert_equal issue, attachment.container
+    assert_equal 'testfile.txt', attachment.filename
+    assert_equal 59, attachment.filesize
+    assert_equal 'test', attachment.description
+    assert_equal 'text/plain', attachment.content_type
+    assert File.exists?(attachment.diskfile)
+    assert_equal 59, File.size(attachment.diskfile)
+  end
 
-        assert response[:unsaved].present?
-        assert_equal 2, response[:unsaved].length
-        assert response[:unsaved].first.new_record?
-        assert response[:unsaved].second.new_record?
-        assert_equal response[:unsaved], @project.unsaved_attachments
-      end
+  test "Attachmnet.attach_files should add unsaved files to the object as unsaved attachments" do
+    # Max size of 0 to force Attachment creation failures
+    with_settings(:attachment_max_size => 0) do
+      @project = Project.find(1)
+      response = Attachment.attach_files(@project, {
+                                           '1' => {'file' => mock_file, 'description' => 'test'},
+                                           '2' => {'file' => mock_file, 'description' => 'test'}
+                                         })
+
+      assert response[:unsaved].present?
+      assert_equal 2, response[:unsaved].length
+      assert response[:unsaved].first.new_record?
+      assert response[:unsaved].second.new_record?
+      assert_equal response[:unsaved], @project.unsaved_attachments
     end
   end
 

@@ -1,22 +1,62 @@
-require 'redmine/access_control'
-require 'redmine/menu_manager'
-require 'redmine/activity'
-require 'redmine/search'
-require 'redmine/custom_field_format'
-require 'redmine/mime_type'
+# Redmine - project management software
+# Copyright (C) 2006-2013  Jean-Philippe Lang
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
 require 'redmine/core_ext'
-require 'redmine/themes'
-require 'redmine/hook'
-require 'redmine/plugin'
-require 'redmine/notifiable'
-require 'redmine/wiki_formatting'
-require 'redmine/scm/base'
 
 begin
   require 'RMagick' unless Object.const_defined?(:Magick)
 rescue LoadError
   # RMagick is not available
 end
+
+require 'redmine/scm/base'
+require 'redmine/access_control'
+require 'redmine/access_keys'
+require 'redmine/activity'
+require 'redmine/activity/fetcher'
+require 'redmine/ciphering'
+require 'redmine/codeset_util'
+require 'redmine/custom_field_format'
+require 'redmine/i18n'
+require 'redmine/menu_manager'
+require 'redmine/notifiable'
+require 'redmine/platform'
+require 'redmine/mime_type'
+require 'redmine/notifiable'
+require 'redmine/search'
+require 'redmine/syntax_highlighting'
+require 'redmine/thumbnail'
+require 'redmine/unified_diff'
+require 'redmine/utils'
+require 'redmine/version'
+require 'redmine/wiki_formatting'
+
+require 'redmine/default_data/loader'
+require 'redmine/helpers/calendar'
+require 'redmine/helpers/diff'
+require 'redmine/helpers/gantt'
+require 'redmine/helpers/time_report'
+require 'redmine/views/other_formats_builder'
+require 'redmine/views/labelled_form_builder'
+require 'redmine/views/builders'
+
+require 'redmine/themes'
+require 'redmine/hook'
+require 'redmine/plugin'
 
 if RUBY_VERSION < '1.9'
   require 'fastercsv'
@@ -75,7 +115,7 @@ Redmine::AccessControl.map do |map|
     map.permission :manage_subtasks, {}
     map.permission :set_issues_private, {}
     map.permission :set_own_issues_private, {}, :require => :loggedin
-    map.permission :add_issue_notes, {:issues => [:edit, :update], :journals => [:new], :attachments => :upload}
+    map.permission :add_issue_notes, {:issues => [:edit, :update, :update_form], :journals => [:new], :attachments => :upload}
     map.permission :edit_issue_notes, {:journals => :edit}, :require => :loggedin
     map.permission :edit_own_issue_notes, {:journals => :edit}, :require => :loggedin
     map.permission :view_private_notes, {}, :read => true, :require => :member
@@ -87,7 +127,7 @@ Redmine::AccessControl.map do |map|
     map.permission :save_queries, {:queries => [:new, :create, :edit, :update, :destroy]}, :require => :loggedin
     # Watchers
     map.permission :view_issue_watchers, {}, :read => true
-    map.permission :add_issue_watchers, {:watchers => :new}
+    map.permission :add_issue_watchers, {:watchers => [:new, :create, :append, :autocomplete_for_user]}
     map.permission :delete_issue_watchers, {:watchers => :destroy}
   end
 
@@ -106,7 +146,9 @@ Redmine::AccessControl.map do |map|
   end
 
   map.project_module :documents do |map|
-    map.permission :manage_documents, {:documents => [:new, :create, :edit, :update, :destroy, :add_attachment]}, :require => :loggedin
+    map.permission :add_documents, {:documents => [:new, :create, :add_attachment]}, :require => :loggedin
+    map.permission :edit_documents, {:documents => [:edit, :update, :add_attachment]}, :require => :loggedin
+    map.permission :delete_documents, {:documents => [:destroy]}, :require => :loggedin
     map.permission :view_documents, {:documents => [:index, :show, :download]}, :read => true
   end
 
@@ -166,7 +208,7 @@ Redmine::MenuManager.map :account_menu do |menu|
   menu.push :login, :signin_path, :if => Proc.new { !User.current.logged? }
   menu.push :register, :register_path, :if => Proc.new { !User.current.logged? && Setting.self_registration? }
   menu.push :my_account, { :controller => 'my', :action => 'account' }, :if => Proc.new { User.current.logged? }
-  menu.push :logout, :signout_path, :if => Proc.new { User.current.logged? }
+  menu.push :logout, :signout_path, :html => {:method => 'post'}, :if => Proc.new { User.current.logged? }
 end
 
 Redmine::MenuManager.map :application_menu do |menu|

@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2012  Jean-Philippe Lang
+# Copyright (C) 2006-2013  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -16,10 +16,6 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 require File.expand_path('../../test_helper', __FILE__)
-require 'wiki_controller'
-
-# Re-raise errors caught by the controller.
-class WikiController; def rescue_action(e) raise e end; end
 
 class WikiControllerTest < ActionController::TestCase
   fixtures :projects, :users, :roles, :members, :member_roles,
@@ -27,9 +23,6 @@ class WikiControllerTest < ActionController::TestCase
            :wiki_content_versions, :attachments
 
   def setup
-    @controller = WikiController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
     User.current = nil
   end
 
@@ -60,7 +53,7 @@ class WikiControllerTest < ActionController::TestCase
     assert_tag :tag => 'h1', :content => /Another page/
     # Included page with an inline image
     assert_tag :tag => 'p', :content => /This is an inline image/
-    assert_tag :tag => 'img', :attributes => { :src => '/attachments/download/3',
+    assert_tag :tag => 'img', :attributes => { :src => '/attachments/download/3/logo.gif',
                                                :alt => 'This is a logo' }
   end
 
@@ -182,6 +175,16 @@ class WikiControllerTest < ActionController::TestCase
     get :show, :project_id => 1, :id => 'Page with sections', :version => 2
 
     assert_response 302
+  end
+
+  def test_show_page_without_content_should_display_the_edit_form
+    @request.session[:user_id] = 2
+    WikiPage.create!(:title => 'NoContent', :wiki => Project.find(1).wiki)
+
+    get :show, :project_id => 1, :id => 'NoContent'
+    assert_response :success
+    assert_template 'edit'
+    assert_select 'textarea[name=?]', 'content[text]'
   end
 
   def test_create_page
@@ -419,6 +422,19 @@ class WikiControllerTest < ActionController::TestCase
     assert_equal 2, c.version
   end
 
+  def test_update_page_without_content_should_create_content
+    @request.session[:user_id] = 2
+    page = WikiPage.create!(:title => 'NoContent', :wiki => Project.find(1).wiki)
+
+    assert_no_difference 'WikiPage.count' do
+      assert_difference 'WikiContent.count' do
+        put :update, :project_id => 1, :id => 'NoContent', :content => {:text => 'Some content'}
+        assert_response 302
+      end
+    end
+    assert_equal 'Some content', page.reload.content.text
+  end
+
   def test_update_section
     @request.session[:user_id] = 2
     page = WikiPage.find_by_title('Page_with_sections')
@@ -438,7 +454,7 @@ class WikiControllerTest < ActionController::TestCase
         end
       end
     end
-    assert_redirected_to '/projects/ecookbook/wiki/Page_with_sections'
+    assert_redirected_to '/projects/ecookbook/wiki/Page_with_sections#section-2'
     assert_equal Redmine::WikiFormatting::Textile::Formatter.new(text).update_section(2, "New section content"), page.reload.content.text
   end
 
@@ -461,7 +477,7 @@ class WikiControllerTest < ActionController::TestCase
         end
       end
     end
-    assert_redirected_to '/projects/ecookbook/wiki/Page_with_sections'
+    assert_redirected_to '/projects/ecookbook/wiki/Page_with_sections#section-2'
     page.reload
     assert_equal Redmine::WikiFormatting::Textile::Formatter.new(text).update_section(2, "New section content"), page.content.text
     assert_equal 4, page.content.version
@@ -592,7 +608,7 @@ class WikiControllerTest < ActionController::TestCase
     # Line 5
     assert_tag :tag => 'tr', :child => {
       :tag => 'th', :attributes => {:class => 'line-num'}, :content => '5', :sibling => {
-        :tag => 'td', :attributes => {:class => 'author'}, :content => /redMine Admin/, :sibling => {
+        :tag => 'td', :attributes => {:class => 'author'}, :content => /Redmine Admin/, :sibling => {
           :tag => 'td', :content => /Some updated \[\[documentation\]\] here/
         }
       }

@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2012  Jean-Philippe Lang
+# Copyright (C) 2006-2013  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -26,10 +26,10 @@ module Redmine
         # Returns true if no data is already loaded in the database
         # otherwise false
         def no_data?
-          !Role.find(:first, :conditions => {:builtin => 0}) &&
-            !Tracker.find(:first) &&
-            !IssueStatus.find(:first) &&
-            !Enumeration.find(:first)
+          !Role.where(:builtin => 0).exists? &&
+            !Tracker.exists? &&
+            !IssueStatus.exists? &&
+            !Enumeration.exists?
         end
 
         # Loads the default data
@@ -139,15 +139,15 @@ module Redmine
             rejected  = IssueStatus.create!(:name => l(:default_issue_status_rejected), :is_closed => true, :is_default => false, :position => 6)
 
             # Workflow
-            Tracker.find(:all).each { |t|
-              IssueStatus.find(:all).each { |os|
-                IssueStatus.find(:all).each { |ns|
+            Tracker.all.each { |t|
+              IssueStatus.all.each { |os|
+                IssueStatus.all.each { |ns|
                   WorkflowTransition.create!(:tracker_id => t.id, :role_id => manager.id, :old_status_id => os.id, :new_status_id => ns.id) unless os == ns
                 }
               }
             }
 
-            Tracker.find(:all).each { |t|
+            Tracker.all.each { |t|
               [new, in_progress, resolved, feedback].each { |os|
                 [in_progress, resolved, feedback, closed].each { |ns|
                   WorkflowTransition.create!(:tracker_id => t.id, :role_id => developer.id, :old_status_id => os.id, :new_status_id => ns.id) unless os == ns
@@ -155,7 +155,7 @@ module Redmine
               }
             }
 
-            Tracker.find(:all).each { |t|
+            Tracker.all.each { |t|
               [new, in_progress, resolved, feedback].each { |os|
                 [closed].each { |ns|
                   WorkflowTransition.create!(:tracker_id => t.id, :role_id => reporter.id, :old_status_id => os.id, :new_status_id => ns.id) unless os == ns

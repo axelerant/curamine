@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2012  Jean-Philippe Lang
+# Copyright (C) 2006-2013  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -42,7 +42,7 @@ class Repository < ActiveRecord::Base
   validates_uniqueness_of :identifier, :scope => :project_id, :allow_blank => true
   validates_exclusion_of :identifier, :in => %w(show entry raw changes annotate diff show stats graph)
   # donwcase letters, digits, dashes, underscores but not digits only
-  validates_format_of :identifier, :with => /^(?!\d+$)[a-z0-9\-_]*$/, :allow_blank => true
+  validates_format_of :identifier, :with => /\A(?!\d+$)[a-z0-9\-_]*\z/, :allow_blank => true
   # Checks if the SCM is enabled when creating a repository
   validate :repo_create_validation, :on => :create
 
@@ -234,31 +234,33 @@ class Repository < ActiveRecord::Base
   def find_changeset_by_name(name)
     return nil if name.blank?
     s = name.to_s
-    changesets.find(:first, :conditions => (s.match(/^\d*$/) ?
-          ["revision = ?", s] : ["revision LIKE ?", s + '%']))
+    if s.match(/^\d*$/)
+      changesets.where("revision = ?", s).first
+    else
+      changesets.where("revision LIKE ?", s + '%').first
+    end
   end
 
   def latest_changeset
-    @latest_changeset ||= changesets.find(:first)
+    @latest_changeset ||= changesets.first
   end
 
   # Returns the latest changesets for +path+
   # Default behaviour is to search in cached changesets
   def latest_changesets(path, rev, limit=10)
     if path.blank?
-      changesets.find(
-         :all,
-         :include => :user,
-         :order => "#{Changeset.table_name}.committed_on DESC, #{Changeset.table_name}.id DESC",
-         :limit => limit)
+      changesets.
+        reorder("#{Changeset.table_name}.committed_on DESC, #{Changeset.table_name}.id DESC").
+        limit(limit).
+        preload(:user).
+        all
     else
-      filechanges.find(
-         :all,
-         :include => {:changeset => :user},
-         :conditions => ["path = ?", path.with_leading_slash],
-         :order => "#{Changeset.table_name}.committed_on DESC, #{Changeset.table_name}.id DESC",
-         :limit => limit
-       ).collect(&:changeset)
+      filechanges.
+        where("path = ?", path.with_leading_slash).
+        reorder("#{Changeset.table_name}.committed_on DESC, #{Changeset.table_name}.id DESC").
+        limit(limit).
+        preload(:changeset => :user).
+        collect(&:changeset)
     end
   end
 
@@ -301,7 +303,7 @@ class Repository < ActiveRecord::Base
       return @found_committer_users[committer] if @found_committer_users.has_key?(committer)
 
       user = nil
-      c = changesets.find(:first, :conditions => {:committer => committer}, :include => :user)
+      c = changesets.where(:committer => committer).includes(:user).first
       if c && c.user
         user = c.user
       elsif committer.strip =~ /^([^<]+)(<(.*)>)?$/
@@ -337,7 +339,7 @@ class Repository < ActiveRecord::Base
 
   # scan changeset comments to find related and fixed issues for all repositories
   def self.scan_changesets_for_issue_ids
-    find(:all).each(&:scan_changesets_for_issue_ids)
+    all.each(&:scan_changesets_for_issue_ids)
   end
 
   def self.scm_name
@@ -390,7 +392,7 @@ class Repository < ActiveRecord::Base
   end
 
   def set_as_default?
-    new_record? && project && !Repository.first(:conditions => {:project_id => project.id})
+    new_record? && project && Repository.where(:project_id => project.id).empty?
   end
 
   protected

@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2012  Jean-Philippe Lang
+# Copyright (C) 2006-2013  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -21,11 +21,11 @@ class IssuesController < ApplicationController
 
   before_filter :find_issue, :only => [:show, :edit, :update]
   before_filter :find_issues, :only => [:bulk_edit, :bulk_update, :destroy]
-  before_filter :find_project, :only => [:new, :create]
+  before_filter :find_project, :only => [:new, :create, :update_form]
   before_filter :authorize, :except => [:index]
   before_filter :find_optional_project, :only => [:index]
   before_filter :check_for_default_issue_status, :only => [:new, :create]
-  before_filter :build_new_issue_from_params, :only => [:new, :create]
+  before_filter :build_new_issue_from_params, :only => [:new, :create, :update_form]
   accept_rss_auth :index, :show
   accept_api_auth :index, :show, :create, :update, :destroy
 
@@ -71,8 +71,8 @@ class IssuesController < ApplicationController
       end
 
       @issue_count = @query.issue_count
-      @issue_pages = Paginator.new self, @issue_count, @limit, params['page']
-      @offset ||= @issue_pages.current.offset
+      @issue_pages = Paginator.new @issue_count, @limit, params['page']
+      @offset ||= @issue_pages.offset
       @issues = @query.issues(:include => [:assigned_to, :tracker, :priority, :category, :fixed_version],
                               :order => sort_clause,
                               :offset => @offset,
@@ -85,8 +85,8 @@ class IssuesController < ApplicationController
           Issue.load_visible_relations(@issues) if include_in_api_response?('relations')
         }
         format.atom { render_feed(@issues, :title => "#{@project || Setting.app_title}: #{l(:label_issue_plural)}") }
-        format.csv  { send_data(issues_to_csv(@issues, @project, @query, params), :type => 'text/csv; header=present', :filename => 'export.csv') }
-        format.pdf  { send_data(issues_to_pdf(@issues, @project, @query), :type => 'application/pdf', :filename => 'export.pdf') }
+        format.csv  { send_data(query_to_csv(@issues, @query, params), :type => 'text/csv; header=present', :filename => 'issues.csv') }
+        format.pdf  { send_data(issues_to_pdf(@issues, @project, @query), :type => 'application/pdf', :filename => 'issues.pdf') }
       end
     else
       respond_to do |format|
@@ -103,6 +103,9 @@ class IssuesController < ApplicationController
     @journals = @issue.journals.includes(:user, :details).reorder("#{Journal.table_name}.id ASC").all
     @journals.each_with_index {|j,i| j.indice = i+1}
     @journals.reject!(&:private_notes?) unless User.current.allowed_to?(:view_private_notes, @issue.project)
+    Journal.preload_journals_details_custom_fields(@journals)
+    # TODO: use #select! when ruby1.8 support is dropped
+    @journals.reject! {|journal| !journal.notes? && journal.visible_details.empty?}
     @journals.reverse! if User.current.wants_comments_in_reverse_order?
 
     @changesets = @issue.changesets.visible.all
@@ -113,6 +116,8 @@ class IssuesController < ApplicationController
     @edit_allowed = User.current.allowed_to?(:edit_issues, @project)
     @priorities = IssuePriority.active
     @time_entry = TimeEntry.new(:issue => @issue, :project => @issue.project)
+    @relation = IssueRelation.new
+
     respond_to do |format|
       format.html {
         retrieve_previous_and_next_issue_ids
@@ -132,7 +137,6 @@ class IssuesController < ApplicationController
   def new
     respond_to do |format|
       format.html { render :action => 'new', :layout => !request.xhr? }
-      format.js { render :partial => 'update_form' }
     end
   end
 
@@ -145,8 +149,12 @@ class IssuesController < ApplicationController
         format.html {
           render_attachment_warning_if_needed(@issue)
           flash[:notice] = l(:notice_issue_successful_create, :id => view_context.link_to("##{@issue.id}", issue_path(@issue), :title => @issue.subject))
-          redirect_to(params[:continue] ?  { :action => 'new', :project_id => @issue.project, :issue => {:tracker_id => @issue.tracker, :parent_issue_id => @issue.parent_issue_id}.reject {|k,v| v.nil?} } :
-                      { :action => 'show', :id => @issue })
+          if params[:continue]
+            attrs = {:tracker_id => @issue.tracker, :parent_issue_id => @issue.parent_issue_id}.reject {|k,v| v.nil?}
+            redirect_to new_project_issue_path(@issue.project, :issue => attrs)
+          else
+            redirect_to issue_path(@issue)
+          end
         }
         format.api  { render :action => 'show', :status => :created, :location => issue_url(@issue) }
       end
@@ -173,7 +181,7 @@ class IssuesController < ApplicationController
     @issue.save_attachments(params[:attachments] || (params[:issue] && params[:issue][:uploads]))
     saved = false
     begin
-      saved = @issue.save_issue_with_child_records(params, @time_entry)
+      saved = save_issue_with_child_records
     rescue ActiveRecord::StaleObjectError
       @conflict = true
       if params[:last_journal_id]
@@ -187,7 +195,7 @@ class IssuesController < ApplicationController
       flash[:notice] = l(:notice_successful_update) unless @issue.current_journal.new_record?
 
       respond_to do |format|
-        format.html { redirect_back_or_default({:action => 'show', :id => @issue}) }
+        format.html { redirect_back_or_default issue_path(@issue) }
         format.api  { render_api_ok }
       end
     else
@@ -196,6 +204,11 @@ class IssuesController < ApplicationController
         format.api  { render_validation_errors(@issue) }
       end
     end
+  end
+
+  # Updates the issue form when changing the project, status or tracker
+  # on issue creation/update
+  def update_form
   end
 
   # Bulk edit/copy a set of issues
@@ -220,7 +233,7 @@ class IssuesController < ApplicationController
     else
       @available_statuses = @issues.map(&:new_statuses_allowed_to).reduce(:&)
     end
-    @custom_fields = target_projects.map{|p|p.all_issue_custom_fields}.reduce(:&)
+    @custom_fields = target_projects.map{|p|p.all_issue_custom_fields.visible}.reduce(:&)
     @assignables = target_projects.map(&:assignable_users).reduce(:&)
     @trackers = target_projects.map(&:trackers).reduce(:&)
     @versions = target_projects.map {|p| p.shared_versions.open}.reduce(:&)
@@ -231,7 +244,9 @@ class IssuesController < ApplicationController
     end
 
     @safe_attributes = @issues.map(&:safe_attribute_names).reduce(:&)
-    render :layout => false if request.xhr?
+
+    @issue_params = params[:issue] || {}
+    @issue_params[:custom_field_values] ||= {}
   end
 
   def bulk_update
@@ -239,8 +254,8 @@ class IssuesController < ApplicationController
     @copy = params[:copy].present?
     attributes = parse_params_for_bulk_issue_attributes(params)
 
-    unsaved_issue_ids = []
-    moved_issues = []
+    unsaved_issues = []
+    saved_issues = []
 
     if @copy && params[:copy_subtasks].present?
       # Descendant issues will be copied with the parent task
@@ -248,39 +263,48 @@ class IssuesController < ApplicationController
       @issues.reject! {|issue| @issues.detect {|other| issue.is_descendant_of?(other)}}
     end
 
-    @issues.each do |issue|
-      issue.reload
+    @issues.each do |orig_issue|
+      orig_issue.reload
       if @copy
-        issue = issue.copy({},
+        issue = orig_issue.copy({},
           :attachments => params[:copy_attachments].present?,
           :subtasks => params[:copy_subtasks].present?
         )
+      else
+        issue = orig_issue
       end
       journal = issue.init_journal(User.current, params[:notes])
       issue.safe_attributes = attributes
       call_hook(:controller_issues_bulk_edit_before_save, { :params => params, :issue => issue })
       if issue.save
-        moved_issues << issue
+        saved_issues << issue
       else
-        # Keep unsaved issue ids to display them in flash error
-        unsaved_issue_ids << issue.id
+        unsaved_issues << orig_issue
       end
     end
-    set_flash_from_bulk_issue_save(@issues, unsaved_issue_ids)
 
-    if params[:follow]
-      if @issues.size == 1 && moved_issues.size == 1
-        redirect_to :controller => 'issues', :action => 'show', :id => moved_issues.first
-      elsif moved_issues.map(&:project).uniq.size == 1
-        redirect_to :controller => 'issues', :action => 'index', :project_id => moved_issues.map(&:project).first
+    if unsaved_issues.empty?
+      flash[:notice] = l(:notice_successful_update) unless saved_issues.empty?
+      if params[:follow]
+        if @issues.size == 1 && saved_issues.size == 1
+          redirect_to issue_path(saved_issues.first)
+        elsif saved_issues.map(&:project).uniq.size == 1
+          redirect_to project_issues_path(saved_issues.map(&:project).first)
+        end
+      else
+        redirect_back_or_default _project_issues_path(@project)
       end
     else
-      redirect_back_or_default({:controller => 'issues', :action => 'index', :project_id => @project})
+      @saved_issues = @issues
+      @unsaved_issues = unsaved_issues
+      @issues = Issue.visible.find_all_by_id(@unsaved_issues.map(&:id))
+      bulk_edit
+      render :action => 'bulk_edit'
     end
   end
 
   def destroy
-    @hours = TimeEntry.sum(:hours, :conditions => ['issue_id IN (?)', @issues]).to_f
+    @hours = TimeEntry.where(:issue_id => @issues.map(&:id)).sum(:hours).to_f
     if @hours > 0
       case params[:todo]
       when 'destroy'
@@ -308,7 +332,7 @@ class IssuesController < ApplicationController
       end
     end
     respond_to do |format|
-      format.html { redirect_back_or_default(:action => 'index', :project_id => @project) }
+      format.html { redirect_back_or_default _project_issues_path(@project) }
       format.api  { render_api_ok }
     end
   end
@@ -402,7 +426,7 @@ class IssuesController < ApplicationController
     @issue.safe_attributes = params[:issue]
 
     @priorities = IssuePriority.active
-    @allowed_statuses = @issue.new_statuses_allowed_to(User.current, true)
+    @allowed_statuses = @issue.new_statuses_allowed_to(User.current, @issue.new_record?)
     @available_watchers = (@issue.project.users.sort + @issue.watcher_users).uniq
   end
 
@@ -427,5 +451,27 @@ class IssuesController < ApplicationController
       end
     end
     attributes
+  end
+
+  # Saves @issue and a time_entry from the parameters
+  def save_issue_with_child_records
+    Issue.transaction do
+      if params[:time_entry] && (params[:time_entry][:hours].present? || params[:time_entry][:comments].present?) && User.current.allowed_to?(:log_time, @issue.project)
+        time_entry = @time_entry || TimeEntry.new
+        time_entry.project = @issue.project
+        time_entry.issue = @issue
+        time_entry.user = User.current
+        time_entry.spent_on = User.current.today
+        time_entry.attributes = params[:time_entry]
+        @issue.time_entries << time_entry
+      end
+
+      call_hook(:controller_issues_edit_before_save, { :params => params, :issue => @issue, :time_entry => time_entry, :journal => @issue.current_journal})
+      if @issue.save
+        call_hook(:controller_issues_edit_after_save, { :params => params, :issue => @issue, :time_entry => time_entry, :journal => @issue.current_journal})
+      else
+        raise ActiveRecord::Rollback
+      end
+    end
   end
 end

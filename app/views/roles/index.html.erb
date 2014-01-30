@@ -1,6 +1,6 @@
 <div class="contextual">
 <%= link_to l(:label_role_new), new_role_path, :class => 'icon icon-add' %>
-<%= link_to l(:label_permissions_report), {:action => 'permissions'}, :class => 'icon icon-summary' %>
+<%= link_to l(:label_permissions_report), permissions_roles_path, :class => 'icon icon-summary' %>
 </div>
 
 <h2><%=l(:label_role_plural)%></h2>
@@ -14,8 +14,8 @@
   <tbody>
 <% for role in @roles %>
   <tr class="<%= cycle("odd", "even") %>">
-  <td><%= content_tag(role.builtin? ? 'em' : 'span', link_to(h(role.name), edit_role_path(role))) %></td>
-  <td align="center" style="width:15%;">
+  <td class="name"><%= content_tag(role.builtin? ? 'em' : 'span', link_to(h(role.name), edit_role_path(role))) %></td>
+  <td class="reorder">
   <% unless role.builtin? %>
     <%= reorder_links('role', {:action => 'update', :id => role}, :put) %>
   <% end %>

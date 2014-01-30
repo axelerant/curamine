@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2012  Jean-Philippe Lang
+# Copyright (C) 2006-2013  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -16,19 +16,11 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 require File.expand_path('../../test_helper', __FILE__)
-require 'members_controller'
-
-# Re-raise errors caught by the controller.
-class MembersController; def rescue_action(e) raise e end; end
-
 
 class MembersControllerTest < ActionController::TestCase
   fixtures :projects, :members, :member_roles, :roles, :users
 
   def setup
-    @controller = MembersController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
     User.current = nil
     @request.session[:user_id] = 2
   end
@@ -112,11 +104,8 @@ class MembersControllerTest < ActionController::TestCase
   end
 
   def test_autocomplete
-    get :autocomplete, :project_id => 1, :q => 'mis'
+    get :autocomplete, :project_id => 1, :q => 'mis', :format => 'js'
     assert_response :success
-    assert_template 'autocomplete'
-
-    assert_tag :label, :content => /User Misc/,
-                       :child => { :tag => 'input', :attributes => { :name => 'membership[user_ids][]', :value => '8' } }
+    assert_include 'User Misc', response.body
   end
 end

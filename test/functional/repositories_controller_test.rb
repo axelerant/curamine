@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2012  Jean-Philippe Lang
+# Copyright (C) 2006-2013  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -16,10 +16,6 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 require File.expand_path('../../test_helper', __FILE__)
-require 'repositories_controller'
-
-# Re-raise errors caught by the controller.
-class RepositoriesController; def rescue_action(e) raise e end; end
 
 class RepositoriesControllerTest < ActionController::TestCase
   fixtures :projects, :users, :roles, :members, :member_roles, :enabled_modules,
@@ -27,9 +23,6 @@ class RepositoriesControllerTest < ActionController::TestCase
            :issue_categories, :enumerations, :custom_fields, :custom_values, :trackers
 
   def setup
-    @controller = RepositoriesController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
     User.current = nil
   end
 
@@ -118,6 +111,31 @@ class RepositoriesControllerTest < ActionController::TestCase
     assert_nil Repository.find_by_id(11)
   end
 
+  def test_show_with_autofetch_changesets_enabled_should_fetch_changesets
+    Repository::Subversion.any_instance.expects(:fetch_changesets).once
+
+    with_settings :autofetch_changesets => '1' do
+      get :show, :id => 1
+    end
+  end
+
+  def test_show_with_autofetch_changesets_disabled_should_not_fetch_changesets
+    Repository::Subversion.any_instance.expects(:fetch_changesets).never
+
+    with_settings :autofetch_changesets => '0' do
+      get :show, :id => 1
+    end
+  end
+
+  def test_show_with_closed_project_should_not_fetch_changesets
+    Repository::Subversion.any_instance.expects(:fetch_changesets).never
+    Project.find(1).close
+
+    with_settings :autofetch_changesets => '1' do
+      get :show, :id => 1
+    end
+  end
+
   def test_revisions
     get :revisions, :id => 1
     assert_response :success
@@ -179,6 +197,14 @@ class RepositoriesControllerTest < ActionController::TestCase
     assert_equal [2], Changeset.find(103).issue_ids
     assert_include 'related-issues', response.body
     assert_include 'Feature request #2', response.body
+  end
+
+  def test_add_related_issue_should_accept_issue_id_with_sharp
+    @request.session[:user_id] = 2
+    assert_difference 'Changeset.find(103).issues.size' do
+      xhr :post, :add_related_issue, :id => 1, :rev => 4, :issue_id => "#2", :format => 'js'
+    end
+    assert_equal [2], Changeset.find(103).issue_ids
   end
 
   def test_add_related_issue_with_invalid_issue_id
@@ -262,7 +288,7 @@ class RepositoriesControllerTest < ActionController::TestCase
             :revision => 100,
             :comments => 'Committed by foo.'
           )
-    assert_no_difference "Changeset.count(:conditions => 'user_id = 3')" do
+    assert_no_difference "Changeset.where(:user_id => 3).count" do
       post :committers, :id => 10, :committers => { '0' => ['foo', '2'], '1' => ['dlopper', '3']}
       assert_response 302
       assert_equal User.find(2), c.reload.user
