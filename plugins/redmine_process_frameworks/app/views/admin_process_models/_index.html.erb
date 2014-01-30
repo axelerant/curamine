@@ -105,6 +105,14 @@
     float:left;
     width: 40%;
 }
+
+div.dataTables_paginate > span {
+    margin-right:7px !important;
+}
+
+.ui-buttonset .ui-button{
+    margin-right: 7px !important;
+}
 </style>
 
 <script type="text/javascript">
@@ -116,7 +124,10 @@ $(document).ready(function() {
         "bRetrieve": true,
         "oLanguage": {
          "sLengthMenu": "_MENU_ records per page"
-       }
+        },
+        "bJQueryUI"      : true,
+        "bPaginate": true,
+        "sPaginationType" : "full_numbers"
     });
 });
 </script>
