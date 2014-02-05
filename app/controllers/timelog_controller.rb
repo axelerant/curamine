@@ -82,6 +82,8 @@ class TimelogController < ApplicationController
 
     @report = Redmine::Helpers::TimeReport.new(@project, @issue, params[:criteria], params[:columns], scope)
 
+    @show_utilization = (params[:criteria].present? and params[:criteria].include? "utilization")
+
     respond_to do |format|
       format.html { render :layout => !request.xhr? }
       format.csv  { send_data(report_to_csv(@report), :type => 'text/csv; header=present', :filename => 'timelog.csv') }

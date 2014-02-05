@@ -128,6 +128,28 @@ module TimelogHelper
     export
   end
 
+  def calculate_availability(columns, hours, period)
+    hours = hours.to_f
+    std_hours = Setting.standard_man_hours_a_day.to_i
+    business_days = case columns
+                    when "week"
+                      5
+                    when "month"
+                      period = period.split('-')
+                      year, month = period[0].to_i, period[1].to_i
+                      start_date =  Date.new(year, month)
+                      TimeEntry.business_days_between start_date, start_date.end_of_month
+                    when "day"
+                      1
+                    when "year"
+                      year = period.to_i
+                      start_date =  Date.new(year)
+                      TimeEntry.business_days_between start_date, start_date.end_of_year
+                    end
+    availability = hours/(std_hours * business_days)
+    "%.1f" % (availability * 100)
+  end
+
   def report_criteria_to_csv(csv, available_criteria, columns, criteria, periods, hours, level=0)
     decimal_separator = l(:general_csv_decimal_separator)
     hours.collect {|h| h[criteria[level]].to_s}.uniq.each do |value|

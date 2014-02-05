@@ -116,4 +116,15 @@ class TimeEntry < ActiveRecord::Base
   def editable_by?(usr)
     (usr == user && usr.allowed_to?(:edit_own_time_entries, project)) || usr.allowed_to?(:edit_time_entries, project)
   end
+
+  def self.business_days_between(date1, date2)
+    business_days = 0
+    date = date2
+    while date >= date1
+      business_days += 1 unless date.saturday? or date.sunday?
+      date = date - 1
+    end
+    business_days
+  end
+
 end

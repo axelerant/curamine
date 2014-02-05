@@ -1094,3 +1094,5 @@ en:
   description_date_from: Enter start date
   description_date_to: Enter end date
   text_repository_identifier_info: 'Only lower case letters (a-z), numbers, dashes and underscores are allowed.<br />Once saved, the identifier cannot be changed.'
+  setting_standard_man_hours_a_day: Standard man hours a day
+  utilization: Utilization

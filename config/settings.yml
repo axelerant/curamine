@@ -228,3 +228,6 @@ non_working_week_days:
   default:
   - '6'
   - '7'
+standard_man_hours_a_day:
+  format: int
+  default: 8
