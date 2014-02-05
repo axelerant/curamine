@@ -1158,3 +1158,8 @@ h2 img { vertical-align:middle; }
   height:1px;
   overflow:hidden;
 }
+
+.news_selectors{
+    float: right;
+    margin-top: 20px;
+}

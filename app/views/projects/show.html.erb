@@ -63,6 +63,20 @@
   <%= call_hook(:view_projects_show_left, :project => @project) %>
 </div>
 
+
+
+<div class="splitcontentleft">
+  <% if @latest_notes.any? %>
+    <div class="news box">
+      <h3>Project Assets</h3>
+      <%= render :partial => 'news/notebook', :collection => @latest_notes, :as => :note %>
+    </div>
+  <% end %>
+</div>
+
+
+
+
 <div class="splitcontentright">
   <%= render :partial => 'members_box' %>
 

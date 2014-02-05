@@ -146,7 +146,8 @@ class ProjectsController < ApplicationController
 
     @users_by_role = @project.users_by_role
     @subprojects = @project.children.visible.all
-    @news = @project.news.limit(5).includes(:author, :project).reorder("#{News.table_name}.created_on DESC").all
+    @news = @project.news.find(:all, :limit => 5, :include => [ :author, :project ], :order => "#{News.table_name}.created_on DESC", :conditions => ["#{News.table_name}.is_note = ? OR #{News.table_name}.is_note = ?", false, nil] )
+    @latest_notes = @project.news.find(:all, :include => [ :author, :project ], :order => "#{News.table_name}.created_on DESC", :conditions => ["#{News.table_name}.is_note = ? AND #{News.table_name}.note_scope = ?", true, "project"] )
     @trackers = @project.rolled_up_trackers
 
     cond = @project.project_condition(Setting.display_subprojects_issues?)

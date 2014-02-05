@@ -13,6 +13,17 @@
 </div>
 
 <div class="splitcontentright">
+  <% if @latest_notes.any? %>
+    <div class="news box">
+      <h3>Organizational Assets</h3>
+      <%= render :partial => 'news/notebook', :collection => @latest_notes, :as => :note %>
+    </div>
+  <% end %>
+</div>
+
+
+
+<div class="splitcontentright">
     <% if @projects.any? %>
   <div class="projects box">
   <h3><%=l(:label_project_latest)%></h3>
