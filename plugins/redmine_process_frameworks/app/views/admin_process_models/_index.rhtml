@@ -47,8 +47,6 @@
     </tr>
     <%end %>
 </table>
-<p class="pagination"><%= pagination_links @all_pages[tab[:name]],:params => {:tab => tab[:name]}%></p>
-
 <p>
     <%= link_to l(:label_new), {:action => 'new_elem', :type => tab[:name]}, :class => 'icon icon-add' %>
 </p>
