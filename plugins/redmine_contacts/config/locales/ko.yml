@@ -1,0 +1,272 @@
+# encoding: utf-8
+ko:
+  contacts_title: 연락처
+
+  label_crm_recently_viewed: 최근 본 사용자
+  label_crm_gravatar_enabled: 이미지 사용
+  label_crm_thumbnails_enabled: 노트에 썸네일 포함
+  label_crm_max_thumbnail_file_size: Max 썸네일 이미지 사이즈
+  label_crm_view_all_contacts: 전체 연락처 보기
+  label_crm_background_info: 설명
+  label_crm_company: 회사
+  label_contact_plural: 연락처
+  label_crm_contact_edit_information: 연락처 정보 수정
+  label_crm_edit_tags: 태그 수정
+  label_crm_contact_view: View
+  label_crm_contact_list: List
+  label_crm_contact_new: 새 연락처
+  label_crm_at_company: 소속 -
+  label_crm_last_notes: 최근 메모
+  label_crm_tags_plural: 태그
+  label_crm_multi_tags_plural: 복수 태그 선택
+  label_crm_single_tag_mode: 싱글 태그
+  label_crm_multiple_tags_mode: 복수 태그
+  label_crm_contact_tag: Tag
+  label_crm_time_ago: 전
+  label_crm_add_note_plural: 메모 작성
+  label_crm_note_plural: 메모
+
+  label_crm_add_tags_rule: 콤마로 구분
+  label_crm_contact_search: 이름으로 찾기
+  label_crm_note_for: Note for
+  label_crm_show_on_map: 지도에서 찾기
+  label_crm_add_another_phone: 전화번호 추가
+  label_crm_remove: 삭제
+  label_crm_related_contacts: 연관된 연락처
+  label_crm_assigned_to: 책임자
+  label_crm_issue_added: 이슈 추가
+  label_crm_add_emails_rule: 콤마로 구분
+  label_crm_add_phones_rule: 콤마로 구분
+  label_crm_add_employee: 새 직원추가
+  label_crm_merge_duplicate_plural: 합치기
+  label_crm_duplicate_plural: 중복 사용자
+  label_crm_duplicate_for_plural: 다음 사용자와 중복되었음
+  label_crm_add_tag: + 태그 추가
+
+  label_crm_note_show_extras: 고급옵션 (타입, 날짜, 파일)
+  label_crm_note_hide_extras: 옵션 숨기기
+  label_crm_note_added: Note added
+  label_crm_note_read_more: (read more)
+  label_crm_invoice_import: Import invoices from CSV
+
+  label_deal_plural: 입찰
+  label_crm_contractor_plural: 연락처
+  label_deal: 입찰
+  label_crm_deal_new: 새 입찰
+  label_crm_deal_edit_information: 입찰 정보 수정
+  label_crm_deal_change_status: 상태 변경
+  label_crm_statistics: 통계
+  label_crm_deals_import: Import deals from CSV
+
+  label_crm_deal_status_new: 신규
+  label_crm_deal_status_first_contact: 첫번째 연락처
+  label_crm_deal_status_negotiations: 협상
+  label_crm_deal_status_pending: 지연
+  label_crm_deal_status_won: 낙찰
+  label_crm_deal_status_lost: 유찰
+
+  label_crm_created_on: 생성 시기
+
+  field_note_date: Note date
+  field_background: 설명
+  field_currency: 통화
+  field_contact: 연락처
+
+  field_deal_name: 이름
+  field_deal_background: 설명
+  field_deal_contact: 연락처
+  field_deal_price: 합계
+  field_price: 합계
+
+  field_contact_avatar: 사진
+  field_contact_is_company: 회사
+  field_contact_name: 이름
+  field_contact_last_name: 성
+  field_contact_first_name: 이름
+  field_contact_middle_name: 미들 네임
+  field_contact_job_title: 직업
+  field_contact_company: 회사
+  field_contact_address: 주소
+  field_contact_phone: 전화번호
+  field_contact_email: Email
+  field_contact_website: 웹페이지
+  field_contact_skype: Skype
+  field_contact_status: 상태
+  field_contact_background: 설명
+  field_contact_tag_names: 태그
+  field_first_name: 이름
+  field_last_name: 성
+  field_company: 회사
+  field_birthday: 생일
+  field_contact_department: 부서
+
+
+  field_company_field: 업종
+
+  field_color: 색상
+
+  button_add_note: 메모 남기기
+  notice_successful_save: 성공적으로 저장되었습니다.
+  notice_successful_add: 성공적으로 생성되었습니다.
+  notice_unsuccessful_save: 저장에 문제가 있습니다.
+  notice_successful_merged: 성곡적으로 합쳐졌습니다.
+
+  notice_merged_warning: 현재 연락처는 삭제되고 이 사람에게 부여된 모든  메모, 프로젝트, 태그 그리고 업무는 아래에 선택된 사람으로 이동됩니다.
+
+  project_module_contacts: 연락처
+
+  permission_view_contacts: 연락처 보기
+  permission_edit_contacts: 연락처 수정
+  permission_delete_contacts: 연락처 삭제
+  permission_view_deals: 입찰 보기
+  permission_edit_deals: 입찰 수정
+  permission_delete_deals: 입찰 삭제
+  permission_add_notes: 노트 추가
+  permission_delete_notes: 노트 삭제
+  permission_delete_own_notes: 자신의 노트 삭제
+
+  # 2.0.0
+  label_crm_deal_category: 입찰 카테고리
+  label_crm_deal_category_plural: Deals categories
+  label_crm_deal_category_new: 새 카테고리
+  text_deal_category_destroy_assignments: Remove category assignments
+  text_deal_category_destroy_question: "Some deals (%{count}) are assigned to this category. What do you want to do?"
+  text_deal_category_reassign_to: Reassign deals to this category
+  text_deals_destroy_confirmation: '선택된 입찰을 삭제하시겠습니까??'
+  label_crm_deal_status_plural: 입찰 상태
+  label_crm_deal_status: 입찰 상태
+  field_deal_status_is_closed: Closed
+  label_crm_deal_status_new: New
+  permission_manage_contacts: 입찰 리스트 보기
+  label_crm_sales_funnel: Sales funnel
+  label_crm_period: 기간
+  label_crm_count: Count
+
+  #2.0.1
+  label_crm_user_format: 이름 표현 형식
+  label_crm_my_contact_plural: Contacts assigned to me
+  label_crm_my_deal_plural: Open deals assigned to me
+  label_crm_contact_view_all: 모든 연락처 보기
+  label_crm_deal_view_all: View all deals
+
+  #2.0.2
+  label_crm_bulk_edit_selected_contacts: Edit all selected contacts
+  label_crm_bulk_edit_selected_deals: Edit all selected deals
+  label_crm_bulk_send_mail_selected_contacts: 선택된 연락처로 메일 보내기
+  field_add_tags: 태그 추가
+  field_delete_tags: 태그 지우기
+  label_crm_send_mail: 메일 보내기
+  error_empty_email: 메일 내용이 없습니다.
+  permission_send_contacts_mail: 메일 보내기
+  field_mail_from: 보내는 사람
+  text_email_macros: 가능한 메크로 %{macro}
+  field_message: 메시지
+
+  #2.0.3
+  label_crm_add_contact: Add contact
+  label_contact: 연락처
+  field_age: 나이
+  label_crm_vcf_import: Import from vCard
+  label_crm_mail_from: 부터
+  permission_import_contacts: Import contacts
+
+  #2.1.0
+  field_company_name: 회사 이름
+  label_crm_recently_added_contacts: 최근 추가된 연락처
+  label_crm_created_by_me: 내가 추가한 연락처
+  my_contacts: 내 연락처
+  my_deals: 내 입찰
+
+  #2.2.0
+  label_crm_note_type_email: Email
+  label_crm_note_type_call: Call
+  label_crm_note_type_meeting: 미팅
+  field_deal_currency: 통화
+  label_crm_my_contacts_stats: Contacts statistics for this month
+  label_crm_contacts_created: Contacts created
+  label_crm_deals_created: Deals created
+  my_contacts_avatars: My contacts photos
+  my_contacts_stats: Contacts statistics
+  label_crm_add_into: Add into
+  label_crm_delete_from: Delete from
+  label_crm_show_deaks_tab: Show deals tab
+  label_crm_show_on_projects_show: Show contacts on projects overview
+
+  #2.2.1
+  label_crm_contacts_show_in_list: Show in list
+
+  #2.3.0
+  label_crm_module_plural: 모듈
+  label_crm_list_partial_style: 연락처 표시 방식
+  label_crm_list_excerpt: 인용 리스트
+  label_crm_list_cards: Cards
+  label_crm_list_list: Table
+  field_contacts: 연락처
+  field_companies: 회사
+  label_crm_added_by: 작성자 -
+  label_crm_contact_note_authoring_time: 메모 시간보기
+  label_crm_contact_issues_filters: Issues filters
+  label_crm_csv_import: Import from CSV
+  label_crm_upload_encoding: 파일 인코딩
+  label_crm_csv_file: CSV file
+  label_crm_csv_separator: Separator
+  field_middle_name: Middle Name
+  field_job_title: 직업
+  field_company: 회사
+  field_address: 주소
+  field_phone: 전화번호
+  field_email: Email
+  field_tags: 태그
+  field_last_note: 최근 노트
+  field_is_company: 회사만
+  field_contact_full_name: 이름
+  button_contacts_edit_query: 쿼리 수정
+  button_contacts_delete_query: 쿼리 삭제
+  permission_manage_public_contacts_queries: 공개 쿼리
+  permission_add_deals: 입찰 추가
+  permission_add_contacts: 연락처 추가
+  permission_save_contacts_queries: 쿼리 저장
+
+  #2.3.3
+  label_crm_contact_show_in_app_menu: 탭으로 보기
+
+  #2.3.4
+  label_crm_contact_show_closed_issues: 완료된 이슈보기
+
+  #3.0.0
+  label_crm_import: Import
+  label_crm_contact_note_plural: Contacts notes
+  label_crm_deal_note_plural: Deal notes
+  label_crm_contact_all_note_plural: All notes
+  error_unable_delete_deal_status: Unable delete deal status
+  label_crm_contacts_hidden: Hidden settings
+
+  #3.1.0
+  label_crm_contact_added: Contact added
+  label_crm_note_added: Note added
+  label_crm_deal_added: Deal added
+  label_crm_deal_updated: Deal updated
+  text_crm_contact_added: "%{name} 연락처는 %{author}에 의해 추가되었습니다.."
+  text_crm_deal_added: "%{name} 입찰은 %{author}에 의해 추가되었습니다.."
+  text_crm_deal_status_changed: "입찰 상태가 %{old} 에서 %{new}로 변경되었습니다."
+  text_crm_deal_updated: "%{name}입찰은  %{author}에 의해 업데이트 되었습니다.."
+  label_crm_contacts_cc: Cc
+  label_crm_contacts_bcc: Bcc
+  label_crm_contact_import: CSV 내보내기
+  permission_import_deals: Import deals
+  label_crm_single_quotes: "Single quotes (')"
+  label_crm_double_quotes: "Double quotes (\")"
+  label_crm_quotes_type: 인용문구 타입
+  label_crm_contacts_visibility: 공개여부
+  label_crm_contacts_visibility_project: 프로젝트에 한해서만 공개
+  label_crm_contacts_visibility_public: 전체공개
+  label_crm_contacts_visibility_private: 비공개
+  permission_view_private_contacts: 개인 연락처 보기
+  text_crm_error_on_line: 'Error on line %{line}: %{error}.'
+
+  #3.2.0
+  label_crm_probability: 확률
+  label_crm_deal_status_type: 타입 상태
+  label_crm_select_companies: 회사를 입찰대상으로 포함
+  label_crm_expected_revenue: 예상 수익
+  label_crm_deal_due_date: 만기일

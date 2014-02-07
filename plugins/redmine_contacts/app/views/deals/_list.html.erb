@@ -1,0 +1,44 @@
+<%= form_tag({}) do -%>
+	<%= hidden_field_tag 'back_url', url_for(params) %>
+	<%= hidden_field_tag 'project_id', @project.id if @project %>
+<div class="autoscroll">
+    <table class="list">
+      <thead>
+      <tr>
+        <th class="checkbox hide-when-print"><%= link_to image_tag('toggle_check.png'), {}, :onclick => 'toggleIssuesSelection(this); return false;',
+                                                           :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}" %>
+        </th>
+        <%= sort_header_tag('id', :caption => '#', :default_order => 'desc') %>
+        <%= sort_header_tag('status', :caption => l(:field_contact_status), :default_order => 'asc') %>
+        <%= sort_header_tag('name', :caption => l(:field_name), :default_order => 'desc') %>
+        <th><%= l(:field_deal_contact) %></th>
+        <%= sort_header_tag('category', :caption => l(:field_category), :default_order => 'desc') %>
+        <%= sort_header_tag('due_date', :caption => l(:field_due_date), :default_order => 'desc') %>
+        <%= sort_header_tag('probability', :caption => l(:label_crm_probability), :default_order => 'desc') %>
+        <%= sort_header_tag('price', :caption => l(:field_deal_price), :default_order => 'desc') %>
+      </tr>
+      </thead>
+      <% @deals.each do |deal| %>
+      <tr style="text-align: center;white-space: nowrap;" class="hascontextmenu deal <%= cycle('odd', 'even') %> status-<%= deal.status_id %> status-type-<%= deal.status.status_type if deal.status %>">
+        <td class="checkbox hide-when-print"><%= check_box_tag("ids[]", deal.id, false, :id => nil) %></td>
+        <td class="id"><%= link_to deal.id, deal_path(deal) %></td>
+        <td class="status"><%= deal.status.name if deal.status %></td>
+        <td class="name" style="text-align:left;width:50%;"><%= link_to deal.name, deal_path(deal) %></td>
+        <td class="contact" style="text-align:left;"><%= !deal.contact.blank? ? link_to_contact(deal.contact).html_safe : "" %></td>
+        <td class="category"><%= deal.category.name if deal.category %></td>
+        <td class="due_date"><%= format_date(deal.due_date) %></td>
+        <td class="probability"><%= deal.probability.to_s + "%" unless deal.probability.blank? %></td>
+        <td class="price" style="text-align:right;"><%= deal_price(deal) %></td>
+      </tr>
+      <% end %>
+      <tr class="total">
+        <th colspan="7" class="title" style="text-align:right;"> <%= "#{l(:label_total)} (#{@deals_count}):" %> </th>
+        <th colspan="2" class="sum" style="text-align:right;">
+          <%= prices_collection_by_currency(@deals_sum, :hide_zeros => true).join('<br/>').html_safe %>
+        </th>
+      </tr>
+    </table>
+</div>
+
+<% end %>
+<p class="pagination"><%= pagination_links_full @deals_pages, @deals_count %></p>

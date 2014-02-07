@@ -1,0 +1,588 @@
+en:
+  contacts_title: Contacts
+
+  label_crm_recently_viewed: Recently viewed
+  label_crm_gravatar_enabled: Use Gravatar
+  label_crm_thumbnails_enabled: Show image thumbnails in notes
+  label_crm_max_thumbnail_file_size: Max thumbnailed image size
+  label_crm_view_all_contacts: View all contacts
+  label_crm_background_info: Background info
+  label_crm_company: Company
+  label_contact_plural: Contacts
+  label_crm_contact_edit_information: Editing Contact Information
+  label_crm_edit_tags: Edit tags
+  label_crm_contact_view: View
+  label_crm_contact_list: List
+  label_crm_contact_new: New contact
+  label_crm_at_company: at
+  label_crm_last_notes: Latest notes
+  label_crm_tags_plural: Tags
+  label_crm_multi_tags_plural: Select multilpe tags
+  label_crm_single_tag_mode: Single tag
+  label_crm_multiple_tags_mode: Multiple tags
+  label_crm_contact_tag: Tag
+  label_crm_time_ago: ago
+  label_crm_add_note_plural: Add note to
+  label_crm_note_plural: Notes
+
+  label_crm_add_tags_rule: devide by commas
+  label_crm_contact_search: Search by name
+  label_crm_note_for: Note for
+  label_crm_show_on_map: Show on map
+  label_crm_add_another_phone: add phone
+  label_crm_remove: delete
+  label_crm_related_contacts: Related contacts
+  label_crm_assigned_to: Responsible
+  label_crm_issue_added: Issue added
+  label_crm_add_emails_rule: divide by commas
+  label_crm_add_phones_rule: divide by commas
+  label_crm_add_employee: New employee
+  label_crm_merge_duplicate_plural: Merge
+  label_crm_duplicate_plural: Possible duplicates
+  label_crm_duplicate_for_plural: Possible duplicates for
+  label_crm_add_tag: + add tag
+
+  label_crm_note_show_extras: Advanced (type, date, files)
+  label_crm_note_hide_extras: Hide advanced
+  label_crm_note_added: Note added
+  label_crm_note_read_more: (read more)
+  label_crm_invoice_import: Import invoices from CSV
+
+  label_deal_plural: Deals
+  label_crm_contractor_plural: Contacts
+  label_deal: Deal
+  label_crm_deal_new: New deal
+  label_crm_deal_edit_information: Edit deal information
+  label_crm_deal_change_status: Change status
+  label_crm_statistics: Statistics
+  label_crm_deals_import: Import deals from CSV
+
+  label_crm_deal_status_new: New
+  label_crm_deal_status_first_contact: First contact
+  label_crm_deal_status_negotiations: Negotiations
+  label_crm_deal_status_pending: Pending
+  label_crm_deal_status_won: Won
+  label_crm_deal_status_lost: Lost
+
+  label_crm_created_on: Created on
+
+  field_note_date: Note date
+  field_background: Background
+  field_currency: Currency
+  field_contact: Contact
+
+  field_deal_name: Name
+  field_deal_background: Background
+  field_deal_contact: Contact
+  field_deal_price: Sum
+  field_price: Sum
+
+  field_contact_avatar: Avatar
+  field_contact_is_company: Company
+  field_contact_name: Name
+  field_contact_last_name: Last Name
+  field_contact_first_name: First Name
+  field_contact_middle_name: Middle Name
+  field_contact_job_title: Job title
+  field_contact_company: Company
+  field_contact_address: Address
+  field_contact_phone: Phone
+  field_contact_email: Email
+  field_contact_website: Website
+  field_contact_skype: Skype
+  field_contact_status: Status
+  field_contact_background: Background
+  field_contact_tag_names: Tags
+  field_first_name: First name
+  field_last_name: Last name
+  field_company: Company
+  field_birthday: Birthday
+  field_contact_department: Department
+
+
+  field_company_field: Industry
+
+  field_color: Color
+
+  button_add_note: Add note
+  notice_successful_save: Saved successfully
+  notice_successful_add: Successfully created
+  notice_unsuccessful_save: Save problems
+  notice_successful_merged: Successfully merged
+
+  notice_merged_warning: All the notes, projects, tags and tasks attached to this person will be moved to choosed below. The contact will then be deleted.
+
+  project_module_contacts: Contacts
+
+  permission_view_contacts: View contacts
+  permission_edit_contacts: Edit contacts
+  permission_delete_contacts: Delete contacts
+  permission_view_deals: View deals
+  permission_edit_deals: Edit deals
+  permission_delete_deals: Delete deals
+  permission_add_notes: Add notes
+  permission_delete_notes: Delete notes
+  permission_delete_own_notes: Delete own notes
+
+  # 2.0.0
+  label_crm_deal_category: Deal category
+  label_crm_deal_category_plural: Deals categories
+  label_crm_deal_category_new: New category
+  text_deal_category_destroy_assignments: Remove category assignments
+  text_deal_category_destroy_question: "Some deals (%{count}) are assigned to this category. What do you want to do?"
+  text_deal_category_reassign_to: Reassign deals to this category
+  text_deals_destroy_confirmation: 'Are you sure you want to delete the selected deal(s)?'
+  label_crm_deal_status_plural: Deal statuses
+  label_crm_deal_status: Deal status
+  field_deal_status_is_closed: Closed
+  label_crm_deal_status_new: New
+  permission_manage_contacts: Manage contacts
+  label_crm_sales_funnel: Sales funnel
+  label_crm_period: Period
+  label_crm_count: Count
+
+  #2.0.1
+  label_crm_user_format: Contact name format
+  label_crm_my_contact_plural: Contacts assigned to me
+  label_crm_my_deal_plural: Open deals assigned to me
+  label_crm_contact_view_all: View all contacts
+  label_crm_deal_view_all: View all deals
+
+  #2.0.2
+  label_crm_bulk_edit_selected_contacts: Edit all selected contacts
+  label_crm_bulk_edit_selected_deals: Edit all selected deals
+  label_crm_bulk_send_mail_selected_contacts: Send mail to selected contacts
+  field_add_tags: Add tags
+  field_delete_tags: Delete tags
+  label_crm_send_mail: Send mail
+  error_empty_email: Email can not be blank
+  permission_send_contacts_mail: Send mail
+  field_mail_from: From address
+  text_email_macros: Avaliable macros %{macro}
+  field_message: Message
+
+  #2.0.3
+  label_crm_add_contact: Add contact
+  label_contact: Contact
+  field_age: Age
+  label_crm_vcf_import: Import from vCard
+  label_crm_mail_from: From
+  permission_import_contacts: Import contacts
+
+  #2.1.0
+  field_company_name: Company name
+  label_crm_recently_added_contacts: Recently added contacts
+  label_crm_created_by_me: Contacts created by me
+  my_contacts: My contacts
+  my_deals: My deals
+
+  #2.2.0
+  label_crm_note_type_email: Email
+  label_crm_note_type_call: Call
+  label_crm_note_type_meeting: Meeting
+  field_deal_currency: Currency
+  label_crm_my_contacts_stats: Contacts statistics for this month
+  label_crm_contacts_created: Contacts created
+  label_crm_deals_created: Deals created
+  my_contacts_avatars: My contacts photos
+  my_contacts_stats: Contacts statistics
+  label_crm_add_into: Add into
+  label_crm_delete_from: Delete from
+  label_crm_show_deaks_tab: Show deals tab
+  label_crm_show_on_projects_show: Show contacts on projects overview
+
+  #2.2.1
+  label_crm_contacts_show_in_list: Show in list
+
+  #2.3.0
+  label_crm_module_plural: Modules
+  label_crm_list_partial_style: List style
+  label_crm_list_excerpt: Excerpt list
+  label_crm_list_cards: Cards
+  label_crm_list_list: Table
+  field_contacts: Contact
+  field_companies: Company
+  label_crm_added_by: Added by
+  label_crm_contact_note_authoring_time: Show note time
+  label_crm_contact_issues_filters: Issues filters
+  label_crm_csv_import: Import from CSV
+  label_crm_upload_encoding: File encoding
+  label_crm_csv_file: CSV file
+  label_crm_csv_separator: Separator
+  field_middle_name: Middle Name
+  field_job_title: Job title
+  field_company: Company
+  field_address: Address
+  field_phone: Phone
+  field_email: Email
+  field_tags: Tags
+  field_last_note: Last note
+  field_is_company: Is company
+  field_contact_full_name: Full name
+  button_contacts_edit_query: Edit query
+  button_contacts_delete_query: Delete query
+  permission_manage_public_contacts_queries: Manage public queries
+  permission_add_deals: Add deals
+  permission_add_contacts: Add contacts
+  permission_save_contacts_queries: Save queries
+
+  #2.3.3
+  label_crm_contact_show_in_app_menu: Show tabs in app menu
+
+  #2.3.4
+  label_crm_contact_show_closed_issues: Show closed issues
+
+  #3.0.0
+  label_crm_import: Import
+  label_crm_contact_note_plural: Contacts notes
+  label_crm_deal_note_plural: Deal notes
+  label_crm_contact_all_note_plural: All notes
+  error_unable_delete_deal_status: Unable to delete deal status
+  label_crm_contacts_hidden: Hidden settings
+
+  #3.1.0
+  label_crm_contact_added: Contact added
+  label_crm_note_added: Note added
+  label_crm_deal_added: Deal added
+  label_crm_deal_updated: Deal updated
+  text_crm_contact_added: "Contact %{name} has been added by %{author}."
+  text_crm_deal_added: "Deal %{name} has been added by %{author}."
+  text_crm_deal_status_changed: "Deal status changed from %{old} to %{new}"
+  text_crm_deal_updated: "Deal %{name} has been updated by %{author}."
+  label_crm_contacts_cc: Cc
+  label_crm_contacts_bcc: Bcc
+  label_crm_contact_import: Import from CSV
+  permission_import_deals: Import deals
+  label_crm_single_quotes: "Single quotes (')"
+  label_crm_double_quotes: "Double quotes (\")"
+  label_crm_quotes_type: Quotation marks type
+  label_crm_contacts_visibility: Visibility
+  label_crm_contacts_visibility_project: By projects permissions
+  label_crm_contacts_visibility_public: Public
+  label_crm_contacts_visibility_private: Private
+  permission_view_private_contacts: View private contacts
+  text_crm_error_on_line: 'Error on line %{line}: %{error}.'
+
+  #3.2.0
+  label_crm_probability: Probability
+  label_crm_deal_status_type: Status type
+  label_crm_select_companies: Filter companies in deal
+  label_crm_expected_revenue: Expected revenue
+  label_crm_deal_due_date: Due date
+
+  #3.2.2
+  label_crm_show_deals_in_top_menu: Show deals in top menu
+  label_crm_show_details: Show details
+  label_crm_has_deals: Has deals
+  label_crm_has_open_issues: Open issues
+  label_crm_note: Note
+
+  #3.2.5
+  notice_failed_to_save_contacts: "Failed to save %{count} contact(s) on %{total} selected: %{ids}."
+
+  #3.2.6
+  project_module_deals: Deals
+  permission_manage_deals: Manage deals
+  label_crm_deals_from_subprojects: Show deals from subprojects
+  label_crm_megre_tags: Merge tags
+  label_crm_monochrome_tags: Monochrome tags
+
+  #3.2.7
+  label_crm_address: Address
+  label_crm_street1: Street 1
+  label_crm_street2: Street 2
+  label_crm_city: City
+  label_crm_region: 'State'
+  label_crm_postcode: 'ZIP'
+  label_crm_country: Country
+  label_crm_countries:
+    AF: Afghanistan
+    AL: Albania
+    DZ: Algeria
+    AS: American Samoa
+    AD: Andorra
+    AO: Angola
+    AI: Anguilla
+    AQ: Antarctica
+    AG: Antigua and Barbuda
+    AR: Argentina
+    AM: Armenia
+    AW: Aruba
+    AU: Australia
+    AT: Austria
+    AZ: Azerbaijan
+    BS: Bahamas
+    BH: Bahrain
+    BD: Bangladesh
+    BB: Barbados
+    BY: Belarus
+    BE: Belgium
+    BZ: Belize
+    BJ: Benin
+    BM: Bermuda
+    BT: Bhutan
+    BO: Bolivia
+    BA: Bosnia and Herzegovina
+    BW: Botswana
+    BV: Bouvet Island
+    BR: Brazil
+    BQ: British Antarctic Territory
+    IO: British Indian Ocean Territory
+    VG: British Virgin Islands
+    BN: Brunei
+    BG: Bulgaria
+    BF: Burkina Faso
+    BI: Burundi
+    KH: Cambodia
+    CM: Cameroon
+    CA: Canada
+    CT: Canton and Enderbury Islands
+    CV: Cape Verde
+    KY: Cayman Islands
+    CF: Central African Republic
+    TD: Chad
+    CL: Chile
+    CN: China
+    CX: Christmas Island
+    CC: Cocos [Keeling] Islands
+    CO: Colombia
+    KM: Comoros
+    CG: Congo - Brazzaville
+    CD: Congo - Kinshasa
+    CK: Cook Islands
+    CR: Costa Rica
+    HR: Croatia
+    CU: Cuba
+    CY: Cyprus
+    CZ: Czech Republic
+    CI: Côte d’Ivoire
+    DK: Denmark
+    DJ: Djibouti
+    DM: Dominica
+    DO: Dominican Republic
+    NQ: Dronning Maud Land
+    DD: East Germany
+    EC: Ecuador
+    EG: Egypt
+    SV: El Salvador
+    GQ: Equatorial Guinea
+    ER: Eritrea
+    EE: Estonia
+    ET: Ethiopia
+    FK: Falkland Islands
+    FO: Faroe Islands
+    FJ: Fiji
+    FI: Finland
+    FR: France
+    GF: French Guiana
+    PF: French Polynesia
+    TF: French Southern Territories
+    FQ: French Southern and Antarctic Territories
+    GA: Gabon
+    GM: Gambia
+    GE: Georgia
+    DE: Germany
+    GH: Ghana
+    GI: Gibraltar
+    GR: Greece
+    GL: Greenland
+    GD: Grenada
+    GP: Guadeloupe
+    GU: Guam
+    GT: Guatemala
+    GG: Guernsey
+    GN: Guinea
+    GW: Guinea-Bissau
+    GY: Guyana
+    HT: Haiti
+    HM: Heard Island and McDonald Islands
+    HN: Honduras
+    HK: Hong Kong SAR China
+    HU: Hungary
+    IS: Iceland
+    IN: India
+    ID: Indonesia
+    IR: Iran
+    IQ: Iraq
+    IE: Ireland
+    IM: Isle of Man
+    IL: Israel
+    IT: Italy
+    JM: Jamaica
+    JP: Japan
+    JE: Jersey
+    JT: Johnston Island
+    JO: Jordan
+    KZ: Kazakhstan
+    KE: Kenya
+    KI: Kiribati
+    KW: Kuwait
+    KG: Kyrgyzstan
+    LA: Laos
+    LV: Latvia
+    LB: Lebanon
+    LS: Lesotho
+    LR: Liberia
+    LY: Libya
+    LI: Liechtenstein
+    LT: Lithuania
+    LU: Luxembourg
+    MO: Macau SAR China
+    MK: Macedonia
+    MG: Madagascar
+    MW: Malawi
+    MY: Malaysia
+    MV: Maldives
+    ML: Mali
+    MT: Malta
+    MH: Marshall Islands
+    MQ: Martinique
+    MR: Mauritania
+    MU: Mauritius
+    YT: Mayotte
+    FX: Metropolitan France
+    MX: Mexico
+    FM: Micronesia
+    MI: Midway Islands
+    MD: Moldova
+    MC: Monaco
+    MN: Mongolia
+    ME: Montenegro
+    MS: Montserrat
+    MA: Morocco
+    MZ: Mozambique
+    MM: Myanmar [Burma]
+    NA: Namibia
+    NR: Nauru
+    NP: Nepal
+    NL: Netherlands
+    AN: Netherlands Antilles
+    NT: Neutral Zone
+    NC: New Caledonia
+    NZ: New Zealand
+    NI: Nicaragua
+    NE: Niger
+    NG: Nigeria
+    NU: Niue
+    NF: Norfolk Island
+    KP: North Korea
+    VD: North Vietnam
+    MP: Northern Mariana Islands
+    "NO": Norway
+    OM: Oman
+    PC: Pacific Islands Trust Territory
+    PK: Pakistan
+    PW: Palau
+    PS: Palestinian Territories
+    PA: Panama
+    PZ: Panama Canal Zone
+    PG: Papua New Guinea
+    PY: Paraguay
+    YD: People's Democratic Republic of Yemen
+    PE: Peru
+    PH: Philippines
+    PN: Pitcairn Islands
+    PL: Poland
+    PT: Portugal
+    PR: Puerto Rico
+    QA: Qatar
+    RO: Romania
+    RU: Russia
+    RW: Rwanda
+    RE: Réunion
+    BL: Saint Barthélemy
+    SH: Saint Helena
+    KN: Saint Kitts and Nevis
+    LC: Saint Lucia
+    MF: Saint Martin
+    PM: Saint Pierre and Miquelon
+    VC: Saint Vincent and the Grenadines
+    WS: Samoa
+    SM: San Marino
+    SA: Saudi Arabia
+    SN: Senegal
+    RS: Serbia
+    CS: Serbia and Montenegro
+    SC: Seychelles
+    SL: Sierra Leone
+    SG: Singapore
+    SK: Slovakia
+    SI: Slovenia
+    SB: Solomon Islands
+    SO: Somalia
+    ZA: South Africa
+    GS: South Georgia and the South Sandwich Islands
+    KR: South Korea
+    ES: Spain
+    LK: Sri Lanka
+    SD: Sudan
+    SR: Suriname
+    SJ: Svalbard and Jan Mayen
+    SZ: Swaziland
+    SE: Sweden
+    CH: Switzerland
+    SY: Syria
+    ST: São Tomé and Príncipe
+    TW: Taiwan
+    TJ: Tajikistan
+    TZ: Tanzania
+    TH: Thailand
+    TL: Timor-Leste
+    TG: Togo
+    TK: Tokelau
+    TO: Tonga
+    TT: Trinidad and Tobago
+    TN: Tunisia
+    TR: Turkey
+    TM: Turkmenistan
+    TC: Turks and Caicos Islands
+    TV: Tuvalu
+    UM: U.S. Minor Outlying Islands
+    PU: U.S. Miscellaneous Pacific Islands
+    VI: U.S. Virgin Islands
+    UG: Uganda
+    UA: Ukraine
+    SU: Union of Soviet Socialist Republics
+    AE: United Arab Emirates
+    GB: United Kingdom
+    US: United States
+    ZZ: Unknown or Invalid Region
+    UY: Uruguay
+    UZ: Uzbekistan
+    VU: Vanuatu
+    VA: Vatican City
+    VE: Venezuela
+    VN: Vietnam
+    WK: Wake Island
+    WF: Wallis and Futuna
+    EH: Western Sahara
+    YE: Yemen
+    ZM: Zambia
+    ZW: Zimbabwe
+    AX: Åland Islands
+  label_crm_cross_project_contacts: Allow cross-project contacts relations
+  label_crm_list_board: Board
+  label_crm_default_list_style: Default list style
+  label_crm_show_in_top_menu: Show in top menu
+  label_crm_show_in_app_menu: Show in app menu
+  label_crm_money_settings: Money
+  label_crm_disable_taxes: Disable taxes
+  label_crm_default_tax: Default tax value
+  label_crm_tax_type: Tax type
+  label_crm_tax_type_inclusive: Tax inclusive
+  label_crm_tax_type_exclusive: Tax exclusive
+  label_crm_default_currency: Default currency
+  label_crm_thousands_delimiter: Thousands delimiter
+  label_crm_decimal_separator: Decimal separator
+
+  #3.2.10
+  label_crm_add_contact_plural: Add contacts
+  label_crm_search_for_contact: Search for contact
+  label_crm_major_currencies: Major currencies
+
+  #3.2.11
+  label_crm_post_address_format: Post address format
+  label_crm_post_address_format_macros: "Address format macros: %{macros}"
+
+  #3.2.14
+  label_crm_last_year: last year

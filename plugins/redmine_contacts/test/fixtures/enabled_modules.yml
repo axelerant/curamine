@@ -1,0 +1,44 @@
+contacts_enabled_modules_925:
+  name: contacts
+  project_id: 1
+  id: 925
+contacts_enabled_modules_926:
+  name: contacts
+  project_id: 2
+  id: 926
+contacts_enabled_modules_928:
+  name: contacts
+  project_id: 3
+  id: 928
+contacts_enabled_modules_929:
+  name: contacts
+  project_id: 4
+  id: 929
+contacts_enabled_modules_930:
+  name: contacts
+  project_id: 5
+  id: 930
+contacts_enabled_modules_931:
+  name: issues_module
+  project_id: 1
+  id: 931
+contacts_enabled_modules_932:
+  name: deals
+  project_id: 1
+  id: 932
+contacts_enabled_modules_933:
+  name: deals
+  project_id: 2
+  id: 933
+contacts_enabled_modules_934:
+  name: deals
+  project_id: 3
+  id: 934
+contacts_enabled_modules_935:
+  name: deals
+  project_id: 4
+  id: 935
+contacts_enabled_modules_936:
+  name: deals
+  project_id: 5
+  id: 936

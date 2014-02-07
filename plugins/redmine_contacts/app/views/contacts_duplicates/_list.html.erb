@@ -1,0 +1,8 @@
+<% @contacts.each do |contact| %>
+  <li>
+    <%= radio_button_tag "duplicate_id", contact.id %>
+    <%= avatar_to contact, :size => "16" %>
+    <%= link_to_source contact %>
+    <%= "(#{contact.job_title}) " unless contact.job_title.blank? %>
+  </li>
+<% end %>

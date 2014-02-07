@@ -1,0 +1,91 @@
+<h2><%= issue_heading(@issue) %></h2>
+
+<div class="<%= @issue.css_classes %> details">
+  <%= avatar(@ticket.from_address, :size => "50") %>
+
+<div class="subject">
+<h3><%= @issue.subject %></h3>
+</div>
+        <p class="author">
+        <%= l(:label_added_time_by, :author => mail_to(@ticket.from_address), :age => content_tag('acronym', distance_of_time_in_words(Time.now, @issue.created_on), :title => format_time(@issue.created_on))).html_safe %>.
+        <%# authoring @issue.created_on, mail_to(@ticket.from_address) %>
+        <% if @issue.created_on != @issue.updated_on %>
+        <%= l(:label_updated_time, ticket_time_tag(@issue.updated_on)).html_safe %>.
+        <% end %>
+        </p>
+
+<table class="attributes">
+<%= issue_fields_rows do |rows|
+  rows.left l(:field_status), h(@issue.status.name), :class => 'status'
+
+  unless @issue.disabled_core_fields.include?('assigned_to_id')
+    rows.left l(:field_assigned_to), avatar(@issue.assigned_to, :size => "14").to_s.html_safe + (@issue.assigned_to ? @issue.assigned_to.name : "-"), :class => 'assigned-to'
+  end
+  unless @issue.disabled_core_fields.include?('done_ratio')
+    rows.right l(:field_done_ratio), progress_bar(@issue.done_ratio, :width => '80px', :legend => "#{@issue.done_ratio}%"), :class => 'progress'
+  end
+  unless @issue.disabled_core_fields.include?('estimated_hours')
+    if RedmineHelpdesk.public_spent_time? && !@issue.estimated_hours.blank?
+      rows.right l(:field_estimated_hours), l_hours(@issue.estimated_hours), :class => 'estimated-hours'
+    end
+  end
+  if RedmineHelpdesk.public_spent_time?
+    rows.right l(:label_spent_time), (@issue.total_spent_hours > 0 ? l_hours(@issue.total_spent_hours) : "-"), :class => 'spent-time'
+  end
+end %>
+<%= render_custom_fields_rows(@issue) %>
+</table>
+
+<% if @issue.description? || @issue.attachments.any? -%>
+<hr />
+<% if @issue.description? %>
+
+  <p><strong><%=l(:field_description)%></strong></p>
+  <div class="wiki">
+  <%= textilizable @issue, :description, :attachments => @issue.attachments %>
+  </div>
+<% end %>
+<%= link_to_attachments_with_hash @issue, :thumbnails => true %>
+<% end -%>
+
+
+</div>
+
+<% if @journals.present? %>
+<div id="history">
+<h3><%=l(:label_history)%></h3>
+<%= render :partial => 'public_tickets/history', :locals => { :issue => @issue, :journals => @journals } %>
+</div>
+<% end %>
+
+<div style="clear: both;"></div>
+
+<% if RedmineHelpdesk.public_comments? %>
+  <p><%= toggle_link l(:label_comment_add), "update", :focus => "journal_notes" %></p>
+  <div id="update" style="display:none;">
+  <h3><%= l(:label_comment_add) %></h3>
+  <%= render :partial => 'add_comment' %>
+  </div>
+<% end %>
+
+
+<% html_title "#{@issue.tracker.name} ##{@issue.id}: #{@issue.subject}" %>
+
+<% if (RedmineHelpdesk.public_spent_time? && @total_spent_hours.to_i > 0) || !@previous_tickets.blank? %>
+  <% content_for :sidebar do %>
+    <% if RedmineHelpdesk.public_spent_time? && @total_spent_hours.to_i > 0 %>
+    <h3><%= l(:label_spent_time) %></h3>
+    <p><span class="icon icon-time"><%= l_hours(@total_spent_hours) %></span></p>
+    <% end %>
+
+    <% unless @previous_tickets.empty? %>
+      <h3>
+        <%= l(:label_helpdesk_previous_tickets) %>
+      </h3>
+      <% @previous_tickets.each do |previous_ticket| %>
+        <p><%= link_to "##{previous_ticket.id} - #{previous_ticket.subject} (#{previous_ticket.status.name})", public_ticket_path(previous_ticket.helpdesk_ticket, :hash => previous_ticket.helpdesk_ticket.token), :class => previous_ticket.css_classes %></p>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>
+

@@ -1,0 +1,33 @@
+<h2><%= l(:label_crm_deal_new) %></h2>
+
+<%= labelled_form_for :deal, @deal, :url => {:action => 'create', :project_id => @project}, :html => {:id => "deal_form"} do |f|  %>
+  <%= error_messages_for 'deal' %>
+  <%= hidden_field_tag 'copy_from', params[:copy_from] if params[:copy_from] %>
+  <div class="box tabular">
+	  <div id="all_attributes">
+	  <%= render :partial => 'form', :locals => {:f => f}  %>
+	  </div>
+
+		<% if false && @deal.safe_attribute?('watcher_user_ids') -%>
+		  <p id="watchers_form"><label><%= l(:label_issue_watchers) %></label>
+		  <span id="watchers_inputs">
+		    <%= watchers_checkboxes(@deal, @available_watchers) %>
+		  </span>
+		  <span class="search_for_watchers">
+		  <%= link_to l(:label_search_for_watchers),
+		              {:controller => 'watchers', :action => 'new', :project_id => @deal.project},
+		              :remote => true,
+		              :method => 'get' %>
+		  </span>
+		  </p>
+		<% end %>
+	</div>
+
+  <%= submit_tag l(:button_save) -%>
+  <%= submit_tag l(:button_create_and_continue), :name => 'continue' %>
+<% end -%>
+
+<% content_for :header_tags do %>
+	<%= javascript_include_tag :contacts, :plugin => 'redmine_contacts'  %>
+	<%= robot_exclusion_tag %>
+<% end %>

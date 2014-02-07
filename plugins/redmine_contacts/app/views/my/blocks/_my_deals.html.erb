@@ -1,0 +1,28 @@
+<h3><%= l(:label_crm_my_deal_plural) %></h3>
+<% User.current.reload %>
+<% deals = Deal.visible.open.find(:all, :conditions => {:assigned_to_id  => User.current.id}, :limit => 20) %>
+
+<div class="box" id="duplicates">
+	<ul>
+	    <% deals.each do |deal| %>
+		<li>
+			<%= avatar_to deal, :size => "16" %>
+			<%= link_to deal.full_name, polymorphic_url(deal) %>
+      <%= "(#{deal_price(deal)}) " unless deal.price.blank? %>
+			<%= deal_status_tag(deal.status) if deal.status %>
+        </li>
+		<% end %>
+	</ul>
+</div>
+
+<% if deals.length > 0 %>
+	<p class="small"><%= link_to l(:label_crm_deal_view_all),
+						 :controller => 'deals',
+						 :action => 'index',
+						 :assigned_to_id => User.current.id %></p>
+<% end %>
+
+<% content_for(:header_tags) do %>
+	<%= javascript_include_tag :contacts, :plugin => 'redmine_contacts'  %>
+  	<%= stylesheet_link_tag :contacts, :plugin => 'redmine_contacts' %>
+<% end %>

@@ -1,0 +1,19 @@
+<p>  
+  <label><%= l(:label_helpdesk_from_address) %></label> 
+  <%= text_field_tag 'settings[helpdesk_answer_from]', @settings[:helpdesk_answer_from], :size => "98%" %>
+</p>
+
+<p>  
+  <label><%= l(:label_helpdesk_save_cc) %></label>
+  <%= check_box_tag 'settings[helpdesk_save_cc]', 1, @settings[:helpdesk_save_cc] %>
+</p>
+
+<p>  
+  <label><%= l(:label_helpdesk_send_note_by_default) %></label>
+  <%= check_box_tag 'settings[send_note_by_default]', 1, @settings[:send_note_by_default] %>
+</p>
+
+<p>  
+  <label><%= l(:label_helpdesk_add_contact_notes) %></label>
+  <%= check_box_tag 'settings[helpdesk_add_contact_notes]', 1, @settings[:helpdesk_add_contact_notes] %>
+</p>

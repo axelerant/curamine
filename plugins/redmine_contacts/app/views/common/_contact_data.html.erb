@@ -1,0 +1,17 @@
+<% actions ||= "" %>
+<table class="note_data" id="contact_data_<%= contact_data.id %>">
+	<tr>
+		<td class="avatar"><%= link_to avatar_to(contact_data, :size => "32"),  note_source_url(contact_data), :id => "avatar" %></td>
+		<td class="name">
+			<h4 class="contacts_header">
+				<%= link_to contact_data.name, note_source_url(contact_data) %>
+			</h4>
+			<%= contact_data.info %>
+		</td>
+		<% if !actions.blank? %>
+		<td>
+		   <%= actions %>
+		</td>
+		<% end %>
+	</tr>
+</table>

@@ -1,0 +1,21 @@
+<%= error_messages_for 'canned_response' %>
+ 
+<div class="box tabular">
+<p><%= f.text_field :name, :size => 80, :required => true %></p>
+<% if User.current.admin? || User.current.allowed_to?(:manage_public_canned_responses, @project) %>
+<p>
+<%= f.check_box :is_public,
+      :label => l(:field_is_public),
+      :onchange => (User.current.admin? ? nil : 'if (this.checked) {$("#canned_response_is_for_all").removeAttr("checked"); $("#canned_response_is_for_all").attr("disabled", true);} else {$("#canned_response_is_for_all").removeAttr("disabled");}') %></p>
+<% end %>
+
+<p><label for="canned_response_is_for_all"><%=l(:field_is_for_all)%></label>
+<%= check_box_tag 'canned_response_is_for_all', 1, @canned_response.project.nil?,
+      :disabled => (!@canned_response.new_record? && (@canned_response.project.nil? || (@canned_response.is_public? && !User.current.admin?))) %></p>
+
+<p><%= f.text_area :content, :required => true, :class => 'wiki-edit', :rows => 5 %>
+<em class="info"><%= l(:text_helpdesk_answer_macros, :macro => HelpdeskSettings::MACRO_LIST.join(', ')) %></em>
+<%= wikitoolbar_for 'canned_response_content' %>
+</p>
+
+</div>

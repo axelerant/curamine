@@ -1,0 +1,4 @@
+$('#notes').prepend("<%= escape_javascript(render(:partial => 'notes/note_item', :object => @note, :locals => {:note_source => @note_source})) %>")
+$('#note_<%= @note.id %>').effect('highlight', {}, 1000);
+$('#note_attachments').html("<%= escape_javascript(render(:partial => 'attachments/form')) %>");
+$('#add_note_form').get(0).reset();

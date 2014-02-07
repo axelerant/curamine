@@ -1,0 +1,37 @@
+<h3><%= l(:label_crm_my_contacts_stats) %></h3>
+<% User.current.reload %>
+
+<%
+  from = Date.civil(Date.today.year, Date.today.month, 1)
+  to = (from >> 1) - 1
+%>
+
+<table class="list">
+<tbody>
+  <tr>
+    <td><%= l(:label_crm_contacts_created) %></td>
+    <td><%= Contact.count(:conditions => {:author_id => @user.id, :created_on => from..to}) %></td>
+  </tr>
+  <tr>
+    <td><%= l(:label_crm_deals_created) %></td>
+    <td><%= Deal.count(:conditions => {:author_id => @user.id, :created_on => from..to}) %></td>
+  </tr>
+  <% Deal.find(:all, :select => "#{DealStatus.table_name}.name, #{Deal.table_name}.status_id,  COUNT(DISTINCT #{Deal.table_name}.price) AS count, SUM(DISTINCT #{Deal.table_name}.price) AS total_sum",
+              :joins => "JOIN #{DealStatus.table_name} ON #{Deal.table_name}.status_id = #{DealStatus.table_name}.id",
+              :conditions => {:author_id => @user.id, :created_on => from..to},
+              :group => "#{DealStatus.table_name}.name, #{DealStatus.table_name}.color, #{Deal.table_name}.status_id").each do |status| %>
+  <tr>
+    <td >
+      <%= deal_status_tag(status.status) %>
+		</td>
+    <td><%= status.count %></td>
+  </tr>
+  <% end %>
+</tbody>
+</table>
+
+
+<% content_for(:header_tags) do %>
+	<%= javascript_include_tag :contacts, :plugin => 'redmine_contacts'  %>
+  <%= stylesheet_link_tag :contacts, :plugin => 'redmine_contacts' %>
+<% end %>

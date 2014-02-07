@@ -1,0 +1,14 @@
+<% if @deal.custom_field_values.any? %>
+<div id="attributes">
+
+	<h3><%= l(:label_deal) %></h3>
+	<table class="attributes">
+		<% @deal.custom_field_values.each do |custom_value| %>
+			<% if !custom_value.value.blank? %>
+			<tr> <th class = "custom_field"><%= custom_value.custom_field.name %>:</th><td> <%=h show_value(custom_value) %></td> </tr>
+			<% end %>
+		<% end %>
+	</table>
+
+</div>
+<% end %>

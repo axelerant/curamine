@@ -1,0 +1,109 @@
+<div class="filters">
+<% if !@tag %>
+
+	<%= form_tag(params, :id => "query_form", :method => :get) do %>
+	<%= hidden_field_tag('project_id', @project.to_param) if @project %>
+	<h2>
+		<span class="scope_title">
+			<%= l(:label_crm_contact_all_note_plural) %>
+		</span>
+		<span class="live_search">
+		 	<%= text_field_tag(:search_note, params[:search_note], :autocomplete => "off", :class => "live_search_field", :placeholder => l(:label_crm_contact_search) ) %>
+
+        <script type="text/javascript">
+           jQuery(function($) {
+              // when the #search field changes
+              $("#search_note").observe_field(2, function() {
+                var form = $("#query_form"); // grab the form wrapping the search bar.
+                var url = form.attr("action");
+                var formData = form.serialize();
+                $.get(url, formData, function(data) { // perform an AJAX get, the trailing function is what happens on successful get.
+                    $("#contacts_notes").html(data); // replace the "results" div with the result of action taken
+                });
+              });
+            });
+        </script>
+
+			<%# observe_field("search_note",
+                  			:frequency => 1,
+                  			:update => 'contacts_notes',
+                  			:method => :get,
+                  			:url => {:controller => 'contacts',  :action => 'contacts_notes', :project_id => @project },
+                  			:with => "Form.serialize('query_form')") %>
+
+		</span>
+	</h2>
+
+	   <% if false %>
+		<fieldset id="filters" class="collapsible collapsed">
+			<legend onclick="toggleFieldset(this);"><%= l(:label_filter_plural) %></legend>
+			<div style="display: none;">
+				<p>
+	    			<%= label_tag l(:label_author) + " "  %>
+					<%= select_tag :note_author_id, options_for_select(Note.available_authors(@project).collect{|u| [u.name, u.id]}.insert(0, [""]),  params[:note_author_id]) %>
+				</p>
+
+			</div>
+		</fieldset>
+		<p class="buttons hide-when-print">
+
+			<%= link_to l(:button_apply),
+			{ :url => {},
+			:remote => true,
+			:update => "deal_list",
+			:with => "Form.serialize('query_form')"
+			}, :class => 'icon icon-checked' %>
+
+			<%= link_to l(:button_clear),
+			{:project_id => @project },
+			:method => :get,
+			:update => "deal_list",
+			:class => 'icon icon-reload'  %>
+		</p>
+
+		<% end %>
+
+	<% end %>
+
+
+
+<% else %>
+<h2 class="scope_title"><%= "#{l(:label_crm_contact_tag)}(#{@notes_pages.item_count}): #{tag_links(@tag)}".html_safe  %> </h2>
+<% end %>
+</div>
+
+<div id="contacts_notes">
+	<%= render :partial => 'notes/notes_list' %>
+</div>
+
+<% other_formats_links do |f| %>
+	<%= f.link_to 'Atom', :url => params.merge(:key => User.current.rss_key) %>
+    <%= f.link_to 'CSV', :url => params %>
+<% end %>
+
+<% content_for :sidebar do %>
+  <%= render :partial => 'common/sidebar' %>
+
+	<h3><%= l(:label_crm_note_plural) %></h3>
+  <div id="note_types">
+    <% collection_for_note_types_select.each do |note_type| %>
+      <%= radio_button_tag "note_type", note_type[1], params[:type_id].to_s == note_type[1].to_s,  {:onchange => "document.location='#{url_for(params.merge(:type_id => note_type[1]))}';", :id => "note_type_#{note_type[1]}" }%>
+      <%= label_tag "note_type_#{note_type[1]}", note_type[0] %>
+      <br>
+    <% end %>
+  </div>
+
+  <h3><%= l(:label_crm_tags_plural) %></h3>
+
+	<div id="tags">
+    <span class="tag_list"><%= @tags.map{|tag| content_tag(:span, link_to(tag.name, {:controller => "contacts", :action => "contacts_notes", :project_id => @project, :tag => tag.name}), {:class => "tag-label-color"}.merge(RedmineContacts.settings[:monochrome_tags].to_i > 0 ? {} : {:style => "background-color: #{tag_color(tag.name)}"}))}.join(' ').html_safe %></span>
+	</div>
+
+	<%= render :partial => 'common/recently_viewed' %>
+
+<% end %>
+
+<% content_for(:header_tags) do %>
+ 	<%= javascript_include_tag :contacts, :plugin => 'redmine_contacts'  %>
+	<%= stylesheet_link_tag :contacts_sidebar, :plugin => 'redmine_contacts' %>
+<% end %>

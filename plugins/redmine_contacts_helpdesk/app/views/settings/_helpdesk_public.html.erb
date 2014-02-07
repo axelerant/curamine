@@ -1,0 +1,20 @@
+<p>  
+  <label><%= l(:label_helpdesk_public_tickets) %></label>
+  <%= check_box_tag 'settings[helpdesk_public_tickets]', 1, @settings[:helpdesk_public_tickets] %>
+</p>
+
+<p>  
+  <label><%= l(:label_helpdesk_public_show_spent_time) %></label>
+  <%= check_box_tag 'settings[helpdesk_public_show_spent_time]', 1, @settings[:helpdesk_public_show_spent_time] %>
+</p>
+
+<p>  
+  <label><%= l(:label_helpdesk_public_comments) %></label>
+  <%= check_box_tag 'settings[helpdesk_public_comments]', 1, @settings[:helpdesk_public_comments] %>
+</p>
+
+<p>  
+  <label><%= l(:label_helpdesk_public_title) %></label> 
+  <%= text_field_tag 'settings[helpdesk_public_title]', @settings[:helpdesk_public_title], :size => "98%" %>
+</p>
+

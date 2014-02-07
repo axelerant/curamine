@@ -1,0 +1,20 @@
+address_1:
+    id: 1
+    company: Domoway
+    city: Moscow
+    country_code: RU
+    street1: "Bolshaya Yakimanka, 2"
+    postcode: 103234
+    region:
+    full_address:
+
+address_2:
+    id: 2
+    first_name: Marat
+    last_name: Aminov
+    middle_name: Ivanovich
+    job_title: CEO
+    company: Domoway
+    email: "marat@mail.ru, marat@mail.com"
+    skype_name: marat_aminov
+    background: Marat is a famous writer an reader

@@ -1,0 +1,42 @@
+<%= labelled_fields_for :deal, @deal do |f| %>
+<%= call_hook(:view_deals_form_details_top, {:deal => @deal, :form => f }) %>
+
+	<p><%= f.text_field :name, :label=>l(:field_deal_name), :size => 80, :required => true %></p>
+	<p><%= f.select :project_id, project_tree_options_for_select(Deal.allowed_target_projects, :selected => @deal.project), {:required => true}, :onchange => "updateCustomForm('#{escape_javascript update_form_deals_path(:id => @deal, :format => 'js')}', '#deal_form')" %></p>
+	<p class  = "notes"><%= f.text_area :background , :cols => 80, :rows => 8, :class => 'wiki-edit', :label=>l(:field_deal_background)  %></p>	<%= wikitoolbar_for 'deal_background' %>
+
+	<div class="splitcontentleft">
+		<% if @project.deal_statuses.any? %>
+			<p><%= f.select :status_id, collection_for_status_select, :include_blank => false, :label=>l(:field_contact_status) %></p>
+    	<% end %>
+
+		<p>
+	    <%= label_tag :deal_contact_id,  RedmineContacts.companies_select ? l(:label_crm_company) : l(:label_contact)%>
+	    <%= select_contact_tag('deal[contact_id]', @deal.contact, :is_select => Contact.visible.by_project(@project).count < 10, :include_blank => true, :add_contact => true, :display_field => @deal.contact.blank?, :is_company => RedmineContacts.companies_select, :is_select => Contact.visible.by_project(RedmineContacts.cross_project_contacts? ? nil : @project).count < 10, :cross_project_contacts => RedmineContacts.cross_project_contacts?) %>
+		</p>
+		<p>
+			<%= f.text_field :price, :label => l(:field_deal_price), :size => 10 %>
+			<%= select_tag "deal[currency]", options_for_select(collection_for_currencies_select(ContactsSetting.default_currency), @deal.currency), :include_blank => true  %>
+		</p>
+		<p><%= f.select :assigned_to_id, (@project.assignable_users.collect {|m| [m.name, m.id]}), :include_blank => true, :label => l(:label_crm_assigned_to) %></p>
+	</div>
+
+	<div class="splitcontentright">
+		<% unless @project.deal_categories.empty? %>
+			<p><%= f.select :category_id, (@project.deal_categories.collect {|c| [c.name, c.id]}), :include_blank => true %></p>
+		<% end %>
+		<p><%= f.text_field :due_date, :label => l(:field_due_date), :size => 12 %><%= calendar_for('deal_due_date') %></p>
+
+		<p><%= f.select :probability, ((0..10).to_a.collect {|r| ["#{r*10} %", r*10] }), :label => l(:label_crm_probability), :include_blank => true %></p>
+	</div>
+
+	<div style="clear:both;"> </div>
+
+	<% @deal.custom_field_values.each do |value| %>
+	  <p class="<%= "extended" unless value.custom_field.is_required? %>">
+	    <%= custom_field_tag_with_label :deal, value %>
+	  </p>
+	<% end -%>
+
+<%= call_hook(:view_deals_form_details_bottom, {:deal => @deal, :form => f }) %>
+<% end %>

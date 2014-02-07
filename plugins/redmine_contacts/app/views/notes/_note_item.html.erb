@@ -1,0 +1,50 @@
+<% show_info = true if show_info.nil? %>
+<% show_author = true if !show_author.nil? %>
+
+<div id=<%="note_#{note_item.id}"%>>
+	<table class="note_data">
+		<tr>
+
+			<% if show_info %>
+			  <% if show_author %>
+    			<td class="avatar"><%= link_to avatar(note_item.author, :size => "32"), note_source_url(note_item.source), :id => "avatar" %></td>
+			  <% else %>
+    			<td class="avatar"><%= link_to avatar_to(note_item.source, :size => "32"), note_source_url(note_item.source), :id => "avatar" %></td>
+    		  <% end %>
+			<% end %>
+
+			<td class="name">
+				<div class="contextual">
+				  <%= link_to(image_tag('edit.png'), {:controller => 'notes', :action => 'edit', :project_id => @project, :id => note_item}, :class  => "delete", :title => l(:button_edit)) if note_item.editable_by?(User.current, @project) %>
+
+ 			      <%= link_to(image_tag('delete.png'),
+        						{:controller => :notes, :action => 'destroy', :id => note_item, :project_id => @project},
+        						:remote => true,
+        						:method => :delete,
+        						:confirm => l(:text_are_you_sure),
+        						:class  => "delete", :title => l(:button_delete)) if note_item.destroyable_by?(User.current, @project) %>
+			    </div>
+				<h4>
+          <%= note_type_icon(note_item) %>
+					<%= "#{note_item.subject} - " unless note_item.subject.blank? %>
+					<%= link_to_source(note_item.source) + "," if show_info %>
+					<%= authoring_note note_item.created_on, note_item.author %>
+					<%= link_to('&para;'.html_safe, {:controller => 'notes', :action => 'show', :project_id => @project, :id => note_item}, :title => l(:button_show), :class => "wiki-anchor") %>
+				</h4>
+				<div class="custom_fields">
+				<% note_item.custom_values.each do |custom_value| %>
+					<% if !custom_value.value.blank? %>
+					<p><%= custom_value.custom_field.name%>: <%=h show_value(custom_value) %></p>
+					<% end %>
+				<% end %>
+				</div>
+				<div class="wiki note">
+					<%= note_content(note_item) %>
+					<%= auto_contacts_thumbnails(note_item) %>
+					<%= render :partial => 'attachments/links', :locals => {:attachments => note_item.attachments, :options  => {}} if note_item.attachments.any? %>
+				</div>
+			</td>
+ 		</tr>
+	</table>
+
+</div>

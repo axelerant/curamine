@@ -1,0 +1,10 @@
+<h2><%= l(:label_helpdesk_report_plural) %></h2>
+
+<table class="list issues">
+  <%= call_hook(:view_helpdesk_reports) %>
+</table>
+
+
+<% content_for :sidebar do %>   
+  <%= render :partial => 'projects/helpdesk_tickets' %>
+<% end %>

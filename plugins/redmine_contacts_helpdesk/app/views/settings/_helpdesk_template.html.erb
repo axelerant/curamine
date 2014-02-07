@@ -1,0 +1,46 @@
+<fieldset class="box tabular"><legend><%= l(:label_helpdesk_answer_template) %></legend>
+
+<p>
+  <label><%= l(:field_subject) %></label>
+    <%= text_field_tag 'settings[helpdesk_answer_subject]', @settings[:helpdesk_answer_subject], :style => "width:100%" %>
+</p>
+  
+
+<p>
+  <label><%= l(:setting_emails_header) %></label>
+  <%= text_area_tag 'settings[helpdesk_emails_header]', @settings[:helpdesk_emails_header], :class => 'wiki-edit', :rows => 5 %>
+</p>
+
+<p>
+  <label><%= l(:setting_emails_footer) %></label>
+<%= text_area_tag 'settings[helpdesk_emails_footer]', @settings[:helpdesk_emails_footer], :class => 'wiki-edit', :rows => 5 %>
+</p>
+</fieldset>
+
+<fieldset class="box" style="background-color: #FFD;"><legend><%= l(:label_helpdesk_auto_answer_template) %></legend>
+
+<p>  
+  <label><%= l(:field_subject) %></label> 
+  <%= text_field_tag 'settings[helpdesk_first_answer_subject]', @settings[:helpdesk_first_answer_subject], :style => "width:100%" %>
+</p>
+
+<%= text_area_tag 'settings[helpdesk_first_answer_template]', @settings[:helpdesk_first_answer_template], :class => 'wiki-edit', :rows => 15 %>
+
+</fieldset>
+
+
+
+<fieldset class="box"><legend><%= l(:label_helpdesk_css) %></legend>
+<%= text_area_tag 'settings[helpdesk_helpdesk_css]', @settings[:helpdesk_helpdesk_css], :class => 'wiki-edit', :rows => 10 %>
+</fieldset>
+
+<em class="info"><%= l(:text_helpdesk_answer_macros, :macro => HelpdeskSettings::MACRO_LIST.join(', ')) %></em>
+
+<% if params[:show_hidden] %>
+<fieldset id="hidden_settings">
+<p>  
+  <label>Show excerpt issues list</label>
+  <%= check_box_tag 'settings[show_excerpt_tickets_list]', 1, @settings[:show_excerpt_tickets_list] %>
+</p>
+</fieldset>
+<% end %>

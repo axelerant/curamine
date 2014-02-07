@@ -1,0 +1,41 @@
+<% tags = Contact.all_tag_counts(:order => :name) %>
+
+<h3><%= l(:label_crm_tags_plural) %></h3>
+
+<% unless tags.empty? %>
+<table class  = "list issues">
+  <thead>
+    <tr>
+      <th class="checkbox hide-when-print">
+        <%= link_to image_tag('toggle_check.png'), {},
+                              :onclick => 'toggleIssuesSelection(this); return false;',
+                              :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}" %>
+      </th>
+      <th><%= l(:field_name) %></th>
+      <th align="center" style="width:10%;"> </th>
+    </tr>
+  </thead>
+  <tbody>
+    <% tags.each do |tag| %>
+      <tr id="<%= tag.id %>" class="<%= cycle("odd", "even") %> hascontextmenu ">
+        <td class="checkbox hide-when-print"><%= check_box_tag("ids[]", tag.id, false, :id => nil) %></td>
+        <td class="name"><%= tag_link(tag.name) %></td>
+        <td class="buttons">
+          <%= link_to l(:button_edit), edit_contacts_tag_path(tag),
+                                         :class => 'icon icon-edit' %>
+
+          <%= link_to l(:button_delete), contacts_tags_path(:ids => tag),
+                                         :method => :delete,
+                                         :confirm => l(:text_are_you_sure),
+                                         :class => 'icon icon-del' %>
+          </td>
+
+      </tr>
+
+    <% end %>
+  </tbody>
+</table>
+<%= context_menu context_menu_contacts_tags_path %>
+<% else %>
+<p class="nodata"><%= l(:label_no_data) %></p>
+<% end %>

@@ -1,0 +1,16 @@
+<%- if ContactsSetting.vcard? -%>
+    <h3><%= l(:label_crm_import) %></h3>
+
+    <span id='import_link'>
+	<%= link_to l(:label_crm_vcf_import), {}, :onclick => "$('#import_link').toggle(); $('#import_file').toggle(); return false;" %>
+	</span>
+    <%= form_tag({:controller => :contacts_vcf, :action => :load, :project_id => @project}, :multipart => true ) do %>
+    <span id='import_file' style="display:none;">
+      <%= file_field_tag 'contact_vcf', :size => 30, :id => nil, :onchange => "this.form.submit()" -%>
+      <small>
+	    <%= link_to l(:button_cancel), {}, :onclick => "$('#import_link').toggle(); $('#import_file').toggle(); return false;" %>
+      </small>
+	</span>
+	<% end %>
+
+<%- end -%>

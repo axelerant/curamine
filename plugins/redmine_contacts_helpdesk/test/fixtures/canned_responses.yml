@@ -1,0 +1,14 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+cr_1:
+  id: 1
+  name: Canned response 1
+  content: "Hello {%contact.first_name%},\n"
+  is_public: true
+  project_id: 1
+
+cr_2:
+  id: 2
+  name: Canned response 3
+  content: "Hello {%contact.last_name%},\n"
+  is_public: true
+  project_id: 1

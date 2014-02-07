@@ -1,0 +1,26 @@
+<div id="deals">
+
+<div class="contextual">
+	<%= link_to_if_authorized l(:label_crm_deal_new), {:controller => 'deals', :action => 'new', :project_id => @project, :contact_id => @contact} %>
+</div>
+
+<h3><%= "#{l(:label_deal_plural)}" %> <%= " - #{prices_collection_by_currency(@deals.select{|d| d.open? && !d.price.blank?}.group_by(&:currency).map{|k, v| [k, v.sum(&:price)]}).join(' / ')}".html_safe if @deals.detect{|d| d.open? && !d.price.blank?} %></h3>
+
+
+<% if @deals.any? %>
+	  <table class="related_deals">
+	  <% @deals.each do |deal| %>
+	    <tr class="deal">
+	      <td class="name" style="vertical-align: top;">
+	        <p>
+	          <%= deal_status_tag(deal.status) if deal.status %>
+	          <%= link_to "#{deal.name}", deal_path(deal) %> -
+	          <%= deal.price_to_s %>
+	        </p>
+	      </td>
+	    </tr>
+	  <% end %>
+	  </table>
+<% end %>
+
+</div>

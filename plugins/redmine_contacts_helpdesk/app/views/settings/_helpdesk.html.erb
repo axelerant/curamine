@@ -1,0 +1,15 @@
+<% helpdesk_tabs = [
+    {:name => 'general', :partial => 'settings/helpdesk_general', :label => :label_helpdesk_general},
+    {:name => 'public', :partial => 'settings/helpdesk_public', :label => :label_helpdesk_settings_public},
+    {:name => 'templates', :partial => 'settings/helpdesk_template', :label => :label_helpdesk_template}
+  ] %>   
+
+<% helpdesk_tabs.push({:name => 'hidden', :partial => 'settings/helpdesk_hidden', :label => :label_contacts_hidden}) if params[:hidden] %>
+
+<%= render_tabs helpdesk_tabs %>
+
+<% html_title(l(:label_settings), l(:label_helpdesk)) -%>
+
+
+
+

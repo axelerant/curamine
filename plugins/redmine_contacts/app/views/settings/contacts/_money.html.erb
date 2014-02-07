@@ -1,0 +1,43 @@
+<p>
+  <label><%= l(:label_crm_disable_taxes) %></label>
+  <%= check_box_tag 'settings[disable_taxes]', 1, ContactsSetting.disable_taxes? %>
+</p>
+
+<span id="tax_data">
+<p>
+  <label><%= l(:label_crm_default_tax) %></label>
+  <%= text_field_tag 'settings[default_tax]', ContactsSetting.default_tax, :size => 6, :maxlength => 5 %> %
+</p>
+
+<p>
+  <label><%= l(:label_crm_tax_type) %></label>
+  <%= select_tag 'settings[tax_type]', options_for_select([[l(:label_crm_tax_type_exclusive), ContactsSetting::TAX_TYPE_EXCLUSIVE],
+                                                                  [l(:label_crm_tax_type_inclusive), ContactsSetting::TAX_TYPE_INCLUSIVE]], ContactsSetting.tax_type) %>
+</p>
+</span>
+
+<p>
+  <label><%= l(:label_crm_default_currency) %></label>
+  <%= select_tag 'settings[default_currency]', options_for_select(all_currencies.insert(0, ['', '']), ContactsSetting.default_currency) %>
+</p>
+
+<p>
+  <label><%= l(:label_crm_major_currencies) %></label>
+  <%= text_field_tag 'settings[major_currencies]', ContactsSetting.major_currencies.join(', '), :size => 40 %>
+  <br>
+  <em class="info"><%= l(:text_comma_separated) %></em>
+</p>
+
+<p>
+  <label><%= l(:label_crm_thousands_delimiter) %></label>
+  <%= select_tag 'settings[thousands_delimiter]',  options_for_select([["9 999", " "],
+                                                                       ["9,999", ","],
+                                                                       ["9.999", "."]], ContactsSetting.thousands_delimiter) %>
+</p>
+
+<p>
+  <label><%= l(:label_crm_decimal_separator) %></label>
+  <%= select_tag 'settings[decimal_separator]',  options_for_select([["0.00", "."],
+                                                                     ["0,00", ","]], ContactsSetting.decimal_separator) %>
+</p>
+

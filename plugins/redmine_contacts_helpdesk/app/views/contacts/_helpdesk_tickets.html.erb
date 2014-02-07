@@ -1,0 +1,51 @@
+<% tickets_scope = @contact.all_tickets.visible.order_by_status %>
+
+<% tickets = tickets_scope %>
+<div id="helpdesk_tickets" class="contact-issues">
+
+<div class="contextual">
+  <%= link_to l(:label_helpdesk_ticket_new),  {:controller => 'issues', 
+                                                   :action => 'new', 
+                                                   :customer_id => @contact, 
+                                                   :tracker_id => HelpdeskSettings[:helpdesk_tracker, @project.id],
+                                                   :project_id => @project} if User.current.allowed_to?(:add_issues, @project) && User.current.allowed_to?(:send_response, @project) && HelpdeskSettings[:helpdesk_tracker, @project.id] %>
+</div>
+
+<h3><%= link_to(l(:label_helpdesk_ticket_plural), {:controller => 'issues',
+                                                       :action => 'index',
+                                                       :set_filter => 1,
+                                                       :customer => [@contact.id],
+                                                       :status_id => "*",
+                                                       :c => ["project", "tracker", "status", "subject", "customer", "customer_company", "last_message"],
+                                                       :sort => 'priority:desc,updated_on:desc'})  %> </h3> 
+
+<% if tickets && tickets.any? %>
+  <%= form_tag({}) do %>
+    <table class="list tickets">
+      <tbody>
+      <% for ticket in tickets %>
+      <tr id="ticket-<%= h(ticket.id) %>" class="issue hascontextmenu <%= cycle('odd', 'even') %> <%= ticket.css_classes %>">
+        <td>
+          <%= check_box_tag("ids[]", ticket.id, false, :style => 'display:none;', :id => nil) %>
+          <span class="icon <%= ticket.helpdesk_ticket.ticket_source_icon %>"></span>
+        </td>
+        <td class="subject">
+          <%= link_to "##{ticket.id} - #{truncate(ticket.subject, :length => 60)} (#{ticket.status})", issue_path(ticket), :class => ticket.css_classes %>
+        </td>
+        <% if @contact.is_company %>
+        <td class="customer"><%= contact_tag(ticket.customer, :type => 'plain') %></td>
+        <% end %>
+        <td class="last_message"><small>
+          <%= ticket.description.truncate(250) %>
+        </small></td>
+      </tr>
+      <% end %>
+      </tbody>
+    </table>
+  <% end %>
+  <%= context_menu issues_context_menu_path %> 
+<% else %>
+  <p class="nodata"><%= l(:label_no_data) %></p>
+<% end %>
+
+</div>

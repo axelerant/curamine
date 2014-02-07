@@ -1,0 +1,29 @@
+<% show_info = true if show_info.nil? %>
+<% show_author = true if !show_author.nil? %>
+
+<div id=<%="note_#{process_item.id}"%>>
+	<table class="note_data">
+		<tr>
+
+			<% if show_info %>
+			  <% if show_author %>
+    			<td class="avatar"><%= link_to avatar(process_item.author, :size => "32"), note_source_url(process_item.deal), :id => "avatar" %></td>
+			  <% else %>
+    			<td class="avatar"><%= link_to avatar_to(process_item.deal, :size => "32"), note_source_url(process_item.deal), :id => "avatar" %></td>
+    		  <% end %>
+			<% end %>
+
+			<td class="name">
+				<h4>
+          <%# note_type_icon(process_item) %>
+					<%= link_to_source(process_item.deal) + "," if show_info %>
+					<%= authoring_note process_item.created_at, process_item.author %>
+				</h4>
+				<div class="wiki note">
+	 				<%= deal_status_tag(process_item.from) + " &rarr; ".html_safe if process_item.from %><%= deal_status_tag(process_item.to) if process_item.to %>
+				</div>
+			</td>
+ 		</tr>
+	</table>
+
+</div>

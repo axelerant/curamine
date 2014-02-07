@@ -1,0 +1,40 @@
+Delivered-To: support@redminecrm.com
+Received: by 10.224.146.65 with SMTP id g1csp215673qav;
+        Wed, 14 Aug 2013 03:23:43 -0700 (PDT)
+X-Received: by 10.112.210.136 with SMTP id mu8mr7637164lbc.25.1376475823205;
+        Wed, 14 Aug 2013 03:23:43 -0700 (PDT)
+Return-Path: <roman@shipiev.pro>
+Received: from forward16.mail.yandex.net (forward16.mail.yandex.net. [2a02:6b8:0:1402::1])
+        by mx.google.com with ESMTP id gm9si19775110lbc.106.2013.08.14.03.23.42
+        for <support@redminecrm.com>;
+        Wed, 14 Aug 2013 03:23:43 -0700 (PDT)
+Received-SPF: pass (google.com: domain of roman@shipiev.pro designates 2a02:6b8:0:1402::1 as permitted sender) client-ip=2a02:6b8:0:1402::1;
+Authentication-Results: mx.google.com;
+       spf=pass (google.com: domain of roman@shipiev.pro designates 2a02:6b8:0:1402::1 as permitted sender) smtp.mail=roman@shipiev.pro;
+       dkim=pass header.i=@shipiev.pro
+Received: from web4g.yandex.ru (web4g.yandex.ru [95.108.252.104])
+	by forward16.mail.yandex.net (Yandex) with ESMTP id 48F89D21474
+	for <support@redminecrm.com>; Wed, 14 Aug 2013 14:23:42 +0400 (MSK)
+Received: from 127.0.0.1 (localhost.localdomain [127.0.0.1])
+	by web4g.yandex.ru (Yandex) with ESMTP id E31C31AC8004;
+	Wed, 14 Aug 2013 14:23:41 +0400 (MSK)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shipiev.pro; s=mail;
+	t=1376475822; bh=K7MXxSAFi0LqsitVh6FYdes2wgX24T6bpFG9NTMxZrs=;
+	h=From:To:Subject:Date;
+	b=rLN448CnTfbjg0AtUwdiNezdHM3ZOBPJLfUivjRmeNrApLRuMFcTxUmfZx2lxeRYt
+	 tF5Jz6bF+tyguW1b+5cwVkDsAD6x91fmN4csifg8q1dagSyNWnhN8c9zkxqaLIpnyR
+	 Sc641GlK9xx4OuYeoalUwcE6frDb9IKHD/Y9L5us=
+Received: from [89.17.39.194] ([89.17.39.194]) by web4g.yandex.ru with HTTP;
+	Wed, 14 Aug 2013 14:23:41 +0400
+From: =?koi8-r?B?+8nQycXXIPLPzcHO?= <roman@shipiev.pro>
+Envelope-From: roman@shipiev.me
+To: RedmineCRM <support@redminecrm.com>
+Subject: =?koi8-r?B?58TFINfXxdPUySDQz8zFIHVzZXIuY29tcGFueT8=?=
+MIME-Version: 1.0
+Message-Id: <196871376475821@web4g.yandex.ru>
+X-Mailer: Yamail [ http://yandex.ru ] 5.0
+Date: Wed, 14 Aug 2013 13:23:41 +0300
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=koi8-r
+
+Речь идет про плагин redmine_people 0.1.6. Поле company в модель User добавляется, а интерфейса для его ввода я так и не нашел.

@@ -1,0 +1,158 @@
+# encoding: utf-8
+pl:
+  contacts_title: Kontakty
+
+  label_crm_recently_viewed: Ostatnio oglądane
+  label_crm_gravatar_enabled: Używaj Gravatar
+  label_crm_thumbnails_enabled: Pokazuj miniatury w notkach
+  label_crm_max_thumbnail_file_size: Maksymalny rozmiar miniatury
+  label_crm_view_all_contacts: Wyświetl wszystkie kontakty
+  label_crm_background_info: Informacje dodatkowe
+  label_contact: Osoba
+  label_crm_company: Firma
+  label_contact_plural: Kontakty
+  label_crm_contact_edit_information: Edycja informacji o kontaktach
+  label_crm_edit_tags: Edycja tagów
+  label_crm_contact_view: Pokaż
+  label_crm_contact_list: Wypisz
+  label_crm_contact_new: Nowy
+  label_crm_at_company: z
+  label_crm_last_notes: Najnowsze notki
+  label_crm_tags_plural: Tagi
+  label_crm_multi_tags_plural: Wybierz wiele tagów
+  label_crm_single_tag_mode: Pojedynczy tag
+  label_crm_multiple_tags_mode: Wiele tagów
+  label_crm_contact_tag: Tag
+  label_crm_time_ago: temu
+  label_crm_add_note_plural: Dodaj notkę
+  label_crm_note_plural: Notki
+
+  label_crm_add_tags_rule: oddziel przecinkami
+  label_crm_contact_search: Wyszukaj po nazwie
+  label_crm_note_for: Notka dla
+  label_crm_show_on_map: Pokaż na mapie
+  label_crm_add_another_phone: dodaj telefon
+  label_crm_contact_note_plural: Wszystkie notki
+  label_crm_remove: usuń
+  label_crm_related_contacts: Powiązane kontakty
+  label_crm_assigned_to: Odpowiedzialny
+  label_crm_issue_added: Kwestię dodano
+  label_crm_add_emails_rule: oddziel przecinkami
+  label_crm_add_phones_rule: oddziel przecinkami
+  label_crm_add_employee: Nowy zatrudniony
+  label_crm_merge_duplicate_plural: Scal
+  label_crm_duplicate_plural: Możliwe duplikaty
+  label_crm_duplicate_for_plural: Możliwe duplikaty dla
+  label_crm_add_tag: Dodaj nowy...
+
+  label_crm_note_show_extras: Zaawansowane (pliki, data)
+  label_crm_note_hide_extras: Ukryj zaawansowane
+  label_crm_note_added: Pomyślnie dodano notkę
+  label_crm_note_read_more: (czytaj dalej)
+
+  label_deal_plural: Oferty
+  label_crm_contractor_plural: Kontrahenci
+  label_deal: Oferta
+  label_crm_deal_new: Nowa oferta
+  label_crm_deal_edit_information: Edytuj informację oferty
+  label_crm_deal_change_status: Zmień status
+  label_crm_statistics: Statystyki
+
+  label_crm_deal_status_new: Nowy
+  label_crm_deal_status_first_contact: Pierwszy kontakt
+  label_crm_deal_status_negotiations: Negocjacje
+  label_crm_deal_status_pending: Oczekująca
+  label_crm_deal_status_won: Wygrana
+  label_crm_deal_status_lost: Przegrana
+
+  label_crm_created_on: Utworzono
+
+  field_note_date: Data notki
+
+  field_deal_name: Nazwa
+  field_deal_background: Dodatkowe
+  field_deal_contact: Kontakt
+  field_deal_price: Suma
+  field_price: Suma
+
+  field_contact_avatar: Avatar
+  field_contact_is_company: Firma
+  field_contact_name: Nazwa
+  field_contact_last_name: Nazwisko
+  field_contact_first_name: Imię
+  field_contact_middle_name: Drugię imię
+  field_contact_job_title: Stanowisko
+  field_contact_company: Firma
+  field_contact_address: Adres
+  field_contact_phone: Telefon
+  field_contact_email: Email
+  field_contact_website: Strona WWW
+  field_contact_skype: Skype
+  field_contact_status: Status
+  field_contact_background: Dodatkowe
+  field_contact_tag_names: Tagi
+  field_first_name: Imię
+  field_last_name: Nazwisko
+  field_company: Firma
+  field_birthday: Urodziny
+  field_contact_department: Dział
+
+
+  field_company_field: Branża
+
+  field_color: Kolor
+
+  button_add_note: Dodaj notkę
+  notice_successful_save: Pomyślnie zapisano
+  notice_successful_add: Pomyślnie dodano
+  notice_unsuccessful_save: Wystąpiły problemy z zapisem
+  notice_successful_merged: Pomyślnie scalono
+
+  notice_merged_warning: 'Wszystkie notki, projekty, tagi i zadania przydzielone do tej osoby zostaną przeniesione do wybranej poniżej. Kontakt zostanie usunięty.'
+
+  project_module_contacts: kontakty
+
+  permission_view_contacts: Wyświetlanie kontaktów
+  permission_edit_contacts: Edycja kontaktów
+  permission_delete_contacts: Usuwanie kontaktów
+  permission_view_deals: Wyświetlanie ofert
+  permission_edit_deals: Edycja ofert
+  permission_delete_deals: Usuwanie ofert
+  permission_add_notes: Dodawanie notek
+  permission_delete_notes: Usuwanie notek
+  permission_delete_own_notes: Usuwanie własnych notek
+
+  # 2.0.0
+  label_crm_deal_category: Kategoria ofert
+  label_crm_deal_category_plural: Kategorie ofert
+  label_crm_deal_category_new: Nowa kategoria
+  text_deal_category_destroy_assignments: Usuń przypisania kategorii
+  text_deal_category_destroy_question: "Pewne oferty (%{count}) Są przydzielone do tej kategorii. Co chcesz zrobić?"
+  text_deal_category_reassign_to: Zmień przypisanie na następującą kategorię
+  text_deals_destroy_confirmation: 'Czy jesteś pewien, że chcesz usunąć wybraną/e ofertę/y?'
+  label_crm_deal_status_plural: Statusy ofert
+  label_crm_deal_status: Status oferty
+  field_deal_status_is_closed: Zamknięta
+  label_crm_deal_status_new: Nowy
+  permission_manage_contacts: Zarządzanie kontaktami
+  label_crm_sales_funnel: Lejek sprzedaży
+  label_crm_period: Okres
+  label_crm_count: Ilość
+
+  #2.0.1
+  label_crm_user_format: Format nazwy kontaktu
+  label_crm_my_contact_plural: Kontakty przydzielone do mnie
+  label_crm_my_deal_plural: Otwarte oferty przydzielone do mnie
+  label_crm_contact_view_all: Wyświetl wszystkie kontakty
+  label_crm_deal_view_all: Wyświetl wszystkie oferty
+
+  #2.0.2
+  label_crm_bulk_edit_selected_contacts: Edytuj wszystkie zaznaczone kontakty
+  label_crm_bulk_send_mail_selected_contacts: Wyślij maila do wszystkich zaznaczonych kontaktów
+  field_add_tags: Dodaj tagi
+  field_delete_tags: Usuń tagi
+  label_crm_send_mail: Wyślij maila
+  error_empty_email: Email nie może być pusty
+  permission_send_contacts_mail: Wysyłanie maili
+  field_mail_from: Od
+  text_email_macros: Dostępne makra %{macro}

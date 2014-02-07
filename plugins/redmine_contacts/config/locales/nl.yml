@@ -1,0 +1,142 @@
+# encoding: utf-8
+nl:
+  contacts_title: Contacten
+
+  label_crm_recently_viewed: Recent bekeken
+  label_crm_gravatar_enabled: Gebruik Gravatar
+  label_crm_view_all_contacts: Bekijk alle contacten
+  label_crm_background_info: Achtergrondinformatie
+  label_crm_company: Bedrijf
+  label_contact_plural: Contactenlijst
+  label_crm_contact_edit_information: Contactinformatie bewerken
+  label_crm_edit_tags: Tags bewerken
+  label_crm_contact_view: Bekijken
+  label_crm_contact_list: Lijst
+  label_crm_contact_new: Nieuw
+  label_crm_at_company: van
+  label_crm_last_notes: Laatste notities
+  label_crm_tags_plural: Tags
+  label_crm_multi_tags_plural: Selecteer meerdere tags
+  label_crm_single_tag_mode: Enkele tag
+  label_crm_multiple_tags_mode: Meerdere tags
+  label_crm_contact_tag: Tag
+  label_crm_time_ago: geleden
+  label_crm_add_note_plural: Notitie toevoegen aan
+  label_crm_note_plural: Notities
+
+  label_crm_add_tags_rule: scheiden op comma
+  label_crm_contact_search: Zoeken op naam
+  label_crm_note_for: Notitie voor
+  label_crm_show_on_map: Toon op kaart
+  label_crm_add_another_phone: telefoon toevoegen
+  label_crm_contact_note_plural: Alle notities
+  label_crm_remove: verwijderen
+  label_crm_related_contacts: Gerelateerde contacten
+  label_crm_assigned_to: Verantwoordelijk
+  label_crm_issue_added: Issue toegevoegd
+
+  label_crm_note_show_extras: Geavanceerd (bestanden, datum)
+  label_crm_note_hide_extras: Geavanceerd verbergen
+  label_crm_note_added: Notitie succesvol toegevoegd
+
+  label_deal_plural: Deals
+  label_crm_contractor_plural: Contractors
+  label_deal: Deal
+  label_crm_deal_new: Nieuwe deal
+  label_crm_deal_edit_information: Deal bewerken
+  label_crm_deal_change_status: Status veranderen
+  label_crm_statistics: Statistieken
+
+  field_note_date: Notitiedatum
+
+  field_deal_name: Naam
+  field_deal_background: Achtergrond
+  field_deal_contact: Contact
+  field_deal_price: Som
+  field_price: Som
+
+  field_contact_avatar: Avatar
+  field_contact_is_company: Bedrijf
+  field_contact_name: Naam
+  field_contact_last_name: Achternaam
+  field_contact_first_name: Voornaam
+  field_contact_middle_name: Tussenvoegsel
+  field_contact_job_title: Functie
+  field_contact_company: Bedrijf
+  field_contact_address: Adres
+  field_contact_phone: Telefoon
+  field_contact_email: E-Mail
+  field_contact_website: Website
+  field_contact_skype: Skype
+  field_contact_status: Status
+  field_contact_background: Achtergrond
+  field_contact_tag_names: Tags
+  field_first_name: Name
+  field_last_name: Achternaam
+  field_company: Bedrijf
+  field_birthday: Geboortedatum
+  field_contact_department: Afdeling
+
+  field_company_field: Branche
+
+  button_add_note: Notitie toevoegen
+  notice_successful_save: Succesvol opgeslagen
+  notice_successful_add: Succesvol aangemaakt
+  notice_unsuccessful_save: Succesvol opgeslagen
+
+  project_module_contacts: Contacten
+
+  permission_view_contacts: Contacten bekijken
+  permission_edit_contacts: Contacten bewerken
+  permission_delete_contacts: Contacten verwijderen
+  permission_view_deals: Deals bekijken
+  permission_edit_deals: Deals bewerken
+  permission_delete_deals: Deals verwijderen
+  permission_add_notes: Notities toevoegen
+  permission_delete_notes: Verwijder notities
+  permission_delete_own_notes: Verwijder eigen notities
+
+  # 2.0.0
+  label_crm_deal_category: Deal categorie
+  label_crm_deal_category_plural: Deals categories
+  label_crm_deal_category_new: Nieuwe categorie
+  text_deal_category_destroy_assignments: Verwijder categorie toewijzingen
+  text_deal_category_destroy_question: "Sommige deals (%{count}) vallen onder deze categorie. Wat wil je doen?"
+  text_deal_category_reassign_to: Reassign deals to this category
+  text_deals_destroy_confirmation: 'Weet je zeker dat je de geselecteerde deal(s) wilt verwijderen?'
+  label_crm_deal_status_plural: Deal statuses
+  label_crm_deal_status: Deal status
+  field_deal_status_is_closed: Gesloten
+  label_crm_deal_status_new: Nieuw
+  permission_manage_contacts: Enumerations
+  label_crm_sales_funnel: Sales funnel
+  label_crm_period: Periode
+  label_crm_count: Aantal
+
+  #2.0.1
+  label_crm_user_format: Contact naam formaat
+  label_crm_my_contact_plural: Contacten aan mij toegewezen
+  label_crm_my_deal_plural: Open deals assigned to me
+  label_crm_contact_view_all: Bekijk alle contacts
+  label_crm_deal_view_all: Bekijk alle deals
+
+  #2.0.2
+  label_crm_bulk_edit_selected_contacts: Bewerk alle geselecteerde contacten
+  label_crm_bulk_edit_selected_deals: Bewerk alle geselecteerde deals
+  label_crm_bulk_send_mail_selected_contacts: Stuur mail naar geselecteerde contacten
+  field_add_tags: Voeg tags toe
+  field_delete_tags: Verwijder tags
+  label_crm_send_mail: Stuur mail
+  error_empty_email: Email mag niet leeg zijn
+  permission_send_contacts_mail: Stuur mail
+  field_mail_from: Adres afzender
+  text_email_macros: Beschikbare macro's %{macro}
+  field_message: Bericht
+
+  #2.0.3
+  label_crm_add_contact: Add contact
+  label_contact: Contact
+  field_age: Leeftijd
+  label_crm_vcf_import: Importeer vCard
+  label_crm_mail_from: Afzender
+  permission_import_contacts: Importeer contacten

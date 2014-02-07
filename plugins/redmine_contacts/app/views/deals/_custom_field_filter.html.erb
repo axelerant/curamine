@@ -1,0 +1,5 @@
+<span class="filter-condition">
+  available_custom_fields
+				<%= label_tag l(:label_crm_assigned_to) + " "  %>
+				<%= select_tag :assigned_to_id, options_for_select(Deal.available_users(@project).collect{|u| [u.name, u.id.to_s]}.insert(0, [""]),  params[:assigned_to_id]) %>
+</span>

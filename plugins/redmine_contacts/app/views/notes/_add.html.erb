@@ -1,0 +1,8 @@
+<%= form_for @note, :as => :note, :remote => Redmine::VERSION.to_s > "2.3.0", :url => add_note_url(note_source, @project), :html => {:multipart => true, :id => "add_note_form"} do |f| %>
+  <%= render :partial => 'notes/form', :locals => {:f => f, :ajax_form => true}  %>
+
+  <%= submit_tag l(:button_add_note), :id => "submit_add_note_form", :class => "button-small" %>
+  <div class="contextual">
+  <%= link_to l(:label_crm_note_show_extras), {}, :onclick => "$('#note_attributes .extended-attributes').toggle(); $('#note_attributes').toggleClass('box'); return false;" , :id => 'show_note_form_extras', :style => "float:right;"  %>
+  </div>
+<% end %>

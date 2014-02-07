@@ -1,0 +1,87 @@
+<%= back_url_hidden_field_tag %>
+<%= error_messages_for 'contact' %>
+<div class = "box tabular" id="contact_data">
+
+<script type="text/javascript" charset="utf-8">
+	function togglePerson(element) {
+		if (element.checked) {
+		  $('#person_data').hide();
+		  $('#job_title label').get(0).innerHTML ='<%= l(:field_company_field) %>';
+		  $('#first_name label').get(0).innerHTML='<%= l(:field_company_name) %>' + '<span class="required"> *</span>';
+
+		} else {
+		  $('#person_data').show();
+		 	$('#job_title label').get(0).innerHTML ='<%= l(:field_contact_job_title) %>';
+		  $('#first_name label').get(0).innerHTML='<%= l(:field_contact_first_name) %>' + '<span class="required"> *</span>';
+		}
+
+	}
+</script>
+
+	<p class="avatar extended" id="watchers">
+		<%= avatar_to(@contact, :size => "64", :style => "vertical-align: middle;") %>
+		<%= link_to image_tag('delete.png'), {:controller => 'attachments', :action => 'destroy', :id => @contact.avatar},
+	                                         :confirm => l(:text_are_you_sure),
+	                                         :method => :delete,
+	                                         :class => 'delete',
+											 :style => "vertical-align: middle;",
+	                                         :title => l(:button_delete) unless @contact.avatar.blank? %>
+	</p>
+	<p class="extended"><%= label_tag l(:field_contact_avatar) %> <%= file_field_tag 'contact_avatar[file]', :size => 30, :id => nil  -%> </p>
+	<p><%= f.check_box(:is_company, :label => l(:field_contact_is_company), :onclick => "togglePerson(this)" ) %></p>
+	<p id="first_name"><%= f.text_field :first_name, :label => !@contact.is_company ? l(:field_contact_first_name) : l(:field_company_name), :required => true, :style => "width:90%;" %></p>
+	<div id="person_data" style="<%= 'display: none;' if @contact.is_company  %>">
+
+		<p><%= f.text_field :middle_name, :label=>l(:field_contact_middle_name) %></p>
+		<p><%= f.text_field :last_name, :label=>l(:field_contact_last_name), :id => 'contact_last_name' %></p>
+		<p><%= f.text_field :company, :label=>l(:field_contact_company) -%></p>
+		<%= javascript_tag "observeAutocompleteField('contact_company', '#{escape_javascript auto_complete_companies_path}')" %>
+		<p class="extended"><%= f.text_field :birthday, :size => 12 %><%= calendar_for('contact_birthday') %> </p>
+	</div>
+	<p id="job_title"><%= f.text_field :job_title, :label => !@contact.is_company ? l(:field_contact_job_title) : l(:field_company_field) %></p>
+	<% @contact.build_address if @contact.address.blank? %>
+	<%= f.fields_for(:address) do |a| %>
+		<span class="extended">
+		<%= render :partial => 'common/address_form', :locals => {:f => a} %>
+		</span>
+
+	<% end %>
+
+	<div id="phones_fields">
+		<p>
+			<%= f.text_field :phone, :label=>l(:field_contact_phone), :style => "width:90%;" -%>
+			<br>
+			<em class="info"><%= l(:text_comma_separated) %></em>
+		 </p>
+	</div>
+
+	<p>
+		<%= f.text_field 'email', :label=>l(:field_contact_email), :style => "width:90%;" -%>
+		<br>
+		<em class="info"><%= l(:text_comma_separated) %></em>
+	</p>
+
+	<p class="extended"><%= f.text_field 'website', :label=>l(:field_contact_website) -%></p>
+	<p class="extended"><%= f.text_field 'skype_name', :label=>l(:field_contact_skype) -%></p>
+	<% @contact.custom_field_values.each do |value| %>
+	  <p class="<%= "extended" unless value.custom_field.is_required? %>">
+	    <%= custom_field_tag_with_label :contact, value %>
+	  </p>
+	<% end -%>
+	<p class="extended notes"><%= f.text_area :background , :cols => 80, :rows => 8, :class => 'wiki-edit', :label=>l(:field_contact_background)  %></p>
+	<%= wikitoolbar_for 'contact_background' %>
+
+	<p class="extended">
+		<%= label_tag l(:label_crm_tags_plural) %>
+		<%= render :partial => "contacts_tags/tags_form" %>
+	</p>
+
+  <% if @project %>
+		<p class="extended"><%= f.select :assigned_to_id, (@project.assignable_users.collect {|m| [m.name, m.id]}), :include_blank => true, :label => l(:label_crm_assigned_to) %></p>
+	<% end %>
+
+	<p class="extended"><%= f.select :visibility, collection_for_visibility_select, :include_blank => false, :label => l(:label_crm_contacts_visibility) %></p>
+
+	<p id="show_details_link" style="display: none;"><%= link_to l(:label_crm_show_details), "#", :onclick => "$('#contact_data .extended').show();" %></p>
+
+</div>

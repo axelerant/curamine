@@ -1,0 +1,28 @@
+<h3><%= l(:label_crm_deal_status_plural) %></h3>
+
+<% if DealStatus.all.any? %>
+	<%= form_tag({:controller => "deal_statuses", :action => "assing_to_project", :project_id => @project, :tab => 'deals'}, :method => :put, :class => "tabular") do %>
+	<table class="list">
+		<thead><tr>
+		<th><%= l(:field_name) %></th>
+		<th><%=l(:field_is_default)%></th>
+	  	<th><%=l(:label_crm_deal_status_type)%></th>
+	    <th style="width:15%;"><%= l(:field_active) %></th>
+		</tr></thead>
+		<tbody>
+		<% DealStatus.all( :order => "status_type, position").each do |status| %>
+
+			<tr class="<%= cycle 'odd', 'even' %>">
+			<td class="name"><span class="color" style="border: 1px solid #D7D7D7;background-color: <%= status.color_name %>;">&nbsp;&nbsp;&nbsp;&nbsp;</span> <%= h(status.name) %></td>
+		    <td align="center" style="width:15%;"><%= checked_image status.is_default? %></td>
+		  	<td align="center" style="width:15%;"><%= status.status_type_name %></td>
+			<td align="center" style="width:15%;">
+		      <%= check_box_tag "deal_statuses[]", status.id , @project.deal_statuses.include?(status) %>
+		    </td>
+			</tr>
+		<% end %>
+	    </tbody>
+	</table>
+	<%= submit_tag l(:button_save) %>
+	<% end %>
+<% end %>

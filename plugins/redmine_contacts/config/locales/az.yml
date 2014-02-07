@@ -1,0 +1,265 @@
+# encoding: utf-8
+#
+# Translated by Saadat Mutallimova
+# Data Processing Center of the Ministry of Communication and Information Technologies
+#
+az:
+  contacts_title: Əlaqə məlumatları
+
+  label_crm_recently_viewed: Son baxılanlar
+  label_crm_gravatar_enabled: Əlaqə məlumatları üçün Gravatar istifadə etmək
+  label_crm_thumbnails_enabled: Qeydlərdə təsvirlərin miniatürlərini əks etdirmək
+  label_crm_max_thumbnail_file_size: Əks olunan miniatürün maksimal ölçüsü
+  label_crm_view_all_contacts: Bütün əlaqə məlumatlarlı
+  label_crm_background_info: Əlavə məlumatlar
+  label_crm_company: Şöbə
+  label_contact_plural: Əlaqə məlumatları
+  label_crm_contact_edit_information: Əlaqə məlumatına görə informasiyanı redaktə etmək
+  label_crm_edit_tags: Teqləri redaktə etmək
+  label_crm_contact_view: Baxış
+  label_crm_contact_list: Siyahı
+  label_crm_contact_new: Yeni əlaqə məlumatı
+  label_crm_at_company:
+  label_crm_last_notes: Son qeydlər
+  label_crm_tags_plural: Teqlər
+  label_crm_multi_tags_plural: Bir neçə teqin seçimi
+  label_crm_single_tag_mode: Bir teq
+  label_crm_multiple_tags_mode: Bir neçə teq
+  label_crm_contact_tag: Teq
+  label_crm_time_ago: geriyə
+  label_crm_add_note_plural: Qeydi əlavə etmək
+  label_crm_note_plural: Qeydlər
+
+  label_crm_add_tags_rule: vergül üzərindən bir neçə teq
+  label_crm_contact_search: Ada görə axtarış
+  label_crm_note_for:       üçün qeyd
+  label_crm_show_on_map: Xəritədə göstərmək
+  label_crm_add_another_phone: telefon əlavə etmək
+  label_crm_remove: silmək
+  label_crm_related_contacts: Əlaqəli əlaqə məlumatları
+  label_crm_assigned_to: Məsul şəxs
+  label_crm_issue_added: Tapşırıq əlavə olunub
+  label_crm_add_emails_rule: vergül üzərindən bir neçə email
+  label_crm_add_phones_rule: vergül üzərindən bir neçə telefon
+  label_crm_add_employee: Yeni əməkdaş
+  label_crm_merge_duplicate_plural: Birləşdirmək
+  label_crm_duplicate_plural: Mümkün dublikatlar
+  label_crm_duplicate_for_plural:    üçün mümkün dublikatlar
+  label_crm_add_tag: + teq əlavə etmək
+
+  label_crm_note_show_extras: Əlavə olaraq (tip, tarix, fayl)
+  label_crm_note_hide_extras: Parametrləri gizlətmək
+  label_crm_note_added: Qeyd müvəffəqiyyətlə əlavə olundu
+  label_crm_note_read_more: (bütün qeyd)
+  label_crm_invoice_import: CSV-dən hesabı yükləmək
+
+  label_deal_plural: Razılaşma
+  label_crm_contractor_plural: Razılaşmanın iştirakçıları
+  label_deal: Razılaşma
+  label_crm_deal_new: Yeni razılaşma
+  label_crm_deal_edit_information: Razılaşma üzrə informasiyanı redaktə etmək
+  label_crm_deal_change_status: Statusu dəyişmək
+  label_crm_statistics: Statistika
+
+  label_crm_deal_status_new: Yeni
+  label_crm_deal_status_first_contact: Birinci əlaqə məlumatı
+  label_crm_deal_status_negotiations: Danışıqlar
+  label_crm_deal_status_pending: Qərarın qəbul edilməsi
+  label_crm_deal_status_won: Qazanılıb
+  label_crm_deal_status_lost: Rədd edilib
+  label_crm_deals_import: CSV-dən razılaşmanı yükləmək
+
+  label_crm_created_on: Yaratma tarixi
+
+  field_note_date: Qeyd tarixi
+
+  field_deal_name: Ad
+  field_deal_background: Təsvir
+  field_deal_contact: Razılaşmanın iştirakçısı
+  field_deal_price: Məbləğ
+  field_price: Məbləğ
+
+  field_contact_avatar: Foto
+  field_contact_is_company: Şöbə
+  field_contact_name: Ad
+  field_contact_last_name: Soyad
+  field_contact_first_name: Ad
+  field_contact_middle_name: Atasının adı
+  field_contact_job_title: Vəzifə
+  field_contact_company: Şöbə
+  field_contact_address: Ünvan
+  field_contact_phone: Telefon
+  field_contact_email: Email
+  field_contact_website: Website
+  field_contact_skype: Skype
+  field_contact_background: Əlavə məlumat
+  field_contact_status: Status
+  field_contact_tag_names: Teqlər
+  field_first_name: Ad
+  field_last_name: Soyad
+  field_company: Şöbə
+  field_birthday: Ad günü
+  field_contact_department: Şöbə
+
+  field_company_field: Fəaliyyət növü
+
+  field_color: Rəng
+
+  button_add_note: Qeydi əlavə etmək
+  notice_successful_save: Yadda saxlama müvəffəqiyyətlə yerinə yetirildi
+  notice_successful_add: Yaratma müvəffəqiyyətlə yerinə yetirildi
+  notice_unsuccessful_save: Yadda saxlamaq mümkün deyildir
+  notice_successful_merged: Birləşmə müvəffəqiyyətlə yerinə yetirildi
+
+  notice_merged_warning: Bu əlaqə məlumatları ilə bağlı olan bütün layihələr, qeydlər, teqlər və tapşırıqlar aşağıdakı siyahıda seçilmişlərə əlavə ediləcək, bu əlaqə məlumatı isə silinəcək.
+
+  project_module_contacts: Əlaqə məlumatları
+
+  permission_view_contacts: Əlaqə məlumatlarına baxış
+  permission_edit_contacts: Əlaqə məlumatlarının redaktəsi
+  permission_delete_contacts: Əlaqə məlumatlarının silinməsi
+  permission_view_deals: Sazişlərə baxış
+  permission_edit_deals: Sazişlərin redaktəsi
+  permission_delete_deals: Sazişlərin silinməsi
+  permission_add_notes: Qeydlərin əlavə edilməsi
+  permission_delete_notes: Qeydlərin silinməsi
+  permission_delete_own_notes: Şəxsi qeydlərin silinməsi
+
+  # 2.0.0
+  label_crm_deal_category: Sazişin kateqoriyası
+  label_crm_deal_category_plural: Sazişlərin kateqoriyaları
+  label_crm_deal_category_new: Yeni kateqoriya
+  text_deal_category_destroy_assignments: Kateqoriyanın təyinatının silinməsi
+  text_deal_category_destroy_question: "Bir neçə saziş (%{count}) назначено в данную категорию. Siz nə etmək istəyirsiniz?"
+  text_deal_category_reassign_to: Bu kateqoriya üçün sazişləri təkrar təyin etmək
+  text_deals_destroy_confirmation: 'Siz seçilən sazişləri silmək istədiyinizə əminsinizmi?'
+  label_crm_deal_status_plural: Sazişlərin statusları
+  label_crm_deal_status: Sazişin statusu
+  field_deal_status_is_closed: Bağlanıb
+  label_crm_deal_status_new: Yeni
+  permission_manage_contacts: Soraq kitabçalarının sazlanması
+  label_crm_sales_funnel: Satışların filtri
+  label_crm_period: Müddət
+  label_crm_count: Miqdar
+
+  #2.0.1
+  label_crm_user_format: Adın formatı
+  label_crm_my_contact_plural: Mənə təyin olunmuş əlaqə məlumatları
+  label_crm_my_deal_plural: Mənə təyin olunmuş açıq sazişlər
+  label_crm_contact_view_all: Bütün əlaqə məlumatlarına baxış
+  label_crm_deal_view_all: Bütün sazişlərə baxış
+
+  #2.0.2
+  label_crm_bulk_edit_selected_contacts: Seçilmiş bütün əlaqə məlumatlarını redaktə etmək
+  label_crm_bulk_edit_selected_deals: Seçilmiş bütün sazişləri redaktə etmək
+  label_crm_bulk_send_mail_selected_contacts: Seçilmiş əlaqə məlumatlarına məktub göndərmək
+  field_add_tags: Teqləri əlavə etmək
+  field_delete_tags: Teqləri çıxartmaq
+  label_crm_send_mail: Məktub göndərmək
+  error_empty_email: Email boş ola bilməz
+  permission_send_contacts_mail: Məktubları göndərmək
+  field_mail_from: Göndərən şəxs
+  text_email_macros: Makroslar %{macro}
+  field_message: Məlumat
+
+  #2.0.3
+  label_crm_add_contact: Add contact
+  label_contact: Əlaqə məlumatı
+  field_age: Yaş
+  label_crm_vcf_import: vCard-dan daxil etmək
+  label_crm_mail_from:
+  permission_import_contacts: Əlaqə məlumatlarını daxil etmək
+
+  #2.1.0
+  field_company_name: Şöbənin adı
+  label_crm_recently_added_contacts: Yeni daxil edilən əlaqə məlumatları
+  label_crm_created_by_me: Tərəfimdən yaradılan əlaqə məlumatları
+  my_contacts: Mənim əlaqə məlumatlarım
+  my_deals: Mənim sazişlərim
+
+  #2.2.0
+  label_crm_note_type_email: Email
+  label_crm_note_type_call: Zəng
+  label_crm_note_type_meeting: Görüş
+  field_deal_currency: Valyuta
+  label_crm_my_contacts_stats: Əlaqə məlumatlarına görə bu aya olan statistika
+  label_crm_contacts_created: Əlaqə məlumatları əlavə olunub
+  label_crm_deals_created: Sazişlər əlavə olunub
+  my_contacts_avatars: Mənim əlaqə məlumatlarımın şəkilləri
+  my_contacts_stats: Əlaqə məlumatları üzrə statistika
+  label_crm_add_into:     əlavə etmək
+  label_crm_delete_from:        silmək
+  label_crm_show_deaks_tab: Saziş nişanını göstərmək
+  label_crm_show_on_projects_show: Layihənin xülasəsində əlaqə məlumatlarını göstərmək
+
+  #2.2.1
+  label_crm_contacts_show_in_list: Siyahıda göstərmək
+
+  #2.3.0
+  label_crm_module_plural: Modullar
+  label_crm_list_partial_style: Əlaqə məlumatlarının siyahısını əks etdirmək
+  label_crm_list_excerpt: Siyahı
+  label_crm_list_cards: Kartoçkalarla
+  label_crm_list_list: Cədvəl ilə
+  field_contacts: Əlaqə məlumatı
+  field_companies: Şöbə
+  label_crm_added_by: Əlavə edib
+  label_crm_contact_note_authoring_time: Qeydlərin vaxtını göstərmək
+  label_crm_contact_issues_filters: Tapşırıqlara görə filtrlər
+  label_crm_csv_import: CSV-dən daxil etmək
+  label_crm_upload_encoding: Faylın kodlaşdırılması
+  label_crm_csv_file: CSV fayl
+  label_crm_csv_separator: Ayırıcı
+  field_middle_name: Atasının adı
+  field_job_title: Vəzifə
+  field_company: Şöbə
+  field_address: Ünvan
+  field_phone: Telefon
+  field_email: Email
+  field_tags: Teqlər
+  field_is_company: Şöbə hesab edilir
+  field_contact_full_name: Tam adı
+  field_last_note: Son qeyd
+  button_contacts_edit_query: Sorğunu redaktə etmək
+  button_contacts_delete_query: Sorğunu silmək
+  permission_manage_public_contacts_queries: Ümumi sorğuların idarə edilməsi
+  permission_add_deals: Sazişlərin əlavə edilməsi
+  permission_add_contacts: Əlaqə məlumatlarının əlavə edilməsi
+  permission_save_contacts_queries: Sorğuların yadda saxlanılması
+
+  #2.3.3
+  label_crm_contact_show_in_app_menu: Proqram menyusunda əlavələri göstərmək
+
+  #2.3.4
+  label_crm_contact_show_closed_issues: Bağlı tapşırıqları göstərmək
+
+  #3.0.0
+  label_crm_import: Daxil etmək
+  label_crm_contact_note_plural: Əlaqə məlumatlarının qeydləri
+  label_crm_deal_note_plural: Sazişlərin qeydləri
+  label_crm_contact_all_note_plural: Bütün qeydlər
+  error_unable_delete_deal_status: Sazişin statusunu silmək mümkün deyildir
+  label_crm_contacts_hidden: Əlavə parametrlər
+
+  #3.1.0
+  label_crm_contact_added: Əlaqə məlumatı əlavə olunub
+  label_crm_note_added: Qeyd əlavə olunub
+  label_crm_deal_added: Saziş əlavə olunub
+  label_crm_deal_updated: Saziş dəyişdirilib
+  text_crm_contact_added: "Yeni əlaqə məlumatı yaradılıb %{name} (%{author})."
+  text_crm_deal_added: "Yeni saziş yaradılıb %{name} (%{author})."
+  text_crm_deal_status_changed: "Sazişin statusu %{old}-dan %{new}-a dəyişdirilib"
+  text_crm_deal_updated: "%{name} sazişi (%{author}) tərəfindən yenilənib."
+  label_crm_contacts_cc: Cc
+  label_crm_contacts_bcc: Bcc
+  label_crm_contact_import: CSV-dən daxil etmək
+  permission_import_deals: Sazişləri daxil etmək
+  label_crm_single_quotes: "Tək dırnaq işarəsi (')"
+  label_crm_double_quotes: "Cüt dırnaq işarəsi (\")"
+  label_crm_quotes_type: Dırnaq işarələrinin tipi
+  label_crm_contacts_visibility: Görünmə dərəcəsi
+  label_crm_contacts_visibility_project: Layihələrdə hüquqlar görə
+  label_crm_contacts_visibility_public: Kütləvi
+  label_crm_contacts_visibility_private: Şəxsi
+  permission_view_private_contacts: Şəxsi əlaqə məlumatlarına baxış
+  text_crm_error_on_line: "%{line}sətrində səhv: %{error}"

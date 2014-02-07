@@ -1,0 +1,45 @@
+<ul>
+	<% if !@deal.nil? %>
+		<li><%= context_menu_link l(:button_edit), {:controller => 'deals', :action => 'edit', :id => @deal},
+		        :class => 'icon-edit', :disabled => !@can[:edit] %></li>
+
+
+		<% if User.current.logged? %>
+		<li><%= watcher_link(@deal, User.current) %></li>
+		<% end %>
+
+	<% else %>
+		<li><%= context_menu_link l(:button_edit), {:controller => 'deals', :action => 'bulk_edit', :ids => @deals.collect(&:id)},
+		        :class => 'icon-edit', :disabled => !@can[:edit] %></li>
+	<% end %>
+
+	<% unless @project.nil? || @project.deal_categories.empty? -%>
+	<li class="folder">
+		<a href="#" class="submenu"><%= l(:field_category) %></a>
+		<ul>
+		<% @project.deal_categories.each do |u| -%>
+		    <li><%= context_menu_link u.name, {:controller => 'deals', :action => 'bulk_update', :ids => @deals.collect(&:id), :deal => {'category_id' => u}, :back_url => @back}, :method => :post,
+		                              :selected => (@deal && u == @deal.category), :disabled =>  !@can[:edit] %></li>
+		<% end -%>
+		    <li><%= context_menu_link l(:label_none), {:controller => 'deals', :action => 'bulk_update', :ids => @deals.collect(&:id), :deal => {'category_id' => 'none'}, :back_url => @back}, :method => :post,
+		                              :selected => (@deal && @deal.category.nil?), :disabled => !@can[:edit] %></li>
+		</ul>
+	</li>
+	<% end -%>
+
+	<% unless @project.nil? || @project.deal_statuses.empty? -%>
+	<li class="folder">
+		<a href="#" class="submenu"><%= l(:field_contact_status) %></a>
+		<ul>
+		<% @project.deal_statuses.each do |s| -%>
+		    <li><%= context_menu_link s.name, {:controller => 'deals', :action => 'bulk_update', :ids => @deals.collect(&:id), :deal => {'status_id' => s}, :back_url => @back}, :method => :post,
+		                              :selected => (@deal && s == @deal.status), :disabled =>  !@can[:edit] %></li>
+		<% end -%>
+		</ul>
+	</li>
+	<% end -%>
+
+
+   	 <li><%= context_menu_link l(:button_delete), {:controller => 'deals', :action => 'bulk_destroy', :ids => @deals.collect(&:id), :project_id => @project, :back_url => @back},
+                            :method => :delete, :confirm => l(:text_are_you_sure), :class => 'icon-del', :disabled => !@can[:delete] %></li>
+</ul>

@@ -1,0 +1,14 @@
+<%= form_tag({:controller => "contacts_settings", :action => "save", :project_id => @project, :tab => 'contacts'}, :method => :post, :class => "tabular") do %>
+  <div class="tabular box">
+    <p>
+      <label><%= l(:label_crm_show_on_projects_show) %></label>
+      <%= hidden_field_tag('contacts_settings[contacts_show_on_projects_show]', 0)  %>
+      <%= check_box_tag 'contacts_settings[contacts_show_on_projects_show]', 1, ContactsSetting[:contacts_show_on_projects_show, @project.id].to_i > 0 %>
+    </p>
+
+    <%= call_hook(:view_contacts_project_settings_bottom, :project => @project) %>
+
+  </div>
+
+  <%= submit_tag l(:button_save) %>
+<% end %>

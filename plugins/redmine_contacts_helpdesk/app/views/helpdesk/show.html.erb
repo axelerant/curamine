@@ -1,0 +1,333 @@
+<%= render :partial => 'issues/action_menu' %>
+
+<script type="text/javascript" charset="utf-8">
+   $(document).ready(function() {
+    toggleSendMail($('#is_send_mail').get(0));
+   });
+
+  function toggleSendMail(element) {
+    if (element.checked) {
+      $('#journal_contacts').show();
+      $('#helpdesk_cc').show();      
+      <% unless HelpdeskSettings[:helpdesk_emails_footer, @project].blank? %>
+            $('#email_footer').insertAfter($('#is_send_mail').parents().eq(1).find('.jstEditor .wiki-edit'));
+            $('#email_footer').show();          
+        <% end %>
+        <% unless HelpdeskSettings[:helpdesk_emails_header, @project].blank? %>
+              $('#email_header').insertBefore($('#is_send_mail').parents().eq(1).find('.jstElements'));
+              $('#email_header').show();
+          <% end %>
+      $('#issue_status_id').val("<%= HelpdeskSettings[:helpdesk_answered_status, @project] %>");    
+       
+    } else {
+      $('#journal_contacts').hide();
+      $('#helpdesk_cc').hide();
+      <% unless HelpdeskSettings[:helpdesk_emails_footer, @project].blank? %>
+        $('#email_footer').hide();; 
+      <% end %>
+      <% unless HelpdeskSettings[:helpdesk_emails_header, @project].blank? %> 
+        $('#email_header').hide();;
+      <% end %>
+    }
+
+  }  
+</script>
+
+<% unless HelpdeskSettings[:helpdesk_emails_header, @project].blank? %>
+  <div id="email_header" style="display: none;" class="email-template">
+    <%= textilizable(HelpdeskMailer.apply_macro(HelpdeskSettings[:helpdesk_emails_header, @project], @issue.contact, @issue, User.current)).html_safe  %>
+  </div>
+<% end %>
+
+<% unless HelpdeskSettings[:helpdesk_emails_footer, @project].blank? %>
+  <div id="email_footer" style="display: none;" class="email-template">
+    <%= textilizable(HelpdeskMailer.apply_macro(HelpdeskSettings[:helpdesk_emails_footer, @project], @issue.contact, @issue, User.current)).html_safe  %>
+  </div>
+<% end %>
+
+
+<h2><%= issue_heading(@issue) %></h2>
+
+<div class="<%= @issue.css_classes %> details">
+  <% if @prev_issue_id || @next_issue_id %>
+    <div class="next-prev-links contextual">
+      <%= link_to_if @prev_issue_id,
+                     "\xc2\xab #{l(:label_previous)}",
+                     (@prev_issue_id ? issue_path(@prev_issue_id) : nil),
+                     :title => "##{@prev_issue_id}" %> |
+      <% if @issue && @issue %>
+        <span class="position"><%= l(:label_item_position, :position => @issue, :count => @issue) %></span> |
+      <% end %>
+      <%= link_to_if @next_issue_id,
+                     "#{l(:label_next)} \xc2\xbb",
+                     (@next_issue_id ? issue_path(@next_issue_id) : nil),
+                     :title => "##{@next_issue_id}" %>
+    </div>
+  <% end %>
+
+<div class="subject">
+<%= render_issue_subject_with_tree(@issue) %>
+</div>
+        <p class="author icon icon-email">
+        <%= l(:label_added_time_by, :author => @issue.author.instance_of?(AnonymousUser) ? link_to_source(@issue.contacts.first) :  link_to_user(@issue.author), :age => time_tag(@issue.created_on)).html_safe %>
+        <% if @issue.created_on != @issue.updated_on %>
+        <%= l(:label_updated_time, time_tag(@issue.updated_on)).html_safe %>.
+        <% end %>
+        </p>
+
+<% if @issue.description? || @issue.attachments.any? -%>
+<hr />
+<% if @issue.description? %>
+  <div class="contextual">
+  <%= link_to l(:button_quote),
+              {:controller => 'journals', :action => 'new', :id => @issue},
+              :remote => true,
+              :method => 'post',
+              :class => 'icon icon-comment' if authorize_for('issues', 'edit') %>
+  </div>
+
+  <div class="wiki">
+  <%= textilizable @issue, :description, :attachments => @issue.attachments %>
+  </div>
+<% end %>
+<%= link_to_attachments @issue, :thumbnails => true %>
+<% end -%>
+
+</div>
+
+<% if @journals.present? %>
+<div id="ticket-history">
+<h3><%=l(:label_history)%></h3>
+  <% reply_links = authorize_for('issues', 'edit') -%>
+  <% for journal in @journals.select{|j| !j.notes.blank? } %>
+    <div id="change-<%= journal.id %>" class="<%= journal.css_classes %> ticket-note">
+      <% if journal.is_incoming? %>
+         <%= link_to avatar_to(journal.contacts.first, :size => "32"), {:controller => 'contacts', :action => 'show', :project_id => @project, :id => journal.contacts.first.id}, :id => "avatar", :class => "ticket-avatar gravatar" unless journal.contacts.blank? %>
+      <% else %>
+        <%= avatar(journal.user, :size => "32x32", :height => 32, :width => 32, :class => "ticket-avatar gravatar") %>     
+      <% end %>
+
+      <div id="note-<%= journal.indice %>" class="ticket-note-content">
+        <h4>
+          <%= link_to_in_place_notes_editor(image_tag('edit.png'), "journal-#{journal.id}-notes",
+                                               { :controller => 'journals', :action => 'edit', :id => journal, :format => 'js' },
+                                                  :title => l(:button_edit),
+                                                  :class => "journal-link") if reply_links %>
+          <%= link_to(image_tag('comment.png'),
+                         {:controller => 'journals', :action => 'new', :id => @issue, :journal_id => journal},
+                         :remote => true,
+                         :method => 'post',
+                         :title => l(:button_quote),
+                         :class => "journal-link") %>                                                
+          <% if journal.contacts && journal.contacts.any? && User.current.allowed_to?(:view_helpdesk_tickets, @project) %>
+          
+          <span class="icon <%= journal.is_incoming? ? 'icon-email' : 'icon-email-to' %>">
+          
+          <% if journal.is_incoming? %>
+            <%= "#{link_to_source journal.contacts.first} (#{journal.journal_messages.first.email})".html_safe unless journal.contacts.blank? %>
+            <% if journal.journal_messages.first.attachments.any? %>
+                <% attachment = journal.journal_messages.first.attachments.first %>
+                <span class="attachment" style="white-space: nowrap;display: inline-block;">
+                  <%= link_to_attachment attachment, :text => l(:label_helpdesk_original), :class => 'icon icon-attachment' -%>
+                  <%= h(" - #{attachment.description}") unless attachment.description.blank? %>
+                    <span class="size">(<%= number_to_human_size attachment.filesize %>)</span>
+                    <%= link_to_if_authorized image_tag('magnifier.png', :plugin => "redmine_contacts_helpdesk"),
+                          :controller => 'helpdesk', :action => 'show_original',
+                          :id => attachment, :project_id => @project %>
+                </span> 
+            <% end %>
+          <% else %>
+            <%= link_to_user journal.user %>
+            <span class="sent-to">
+            <%= l(:label_sent_to) %>
+            <% journal.journal_messages.each do |journal_message| %>
+                <span class="contact" style="white-space: nowrap;display: inline-block;">
+                <%= link_to_source(journal_message.contact) %>
+                (<%= journal_message.email %>)
+                </span>
+            <% end %> 
+            </span>
+          <% end %>
+          - <%= format_time(@issue.updated_on).html_safe %>.
+          </span>   
+          <%# authoring journal.created_on, journal.user, :label => :label_updated_time_by %>
+
+
+
+              
+
+
+          <% end %>  
+        </h4>
+      
+          <div class="wiki editable" id="journal-<%= journal.id %>-notes">
+          <%= textilizable(journal, :notes) %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+  <% heads_for_wiki_formatter if User.current.allowed_to?(:edit_issue_notes, @issue.project) || User.current.allowed_to?(:edit_own_issue_notes, @issue.project) %>
+
+</div>
+<% end %>
+
+
+<div style="clear: both;"></div>
+<%= render :partial => 'issues/action_menu' %>
+
+<div style="clear: both;"></div>
+<% if authorize_for('issues', 'edit') %>
+  <div id="update" style="display:none;">
+  <h3><%= l(:button_update) %></h3>
+  <%# labelled_form_for @issue, :html => {:id => 'issue-form', :multipart => true} do |f| %>
+  <%= form_tag({:controller => "helpdesk_tickets", :action => "update"}, :id => 'issue-form', :multipart => true, :method => :put) do |f| %>
+      <%= error_messages_for 'issue' %>
+      <%= render :partial => 'issues/conflict' if @conflict %>
+      <div class="box">
+
+      <p>  
+        <%= label_tag :is_send_mail, l(:label_is_send_mail), :class => "icon icon-email-to", :style => "" %>
+        <%= check_box_tag 'is_send_mail', 1, HelpdeskSettings[:send_note_by_default, @project], :onclick => "toggleSendMail(this);" %>
+        
+        <span id="journal_contacts" style="display: none;">
+          <% @issue.contacts.each do |contact| %>
+            <%= contact_tag(contact) %>
+            (<%= contact.emails.first %>)
+          <% end %>
+          <div id="helpdesk_cc" style="display: none;">
+            <p>
+            <%= label_tag :email_cc, l(:label_email_cc) %>
+            <%= text_field_tag :email_cc, '', :size => "80%" %>
+            </p>
+            <p>
+            <%= label_tag :email_bcc, l(:label_email_bcc) %>
+            <%= text_field_tag :email_bcc, '', :size => "80%" %>
+            </p>
+          </div>
+        </span>
+      </p>        
+
+      <%= text_area_tag 'notes', @notes, :cols => 60, :rows => 10, :class => 'wiki-edit' %>
+      <%= wikitoolbar_for 'notes' %>
+
+      <p><%=l(:label_attachment_plural)%><br /><%= render :partial => 'attachments/form', :locals => {:container => @issue} %></p>
+      </div>
+
+      <%# f.hidden_field :lock_version %>
+      <%# hidden_field_tag 'last_journal_id', params[:last_journal_id] || @issue.last_journal_id %>
+      <%= submit_tag l(:button_submit) %>
+      <%= preview_link preview_edit_issue_path(:project_id => @project, :id => @issue), 'issue-form' %>
+  <% end %>
+
+<div id="preview" class="wiki"></div>
+
+  </div>
+<% end %>
+
+<% other_formats_links do |f| %>
+  <%= f.link_to 'Atom', :url => {:key => User.current.rss_key} %>
+  <%= f.link_to 'PDF' %>
+<% end %>
+
+<% html_title "#{@issue.tracker.name} ##{@issue.id}: #{@issue.subject}" %>
+
+<% content_for :sidebar do %>
+    <div id="ticket_attributes">
+      <% if authorize_for('issues', 'edit') %>
+      <div class="contextual">
+      <%= link_to l(:button_update), :onclick => '#' %>
+      </div>
+      <% end %>      
+      <h3><%= l(:label_helpdesk_ticket_attributes) %></h3>
+      <table class="attributes">
+      <%= issue_fields_rows do |rows|
+        rows.left l(:field_status), h(@issue.status.name), :class => 'status'
+        rows.left l(:field_priority), h(@issue.priority.name), :class => 'priority'
+
+        unless @issue.disabled_core_fields.include?('assigned_to_id')
+          rows.left l(:field_assigned_to), avatar(@issue.assigned_to, :size => "14").to_s.html_safe + (@issue.assigned_to ? link_to_user(@issue.assigned_to) : "-"), :class => 'assigned-to'
+        end
+        unless @issue.disabled_core_fields.include?('category_id') || @issue.category.blank?
+          rows.left l(:field_category), h(@issue.category ? @issue.category.name : "-"), :class => 'category'
+        end
+        unless @issue.disabled_core_fields.include?('fixed_version_id') || @issue.fixed_version.blank?
+          rows.left l(:field_fixed_version), (@issue.fixed_version ? link_to_version(@issue.fixed_version) : "-"), :class => 'fixed-version'
+        end
+
+        unless @issue.disabled_core_fields.include?('start_date') || @issue.start_date.blank?
+          rows.left l(:field_start_date), format_date(@issue.start_date), :class => 'start-date'
+        end
+        unless @issue.disabled_core_fields.include?('due_date') || @issue.due_date.blank?
+          rows.left l(:field_due_date), format_date(@issue.due_date), :class => 'due-date'
+        end
+        unless @issue.disabled_core_fields.include?('done_ratio')
+          rows.left l(:field_done_ratio), progress_bar(@issue.done_ratio, :width => '80px', :legend => "#{@issue.done_ratio}%"), :class => 'progress'
+        end
+        unless @issue.disabled_core_fields.include?('estimated_hours')
+          unless @issue.estimated_hours.nil?
+            rows.left l(:field_estimated_hours), l_hours(@issue.estimated_hours), :class => 'estimated-hours'
+          end
+        end
+        if User.current.allowed_to?(:view_time_entries, @project) && @issue.total_spent_hours > 0
+          rows.left l(:label_spent_time), (@issue.total_spent_hours > 0 ? (link_to l_hours(@issue.total_spent_hours), {:controller => 'timelog', :action => 'index', :project_id => @project, :issue_id => @issue}) : "-"), :class => 'spent-time'
+        end
+      end %>
+      <%= render_custom_fields_rows(@issue) %>
+      </table>
+    </div>
+
+    <div id="contacts_previous_issues">  
+      <style type="text/css">
+        #contacts_previous_issues ul {margin: 0;  padding: 0;}
+        #contacts_previous_issues li {list-style-type:none; margin: 0px 2px 0px 0px; padding: 0px 0px 0px 0px;}
+      </style>
+
+
+      <% if RedmineHelpdesk.settings[:show_contact_card] %>
+        <h3><%= l(:label_helpdesk_customer_profile) %></h3>
+        <% @issue.contacts.each do |contact| %>
+        <span class="small-card">
+          <%= render :partial => 'contacts/contact_card', :object => contact %>
+        </span>
+        <% end %>
+      <% end %> 
+
+      <% if (issues_count = Issue.count(:include => :contacts, :conditions => ["#{Contact.table_name}.id IN (#{@issue.contact_ids.join(', ')})"]) - 1) > 0 %>
+        <h3><%= "#{l(:label_helpdesk_previous_issues)} (#{issues_count})" %> </h3>  
+        
+        <ul>
+          <% (Issue.visible.find(:all, :include => :contacts, :conditions => ["#{Contact.table_name}.id IN (#{@issue.contact_ids.join(', ')})"], :order => "#{Issue.table_name}.status_id, #{Issue.table_name}.due_date DESC, #{Issue.table_name}.updated_on DESC", :limit => RedmineHelpdesk.settings[:last_message_count].to_i > 0 ? RedmineHelpdesk.settings[:last_message_count].to_i : 11) - [@issue]).each do |issue| %>   
+          <li>  
+            <%= link_to_issue(issue, :truncate => 60, :project => (@project != issue.project)) %>       
+           </li>        
+          <% end %>    
+        </ul>
+        <div class="contextual">
+          <%= link_to l(:label_issue_view_all), {:controller => 'issues', 
+                   :action => 'index', 
+                   :set_filter => 1, 
+                   :f => [:contacts, :status_id], 
+                   :v => {:contacts => @issue.contact_ids},
+                   :op => {:contacts => '=', :status_id => '*'}} %>
+        </div>   
+      <% end %>
+
+    </div>   
+
+  <% if User.current.allowed_to?(:add_issue_watchers, @project) ||
+    (@issue.watchers.present? && User.current.allowed_to?(:view_issue_watchers, @project)) %>
+    <div id="watchers">
+      <%= render :partial => 'watchers/watchers', :locals => {:watched => @issue} %>
+    </div>
+  <% end %>
+<% end %>
+
+<% content_for :header_tags do %>
+  <%= javascript_include_tag :helpdesk, :plugin => 'redmine_contacts_helpdesk'  %>
+    <%= stylesheet_link_tag :contacts, :plugin => 'redmine_contacts' %>
+    <%= stylesheet_link_tag :helpdesk, :plugin => 'redmine_contacts_helpdesk' %>
+    <%= auto_discovery_link_tag(:atom, {:format => 'atom', :key => User.current.rss_key}, :title => "#{@issue.project} - #{@issue.tracker} ##{@issue.id}: #{@issue.subject}") %>
+<% end %>
+
+<%= context_menu issues_context_menu_path %>

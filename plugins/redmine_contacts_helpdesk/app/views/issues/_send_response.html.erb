@@ -1,0 +1,113 @@
+<% if authorize_for(:issues, :send_helpdesk_response) && @issue.customer && @issue.customer.primary_email %>
+<script type="text/javascript" charset="utf-8">
+	$(document).ready(function() {
+		toggleSendMail($('#helpdesk_is_send_mail').get(0));
+
+		var contactsEmails = ['<%= @issue.contacts.map{|c| c.primary_email if c.primary_email}.compact.uniq.join("\',\'").html_safe if @issue.contacts %>'];
+		
+		$("#helpdesk_cc").tagit({ availableTags: contactsEmails });
+		$("#helpdesk_bcc").tagit({ availableTags: contactsEmails });		
+
+    $('#email_footer').insertAfter($('#helpdesk_is_send_mail').parents().eq(1).find('.jstEditor'));
+    $('#email_header').insertBefore($('#helpdesk_is_send_mail').parents().eq(1).find('>legend'));
+    $('#email_canned_responses').insertBefore($('#helpdesk_is_send_mail').parents().eq(1).find('>legend'));
+	});
+
+  var issue_status = $('#issue_status_id').val();
+
+	function toggleSendMail(element) {
+		if (element.checked) {
+      $('.email-template').show();
+      <% unless HelpdeskSettings[:helpdesk_answered_status, @project].blank? %>  
+        issue_status = $('#issue_status_id').val();  
+		    $('#issue_status_id').val("<%= HelpdeskSettings[:helpdesk_answered_status, @project] %>");		
+      <% end %>
+      <% if @issue.assigned_to.blank? %>  
+        $('#issue_assigned_to_id').val("<%= User.current.id %>");    
+      <% end %>      
+       
+		} else {
+		  $('.email-template').hide();
+      $('#cc_list_edit').hide();
+      <% unless HelpdeskSettings[:helpdesk_answered_status, @project].blank? %>
+        $('#issue_status_id').val(issue_status);
+      <% end %>
+		}
+
+	}  
+
+function updateCannedResposeFrom(url, value) {
+  $.ajax({
+    url: url,
+    type: 'post',
+    data: {id: value}
+  });
+}
+
+
+</script>
+  
+<% if CannedResponse.visible.any? %>
+  <span id="email_canned_responses" style="display: none; float:right;" class="email-template">
+    <%= select_tag 'helpdesk[canned_response]', options_for_select([[ "--- #{l(:label_helpdesk_canned_response_plural)} ---", '' ]] + CannedResponse.visible.order("#{CannedResponse.table_name}.name").map{|cr| [cr.name, cr.id]}), :onchange => "updateCannedResposeFrom('#{escape_javascript add_canned_responses_path(:project_id => @project, :issue_id => @issue, :format => 'js')}', $(this).val())"  %>
+  </span>
+<% end %>
+
+<% unless HelpdeskSettings[:helpdesk_emails_header, @project].blank? %>
+	<div id="email_header" style="display: none;" class="email-template">
+		<%= textilizable(HelpdeskMailer.apply_macro(HelpdeskSettings[:helpdesk_emails_header, @project], @issue.customer, @issue, User.current)).html_safe  %>
+	</div>
+<% end %>
+
+<% unless HelpdeskSettings[:helpdesk_emails_footer, @project].blank? %>
+	<div id="email_footer" style="display: none;" class="email-template">
+		<%= textilizable(HelpdeskMailer.apply_macro(HelpdeskSettings[:helpdesk_emails_footer, @project], @issue.customer, @issue, User.current)).html_safe  %>
+	</div>
+<% end %>
+
+<p id="helpdesk_send_response">  
+  <%= check_box_tag 'helpdesk[is_send_mail]', 1, HelpdeskSettings[:send_note_by_default, @project], :onclick => "toggleSendMail(this);" %>
+  <%= label_tag :helpdesk_is_send_mail, l(:label_is_send_mail), :class => "icon icon-email-to", :style => "" %>
+  
+  <span id="journal_contacts" style="display: none;" class="email-template">
+      <%= contact_tag(@issue.customer) %>
+      <span id="customer_to_email"> (<%= @issue.helpdesk_ticket.default_to_address %>)</span>
+        <%= select_tag 'helpdesk[to_address]', options_for_select(@issue.helpdesk_ticket.available_addresses), {:style => "display:none;"} %>
+      <% if @issue.customer.emails.count > 1 %>
+		    <a href="#" class="inline-edit" onclick="$('#customer_to_email').hide(); $(this).hide(); $('#helpdesk_to_address').show(); return false;"><img alt="Edit" src="/images/edit.png" style="vertical-align:middle;" ></a>	
+      <% end %>
+  </span>
+  <br/>
+  <span class="search_for_watchers email-template" id="add_cc" style="display: none;" >
+    <%= link_to l(:label_helpdesk_add_cc), '#', :onclick => "$('#cc_list_edit').show(); $('#add_cc').hide(); $('#helpdesk_is_cc').val(1); return false;" %>
+  </span>
+</p>
+
+<div id="cc_list_edit" style="display:none;" >
+	<%= hidden_field_tag 'helpdesk[is_cc]' %>
+	<p class="cc-list-edit">  
+		<span class="is-cc">
+		<%= label_tag l(:label_helpdesk_cc) %>
+	  </span>
+	  <%= text_field_tag 'helpdesk[cc_list]',  @issue.helpdesk_ticket.cc_addresses.join(','),  :size => 10, :class => 'hol', :id => "helpdesk_cc" %>
+	</p>
+	<div style="clear: both;"></div>
+	<p class="cc-list-edit">  
+		<span class="is-cc">
+	  <%# check_box_tag 'helpdesk[is_bcc]', 1, false, :onclick => "$('#bcc_list_edit ul.tagit').toggle();" %>
+		<%= label_tag l(:label_helpdesk_bcc) %>
+	  </span>
+	  <%= text_field_tag 'helpdesk[bcc_list]', "",  :size => 10, :class => 'hol', :id => "helpdesk_bcc" %>
+	</p>
+	<div style="clear: both;"></div>
+</div>
+
+<% end %>
+
+<% content_for :header_tags do %>
+	<%= javascript_include_tag :helpdesk, :plugin => 'redmine_contacts_helpdesk'  %>
+  <%= javascript_include_tag :"tag-it", :plugin => 'redmine_contacts'  %>
+  <%= stylesheet_link_tag :"jquery.tagit.css", :plugin => 'redmine_contacts' %>	
+	<%= stylesheet_link_tag :contacts, :plugin => 'redmine_contacts' %>
+	<%= stylesheet_link_tag :helpdesk, :plugin => 'redmine_contacts_helpdesk' %>
+<% end %>

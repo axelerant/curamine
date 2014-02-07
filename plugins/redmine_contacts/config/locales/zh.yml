@@ -1,0 +1,157 @@
+# encoding: utf-8
+zh:
+  contacts_title: 联系人
+
+  label_crm_recently_viewed: 最近浏览
+  label_crm_gravatar_enabled: 使用头像
+  label_crm_thumbnails_enabled: 在备注显示缩略图
+  label_crm_max_thumbnail_file_size: 最大缩略图尺寸
+  label_crm_view_all_contacts: 所有联系人
+  label_crm_background_info: 背景信息
+  label_crm_company: 公司
+  label_contact_plural: 联系人列表
+  label_crm_contact_edit_information: 编辑联系人信息
+  label_crm_edit_tags: 编辑标签
+  label_crm_contact_view: 视图
+  label_crm_contact_list: 列表
+  label_crm_contact_new: 新建
+  label_crm_at_company: 在
+  label_crm_last_notes: 最新的备注
+  label_crm_tags_plural: 标签
+  label_crm_multi_tags_plural: 选中多个标签
+  label_crm_single_tag_mode: 单标签
+  label_crm_multiple_tags_mode: 多标签
+  label_crm_contact_tag: 标签
+  label_crm_time_ago: 之前
+  label_crm_add_note_plural: 增加备注
+  label_crm_note_plural: 备注
+
+  label_crm_add_tags_rule: 用逗号分割
+  label_crm_contact_search: 按名字搜索
+  label_crm_note_for: 备注
+  label_crm_show_on_map: 在地图上显示
+  label_crm_add_another_phone: 添加电话号码
+  label_crm_contact_note_plural: 全部备注
+  label_crm_remove: 删除
+  label_crm_related_contacts: 相关联系人
+  label_crm_assigned_to: 接口人
+  label_crm_issue_added: 创建的问题
+  label_crm_add_emails_rule: 用逗号分隔
+  label_crm_add_phones_rule: 用逗号分隔
+
+  label_crm_add_employee: 新建雇员
+  label_crm_merge_duplicate_plural: 合并
+  label_crm_duplicate_plural: 可能重复的联系人
+  label_crm_duplicate_for_plural: 可能与下列联系人重复
+
+  label_crm_note_show_extras: 高级 (文件, 日期)
+  label_crm_note_hide_extras: 隐藏高级选项
+  label_crm_note_added: 成功添加了备注
+  label_crm_note_read_more: (阅读更多)
+
+  label_deal_plural: 合同
+  label_crm_contractor_plural: 接触人
+  label_deal: 合同
+  label_crm_deal_new: 新合同
+  label_crm_deal_edit_information: 编辑合同信息
+  label_crm_deal_change_status: 更改状态
+  label_crm_deal_pending: 等待
+  label_crm_deal_won: 赢得
+  label_crm_deal_lost: 丢失
+
+
+  field_note_date: 备注日期
+
+  field_deal_name: 名称
+  field_deal_background: 背景
+  field_deal_contact: 联系人
+  field_deal_price: 合计
+  field_price: 合计
+
+  field_contact_avatar: 头像
+  field_contact_is_company: 公司
+  field_contact_name: 名字
+  field_contact_last_name: 姓
+  field_contact_first_name: 名
+  field_contact_middle_name: 中间名
+  field_contact_job_title: 职位
+  field_contact_company: 公司
+  field_contact_address: 地址
+  field_contact_phone: 电话
+  field_contact_email: 电子邮件
+  field_contact_website: 网址
+  field_contact_skype: Skype
+  field_contact_status: 状态
+  field_contact_background: 背景
+  field_contact_tag_names: 标签
+  field_first_name: 名字
+  field_last_name: 姓
+  field_company: 公司
+  field_birthday: 生日
+  field_contact_department: 部门
+
+  field_company_field: 行业
+  button_add_note: 增加备注
+  notice_successful_save: 已保存
+  notice_successful_add: 成功创建
+  notice_unsuccessful_save: 无法保存
+  notice_successful_merged: 已合并
+
+  project_module_contacts: 联系人
+
+  permission_view_contacts: 查看联系人
+  permission_edit_contacts: 编辑联系人
+  permission_delete_contacts: 删除联系人
+  permission_view_deals: 查看合同
+  permission_edit_deals: 编辑合同
+  permission_delete_deals: 删除合同
+  permission_add_notes: 增加备注
+  permission_delete_notes: 删除备注
+  permission_delete_own_notes: 删除自己的备注
+
+  notice_merged_warning: 所有的备注，项目，标签和附加到这个联系人的任务将被迁徙进以下被选择人，然后此联系人将会被删除.
+
+  # 2.0.0
+  label_crm_deal_category: Deal category
+  label_crm_deal_category_plural: Deals categories
+  label_crm_deal_category_new: New category
+  text_deal_category_destroy_assignments: Remove category assignments
+  text_deal_category_destroy_question: "Some deals (%{count}) are assigned to this category. What do you want to do?"
+  text_deal_category_reassign_to: Reassign deals to this category
+  text_deals_destroy_confirmation: 'Are you sure you want to delete the selected deal(s)?'
+  label_crm_deal_status_plural: Deal statuses
+  label_crm_deal_status: Deal status
+  field_deal_status_is_closed: Closed
+  label_crm_deal_status_new: New
+  permission_manage_contacts: Enumerations
+  label_crm_sales_funnel: Sales funnel
+  label_crm_period: Perion
+  label_crm_count: Count
+
+  #2.0.1
+  label_crm_user_format: Contact name format
+  label_crm_my_contact_plural: Contacts assigned to me
+  label_crm_my_deal_plural: Open deals assigned to me
+  label_crm_contact_view_all: View all contacts
+  label_crm_deal_view_all: View all deals
+
+  #2.0.2
+  label_crm_bulk_edit_selected_contacts: Edit all selected contacts
+  label_crm_bulk_edit_selected_deals: Edit all selected deals
+  label_crm_bulk_send_mail_selected_contacts: Send mail to selected contacts
+  field_add_tags: Add tags
+  field_delete_tags: Delete tags
+  label_crm_send_mail: Send mail
+  error_empty_email: Email can not be blank
+  permission_send_contacts_mail: Send mail
+  field_mail_from: From address
+  text_email_macros: Avaliable macros %{macro}
+  field_message: Message
+
+  #2.0.3
+  label_crm_add_contact: Add contact
+  label_contact: Contact
+  field_age: Age
+  label_crm_vcf_import: Import from vCard
+  label_crm_mail_from: From
+  permission_import_contacts: Import contacts

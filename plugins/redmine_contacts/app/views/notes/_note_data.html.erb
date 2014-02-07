@@ -1,0 +1,19 @@
+<% limit = -1 if limit.blank? %>
+<table class="note_data">
+	<tr>
+		<td class="avatar"><%= link_to avatar_to(note_data.source, :size => "32"), note_source_url(note_data.source), :id => "avatar" %></td>
+		<td class="name">
+			<h4 class="contacts_header">
+			  <%= note_type_icon(note_data) %>
+				<%= link_to_source note_data.source %>,
+				<%= time_tag(note_data.created_on) %>
+				<%= l(:label_crm_time_ago) %>
+				<%= link_to('&para;'.html_safe, {:controller => 'notes', :action => 'show', :project_id => @project, :id => note_data}, :title => l(:button_show), :class => "wiki-anchor") %>
+			</h4>
+			<div class="note content preview">
+				<%= truncate(note_data.content, :length => limit) %>
+				<p><%= "<strong>#{l(:label_file_plural)}:</strong> #{note_data.attachments.collect{|a| a.filename}.join(', ')}".html_safe  if note_data.attachments.any? %></p>
+			</div>
+		</td>
+	</tr>
+</table>

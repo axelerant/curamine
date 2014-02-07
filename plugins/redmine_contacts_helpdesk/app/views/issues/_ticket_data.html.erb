@@ -1,0 +1,38 @@
+<% if User.current.allowed_to?(:view_helpdesk_tickets, @project) && @issue.customer  %>
+<div id="ticket_data">
+    <div class="contextual">    
+        <%= link_to l(:label_helpdesk_public_link), public_ticket_path(@issue.helpdesk_ticket, :hash => @issue.helpdesk_ticket.token), :class => "icon icon-public-link" if RedmineHelpdesk.public_tickets? %>
+        <%= link_to l(:label_helpdesk_spam), 
+          {:controller => 'helpdesk',
+          :action => 'delete_spam',
+          :project_id => @project,
+          :issue_id => @issue},
+          :method => :delete,
+          :data => {:confirm => l(:text_are_you_sure)},          
+          :class => "icon icon-email-spam" if @issue.helpdesk_ticket.source == HelpdeskTicket::HELPDESK_EMAIL_SOURCE && @issue.customer.primary_email && User.current.allowed_to?(:send_response, @project) && User.current.allowed_to?(:delete_issues, @project) && User.current.allowed_to?(:delete_contacts, @project) %>
+    </div>
+	<span class="icon <%= helpdesk_ticket_source_icon(@issue.helpdesk_ticket) %>", title="<%=  l(:label_helpdesk_to_address) %>: <%= @issue.helpdesk_ticket.to_address %>">
+		<%=  l(:label_helpdesk_from) %>
+	</span>
+	<span class="ticket_customer"  style="white-space: nowrap;display: inline-block;">
+	  <%= contact_tag(@issue.customer, :type => "plain") %>
+	  (<%= @issue.helpdesk_ticket.from_address %>)
+	</span>
+    <% if attachment = @issue.helpdesk_ticket.message_file %>
+      <span class="attachment" style="white-space: nowrap;display: inline-block;">
+        <%= link_to_attachment attachment, :text => l(:label_helpdesk_original), :class => 'icon icon-attachment' -%>
+        <%= h(" - #{attachment.description}") unless attachment.description.blank? %>
+          <span class="size">(<%= number_to_human_size attachment.filesize %>)</span>
+          <%= link_to_if_authorized image_tag('magnifier.png', :plugin => "redmine_contacts_helpdesk"),
+                :controller => 'helpdesk', :action => 'show_original',
+                :id => attachment, :project_id => @project %>
+      </span> 
+    <% end %>	
+    <span class="helpdesk-message-date"><%= format_time(@issue.helpdesk_ticket.ticket_date) %></span> 
+    <br>
+    <% unless @issue.helpdesk_ticket.cc_address.blank? %>
+    <span class="helpdesk-message-date"><%=  l(:label_helpdesk_cc) %>: <%= @issue.helpdesk_ticket.cc_address.split(',').join(', ') %></span>      
+    <% end %>
+</div>
+<hr />
+<% end %>

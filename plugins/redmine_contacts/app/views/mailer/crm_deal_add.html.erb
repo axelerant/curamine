@@ -1,0 +1,17 @@
+<%= l(:text_crm_deal_added, :name => h(@deal.full_name), :author => h(@deal.author)) %>
+<hr />
+
+<h1><%= link_to(h("#{l(:label_deal)} ##{@deal.id}: #{@deal.info}".html_safe), @deal_url) %></h1>
+
+<ul>
+<li><%=l(:label_crm_deal_status)%>: <%=h @deal.status.name if @deal.status %></li>
+<li><%=l(:label_crm_deal_category)%>: <%=h @deal.category %></li>
+<li><%=l(:field_deal_contact)%>: <%=h @deal.contact.name if @deal.contact %></li>
+<li><%=l(:field_deal_price)%>: <%=h @deal.price %></li>
+<li><%=l(:field_assigned_to)%>: <%=h @deal.assigned_to %></li>
+<% @deal.custom_field_values.each do |c| %>
+  <li><%=h c.custom_field.name %>: <%=h show_value(c) %></li>
+<% end %>
+</ul>
+
+<%= textilizable(@deal, :background, :only_path => false) %>

@@ -1,0 +1,10 @@
+<% if User.current.allowed_to?(:view_helpdesk_tickets, @project) %>
+    <% if tickets = HelpdeskTicket.includes(:issue => [:project]).where(:projects => {:id => @project}) %>
+      <% customers = Contact.includes(:tickets => :project).where(:projects => {:id => @project}) %>
+      <h3><%= l(:label_helpdesk_ticket_plural) %></h3>
+      <p><span class="icon icon-helpdesk"><%= l(:text_helpdesk_ticket_count, :count => tickets.count) %></span></p>
+      <p><span class="icon icon-company-contact"><%= l(:text_helpdesk_customer_count, :count => customers.count) %> </span></p>
+      <p><%# link_to(l(:label_report), {:controller => "helpdesk_reports", :action => "tickets_report", :project_id => @project}) %></p>
+      <%= call_hook(:view_projects_show_helpdesk_sidebar_bottom, :project => @project) %>
+    <% end %>
+<% end %>

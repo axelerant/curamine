@@ -1,0 +1,272 @@
+# encoding: utf-8
+hu:
+  contacts_title: Kapcsolatok
+
+  label_crm_recently_viewed: Nemrég megtekintve
+  label_crm_gravatar_enabled: Gravatar használata
+  label_crm_thumbnails_enabled: Mutassa a képek előnézetét a megjegyzésekben
+  label_crm_max_thumbnail_file_size: Max előnézeti képméret
+  label_crm_view_all_contacts: Összes kapcsolat megtekintése
+  label_crm_background_info: Háttérinformáció
+  label_crm_company: Cég
+  label_contact_plural: Kapcsolatok
+  label_crm_contact_edit_information: Kapcsolat információ szerkesztése
+  label_crm_edit_tags: Címkék szerkesztése
+  label_crm_contact_view: Megtekintés
+  label_crm_contact_list: Lista
+  label_crm_contact_new: Új kapcsolat
+  label_crm_at_company: itt
+  label_crm_last_notes: Legutóbbi megjegyzések
+  label_crm_tags_plural: Címkék
+  label_crm_multi_tags_plural: Több címke választása
+  label_crm_single_tag_mode: Egy címke
+  label_crm_multiple_tags_mode: Több címke
+  label_crm_contact_tag: Címke
+  label_crm_time_ago: óta
+  label_crm_add_note_plural: Megjegyzés hozzádadása
+  label_crm_note_plural: Megjegyzések
+
+  label_crm_add_tags_rule: vesszővel elválasztva
+  label_crm_contact_search: Keresés név alapján
+  label_crm_note_for: "Megjegyzés a következőhöz:"
+  label_crm_show_on_map: Megtekintés térképen
+  label_crm_add_another_phone: telefonszám hozzáadása
+  label_crm_remove: törlés
+  label_crm_related_contacts: Kapcsolódó kapcsolatok
+  label_crm_assigned_to: Felelős
+  label_crm_issue_added: Feladat hozzáadva
+  label_crm_add_emails_rule: vesszővel elválasztva
+  label_crm_add_phones_rule: vesszővel elválasztva
+  label_crm_add_employee: Új alkalmazott
+  label_crm_merge_duplicate_plural: Összevonás
+  label_crm_duplicate_plural: Lehetséges másolat
+  label_crm_duplicate_for_plural: "Lehetséges másolata a következőnek:"
+  label_crm_add_tag: "+ címke hozzáadása"
+
+  label_crm_note_show_extras: "Haladó opciók (típus, dátum, fájlok)"
+  label_crm_note_hide_extras: Haladó opciók elrejtése
+  label_crm_note_added: Megjegyzés hozzáadva
+  label_crm_note_read_more: (tovább)
+  label_crm_invoice_import: Számlák importálása CSV fájlból
+
+  label_deal_plural: Alkuk
+  label_crm_contractor_plural: Kapcsolatok
+  label_deal: Alku
+  label_crm_deal_new: Új alku
+  label_crm_deal_edit_information: Alku részleteinek szerkesztése
+  label_crm_deal_change_status: Státusz módosítása
+  label_crm_statistics: Statisztika
+  label_crm_deals_import: Alkuk importálása CSV fájlból
+
+  label_crm_deal_status_new: Új
+  label_crm_deal_status_first_contact: Kapcsolatfelvétel
+  label_crm_deal_status_negotiations: Tárgyalás alatt
+  label_crm_deal_status_pending: Folyamatban
+  label_crm_deal_status_won: Sikeres
+  label_crm_deal_status_lost: Sikertelen
+
+  label_crm_created_on: Létrehozva
+
+  field_note_date: Megjegyzés dátuma
+  field_background: Háttér
+  field_currency: Pénznem
+  field_contact: Kapcsolat
+
+  field_deal_name: Név
+  field_deal_background: Háttér
+  field_deal_contact: Kapcsolat
+  field_deal_price: Összeg
+  field_price: Összeg
+
+  field_contact_avatar: Avatar
+  field_contact_is_company: Cég
+  field_contact_name: Név
+  field_contact_last_name: Vezetéknév
+  field_contact_first_name: Keresztnév
+  field_contact_middle_name: "Középső név"
+  field_contact_job_title: Beosztás
+  field_contact_company: Cég
+  field_contact_address: Cím
+  field_contact_phone: Telefonszám
+  field_contact_email: Email
+  field_contact_website: Weboldal
+  field_contact_skype: Skype
+  field_contact_status: Státusz
+  field_contact_background: Háttér
+  field_contact_tag_names: Címkék
+  field_first_name: Keresztnév
+  field_last_name: Vezetéknév
+  field_company: Cég
+  field_birthday: Születésnap
+  field_contact_department: Részleg
+
+
+  field_company_field: Iparág
+
+  field_color: Szín
+
+  button_add_note: Megjegyzés hozzáadása
+  notice_successful_save: Sikeresen elmentve
+  notice_successful_add: Sikeresen létrehozva
+  notice_unsuccessful_save: Problémák mentés közben
+  notice_successful_merged: Sikeresen összevonva
+
+  notice_merged_warning: "Az összes megjegyzés, projekt, címke és feladat át lesz helyezve az alább kiválasztott kapcsolathoz, ez pedig törölve lesz."
+
+  project_module_contacts: Kapcsolatok
+
+  permission_view_contacts: Kapcsolatok megtekintése
+  permission_edit_contacts: Kapcsolatok szerkesztése
+  permission_delete_contacts: Kapcsolatok törlése
+  permission_view_deals: Alkuok megtekintése
+  permission_edit_deals: Alkuok szerkesztése
+  permission_delete_deals: Alkuok törlése
+  permission_add_notes: Megjegyzések hozzáadása
+  permission_delete_notes: Megjegyzések törlése
+  permission_delete_own_notes: Saját megjegyzések törlése
+
+  # 2.0.0
+  label_crm_deal_category: Alku kategória
+  label_crm_deal_category_plural: Alku kategóriák
+  label_crm_deal_category_new: Új kategória
+  text_deal_category_destroy_assignments: Kategória hozzárendelések törlése
+  text_deal_category_destroy_question: "Néhány alku (%{count}) ehhez a kategóriához van rendelve. Mit szeretne tenni?"
+  text_deal_category_reassign_to: Alkuok áthelyezése ebbe a kategóriába
+  text_deals_destroy_confirmation: 'Tényleg törölni akarja a kiválasztott alku(ka)t?'
+  label_crm_deal_status_plural: Alku státuszok
+  label_crm_deal_status: Alku státusza
+  field_deal_status_is_closed: Lezárva
+  label_crm_deal_status_new: Új
+  permission_manage_contacts: Felsorolások
+  label_sale_funel: Értékesítési csatorna
+  label_crm_period: Periódus
+  label_crm_count: Számítás
+
+  #2.0.1
+  label_crm_user_format: Kapcsolat nevének formátuma
+  label_crm_my_contact_plural: Hozzám rendelt kapcsolatok
+  label_crm_my_deal_plural: Folyamatban lévő alkuaim
+  label_crm_contact_view_all: Összes kapcsolat megtekintése
+  label_crm_deal_view_all: Összes alku megtekintése
+
+  #2.0.2
+  label_crm_bulk_edit_selected_contacts: Kiválasztott kapcsolatok szerkesztése
+  label_crm_bulk_edit_selected_deals: Kiválasztott alkuk szerkesztése
+  label_crm_bulk_send_mail_selected_contacts: Üzenet küldése a kiválasztott kapcsolatoknak
+  field_add_tags: Címkék hozzáadása
+  field_delete_tags: Címkék eltávolítása
+  label_crm_send_mail: Üzenet küldése
+  error_empty_email: Az email nem lehet üres
+  permission_send_contacts_mail: Üzenet küldése
+  field_mail_from: Feladó címe
+  text_email_macros: "Elérhető makrók %{macro}"
+  field_message: Üzenet
+
+  #2.0.3
+  label_crm_add_contact: Add contact
+  label_contact: Kapcsolat
+  field_age: Kor
+  label_crm_vcf_import: Importálás vCard fájlból
+  label_crm_mail_from: Feladó
+  permission_import_contacts: Kapcsolatok importálása
+
+  #2.1.0
+  field_company_name: Cég neve
+  label_crm_recently_added_contacts: Legutóbb hozzáadott kapcsolatok
+  label_crm_created_by_me: Általam létrehozott kapcsolatok
+  my_contacts: Sajét kapcsolatok
+  my_deals: Saját alkuk
+
+  #2.2.0
+  label_crm_note_type_email: Email
+  label_crm_note_type_call: Hívás
+  label_crm_note_type_meeting: Alku
+  field_deal_currency: Pénznem
+  label_crm_my_contacts_stats: Kapcsolatok havi statisztikája
+  label_crm_contacts_created: Kapcsolatok létrehozva
+  label_crm_deals_created: Alkuok létrehozva
+  my_contacts_avatars: Saját kapcsolatok fényképei
+  my_contacts_stats: Kapcsolatok statisztikája
+  label_crm_add_into: Hozzáadás ide
+  label_crm_delete_from: Törlés innen
+  label_crm_show_deaks_tab: Alkuok fül megjelenítése
+  label_crm_show_on_projects_show: Kapcsolatok megjelenítése a projekt áttekintési oldalán
+
+  #2.2.1
+  label_crm_contacts_show_in_list: Megjelenítés listában
+
+  #2.3.0
+  label_crm_module_plural: Modulok
+  label_crm_list_partial_style: Kapcsolatok megjelenítési módja
+  label_crm_list_excerpt: Kivonatolt lista
+  label_crm_list_cards: Névjegyek
+  label_crm_list_list: Táblázat
+  field_contacts: Kapcsolat
+  field_companies: Cég
+  label_crm_added_by: Hozzáadta
+  label_crm_contact_note_authoring_time: Megjegyzés idejének megtekintése
+  label_crm_contact_issues_filters: Feladat szűrők
+  label_crm_csv_import: Importálás CSV fájlból
+  label_crm_upload_encoding: Fájl kódolás
+  label_crm_csv_file: CSV fájl
+  label_crm_csv_separator: Elválasztó
+  field_middle_name: Középső név
+  field_job_title: Beosztás
+  field_company: Cég
+  field_address: Cím
+  field_phone: Telefonszám
+  field_email: Email
+  field_tags: Címkék
+  field_last_note: Utolsó megjegyzés
+  field_is_company: Cég
+  field_contact_full_name: Teljes név
+  button_contacts_edit_query: Lekérdezés szerkesztése
+  button_contacts_delete_query: Lekérdezés törlése
+  permission_manage_public_contacts_queries: Publikus lekérdezések szerkesztése
+  permission_add_deals: Alkuk létrhozása
+  permission_add_contacts: Kapcsolatok hozzáadása
+  permission_save_contacts_queries: Lekérdezések mentése
+
+  #2.3.3
+  label_crm_contact_show_in_app_menu: Megjelenítése az alkalmazás menüben
+
+  #2.3.4
+  label_crm_contact_show_closed_issues: Mutassa a lezárt feladatokat
+
+  #3.0.0
+  label_crm_import: Importálás
+  label_crm_contact_note_plural: Kapcsolat megjegyzései
+  label_crm_deal_note_plural: Alku megjegyzései
+  label_crm_contact_all_note_plural: Összes megjegyzés
+  error_unable_delete_deal_status: Nem lehet eltávolítani az alku státuszát
+  label_crm_contacts_hidden: Rejtett beállítások
+
+  #3.1.0
+  label_crm_contact_added: Kapcsolat hozzáadva
+  label_crm_note_added: Megjegyzés hozzáadva
+  label_crm_deal_added: Alku létrehozva
+  label_crm_deal_updated: Alku frissítve
+  text_crm_contact_added: "A %{name} kapcsolatot %{author} módosította."
+  text_crm_deal_added: "A %{name} alkut %{author} létrehozta."
+  text_crm_deal_status_changed: "Alku státusza megváltozott, %{old} helyett %{new} lett"
+  text_crm_deal_updated: "A %{name} alkut %{author} módosította."
+  label_crm_contacts_cc: Cc
+  label_crm_contacts_bcc: Bcc
+  label_crm_contact_import: Importálás CSV fájlból
+  permission_import_deals: Alkuok importálása
+  label_crm_single_quotes: "Szimpla idézőjel (')"
+  label_crm_double_quotes: "Dupla idézőjel (\")"
+  label_crm_quotes_type: Idézőjel típusa
+  label_crm_contacts_visibility: Láthatóság
+  label_crm_contacts_visibility_project: Projekt jogosultságok alapján
+  label_crm_contacts_visibility_public: Publikus
+  label_crm_contacts_visibility_private: Privát
+  permission_view_private_contacts: Privát kontaktok megjelenítése
+  text_crm_error_on_line: "Hiba a %{line}. sorban: %{error}."
+
+  #3.2.0
+  label_crm_probability: Valószínűség
+  label_crm_deal_status_type: Státusz típusa
+  label_crm_select_companies: Cégek mint alku kapcsolatai
+  label_crm_expected_revenue: Becsült bevétel
+  label_crm_deal_due_date: Esedékes dátum

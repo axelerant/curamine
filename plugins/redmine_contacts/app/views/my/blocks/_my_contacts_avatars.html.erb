@@ -1,0 +1,40 @@
+<h3><%= l(:label_crm_my_contact_plural) %></h3>
+<% User.current.reload %>
+<% contacts = Contact.visible.find(:all, :conditions => {:assigned_to_id  => User.current.id}, :limit => 20) %>
+
+<% if contacts.length > 0 %>
+
+  <% if contacts.select{|c| !c.is_company}.any? %>
+  <div class="box" id="duplicates">
+    <% contacts.select{|c| !c.is_company}.each do |contact| %>
+      <div class="avatar tooltip" style="display: inline;">
+        <%= link_to avatar_to(contact, :size => "64"),  contact_path(contact), :id => "avatar" %>
+        <span class="tip contact"><%= render_contact_tooltip(contact, :icon => true) %></span>
+      </div>
+  	<% end %>
+  </div>
+  <% end %>
+
+  <% if contacts.select{|c| c.is_company}.any? %>
+  <div class="box" id="duplicates">
+    <% contacts.select{|c| c.is_company}.each do |contact| %>
+      <div class="avatar tooltip" style="display: inline;">
+      <%= link_to avatar_to(contact, :size => "64"),  contact_path(contact), :id => "avatar" %>
+      <span class="tip contact"><%= render_contact_tooltip(contact, :icon => true) %></span>
+      </div>
+  	<% end %>
+  </div>
+  <% end %>
+
+
+
+	<p class="small"><%= link_to l(:label_crm_contact_view_all),
+						 :controller => 'contacts',
+						 :action => 'index',
+						 :assigned_to_id => User.current.id %></p>
+<% end %>
+
+<% content_for(:header_tags) do %>
+	<%= javascript_include_tag :contacts, :plugin => 'redmine_contacts'  %>
+  	<%= stylesheet_link_tag :contacts, :plugin => 'redmine_contacts' %>
+<% end %>

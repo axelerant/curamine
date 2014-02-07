@@ -1,0 +1,237 @@
+# encoding: utf-8
+ja:
+  contacts_title: コンタクト
+
+  label_crm_recently_viewed: 最近表示したコンタクト
+  label_crm_gravatar_enabled: Gravatar の使用
+  label_crm_thumbnails_enabled: ノートにサムネイルを表示する
+  label_crm_max_thumbnail_file_size: サムネイル画像の最大サイズ
+  label_crm_view_all_contacts: すべてのコンタクトを表示
+  label_crm_background_info: 背景
+  label_crm_company: 会社
+  label_contact_plural: コンタクト
+  label_crm_contact_edit_information: コンタクト情報を編集
+  label_crm_edit_tags: タグを編集
+  label_crm_contact_view: 表示
+  label_crm_contact_list: 一覧
+  label_crm_contact_new: 新規コンタクト
+  label_crm_at_company: at
+  label_crm_last_notes: 最近のノート
+  label_crm_tags_plural: タグ
+  label_crm_multi_tags_plural: 複数タグの選択
+  label_crm_single_tag_mode: 単一タグ
+  label_crm_multiple_tags_mode: 複数タグ
+  label_crm_contact_tag: タグ
+  label_crm_time_ago: 前
+  label_crm_add_note_plural: 'ノートを追加: '
+  label_crm_note_plural: ノート
+
+  label_crm_add_tags_rule: カンマ区切り
+  label_crm_contact_search: 名前検索
+  label_crm_note_for: 'ノート: '
+  label_crm_show_on_map: 地図表示
+  label_crm_add_another_phone: 電話番号の追加
+  label_crm_remove: 削除
+  label_crm_related_contacts: 関連するコンタクト
+  label_crm_assigned_to: 担当者
+  label_crm_issue_added: チケットの追加
+  label_crm_add_emails_rule: カンマ区切り
+  label_crm_add_phones_rule: カンマ区切り
+  label_crm_add_employee: 新規社員
+  label_crm_merge_duplicate_plural: マージ
+  label_crm_duplicate_plural: 重複確認
+  label_crm_duplicate_for_plural: '重複確認: '
+  label_crm_add_tag: + タグを追加
+
+  label_crm_note_show_extras: 詳細 (type, date, files)
+  label_crm_note_hide_extras: 詳細を非表示
+  label_crm_note_added: ノートの追加に成功しました
+  label_crm_note_read_more: (詳細表示)
+
+  label_deal_plural: 取引
+  label_crm_contractor_plural: コンタクト
+  label_deal: 取引
+  label_crm_deal_new: 新規取引
+  label_crm_deal_edit_information: 取引情報の編集
+  label_crm_deal_change_status: ステータスを変更
+  label_crm_statistics: 統計
+
+  label_crm_deal_status_new: 新規
+  label_crm_deal_status_first_contact: 初コンタクト
+  label_crm_deal_status_negotiations: 交渉中
+  label_crm_deal_status_pending: ペンディング
+  label_crm_deal_status_won: 受注
+  label_crm_deal_status_lost: 失注
+
+  label_crm_created_on: 作成日
+
+  field_note_date: ノート日
+
+  field_deal_name: 名称
+  field_deal_background: 背景
+  field_deal_contact: コンタクト
+  field_deal_price: 合計
+  field_price: 合計
+
+  field_contact_avatar: アバター
+  field_contact_is_company: 会社
+  field_contact_name: 名前
+  field_contact_last_name: 苗字
+  field_contact_first_name: 名前
+  field_contact_middle_name: ミドルネーム
+  field_contact_job_title: 役職
+  field_contact_company: 会社
+  field_contact_address: 住所
+  field_contact_phone: 電話番号
+  field_contact_email: Email
+  field_contact_website: Web サイト
+  field_contact_skype: Skype
+  field_contact_status: ステータス
+  field_contact_background: 背景
+  field_contact_tag_names: タグ
+  field_first_name: 名前
+  field_last_name: 苗字
+  field_company: 会社
+  field_birthday: 誕生日
+  field_contact_department: 部署
+
+
+  field_company_field: 事業
+
+  field_color: 色
+
+  button_add_note: 新規ノート
+  notice_successful_save: 保存に成功しました
+  notice_successful_add: 作成に成功しました
+  notice_unsuccessful_save: 保存に失敗しました
+  notice_successful_merged: マージに成功しました
+
+  notice_merged_warning: この人に接続されているすべてのノート、プロジェクト、タグ、タスクは以下に移動されます。コンタクトはその後削除されます。
+
+  project_module_contacts: コンタクト
+
+  permission_view_contacts: コンタクトの表示
+  permission_edit_contacts: コンタクトの編集
+  permission_delete_contacts: コンタクトの削除
+  permission_view_deals: 取引の表示
+  permission_edit_deals: 取引の編集
+  permission_delete_deals: 取引の削除
+  permission_add_notes: ノートの追加
+  permission_delete_notes: ノートの削除
+  permission_delete_own_notes: 自分のノートの削除
+
+  # 2.0.0
+  label_crm_deal_category: 取引カテゴリ
+  label_crm_deal_category_plural: 取引カテゴリ
+  label_crm_deal_category_new: 新規カテゴリ
+  text_deal_category_destroy_assignments: カテゴリ割当を解除
+  text_deal_category_destroy_question: "いくつかの取引 (%{count} 件) がこのカテゴリに割当てられています。どのように処理しますか?"
+  text_deal_category_reassign_to: このが手ごりへ再度割当てる
+  text_deals_destroy_confirmation: '選択された取引を削除してもよろしいですか?'
+  label_crm_deal_status_plural: 取引ステータス
+  label_crm_deal_status: 取引ステータス
+  field_deal_status_is_closed: 終了
+  label_crm_deal_status_new: 新規
+  permission_manage_contacts: コンタクトの管理
+  label_crm_sales_funnel: 販売目標
+  label_crm_period: 期限
+  label_crm_count: 数量
+
+  #2.0.1
+  label_crm_user_format: コンタクト名のフォーマット
+  label_crm_my_contact_plural: コンタクトを自分に割当てる
+  label_crm_my_deal_plural: 取引を自分に割当てる
+  label_crm_contact_view_all: すべてのコンタクトを表示
+  label_crm_deal_view_all: すべての取引を表示
+
+  #2.0.2
+  label_crm_bulk_edit_selected_contacts: 選択したコンタクトを編集
+  label_crm_bulk_edit_selected_deals: 選択した取引を編集
+  label_crm_bulk_send_mail_selected_contacts: 選択したコンタクトへメールを送信
+  field_add_tags: タグを追加
+  field_delete_tags: タグを削除
+  label_crm_send_mail: メール送信
+  error_empty_email: 空メールは送信できません
+  permission_send_contacts_mail: メール送信
+  field_mail_from: From アドレス
+  text_email_macros: 利用可能なマクロ %{macro}
+  field_message: メッセージ
+
+  #2.0.3
+  label_crm_add_contact: Add contact
+  label_contact: コンタクト
+  field_age: 年齢
+  label_crm_vcf_import: vCard からインポート
+  label_crm_mail_from: From アドレス
+  permission_import_contacts: コンタクトのインポート
+
+  #2.1.0
+  field_company_name: 会社名
+  label_crm_recently_added_contacts: 最近追加されたコンタクト
+  label_crm_created_by_me: 自分が追加したコンタクト
+  my_contacts: マイコンタクト
+  my_deals: マイ取引
+
+  #2.2.0
+  label_crm_note_type_email: Email
+  label_crm_note_type_call: 電話
+  label_crm_note_type_meeting: 会議
+  field_deal_currency: 通過
+  label_crm_my_contacts_stats: 当月のコンタクト統計
+  label_crm_contacts_created: 作成されたコンタクト
+  label_crm_deals_created: 作成された取引
+  my_contacts_avatars: マイコンタクトの写真
+  my_contacts_stats: コンタクト統計
+  label_crm_add_into: 追加
+  label_crm_delete_from: 削除
+  label_crm_show_deaks_tab: 取引タブを表示
+  label_crm_show_on_projects_show: コンタクトをプロジェクト概要に表示
+
+  #2.2.1
+  label_crm_contacts_show_in_list: リストに表示
+
+  #2.3.0
+  label_crm_module_plural: モジュール
+  label_crm_list_partial_style: コンタクトリストのスタイル
+  label_crm_list_excerpt: Excerpert リスト
+  label_crm_list_cards: カード
+  label_crm_list_list: テーブル
+  field_contacts: コンタクト
+  field_companies: 会社
+  label_crm_added_by: 作成日
+  label_crm_contact_note_authoring_time: ノート時間の表示
+  label_crm_contact_issues_filters: チケットフィルター
+  label_crm_csv_import: CSV からコンタクトをインポート
+  label_crm_upload_encoding: File エンコード
+  label_crm_csv_file: CSV ファイル
+  label_crm_csv_separator: セパレータ
+  field_middle_name: ミドルネーム
+  field_job_title: 役職
+  field_company: 会社
+  field_address: 住所
+  field_phone: 電話
+  field_email: Email
+  field_tags: タグ
+  field_last_note: 最終ノート
+  field_is_company: 会社
+  field_contact_full_name: 名前
+  button_contacts_edit_query: クエリーの編集
+  button_contacts_delete_query: クエリーを削除
+  permission_manage_public_contacts_queries: 公開クエリーの管理
+  permission_add_deals: 取引の追加
+  permission_add_contacts: コンタクトの追加
+  permission_save_contacts_queries: クエリーの保存
+
+  #2.3.3
+  label_crm_contact_show_in_app_menu: アプリケーションメニューにタブを表示
+
+  #2.3.4
+  label_crm_contact_show_closed_issues: 終了したチケットを表示
+
+  #3.0.0
+  label_crm_import: インポート
+  label_crm_contact_note_plural: コンタクトノート
+  label_crm_deal_note_plural: 取引ノート
+  label_crm_contact_all_note_plural: すべてのノート
+  error_unable_delete_deal_status: 取引ステータスを削除できません
+  label_crm_contacts_hidden: 設定から隠す

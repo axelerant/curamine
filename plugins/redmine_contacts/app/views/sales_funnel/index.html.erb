@@ -1,0 +1,63 @@
+<h2><%= h l(:label_crm_sales_funnel) %></h2>
+
+<div class="filters">
+	<%= form_tag({ :controller => 'sales_funnel', :action => 'index', :project_id => @project }, :method => :get, :id => "query_form") do %>
+		<%= hidden_field_tag('project_id', @project.to_param) if @project %>
+		<% no_filters = (params[:category_id].blank? && params[:author_id].blank? && params[:assigned_to_id].blank? && !params[:is_closed] && (params[:period].blank? || params[:period] == 'all')) %>
+
+	<fieldset id="filters" class="collapsible <%= 'collapsed' if no_filters %>">
+		<legend onclick="toggleFieldset(this);"><%= l(:label_filter_plural) %></legend>
+		<div style="<%= 'display: none;' if no_filters %>">
+			<p>
+
+        <%= label_tag l(:label_crm_period) + " "%>
+				<%= select_tag 'period', options_for_period_select(params[:period]) %>
+
+        <% if @project && !@project.deal_categories.empty? %>
+					<%= label_tag l(:label_crm_deal_category) + " "%>
+					<%= select_tag 'category_id', options_for_select(@project.deal_categories.collect {|c| [c.name, c.id]}.insert(0, [""]), params[:category_id]) %>
+				<% end %>
+
+				<%= label_tag l(:label_crm_assigned_to) + " "  %>
+				<%= select_tag :assigned_to_id, options_for_select(Deal.available_users(@project).collect{|u| [u.name, u.id]}.insert(0, [""]),  params[:assigned_to_id]) %>
+
+				<% if @project %>
+					<%= label_tag l(:field_author) + " "  %>
+					<%= select_tag :author_id, options_for_select(@project.members.collect{|m| [m.name, m.user_id]}.insert(0, [""]),  params[:author_id]) %>
+				<% end %>
+			</p>
+
+		</div>
+	</fieldset>
+	<p class="buttons hide-when-print">
+
+
+
+		<%= link_to l(:button_apply), "#", :onclick=>"$('#query_form').submit()", :class => 'icon icon-checked' %>
+
+		<%= link_to l(:button_clear),
+		{:project_id => @project },
+		:method => :get,
+		:update => "sales_funnel",
+	    :class => 'icon icon-reload'  %>
+	</p>
+	<% end %>
+
+</div>
+
+<div id="sales_funnel">
+	<%= render :partial => 'sales_funnel' %>
+</div>
+
+<% content_for(:header_tags) do %>
+  <%= stylesheet_link_tag :contacts, :plugin => 'redmine_contacts' %>
+  <%= stylesheet_link_tag :contacts_sidebar, :plugin => 'redmine_contacts' %>
+  <meta name = "format-detection" content = "telephone=no">
+<% end %>
+
+<% content_for :sidebar do %>
+	<%= render :partial => 'common/sidebar' %>
+	<%= render :partial => 'deals/deals_statistics' %>
+	<%= render :partial => 'common/recently_viewed' %>
+
+<% end %>

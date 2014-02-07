@@ -1,0 +1,30 @@
+<%= error_messages_for 'helpdesk_settings' %>
+
+<% errors = [] %>
+<% errors << l(:label_helpdesk_enable_modules) unless @project.module_enabled?(:contacts) && @project.module_enabled?(:issue_tracking) %>
+<% errors << l(:label_helpdesk_required_custom_fields_error) if CustomField.where(:type => "ContactCustomField", :is_required => true).any? %>
+
+
+<% if errors.empty? %>
+  <%= form_tag({:controller => :helpdesk, :action => :save_settings, :project_id => @project, :tab => 'helpdesk'}, :method => :put, :class => "tabular", :multipart => true, :id => 'helpdesk_settings') do %> 
+
+  <div class="splitcontentleft">
+    <h3><%=l(:label_helpdesk)%></h3>
+    <%= render :partial => 'projects/settings/helpdesk_general' %>
+  </div>
+
+  <div class="splitcontentright">
+    <h3><%=l(:label_helpdesk_server_settings)%></h3>
+    <%= render :partial => 'projects/settings/helpdesk_server' %>
+  </div>
+
+  <div style="clear:both;"></div>
+
+  <%= submit_tag l(:button_save) %>
+
+  <% end %>
+
+<% else %>
+  <p class="nodata"><%= errors.join("<br/>").html_safe %></p>
+<% end %>
+

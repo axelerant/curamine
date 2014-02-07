@@ -1,0 +1,36 @@
+<div class="contact card">
+	<table class="subject_header">
+		<tr>
+			<td class="avatar"><%= contact_tag(contact_card, :type => "avatar", :size => 64) %></td>
+			<td class="name" style="vertical-align: top;">
+				<h2><%= contact_tag(contact_card, :type => "plain") %> </h2>
+				<p>
+				<%= h contact_card.job_title %>
+				<% if !contact_card.is_company %>
+				<%= " #{l(:label_crm_at_company)} " unless (contact_card.job_title.blank? or contact_card.company.blank?) %>
+  				<% if contact_card.contact_company %>
+  					<%= link_to contact_card.contact_company.name, {:controller => 'contacts', :action => 'show', :project_id => contact_card.contact_company.project(@project), :id => contact_card.contact_company.id } %>
+  				<% else %>
+  					<%= h contact_card.company %>
+  				<% end %>
+				<% end %>
+			  </p>
+
+			</td>
+
+
+		</tr>
+		<tr>
+			<td colspan="2" style="padding-left: 10px;">
+	  		<% if contact_card.phones.any? %>
+				  <p class="phone icon icon-phone"><%=  contact_card.phones.first %></p>
+				<% end %>
+
+				<% if contact_card.emails.any? %>
+				  <p class="email icon icon-email"><%= mail_to contact_card.emails.first %></p>
+				<% end %>
+				<%= tag_links(contact_card.tag_list) %>
+			</td>
+		</tr>
+	</table>
+</div>

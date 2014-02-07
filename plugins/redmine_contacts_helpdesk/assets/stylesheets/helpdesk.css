@@ -1,0 +1,214 @@
+
+span.attachment img {
+	vertical-align: middle;
+}
+
+
+div#contacts_previous_issues {
+	margin-bottom: 20px;
+}
+
+/**********************************************************************/
+/* TICKETS DATA SHOW ISSUE
+/**********************************************************************/
+
+span.helpdesk-message-date {
+	font-size: 0.9em;
+	color: #888;
+}
+/**********************************************************************/
+/* TICKETS DATA FORM
+/**********************************************************************/
+
+form#ticket_data_form {
+	background:
+	#ffffff;
+	display: block;
+	padding: 6px;
+	margin-bottom: 6px;
+	margin-right: 10px;
+	border: 1px solid
+	#d7d7d7;
+}
+
+.contact_auto_complete > span {
+  font-weight: bold;
+}
+
+
+/**********************************************************************/
+/* TICKETS EXCERPT LIST
+/**********************************************************************/
+
+table.list.issues td.helpdesk_ticket {white-space: normal; text-align: left;}
+table.list.issues td.helpdesk_ticket a.avatar {float: left;}
+table.list.issues td.helpdesk_ticket .ticket-data {margin-left: 45px;}
+table.list.issues td.helpdesk_ticket .ticket-data .ticket-name {margin: 0px;font-weight: bold;}
+table.list.issues td.helpdesk_ticket .ticket-status {float: left;}
+
+/**********************************************************************/
+/* TICKET DATA
+/**********************************************************************/
+span.ticket-status {
+  padding: 3px 4px;
+  font-size: 10px;
+  white-space: nowrap;
+  margin-right: 4px;
+  color: white;
+}
+
+div#ticket_data > div.contextual {
+  margin-top: initial;
+}
+
+
+
+span.ticket-status.status-1 {background-color: #CD5C5C;}
+span.ticket-status.status-2 {background-color: deepSkyBlue;}
+span.ticket-status.status-3 {background-color: green;}
+span.ticket-status.status-4 {background-color: #FF8C00;}
+span.ticket-status.status-5 {background-color: #AAA;}
+span.ticket-status.status-6 {background-color: #8A2BE2;}
+
+/**********************************************************************/
+/* SHOW TICKET
+/**********************************************************************/
+
+#ticket-history .ticket-avatar {float: left;}
+#ticket-history .ticket-note-content {margin-left: 50px;}
+#ticket-history .ticket-note {border-top: 1px solid #d7d7d7; padding-top: 8px;}
+
+/**********************************************************************/
+/* SEND RESPONSE
+/**********************************************************************/
+
+.cc-list-edit .is-cc {
+	float: left;
+	margin-top: 4px;
+	margin-right: 10px;
+}
+
+.cc-list-edit {
+	margin-top: -8px;
+}
+
+.cc-list-edit ul.tagit {
+	margin-left: 60px;
+	border: 1px solid #d7d7d7;
+	-moz-border-radius: 0px;
+	-webkit-border-radius: 0px;
+	-khtml-border-radius: 0px;
+	border-radius: 0px;
+	background: white;
+	padding: 0px;
+}
+
+.cc-list-edit ul.tagit li.tagit-choice {
+	font-weight: normal;
+	-moz-border-radius: 0px;
+	border-radius: 0px;
+	-webkit-border-radius: 0px;
+	font-size: 11px;
+	color: inherit;
+	padding-top: 0px;
+	padding-bottom: 0px;
+	background-color: #f7f7f7;
+	margin: 1px;
+}
+
+.cc-list-edit ul.tagit li.tagit-choice:hover, ul.tagit li.tagit-choice.remove {
+  background-color: #e5e5e5;
+  text-decoration: none;
+  color: black;
+}
+
+.cc-list-edit ul.tagit li.tagit-choice a.tagit-close {
+  text-decoration: none;
+}
+
+.cc-list-edit ul.tagit li.tagit-choice .tagit-close {
+  right: .4em;
+}
+
+.cc-list-edit ul.tagit li.tagit-choice .ui-icon {
+  display: none;
+}
+
+.cc-list-edit ul.tagit li.tagit-choice .tagit-close .text-icon{
+  display: inline;
+  /*font-size: 13px;*/
+  line-height: 16px;
+  /*color: white;*/
+}
+
+.cc-list-edit ul.tagit li.tagit-choice .tagit-close .text-icon:hover {
+  color: black;
+}
+
+.cc-list-edit ul.tagit li.tagit-new input {
+  font-size: 11px;
+  background: white;
+  margin-bottom: 2px;
+  margin-left: 2px;
+  width: 200px;
+}
+
+.cc-list-edit ul.tagit li.tagit-new {
+  padding: 0px;
+}
+
+p#helpdesk_send_response {
+  margin-top: 5px;
+}
+
+
+/**********************************************************************/
+/* ISSUES LIST
+/**********************************************************************/
+
+tr.issue td.customer, tr.issue td.customer_company {
+	white-space: normal;
+  text-align: left;
+}
+
+table.list.issue td.last_message img.gravatar{
+  vertical-align: middle;
+  margin: 0 4px 2px 0;
+}
+
+div.email-template {
+	background-color: #FFD;
+	border: 1px solid #E4E4E4;
+	padding-left: 10px;
+	padding-right: 10px;
+  margin-bottom: 5px;
+}
+
+tr.issue td.last_message {
+	text-align: left;
+	white-space: normal;
+	padding: 5px;
+}
+
+tr.issue td.last_message_date {
+  text-align: left;
+  white-space: normal;
+}
+
+tr.issue.context-menu-selection td.last_message span.description {
+	color: inherit;
+}
+
+/**********************************************************************/
+/* ICONS
+/**********************************************************************/
+
+#admin-menu a.helpdesk { background-image: url(../images/user_comment.png)}
+.icon-public-link { background-image: url(../../../images/external.png);padding-left: 14px;}
+.icon-email-spam { background-image: url(../images/email_error.png); }
+.icon-email-to { background-image: url(../images/email_go.png); }
+.icon-email-from { background-image: url(../images/email_from.png); }
+.icon-helpdesk { background-image: url(../images/user_comment.png); }
+.icon-split { background-image: url(../images/arrow_divide.png); }
+.icon-web { background-image: url(../images/world.png); }
+.icon-support { background-image: url(../images/support.png); }

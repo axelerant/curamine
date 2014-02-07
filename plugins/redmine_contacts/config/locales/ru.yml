@@ -1,0 +1,568 @@
+# encoding: utf-8
+ru:
+  contacts_title: Контакты
+
+  label_crm_recently_viewed: Последние просмотренные
+  label_crm_gravatar_enabled: Использовать Gravatar для контактов
+  label_crm_thumbnails_enabled: Отображать миниатюры изображений в заметках
+  label_crm_max_thumbnail_file_size: Максимальный размер отображаемой миниатюры
+  label_crm_view_all_contacts: Все контакты
+  label_crm_background_info: Дополнительная информация
+  label_crm_company: Компания
+  label_contact_plural: Контакты
+  label_crm_contact_edit_information: Редактировать информацию по контакту
+  label_crm_edit_tags: Редактировать тэги
+  label_crm_contact_view: Просмотр
+  label_crm_contact_list: Список
+  label_crm_contact_new: Новый контакт
+  label_crm_at_company: в
+  label_crm_last_notes: Последние заметки
+  label_crm_tags_plural: Тэги
+  label_crm_multi_tags_plural: Выбор нескольких тэгов
+  label_crm_single_tag_mode: Один тэг
+  label_crm_multiple_tags_mode: Несколько тэгов
+  label_crm_contact_tag: Тэг
+  label_crm_time_ago: назад
+  label_crm_add_note_plural: Добавить заметку
+  label_crm_note_plural: Заметки
+
+  label_crm_add_tags_rule: несколько тэгов через зяпятую
+  label_crm_contact_search: Поиск по имени
+  label_crm_note_for: Заметка для
+  label_crm_show_on_map: Показать на карте
+  label_crm_add_another_phone: добавить телефон
+  label_crm_remove: удалить
+  label_crm_related_contacts: Связанные контакты
+  label_crm_assigned_to: Ответственный
+  label_crm_issue_added: Добавлена задача
+  label_crm_add_emails_rule: несколько email через зяпятую
+  label_crm_add_phones_rule: несколько телефонов через зяпятую
+  label_crm_add_employee: Новый сотрудник
+  label_crm_merge_duplicate_plural: Объединить
+  label_crm_duplicate_plural: Вероятные дубликаты
+  label_crm_duplicate_for_plural: Вероятные дубликаты для
+  label_crm_add_tag: + добавить тэг
+
+  label_crm_note_show_extras: Дополнительно (тип, дата, файлы)
+  label_crm_note_hide_extras: Скрыть параметры
+  label_crm_note_added: Заметка успешно добавлена
+  label_crm_note_read_more: (вся заметка)
+  label_crm_invoice_import: Загрузить счета из CSV
+
+  label_deal_plural: Сделки
+  label_crm_contractor_plural: Участники сделки
+  label_deal: Сделка
+  label_crm_deal_new: Новая сделка
+  label_crm_deal_edit_information: Редактировать информацию по сделке
+  label_crm_deal_change_status: Сменить статус
+  label_crm_statistics: Cтатистика
+
+  label_crm_deal_status_new: Новая
+  label_crm_deal_status_first_contact: Первый контакт
+  label_crm_deal_status_negotiations: Переговоры
+  label_crm_deal_status_pending: Принятие решения
+  label_crm_deal_status_won: Выиграна
+  label_crm_deal_status_lost: Отвергнута
+  label_crm_deals_import: Загрузить сделки из CSV
+
+  label_crm_created_on: Дата создания
+
+  field_note_date: Дата заметки
+
+  field_deal_name: Название
+  field_deal_background: Описание
+  field_deal_contact: Участник сделки
+  field_deal_price: Сумма
+  field_price: Cумма
+
+  field_contact_avatar: Фото
+  field_contact_is_company: Компания
+  field_contact_name: Имя
+  field_contact_last_name: Фамилия
+  field_contact_first_name: Имя
+  field_contact_middle_name: Отчество
+  field_contact_job_title: Должность
+  field_contact_company: Компания
+  field_contact_address: Адрес
+  field_contact_phone: Телефон
+  field_contact_email: Email
+  field_contact_website: Website
+  field_contact_skype: Skype
+  field_contact_background: Дополнительная информация
+  field_contact_status: Статус
+  field_contact_tag_names: Тэги
+  field_first_name: Имя
+  field_last_name: Фамилия
+  field_company: Компания
+  field_birthday: День рождения
+  field_contact_department: Отдел
+
+  field_company_field: Род деятельности
+
+  field_color: Цвет
+
+  button_add_note: Добавить заметку
+  notice_successful_save: Сохранение успешно завершено
+  notice_successful_add: Создание успешнео завершено
+  notice_unsuccessful_save: Невозможно сохранить
+  notice_successful_merged: Объединение успешно завершено
+
+  notice_merged_warning: Все привязанные проекты, заметки, тэги и задачи этого контакта будут перенесены в выбранный в списке внизу, а этот контакт будет удален.
+
+  project_module_contacts: Контакты
+
+  permission_view_contacts: Просмотр контактов
+  permission_edit_contacts: Редактирование контактов
+  permission_delete_contacts: Удаление контактов
+  permission_view_deals: Просмотр сделок
+  permission_edit_deals: Редактирование сделок
+  permission_delete_deals: Удаление сделок
+  permission_add_notes: Добавление заметок
+  permission_delete_notes: Удаление заметок
+  permission_delete_own_notes: Удаление своих заметок
+
+  # 2.0.0
+  label_crm_deal_category: Категория сделки
+  label_crm_deal_category_plural: Категории сделок
+  label_crm_deal_category_new: Новая категория
+  text_deal_category_destroy_assignments: Удалить назначения категории
+  text_deal_category_destroy_question: "Несколько сделок (%{count}) назначено в данную категорию. Что Вы хотите предпринять?"
+  text_deal_category_reassign_to: Переназначить сделки для данной категории
+  text_deals_destroy_confirmation: 'Вы уверены, что хотите удалить выбранные сделки?'
+  label_crm_deal_status_plural: Статусы сделок
+  label_crm_deal_status: Статус cделки
+  field_deal_status_is_closed: Закрытa
+  label_crm_deal_status_new: Новый
+  permission_manage_contacts: Настройка справочников
+  label_crm_sales_funnel: Воронка продаж
+  label_crm_period: Период
+  label_crm_count: Кол-во
+
+  #2.0.1
+  label_crm_user_format: Формат имени
+  label_crm_my_contact_plural: Контакты назначенные мне
+  label_crm_my_deal_plural: Открытые сделки назначенные мне
+  label_crm_contact_view_all: Посмотреть все контакты
+  label_crm_deal_view_all: Посмотреть все сделки
+
+  #2.0.2
+  label_crm_bulk_edit_selected_contacts: Редактировать все выбранные контакты
+  label_crm_bulk_edit_selected_deals: Редактировать все выбранные сделки
+  label_crm_bulk_send_mail_selected_contacts: Отправить письмо выбранным контактам
+  field_add_tags: Добавить тэги
+  field_delete_tags: Снять тэги
+  label_crm_send_mail: Отправить письмо
+  error_empty_email: Email не может быть пустым
+  permission_send_contacts_mail: Отправлять письма
+  field_mail_from: Отправитель
+  text_email_macros: Макросы %{macro}
+  field_message: Сообщение
+
+  #2.0.3
+  label_crm_add_contact: Add contact
+  label_contact: Контакт
+  field_age: Возраст
+  label_crm_vcf_import: Импорт из vCard
+  label_crm_mail_from: От
+  permission_import_contacts: Импорт контактов
+
+  #2.1.0
+  field_company_name: Наименование компании
+  label_crm_recently_added_contacts: Недавно созданные контакты
+  label_crm_created_by_me: Контакты созданные мной
+  my_contacts: Мои контакты
+  my_deals: Мои сделки
+
+  #2.2.0
+  label_crm_note_type_email: Email
+  label_crm_note_type_call: Звонок
+  label_crm_note_type_meeting: Встреча
+  field_deal_currency: Валюта
+  label_crm_my_contacts_stats: Статистика по контактам за этот месяц
+  label_crm_contacts_created: Добавлено контактов
+  label_crm_deals_created: Добавлено сделок
+  my_contacts_avatars: Фотографии моих контактов
+  my_contacts_stats: Статистика по контактам
+  label_crm_add_into: Добавить в
+  label_crm_delete_from: Удалить из
+  label_crm_show_deaks_tab: Позывать закладку Сделки
+  label_crm_show_on_projects_show: Показывать контакты на обзоре проекта
+
+  #2.2.1
+  label_crm_contacts_show_in_list: Показывать в списке
+
+  #2.3.0
+  label_crm_module_plural: Модули
+  label_crm_list_partial_style: Отображать как
+  label_crm_list_excerpt: Списком
+  label_crm_list_cards: Карточками
+  label_crm_list_list: Таблицей
+  field_contacts: Контакт
+  field_companies: Компания
+  label_crm_added_by: Добавил(а)
+  label_crm_contact_note_authoring_time: Показывать время заметок
+  label_crm_contact_issues_filters: Фильтры по задачам
+  label_crm_csv_import: Импортировать из CSV
+  label_crm_upload_encoding: Кодировка файла
+  label_crm_csv_file: CSV файл
+  label_crm_csv_separator: Разделитель
+  field_middle_name: Отчество
+  field_job_title: Должность
+  field_company: Компания
+  field_address: Адрес
+  field_phone: Телефон
+  field_email: Email
+  field_tags: Тэги
+  field_is_company: Является компанией
+  field_contact_full_name: Полное имя
+  field_last_note: Последняя заметка
+  button_contacts_edit_query: Редактировать запрос
+  button_contacts_delete_query: Удалить запрос
+  permission_manage_public_contacts_queries: Управление общими запросами
+  permission_add_deals: Добавление сделок
+  permission_add_contacts: Добавление контактов
+  permission_save_contacts_queries: Сохранение запросов
+
+  #2.3.3
+  label_crm_contact_show_in_app_menu: Показывать вкладки в меню приложения
+
+  #2.3.4
+  label_crm_contact_show_closed_issues: Показывать закрытые задачи
+
+  #3.0.0
+  label_crm_import: Импорт
+  label_crm_contact_note_plural: Заметки контактов
+  label_crm_deal_note_plural: Заметки сделок
+  label_crm_contact_all_note_plural: Все заметки
+  error_unable_delete_deal_status: Невозможно удалить статус сделки
+  label_crm_contacts_hidden: Дополнительные параметры
+
+  #3.1.0
+  label_crm_contact_added: Добавлен контакт
+  label_crm_note_added: Добавлена заметка
+  label_crm_deal_added: Добавлена сделка
+  label_crm_deal_updated: Сделка изменена
+  text_crm_contact_added: "Создан новый контакт %{name} (%{author})."
+  text_crm_deal_added: "Создана новая сделка %{name} (%{author})."
+  text_crm_deal_status_changed: "Статус сделки изменен с %{old} на %{new}"
+  text_crm_deal_updated: "Сделка %{name} была обновлена (%{author})."
+  label_crm_contacts_cc: Cc
+  label_crm_contacts_bcc: Bcc
+  label_crm_contact_import: Импорт из CSV
+  permission_import_deals: Импорт сделок
+  label_crm_single_quotes: "Одиночные кавычки (')"
+  label_crm_double_quotes: "Двойные кавычки (\")"
+  label_crm_quotes_type: Тип кавычек
+  label_crm_contacts_visibility: Видимость
+  label_crm_contacts_visibility_project: По правам в проектах
+  label_crm_contacts_visibility_public: Публичный
+  label_crm_contacts_visibility_private: Частный
+  permission_view_private_contacts: Просмотр частных контактов
+  text_crm_error_on_line: "Ошибка в строке %{line}: %{error}"
+
+  #3.2.0
+  label_crm_probability: Вероятность
+  label_crm_deal_status_type: Тип
+  label_crm_select_companies: Контрагенты только компании
+  label_crm_expected_revenue: Ожидаемый доход
+
+  #3.2.2
+  label_crm_show_deals_in_top_menu: Показывать сделки в главном меню
+  label_crm_show_details: Показать детали
+  label_crm_has_deals: Есть сделки
+  label_crm_has_open_issues: Есть открытые задачи
+  label_crm_note: Заметка
+
+  #3.2.5
+  notice_failed_to_save_contacts: "Невозможно сохранить %{count} контакт(ов) из %{total} выбранных: %{ids}."
+
+  #3.2.6
+  project_module_deals: Сделки
+  permission_manage_deals: Настройка сделок
+  label_crm_deals_from_subprojects: Отображать сделки из подпроектов
+  label_crm_megre_tags: Объединить метки
+  label_crm_monochrome_tags: Монохромные метки
+
+  #3.2.7
+  label_crm_address: Адрес
+  label_crm_street1: Улица 1
+  label_crm_street2: Улица 2
+  label_crm_city: Город
+  label_crm_region: 'Регион'
+  label_crm_postcode: 'Почтовый индекс'
+  label_crm_country: Страна
+  label_crm_countries:
+    AU: Австралия
+    AT: Австрия
+    AZ: Азербайджан
+    AX: Аландские острова
+    AL: Албания
+    DZ: Алжир
+    VI: Американские Виргинские острова
+    AS: Американское Самоа
+    AO: Ангола
+    AI: Ангуилла
+    AD: Андорра
+    AQ: Антарктика
+    AG: Антигуа и Барбуда
+    AR: Аргентина
+    AM: Армения
+    AW: Аруба
+    AF: Афганистан
+    BS: Багамские острова
+    BD: Бангладеш
+    BB: Барбадос
+    BH: Бахрейн
+    BY: Беларусь
+    BZ: Белиз
+    BE: Бельгия
+    BJ: Бенин
+    BM: Бермудские Острова
+    BG: Болгария
+    BO: Боливия
+    BA: Босния и Герцеговина
+    BW: Ботсвана
+    BR: Бразилия
+    IO: Британская территория в Индийском океане
+    VG: Британские Виргинские Острова
+    BN: Бруней Даруссалам
+    BF: Буркина Фасо
+    BI: Бурунди
+    BT: Бутан
+    VU: Вануату
+    VA: Ватикан
+    GB: Великобритания
+    HU: Венгрия
+    VE: Венесуэла
+    UM: Внешние малые острова (США)
+    TL: Восточный Тимор
+    VN: Вьетнам
+    GA: Габон
+    HT: Гаити
+    GY: Гайана
+    GM: Гамбия
+    GH: Гана
+    GP: Гваделупа
+    GT: Гватемала
+    GN: Гвинея
+    GW: Гвинея-Биссау
+    DE: Германия
+    GG: Гернси
+    GI: Гибралтар
+    HN: Гондурас
+    HK: Гонконг, Особый Административный Район Китая
+    GD: Гренада
+    GL: Гренландия
+    GR: Греция
+    GE: Грузия
+    GU: Гуам
+    DK: Дания
+    CD: Демократическая Республика Конго
+    JE: Джерси
+    DJ: Джибути
+    DO: Доминиканская Республика
+    EG: Египет
+    ZM: Замбия
+    EH: Западная Сахара
+    ZW: Зимбабве
+    IL: Израиль
+    IN: Индия
+    ID: Индонезия
+    JO: Иордания
+    IQ: Ирак
+    IR: Иран
+    IE: Ирландия
+    IS: Исландия
+    ES: Испания
+    IT: Италия
+    YE: Йемен
+    KZ: Казахстан
+    KY: Каймановы острова
+    KH: Камбоджа
+    CM: Камерун
+    CA: Канада
+    QA: Катар
+    KE: Кения
+    CY: Кипр
+    KI: Кирибати
+    CN: Китай
+    CC: Кокосовые острова
+    CO: Колумбия
+    KM: Коморские Острова
+    CG: Конго
+    KP: Корейская Народно-Демократическая Республика
+    CR: Коста-Рика
+    CI: Кот д’Ивуар
+    CU: Куба
+    KW: Кувейт
+    KG: Кыргызстан
+    LA: Лаос
+    LV: Латвия
+    LS: Лесото
+    LR: Либерия
+    LB: Ливан
+    LY: Ливия
+    LT: Литва
+    LI: Лихтенштейн
+    LU: Люксембург
+    MU: Маврикий
+    MR: Мавритания
+    MG: Мадагаскар
+    YT: Майотта
+    MO: Макао (особый административный район КНР)
+    MK: Македония
+    MW: Малави
+    MY: Малайзия
+    ML: Мали
+    MV: Мальдивы
+    MT: Мальта
+    MA: Марокко
+    MQ: Мартиник
+    MH: Маршалловы Острова
+    MX: Мексика
+    MZ: Мозамбик
+    MD: Молдова
+    MC: Монако
+    MN: Монголия
+    MS: Монсеррат
+    MM: Мьянма
+    NA: Намибия
+    NR: Науру
+    ZZ: Неизвестный или недействительный регион
+    NP: Непал
+    NE: Нигер
+    NG: Нигерия
+    AN: Нидерландские Антильские острова
+    NL: Нидерланды
+    NI: Никарагуа
+    NU: Ниуе
+    NZ: Новая Зеландия
+    NC: Новая Каледония
+    "NO": Норвегия
+    AE: Объединенные Арабские Эмираты
+    OM: Оман
+    BV: Остров Буве
+    DM: Остров Доминика
+    IM: Остров Мэн
+    NF: Остров Норфолк
+    CX: Остров Рождества
+    BL: Остров Святого Бартоломея
+    MF: Остров Святого Мартина
+    SH: Остров Святой Елены
+    CV: Острова Зеленого Мыса
+    CK: Острова Кука
+    TC: Острова Тёркс и Кайкос
+    HM: Острова Херд и Макдональд
+    PK: Пакистан
+    PW: Палау
+    PS: Палестинская автономия
+    PA: Панама
+    PG: Папуа-Новая Гвинея
+    PY: Парагвай
+    PE: Перу
+    PN: Питкерн
+    PL: Польша
+    PT: Португалия
+    PR: Пуэрто-Рико
+    KR: Республика Корея
+    RE: Реюньон
+    RU: Россия
+    RW: Руанда
+    RO: Румыния
+    US: США
+    SV: Сальвадор
+    WS: Самоа
+    SM: Сан-Марино
+    ST: Сан-Томе и Принсипи
+    SA: Саудовская Аравия
+    SZ: Свазиленд
+    SJ: Свальбард и Ян-Майен
+    MP: Северные Марианские Острова
+    SC: Сейшельские Острова
+    PM: Сен-Пьер и Микелон
+    SN: Сенегал
+    VC: Сент-Винсент и Гренадины
+    KN: Сент-Киттс и Невис
+    LC: Сент-Люсия
+    RS: Сербия
+    CS: Сербия и Черногория
+    SG: Сингапур
+    SY: Сирийская Арабская Республика
+    SK: Словакия
+    SI: Словения
+    SB: Соломоновы Острова
+    SO: Сомали
+    SD: Судан
+    SR: Суринам
+    SL: Сьерра-Леоне
+    TJ: Таджикистан
+    TH: Таиланд
+    TW: Тайвань
+    TZ: Танзания
+    TG: Того
+    TK: Токелау
+    TO: Тонга
+    TT: Тринидад и Тобаго
+    TV: Тувалу
+    TN: Тунис
+    TM: Туркменистан
+    TR: Турция
+    UG: Уганда
+    UZ: Узбекистан
+    UA: Украина
+    WF: Уоллис и Футуна
+    UY: Уругвай
+    FO: Фарерские острова
+    FM: Федеративные Штаты Микронезии
+    FJ: Фиджи
+    PH: Филиппины
+    FI: Финляндия
+    FK: Фолклендские острова
+    FR: Франция
+    GF: Французская Гвиана
+    PF: Французская Полинезия
+    TF: Французские Южные Территории
+    HR: Хорватия
+    CF: Центрально-Африканская Республика
+    TD: Чад
+    ME: Черногория
+    CZ: Чешская республика
+    CL: Чили
+    CH: Швейцария
+    SE: Швеция
+    LK: Шри-Ланка
+    EC: Эквадор
+    GQ: Экваториальная Гвинея
+    ER: Эритрея
+    EE: Эстония
+    ET: Эфиопия
+    ZA: Южная Африка
+    GS: Южная Джорджия и Южные Сандвичевы Острова
+    JM: Ямайка
+    JP: Япония
+  label_crm_cross_project_contacts: Разрешить ссылаться на контакты во всех остальных проектах
+  label_crm_list_board: Доска
+  label_crm_default_list_style: Вид списка по умолчанию
+  label_crm_show_in_top_menu: Показывать в верхем меню
+  label_crm_show_in_app_menu: Показывать в меню приложения
+  label_crm_money_settings: Деньги
+  label_crm_disable_taxes: Отключить налоги
+  label_crm_default_tax: Налог по умолчанию
+  label_crm_tax_type: Тип налога
+  label_crm_tax_type_inclusive: Налог включен с общую сумму
+  label_crm_tax_type_exclusive: Налог добавлен к общей сумме
+  label_crm_default_currency: Валюта по умолчанию
+  label_crm_thousands_delimiter: Разделитель разрядов
+  label_crm_decimal_separator: Десятичный разделитель
+
+  #3.2.10
+  label_crm_add_contact_plural: Связать контакты
+  label_crm_search_for_contact: Найти контакт
+  label_crm_major_currencies: Основные валюты
+
+  #3.2.11
+  label_crm_post_address_format: Формат почтового адреса
+  label_crm_post_address_format_macros: "Макросы почтового формата: %{macros}"
+
+  #3.2.14
+  label_crm_last_year: последний год

@@ -1,0 +1,35 @@
+= Contacts plugin
+
+== Install
+
+* Copy redmine_contacts plugin to {RAILS_APP}/plugins on your redmine path
+* Run bundle install --without development test RAILS_ENV=production
+* Run rake redmine:plugins NAME=redmine_contacts RAILS_ENV=production
+
+== Uninstall
+
+<pre>
+rake redmine:plugins NAME=redmine_contacts VERSION=0 RAILS_ENV=production
+rm -r plugins/redmine_contacts
+</pre>
+
+== Requirements
+
+* Redmine 2.1.2+
+
+== Test
+rake db:drop  RAILS_ENV=test_sqlite3
+rake db:migrate db:migrate_plugins RAILS_ENV=test_sqlite3
+rake test:plugins:integration PLUGIN=redmine_contacts RAILS_ENV=test_sqlite3
+rake test:plugins:functionals PLUGIN=redmine_contacts RAILS_ENV=test_sqlite3
+rake test:plugins PLUGIN=redmine_contacts RAILS_ENV=test_sqlite3
+
+rake db:reset  db:migrate_plugins test:plugins NAME=redmine_contacts RAILS_ENV=test
+
+rake test:engines:all PLUGIN=redmine_contacts
+
+rake db:drop RAILS_ENV=test && rake db:migrate db:migrate_plugins RAILS_ENV=test && rake test:plugins PLUGIN=redmine_contacts RAILS_ENV=test
+
+=== Test API
+
+curl -v -H "Content-Type: application/xml" -X POST --data "@contact.xml" -u admin:admin http://localhost:3000/contacts.xml

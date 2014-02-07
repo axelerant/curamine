@@ -1,0 +1,12 @@
+<h2><%= link_to l(:contacts_title), {:controller => 'settings', :action => 'plugin', :id => 'redmine_contacts', :tab => "tags"} %> &#187; <%=h (l(:label_tag) + ": " + @tag.name) %></h2>
+
+<%= form_tag(contacts_tag_path(@tag), :class => "tabular", :method => :put) do %>
+  <%= error_messages_for 'tag' %>
+<div class="box">
+  <p>
+    <%= label_tag("tag_name", l(:field_name)) %>
+    <%= text_field 'tag', 'name'  %>
+  </p>
+</div>
+  <%= submit_tag l(:button_save) %>
+<% end %>

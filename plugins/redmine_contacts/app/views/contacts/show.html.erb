@@ -1,0 +1,85 @@
+<%= error_messages_for 'contact', 'note' %>
+
+<% html_title "#{l(:label_contact)} ##{@contact.id}: #{@contact.name}" %>
+
+<div class="contextual">
+	<% replace_watcher ||= 'watcher' %>
+	<%= link_to l(:label_profile), user_path(@contact.redmine_user), :class => 'icon icon-user' unless @contact.redmine_user.blank? %>
+	<%= link_to(l(:button_create), {:controller => 'users', :action => 'new_from_contact', :contact_id => @contact.id, :id => 'current'}, :class => 'icon icon-user') if (User.current.admin? && @contact.redmine_user.blank? && !@contact.email.blank?) %>
+	<%= link_to_if_authorized l(:label_crm_send_mail), {:controller => 'contacts', :action => 'edit_mails', :ids => [@contact.id], :project_id => @project}, :class => 'icon icon-email' unless @contact.primary_email.blank?  %>
+	<%= watcher_tag(@contact, User.current, {:id => replace_watcher, :replace => ['watcher','watcher2']}) %>
+	<%= link_to l(:button_edit), {:controller => 'contacts', :action => 'edit', :project_id => @project, :id => @contact}, :class => 'icon icon-edit' if @contact.editable? %>
+	<%= link_to l(:button_delete), {:controller => 'contacts', :action => 'destroy', :project_id => @project, :id => @contact}, :confirm => l(:text_are_you_sure), :method => :delete, :class => 'icon icon-del' if @contact.deletable? %>
+</div>
+
+<h2><%= !@contact.is_company ? l(:label_contact) : l(:label_crm_company) %> #<%= @contact.id %></h2>
+
+<div class="contact details<%= ' private' if @contact.is_private? %>">
+	<table class="subject_header">
+		<tr>
+			<td class="avatar"><%= avatar_to(@contact, :size => "64", :full_size => true) %></td>
+			<td class="name" style="vertical-align: top;">
+				<h1><%= h @contact.name %></h1>
+				<% if !@contact.is_company %>
+				<p>
+				<%= h @contact.job_title %>
+				<%= " #{l(:label_crm_at_company)} " unless (@contact.job_title.blank? or @contact.company.blank?) %>
+				<% if @contact.contact_company %>
+					<%= link_to @contact.contact_company.name, {:controller => 'contacts', :action => 'show', :project_id => @contact.contact_company.project(@project), :id => @contact.contact_company.id } %>
+				<% else %>
+					<%= h @contact.company %>
+				<% end %>
+				</p>
+				<% end %>
+
+				<%= render :partial => 'form_tags', :object => @contact.tags, :locals => {:editable => true} %>
+
+			</td>
+			<% if @contact.phones.any? || @contact.emails.any? %>
+			<td class="subject_info">
+				<ul>
+					<% if @contact.phones.any? %>
+					<li class="phone icon icon-phone"><%=  @contact.phones.first %></li>
+					<% end %>
+
+					<% if @contact.emails.any? %>
+					<li class="email icon icon-email"><%= mail_to @contact.emails.first %></li>
+					<% end %>
+				</ul>
+			</td>
+			<% end %>
+		</tr>
+	</table>
+	<%= call_hook(:view_contacts_show_details_bottom, :contact => @contact) %>
+</div>
+
+<%= render_contact_tabs contact_tabs(@contact) %>
+
+<% content_for :sidebar do %>
+
+	<%= render :partial => 'common/sidebar' %>
+	<%= render :partial => 'attributes' %>
+	<%= call_hook(:view_contacts_sidebar_after_attributes, :contact => @contact) %>
+	<%= render :partial => 'contacts_issues/issues', :locals => {:contact => @contact, :issues => @contact_issues} %>
+	<%= call_hook(:view_contacts_sidebar_after_tasks, :contact => @contact) %>
+	<%= render :partial => 'common/notes_attachments', :object => @contact.notes_attachments %>
+	<%= call_hook(:view_contacts_sidebar_after_notes_attachments, :contact => @contact) %>
+	<% if !@contact.background.blank? %>
+		<h3><%= l(:label_crm_background_info) %></h3>
+		<div class="wiki"><%= textilizable(@contact, :background) %></div>
+	<% end %>
+
+  <div id="contact_projects">
+	 <%= render :partial => 'contacts_projects/related' %>
+  </div>
+
+	<%= render :partial => 'common/recently_viewed' %>
+
+<% end %>
+
+<% content_for :header_tags do %>
+	<%= javascript_include_tag :contacts, :plugin => 'redmine_contacts'  %>
+	<%= stylesheet_link_tag :contacts_sidebar, :plugin => 'redmine_contacts' %>
+	<%= auto_discovery_link_tag(:atom, {:format => 'atom', :key => User.current.rss_key}, :title => "#{@contact.name} - ##{@contact.id}") %>
+
+<% end %>

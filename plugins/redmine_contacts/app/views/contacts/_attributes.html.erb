@@ -1,0 +1,74 @@
+<div id="attributes">
+<div class="contextual">
+	 <%- if ContactsSetting.vcard? -%>
+    <%= link_to 'vCard', contact_path(@contact, :format => :vcf) %>
+  <%- end -%>
+</div>
+<h3><%= if !@contact.is_company then l(:label_contact) else l(:label_crm_company) end %></h3>
+
+<table class="contact sidebar attributes vcard">
+  <%= call_hook(:view_contacts_sidebar_attributes_top) %>
+	<tr>
+		<th class = "name"><%= l(:field_contact_name) %>:</th><td class="name fn <%= "org" if @contact.is_company %>"><%= h @contact.name(:firstname_middlename_lastname) %></td>
+	</tr>
+	<% if !@contact.job_title.blank? %>
+	<tr> <th class = "job_title"><%= !@contact.is_company ? l(:field_contact_job_title) : l(:field_company_field) %>:</th><td class="job_title title"><%= h @contact.job_title %></td></tr>
+	<% end %>
+	<% if !@contact.is_company %>
+	<tr><th class = "company"><%=l(:field_contact_company)%>:</th><td class="company org"><%= h @contact.company %></td></tr>
+	<% end %>
+	<tr>
+		<th class = "address"><%= l(:field_contact_address) %>:</th>
+		<% unless @contact.address.blank? %>
+		<td class="address adr">
+				<%= @contact.post_address.gsub("\n", "<br/>").html_safe %>
+				<br>
+				<%= link_to l(:label_crm_show_on_map), "http://maps.google.com/maps?f=q&q=#{@contact.address}+(#{@contact.name})&ie=UTF8&om=1"%>
+		</td>
+		<% end %>
+		</tr>
+	<tr class = "tel">
+		<th class = "phone"><%= l(:field_contact_phone) %>:</th>
+		<td class = "phones">
+		<% @contact.phones.each do |phone| %>
+			<span  class="value"><%= h phone %> <br></span>
+		 <% end %>
+		</td>
+	</tr>
+	<tr class = "emails">
+		<th><%= l(:field_contact_email) %>:</th>
+		<td>
+			<% @contact.emails.each do |email| %>
+				<span class="email"><%= mail_to email %> <br></span>
+			 <% end %>
+		</td>
+	</tr>
+	<tr>
+		<th class = "website"><%= l(:field_contact_website) %>:</th>
+		<td class="website url"><%= link_to @contact.website, @contact.website_address, :class => 'external' %></td>
+	</tr>
+	<% if !@contact.skype_name.blank? %>
+	<tr>
+	  <th class = "skype"><%= l(:field_contact_skype) %>:</th>
+	  <td class="skype"><%= skype_to @contact.skype_name %></td>
+	</tr>
+	<% end %>
+	<% if !@contact.birthday.blank? %>
+	<tr> <th class = "birthday"><%= l(:field_birthday) %>:</th><td class="birthday bday" title=<%= "#{format_date(@contact.birthday)}" %>><%= "#{@contact.birthday.day} #{t('date.month_names')[@contact.birthday.month]}"%></td> </tr>
+	<tr> <th class = "age"><%= l(:field_age) %>:</th><td class="ega"><%= @contact.age %></td> </tr>
+	<% end %>
+	<% @contact.custom_field_values.compact.each do |custom_value| %>
+		<% if !custom_value.value.blank? %>
+		<tr> <th class = "custom_field"><%= custom_value.custom_field.name%>:</th><td> <%= simple_format_without_paragraph(h(show_value(custom_value))) %></td> </tr>
+		<% end %>
+	<% end %>
+
+  <% if @contact.assigned_to %>
+  <tr><th class="author"><%=l(:label_crm_assigned_to)%>:</th><td class="author"><%= avatar(@contact.assigned_to, :size => "14") %><%= link_to_user(@contact.assigned_to)  %></td></tr>
+  <% end %>
+
+	<%= call_hook(:view_contacts_sidebar_attributes_bottom) %>
+
+</table>
+
+</div>

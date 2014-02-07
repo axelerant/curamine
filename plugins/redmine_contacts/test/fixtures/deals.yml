@@ -1,0 +1,50 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+deal_001:
+  id: 1
+  name: First deal with contacts
+  contact_id: 1
+  project_id: 1
+  background: Test deal
+  author_id: 1
+  status_id: 1
+  assigned_to_id: 1
+  price: 3000
+
+deal_002:
+  id: 2
+  name: Second deal with contacts
+  contact_id: 3
+  project_id: 2
+  background: Test deal two
+  author_id: 2
+  status_id: 3
+  price: 10000
+
+deal_003:
+  id: 3
+  name: Delevelop redmine plugin
+  contact_id: 3
+  project_id: 2
+  background: Cross project deal
+  author_id: 2
+  status_id: 2
+  price: 5000
+
+deal_004:
+    id: 4
+    name: Deal without contact
+    project_id: 2
+    background: Deal without contact
+    author_id: 2
+    status_id: 1
+    price: 25500
+
+deal_005:
+    id: 5
+    name: Closed deal
+    contact_id: 3
+    project_id: 2
+    background: Closed deal
+    author_id: 2
+    status_id: 2
+    price: 25500

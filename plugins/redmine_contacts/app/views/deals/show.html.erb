@@ -1,0 +1,122 @@
+<div class="contextual">
+	<% replace_watcher ||= 'watcher' %>
+	<%= watcher_tag(@deal, User.current, {:id => replace_watcher, :replace => ['watcher','watcher2']}) %>
+	<%= link_to l(:button_edit), edit_deal_path(@deal), :class => 'icon icon-edit' if User.current.allowed_to?(:edit_deals, @project) %>
+  	<%= link_to l(:button_duplicate), new_project_deal_path(@project, :copy_from => @deal), :class => 'icon icon-duplicate' if User.current.allowed_to?(:add_deals, @project) %>
+	<%= link_to l(:button_delete), deal_path(@deal), :confirm => l(:text_are_you_sure), :method => :delete, :class => 'icon icon-del' if User.current.allowed_to?(:delete_deals, @project) %>
+</div>
+<h2><%= "#{l(:label_deal)} ##{@deal.id}" %></h2>
+<div class="deal details">
+
+	<table class="subject_header">
+		<tr>
+			<td class="avatar"><%= avatar_to(@deal, :size => "64") %></td>
+			<td class="name" style="vertical-align: top;">
+				<h1><%= @deal.contact.name + ": " if @deal.contact %> <%= @deal.name %></h1>
+        <p class="author">
+        <%= authoring @deal.created_on, @deal.author %>.
+        <% if @deal.created_on != @deal.updated_on %>
+        <%= l(:label_updated_time, time_tag(@deal.updated_on)).html_safe %>.
+        <% end %>
+        </p>
+				<p><%= @deal.category %></p>
+				<% if @deal.status && @project.deal_statuses.any? %>
+					<div id="deal-status">
+						<%= deal_status_tag(@deal.status) %>
+						<% if authorize_for('deals', 'edit') %>
+						<span class="contextual">
+							<%= link_to l(:label_crm_deal_change_status), {}, :onclick => "$('#edit_status_form').show(); $('#deal-status').hide(); return false;", :id => 'edit_status_link' %>
+						</span>
+						<% end %>
+					</div>
+					<%= form_tag( {:controller => 'deals',
+										 :action => 'update',
+										 :project_id => @project,
+										 :id => @deal },
+								 :method => :put,
+							     :multipart => true,
+								 :id => "edit_status_form",
+								 :style => "display:none; size: 100%" ) do %>
+						<%= select :deal, :status_id, options_for_select(collection_for_status_select, @deal.status_id.to_s), { :include_blank => false } %>
+						<%= submit_tag l(:button_save), :class => "button-small" %>
+						<%= link_to l(:button_cancel), {}, :onclick => "$('#edit_status_form').hide(); $('#deal-status').show(); return false;"  %>
+						<br>
+
+					<% end %>
+				<% end %>
+			</td>
+			<% if !@deal.price.blank? || !@deal.due_date.blank? || !@deal.probability.blank? %>
+			<td class="subject_info">
+				<ul>
+				  <% if !@deal.price.blank?  %>
+					<li class="price icon <%= deal_currency_icon(@deal) %>" title="Price"><%= deal_price(@deal) %></li>
+					<% end %>
+
+				  <% if !@deal.due_date.blank?  %>
+					<li class="price icon icon-date" title="Due date"><%= format_date(@deal.due_date) %></li>
+					<% end %>
+
+				  <% if !@deal.probability.blank?  %>
+					<li class="price icon icon-rosette" title="Probability"><%= @deal.probability %>%</li>
+					<% end %>
+
+				</ul>
+			</td>
+			<% end %>
+
+		</tr>
+	</table>
+
+
+ 	<% if authorize_for('notes', 'create') %>
+	<hr />
+	<%= render :partial => 'notes/add', :locals => {:note_source => @deal} %>
+	<% end %>
+</div>
+
+<div id="comments">
+	<h3><%= l(:label_crm_note_plural) %></h3>
+	<div id="notes">
+		<% @deal_events.each do |deal_event| %>
+			<% if deal_event[:object].is_a?(DealNote) %>
+				<%= render :partial => 'notes/note_item', :object => deal_event[:object], :locals => {:note_source => @deal} %>
+			<% end %>
+			<% if deal_event[:object].is_a?(DealProcess) %>
+				<%= render :partial => 'process_item', :object => deal_event[:object], :locals => {:note_source => @deal} %>
+			<% end %>
+		<% end %>
+	</div>
+
+</div>
+
+<% content_for :sidebar do %>
+  <%= render :partial => 'common/sidebar' %>
+	<%= call_hook(:view_deals_sidebar_top, :deal => @deal) %>
+	<%= render :partial => 'attributes' %>
+	<%= render :partial => 'common/responsible_user', :object => @deal %>
+	<%= render :partial => 'deal_contacts/contacts' %>
+	<%= render :partial => 'common/notes_attachments', :object => @deal_attachments %>
+
+    <% if !@deal.background.blank? %>
+	    <h3><%= l(:label_crm_background_info) %></h3>
+		<div class="wiki"><%= textilizable(@deal, :background) %></div>
+    <% end %>
+
+  <% if User.current.allowed_to?(:add_issue_watchers, @project) ||
+    (@deal.watchers.present? && User.current.allowed_to?(:view_issue_watchers, @project)) %>
+    <div id="watchers">
+      <%= render :partial => 'watchers/watchers', :locals => {:watched => @deal} %>
+    </div>
+  <% end %>
+
+	<%= render :partial => 'common/recently_viewed' %>
+	<%= call_hook(:view_deals_sidebar_bottom, :deal => @deal) %>
+<% end %>
+
+<% html_title "#{l(:label_deal)} ##{@deal.id}: #{@deal.name}" %>
+
+<% content_for :header_tags do %>
+	<%= javascript_include_tag :contacts, :plugin => 'redmine_contacts' %>
+	<%= stylesheet_link_tag :contacts_sidebar, :plugin => 'redmine_contacts' %>
+	<meta name = "format-detection" content = "telephone=no">
+<% end %>

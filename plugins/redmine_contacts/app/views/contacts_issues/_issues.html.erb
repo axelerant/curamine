@@ -1,0 +1,33 @@
+<div id="issues" class="contact-issues">
+
+<div class="contextual">
+	<%= link_to l(:label_issue_new), {}, :onclick => "$('#add_issue').show(); $('#add_issue_link').hide(); return false;", :id => 'add_issue_link' if User.current.allowed_to?(:add_issues, @project) %>
+</div>
+
+<h3><%= @contact_issues_count > 0 ? link_to("#{l(:label_issue_plural)} (#{@contact_issues_count})", {:controller => 'issues',
+								 :action => 'index',
+								 :set_filter => 1,
+								 :f => [:contacts, :status_id],
+								 :v => {:contacts => [@contact.id]},
+								 :op => {:contacts => '=', :status_id => '*'}}) : "#{l(:label_issue_plural)} (#{@contact_issues_count})" %> </h3>
+
+
+<%= error_messages_for 'issue' %>
+
+<div id="add_issue" style="display:none;">
+   <%= form_tag({ :controller => "contacts_issues", :action => "create_issue", :project_id => @project, :id => contact}, :multipart => true, :id => "add_issue_form") do %>
+
+		<%= render :partial => 'contacts_issues/attributes' %>
+
+ 		<%= link_to l(:button_cancel), {}, :onclick => "$('#add_issue').hide(); $('#add_issue_link').show(); return false;"  %>
+
+	<% end %>
+</div>
+
+<% if issues.any? %>
+	<table style="width:100%">
+		<%= render :partial => 'contacts_issues/issue_item', :collection => issues %>
+	</table>
+<% end %>
+
+</div>

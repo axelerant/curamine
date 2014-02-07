@@ -1,0 +1,24 @@
+<div id="tags_data">
+<%= tag_links(@contact.tag_list) %>
+<% if authorize_for('contacts', 'update') %>
+  <span class="contextual">
+    <%= link_to l(:label_crm_edit_tags), {}, :onclick => "$('#edit_tags_form').show(); $('#tags_data').hide();  return false;", :id => 'edit_tags_link' %>
+  </span>
+<% end %>
+</div>
+
+<div id="edit_tags_form" style="display:none;">
+  <%= form_tag( {:controller => 'contacts',
+                :action => 'update',
+                :project_id => @project,
+                :id => @contact },
+                :method => :put,
+            	  :multipart => true ) do %>
+
+
+  	<%= render :partial => "contacts_tags/tags_form" %>
+
+  	<%= submit_tag l(:button_save), :class => "button-small" %>
+  	<%= link_to l(:button_cancel), {}, :onclick => "$('#edit_tags_form').hide(); $('#tags_data').show(); return false;" %>
+  <% end %>
+</div>

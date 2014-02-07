@@ -1,0 +1,46 @@
+= Contacts_helpdesk
+
+== Requirements
+
+* Redmine 2.1+
+* Redmine Contacts CRM plugin pro or light version installed
+* MySQL, PostgerSQL or SQLite
+
+== Installation
+
+* Unarchive plugin to redmine/plugins
+* rake redmine:plugins RAILS_ENV=production
+
+== Uninstallation
+
+* rake redmine:plugins NAME=redmine_contacts_helpdesk VERSION=0 RAILS_ENV=production 
+* rm -rf plugins/redmine_contacts_helpdesk
+
+== Setup
+
+=== Params
+
+* project - redmine project identifier, required
+* reopen_status - status name for issues. When answer received from customer status changes to that
+* assigned_to - assignee user login
+* tracker - tracker name for created issue (Bug, Feature, Support and etc.)
+
+=== Gmail IMAP example
+
+rake redmine:email:helpdesk:receive_imap RAILS_ENV="production" host=imap.gmail.com username=gmail_address@gmail.com password=your_password port=993 ssl=1 project=support reopen_status=In progress assigned_to=user_login
+
+=== Add to cron in Linux
+
+sudo crontab -e
+add such line for every 10 minutes updates:
+*/10 * * * * wget -O - http://<redmine>/helpdesk_mailer/get_mail?key=************
+
+== Support
+
+Contacts me for support: support@redminecrm.com
+
+== Test
+
+bundle exec rake redmine:plugins:test NAME=redmine_contacts_helpdesk RAILS_ENV=test
+
+rake db:drop RAILS_ENV=test && rake db:migrate db:migrate_plugins RAILS_ENV=test && rake test:plugins PLUGIN=redmine_contacts_helpdesk RAILS_ENV=test

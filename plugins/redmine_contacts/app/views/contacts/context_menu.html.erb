@@ -1,0 +1,29 @@
+<ul>
+    <%= call_hook(:view_contacts_context_menu_start, {:contacts => @contacts, :can => @can, :back => @back }) %>
+
+    <% unless @contact.nil? %>
+        <li><%= context_menu_link l(:button_edit), {:controller => 'contacts', :action => 'edit', :id => @contact, :project_id => @project}, :class => 'icon-edit', :disabled => !@can[:edit] %></li>
+        <% if User.current.logged? %>
+        <li><%= watcher_link(@contact, User.current) %></li>
+        <% end %>
+
+        <% if !@project.nil? %>
+            <li><%= context_menu_link l(:label_crm_deal_new), {:controller => 'deals', :action => 'new', :project_id => @project, :contact_id => @contact},
+                                :class => 'icon-add-deal', :disabled => !@can[:create_deal] %></li>
+            <% if @contact.is_company? %>
+            <li><%= context_menu_link l(:label_crm_add_contact), {:controller => 'contacts', :action => 'new', :project_id => @project, :contact => {:company => @contact.name}},
+                                :class => 'icon-company-contact', :disabled => !@can[:create] %></li>
+            <% end %>
+        <% end %>
+    <% else %>
+        <li><%= context_menu_link l(:button_edit), {:controller => 'contacts', :action => 'bulk_edit', :ids => @contacts.collect(&:id)},
+                :class => 'icon-edit', :disabled => !@can[:edit] %></li>
+    <% end %>
+    <li><%= context_menu_link l(:label_crm_send_mail), {:controller => 'contacts', :action => 'edit_mails', :ids => @contacts.collect(&:id), :project_id => @project}, :class => 'icon-email', :disabled => !@can[:send_mails] %></li>
+
+    <%= call_hook(:view_contacts_context_menu_before_delete, {:contacts => @contacts, :can => @can, :back => @back }) %>
+
+     <li><%= context_menu_link l(:button_delete), {:controller => 'contacts', :action => 'bulk_destroy', :ids => @contacts.collect(&:id), :project_id => @project},
+                            :method => :delete, :confirm => l(:text_are_you_sure), :class => 'icon-del', :disabled => !@can[:delete] %></li>
+    <%= call_hook(:view_contacts_context_menu_end, {:contacts => @contacts, :can => @can, :back => @back }) %>
+</ul>

@@ -1,0 +1,32 @@
+<%= l(:text_crm_contact_added, :name => h(@contact.name), :author => h(@contact.author)) %>
+<hr />
+
+<h1><%= link_to(h("#{l(:label_contact)} ##{@contact.id}: #{@contact.name}"), @contact_url) %></h1>
+
+<ul>
+<% if @contact.is_company %>
+<li><%=l(:field_contact_company)%>: <%=h @contact.first_name %></li>
+<li><%=l(:field_company_field)%>: <%=h @contact.job_title %></li>
+<% else %>
+<li><%=l(:field_contact_first_name)%>: <%=h @contact.first_name %></li>
+<li><%=l(:field_contact_middle_name)%>: <%=h @contact.middle_name %></li>
+<li><%=l(:field_contact_last_name)%>: <%=h @contact.last_name %></li>
+<li><%=l(:field_contact_company)%>: <%=h @contact.company %></li>
+<li><%=l(:field_contact_job_title)%>: <%=h @contact.job_title %></li>
+<li><%=l(:field_birthday)%>: <%=h @contact.birthday %></li>
+<% end %>
+<li><%=l(:field_contact_phone)%>: <%=h @contact.phone %></li>
+<li><%=l(:field_contact_email)%>: <%=h @contact.email %></li>
+<li><%=l(:field_contact_website)%>: <%=h @contact.website %></li>
+<li><%=l(:field_contact_skype)%>: <%=h @contact.skype_name %></li>
+<li><%=l(:field_contact_address)%>: <%=h @contact.address %></li>
+<li><%=l(:field_contact_tag_names)%>: <%=h @contact.tag_list %></li>
+<li><%=l(:field_assigned_to)%>: <%=h @contact.assigned_to %></li>
+<% if @contact.respond_to?(:custom_field_values) %>
+  <% @contact.custom_field_values.each do |c| %>
+    <li><%=h c.custom_field.name %>: <%=h show_value(c) %></li>
+  <% end %>
+<% end %>
+</ul>
+
+<%= textilizable(@contact, :background, :only_path => false) %>

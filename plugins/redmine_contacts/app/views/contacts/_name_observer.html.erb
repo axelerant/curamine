@@ -1,0 +1,37 @@
+<script type="text/javascript">
+	jQuery(function($) {
+      // when the #search field changes
+      var duplicates = function() {
+        var form = $("#contact_form"); // grab the form wrapping the search bar.
+        var url = '<%= escape_javascript(url_for({:controller => "contacts_duplicates", :action => "duplicates", :project_id => @project, :contact_id => @contact})) %>';
+        var formData = form.serialize();
+        $.get(url, formData, function(data) { // perform an AJAX get, the trailing function is what happens on successful get.
+            $("#duplicates").html(data); // replace the "results" div with the result of action taken
+        });
+      }
+
+      $("#contact_first_name").observe_field(2, duplicates);
+      $("#contact_middle_name").observe_field(2, duplicates);
+      $("#contact_last_name").observe_field(2, duplicates);
+
+    });
+</script>
+
+
+<%# observe_field("contact_first_name",
+					:frequency => 1,
+					:update => 'duplicates',
+					:url => {:controller => 'contacts_duplicates', :action => 'duplicates', :project_id => @project, :contact_id => @contact},
+					:with => "$('contact_form').serialize()") %>
+
+<%# observe_field("contact_middle_name",
+					:frequency => 1,
+					:update => 'duplicates',
+					:url => {:controller => 'contacts_duplicates', :action => 'duplicates', :project_id => @project, :contact_id => @contact},
+					:with => "$('contact_form').serialize()") %>
+
+<%# observe_field("contact_last_name",
+					:frequency => 1,
+					:update => 'duplicates',
+					:url => {:controller => 'contacts_duplicates', :action => 'duplicates', :project_id => @project, :contact_id => @contact},
+					:with => "$('contact_form').serialize()") %>

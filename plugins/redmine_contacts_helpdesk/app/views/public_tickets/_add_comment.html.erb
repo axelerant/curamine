@@ -1,0 +1,8 @@
+<%= labelled_form_for @journal, :url => public_ticket_add_comment_path(:id => @ticket.id, :hash => @ticket.token) , :html => {:id => 'add_comment_form', :multipart => true} do |f| %>
+    <%= error_messages_for 'journal', 'journal_message' %>
+    <div class="box">
+        <%= f.text_area 'notes', :cols => 60, :rows => 10, :class => 'wiki-edit' %>
+        <%= wikitoolbar_for 'journal_notes' %>
+    </div>
+    <%= submit_tag l(:button_submit) %>
+<% end %>

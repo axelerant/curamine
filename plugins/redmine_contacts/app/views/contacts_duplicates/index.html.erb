@@ -1,0 +1,54 @@
+<%= breadcrumb link_to(@contact.name, note_source_url(@contact)) %>
+
+<div class="contact_data_header">
+	<table class="note_data">
+	<tr>
+
+		<td class="avatar"><%= link_to avatar_to(@contact, :size => "32"), note_source_url(@contact), :id => "avatar" %> </td>
+        <td class="name">
+			<h2 class="note_title">
+				<%= l(:label_crm_duplicate_for_plural) %>: <%= @contact.name %>
+			</h2>
+			   	<p>
+				<%= h @contact.job_title %>
+				<%= " #{l(:label_crm_at_company)} " unless (@contact.job_title.blank? or @contact.company.blank?) %>
+				<% if @contact.is_company && @contact.contact_company %>
+					<%= link_to @contact.contact_company.name, note_source_url(@contact.contact_company) %>
+				<% else %>
+					<%= h @contact.company %>
+				<% end %>
+				</p>
+
+		 </td>
+		</tr>
+</table>
+</div>
+
+<%= form_tag({:controller => 'contacts_duplicates', :action => 'merge', :project_id => @project, :contact_id => @contact}) do %>
+	<div class="box" id="duplicates">
+	    <%= text_field_tag(:principal_search, params[:topic_search] , :autocomplete => "off", :placeholder => l(:label_crm_contact_search) ) %>
+    <%= javascript_tag "observeSearchfield('principal_search', 'contact_duplicates', '#{escape_javascript contacts_duplicates_search_path(:contact_id => @contact, :by_email => true)}')" %>
+
+		<%= content_tag('div', l(:notice_merged_warning), :class => "flash warning") %>
+
+		<ul id="contact_duplicates">
+			<%= render :partial => 'list' %>
+		</ul>
+	</div>
+	<%= submit_tag l(:label_crm_merge_duplicate_plural) %>
+<% end %>
+
+<% html_title "#{l(:label_crm_duplicate_plural)} #{@contact.name}" %>
+
+<% content_for :sidebar do %>
+	<%= render :partial => 'common/sidebar' %>
+
+	<%= render :partial => 'common/recently_viewed' %>
+<% end %>
+
+
+<% content_for :header_tags do %>
+	<%= javascript_include_tag :contacts, :plugin => 'redmine_contacts'  %>
+	<%= stylesheet_link_tag :contacts, :plugin => 'redmine_contacts' %>
+	<%= stylesheet_link_tag :contacts_sidebar, :plugin => 'redmine_contacts' %>
+<% end %>

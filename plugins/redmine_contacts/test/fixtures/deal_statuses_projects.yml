@@ -1,0 +1,24 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+deal_status_project_001:
+  project_id: 1
+  deal_status_id: 1
+
+deal_status_project_002:
+  project_id: 1
+  deal_status_id: 2
+
+deal_status_project_003:
+  project_id: 1
+  deal_status_id: 3
+
+deal_status_project_004:
+  project_id: 2
+  deal_status_id: 1
+
+deal_status_project_005:
+  project_id: 2
+  deal_status_id: 2
+
+deal_status_project_006:
+  project_id: 2
+  deal_status_id: 3

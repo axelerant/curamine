@@ -1,0 +1,34 @@
+<h2><%= l(:label_helpdesk_tickets_report) %></h2>
+
+<%= form_tag({:controller => 'helpdesk_reports', :action => 'tickets_report', :project_id => @project}, :method => :get, :id => 'query_form') do %>
+<%= render :partial => 'date_range' %>
+<% end %>
+
+<hr>
+
+<table>
+  <tr>
+    <td>Helpdesk tickets</td><td><%= @helpdesk_tickets.count %></td>
+  </tr>
+  <tr>
+    <td>Helpdesk replies</td><td><%= @helpdesk_messages.count %></td>
+  </tr>
+  <tr>
+    <td>Replies/Tickets</td><td><%= "%.2f" % (@helpdesk_messages.count.to_f / @helpdesk_tickets.count.to_f) %></td>
+  </tr>
+  <tr>  
+    <td>Customers</td><td><%= @customers.count %></td>
+  </tr>
+  <tr>
+    <td>Avg. response time</td><td><%= @avg_response_time %></td>
+  </tr>
+  <tr>
+    <td>Median response time</td><td><%= @median_response_time%></td>
+  </tr>
+  <tr>
+    <td>Avg. close time</td><td><%= @avg_close_time%></td>
+  </tr>
+  <tr>
+    <td>Median close time</td><td><%= @median_close_time%></td>
+  </tr>
+</table>

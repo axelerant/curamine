@@ -1,0 +1,57 @@
+<%= breadcrumb link_to(@note.source.name, note_source_url(@note.source)) %>
+
+<%= render :partial => 'note_header', :object => @note %>
+
+<div class = "box">
+	<% form_for :note, @note, :url => {:controller => "notes", :action => 'create', :project_id => @project, :id => @note}, :html => { :multipart => true} do |f|  %>
+		<table>
+		  <tr>
+		    <td>
+		      <label><%= l(:field_type) %></label><br /><%= f.select :type_id, collection_for_note_types_select, { :include_blank => true } %>
+		    </td>
+		    <td>
+		      <label><%= l(:field_note_date) %></label><br /><%= f.text_field :created_on, :size => 15 %><%= calendar_for "note_created_on" %>
+		    </td>
+		  </tr>
+		</table>
+
+		<span class="note-custom-fields">
+		<% @note.custom_field_values.each do |value| %>
+		  <p>
+		    <%= custom_field_tag_with_label :note, value %>
+		  </p>
+		<% end -%>
+		</span>
+		<p class  = "content"><%= f.text_area :content , :cols => 80, :rows => 8, :class => 'wiki-edit', :label=>l(:field_contact_background)  %>
+		<%= wikitoolbar_for 'note_content' %>  </p>
+		<%= link_to_attachments @note, :author => false  %>
+		 <p>
+		 	<label><%= l(:label_attachment_plural) %></label> <br />
+			<span id="note_attachments_fields">
+			<%= file_field_tag 'note_attachments[1][file]', :size => 30, :id => nil  %>
+			<%= text_field_tag 'attachments[1][description]', '', :size => 60, :id => nil %>
+
+			</span>
+			<br />
+			<small><%= link_to l(:label_add_another_file), '#', :onclick => 'addNoteFileField(); return false;' %>
+			(<%= l(:label_max_size) %>: <%= number_to_human_size(Setting.attachment_max_size.to_i.kilobytes) %>)
+			</small>
+		</p>
+		<%= submit_tag l(:button_save) -%>
+	<% end -%>
+</div>
+
+<% html_title "#{l(:label_crm_note_for)} #{@note.source.name}" %>
+
+<% content_for :sidebar do %>
+	<%= render :partial => 'common/sidebar' %>
+
+	<%= render :partial => 'common/recently_viewed' %>
+<% end %>
+
+
+<% content_for :header_tags do %>
+	<%= javascript_include_tag :contacts, :plugin => 'redmine_contacts'  %>
+	<%= stylesheet_link_tag :contacts, :plugin => 'redmine_contacts' %>
+	<%= stylesheet_link_tag :contacts_sidebar, :plugin => 'redmine_contacts' %>
+<% end %>

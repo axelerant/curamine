@@ -1,0 +1,18 @@
+<h2><%= l(:label_crm_csv_import) %></h2>
+
+<%= labelled_form_for @importer, :url => {:action => 'create', :project_id => @project}, :html => { :multipart => true, :id => 'import_form'} do |f|  %>
+    <%= error_messages_for 'importer' %>
+    <div class="box tabular">
+      <p><%= f.file_field :file, :label => l(:label_crm_csv_file), :accept => "text/csv" %></p>
+      <% if @importer.respond_to? :tag_list %>
+        <p id="add_tags" class="contacts-tags-edit">
+          <%= f.text_field :tag_list, :value => "import-#{Time.now.strftime('%Y-%m-%d-%H:%M:%S')}", :label => :field_add_tags, :size => 10 %><%= tagsedit_with_source_for("#contact_import_tag_list", auto_complete_contact_tags_path(:project_id => @project)) %>
+        </p>
+      <% end %>
+      <p>
+        <%= f.select :quotes_type, options_for_select([[l(:label_crm_double_quotes), "\""], [l(:label_crm_single_quotes),"'"]]),  :label => :label_crm_quotes_type %>
+      </p>
+  </div>
+
+  <%= submit_tag l(:button_save) -%>
+<% end -%>

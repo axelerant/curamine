@@ -1,0 +1,27 @@
+deal_process_001:
+  deal_id: 1
+  old_value: 1
+  value: 2
+  author_id: 1
+  created_at: <%= (Time.now - 4.days).to_s(:db) %>
+
+deal_process_002:
+  deal_id: 2
+  old_value: 2
+  value: 1
+  author_id: 2
+  created_at: <%= (Time.now - 2.days).to_s(:db) %>
+
+deal_process_003:
+  deal_id: 1
+  old_value: 2
+  value: 3
+  author_id: 1
+  created_at: <%= (Time.now - 1.day).to_s(:db) %>
+
+deal_process_004:
+  deal_id: 2
+  old_value: 1
+  value: 3
+  author_id: 2
+  created_at: <%= Time.now.to_s(:db) %>

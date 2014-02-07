@@ -1,0 +1,19 @@
+<% if authorize_for(:notes, :create) %>
+  <div class="add-note hide-when-print">
+    <%= render :partial => 'notes/add', :locals => {:note_source => @contact} %>
+  </div>
+<% end %>
+
+<% if @contact.is_public? || authorize_for(:notes, :show) %>
+<div id="comments">
+	<div id="notes">
+		<%= render :partial => 'notes/note_item', :collection => @notes, :locals => {:show_info => @contact.is_company, :note_source => @contact} %>
+		<p class="pagination"> <%= pagination_links_full @notes_pages %>  </p>
+	</div>
+</div>
+
+<% other_formats_links do |f| %>
+  <%= f.link_to 'Atom', :url => params.merge(:key => User.current.rss_key) %>
+<% end %>
+
+<% end %>

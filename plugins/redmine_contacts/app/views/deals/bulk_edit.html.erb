@@ -1,0 +1,94 @@
+<h2><%= l(:label_crm_bulk_edit_selected_deals) %></h2>
+
+
+<div class="box" id="duplicates">
+	<ul>
+    <% @deals.each do |deal| %>
+		<li>
+			<%= avatar_to deal, :size => "16" %>
+			<%= link_to deal.full_name, polymorphic_url(deal) %>
+			<%= "(#{deal_price(deal)}) " unless deal.price.blank? %>
+			<%= deal_status_tag(deal.status) if deal.status %>
+    </li>
+		<% end %>
+	</ul>
+</div>
+
+
+<%= form_tag(:action => 'bulk_update') do %>
+<%= @deals.collect {|i| hidden_field_tag('ids[]', i.id)}.join.html_safe %>
+<div class="box tabular">
+<fieldset class="attributes">
+<legend><%= l(:label_change_properties) %></legend>
+
+<div class="splitcontentleft">
+	<p>
+		<label><%= l(:field_project) %></label>
+		<%= select_tag 'deal[project_id]', content_tag('option', l(:label_no_change_option), :value => '') + project_tree_options_for_select(Deal.allowed_target_projects) %>
+	</p>
+	<% if @available_statuses.any? %>
+	<p>
+		<label><%= l(:field_status) %></label>
+		<%= select_tag('deal[status_id]', content_tag('option', l(:label_no_change_option), :value => '') +
+										  options_from_collection_for_select(@available_statuses, :id, :name)) %>
+	</p>
+	<% end %>
+
+	<p>
+		<label><%= l(:label_crm_assigned_to) %></label>
+		<%= select_tag('deal[assigned_to_id]', content_tag('option', l(:label_no_change_option), :value => '') +
+	                                 content_tag('option', l(:label_nobody), :value => 'none') +
+	                                 options_from_collection_for_select(@assignables, :id, :name)) %>
+	</p>
+
+	<% @deals.first.custom_field_values.each do |value| %>
+	  <p>
+		<% value.value = '' %>
+	    <%= custom_field_tag_with_label :contact, value %>
+	  </p>
+	<% end -%>
+
+</div>
+
+<div class="splitcontentright">
+	<% if @available_categories.any? %>
+	<p>
+		<label><%= l(:field_category) %></label>
+		<%= select_tag('deal[category_id]', content_tag('option', l(:label_no_change_option), :value => '') +
+	                                	  content_tag('option', l(:label_none), :value => 'none') +
+										  options_from_collection_for_select(@available_categories, :id, :name)) %>
+	</p>
+	<% end %>
+
+	<p>
+		<label><%= l(:field_deal_currency) %></label>
+		<%= select_tag "deal[currency]", content_tag('option', l(:label_no_change_option), :value => '') + options_for_select(collection_for_currencies_select(ContactsSetting.default_currency)) %>
+
+	</p>
+		<p>
+			<label for="deal_due_date"><%= l(:field_due_date) %></label>
+			<%= text_field_tag "deal[due_date]", "", :size => 12 %><%= calendar_for('deal_due_date') %>
+		</p>
+		<p>
+			<label for="deal_probability"><%= l(:label_crm_probability) %></label>
+			<%= select_tag "deal[probability]", content_tag('option', l(:label_no_change_option), :value => '') + options_for_select((0..10).to_a.collect {|r| ["#{r*10} %", r*10] }) %>
+		</p>
+
+</div>
+
+
+
+</fieldset>
+
+<fieldset><legend><%= l(:field_notes) %></legend>
+<%= text_area_tag 'note[content]', '', :cols => 60, :rows => 10, :class => 'wiki-edit' %>
+<%= wikitoolbar_for 'note_content' %>
+</fieldset>
+</div>
+
+<p><%= submit_tag l(:button_submit) %></p>
+<% end %>
+
+<% content_for :header_tags do %>
+	<%= javascript_include_tag :contacts, :plugin => 'redmine_contacts'  %>
+<% end %>

@@ -1,0 +1,119 @@
+# English strings go here for Rails i18n
+es:
+  label_helpdesk: Helpdesk
+  label_helpdesk_auto_answer_template: Plantilla de autorespuesta por email
+  text_helpdesk_answer_macros: Macros disponibles %{macro}
+  label_is_send_mail: Enviar mensaje
+  label_send_auto_answer: Enviar autorespuesta
+  label_received_from: Recibido de
+  label_sent_to: Enviado a
+  project_module_contacts_helpdesk: Helpdesk
+  permission_send_response: Enviar respuesta al contacto
+  permission_edit_helpdesk_settings: Editar ajustes del Helpdesk
+  label_not_create_contacts: Lista blanca de contactos
+  field_created_contact_tags: Añadir etiquetas tras creación
+  label_helpdesk_save_as_attachment: Guardar emails como adjuntos
+
+#1.0.2
+  label_helpdesk_assign_author: Asignar al emisor del mensaje como autor del ticket
+
+#1.0.3
+  label_helpdesk_answered_status: Estado de ticket respondido
+  label_helpdesk_reopen_status: Reabrir estado del ticket
+  label_helpdesk_tracker: Tipo de ticket
+  label_helpdesk_assigned_to: Asignar ticket a
+  label_helpdesk_lifetime: Validez del ticket
+  label_helpdesk_server_settings: Configuración del servidor de correo
+  label_helpdesk_protocol: Protocolo
+  label_helpdesk_host: Host
+  label_helpdesk_port: Puerto
+  label_helpdesk_username: Usuario
+  label_helpdesk_password: Contraseña
+  label_helpdesk_ssl: SSL
+  label_helpdesk_imap_folder: carpeta IMAP
+  label_helpdesk_move_on_success: Mover tras acción correcta
+  label_helpdesk_move_on_failure: Mover tras fallo
+  label_helpdesk_apop: APOP
+  label_helpdesk_delete_unprocessed: Eliminar mensajes no procesados
+  label_helpdesk_first_answer_template: Plantilla
+  label_helpdesk_test_connection: Conexión de prueba
+  label_helpdesk_get_mail: Recibir mensajes
+  label_helpdesk_get_mail_success: "Procesado(s) %{count} mensaje(s)"
+  label_helpdesk_css: Hoja de estilo del email (CSS)
+  label_helpdesk_original: Original
+
+#1.0.4
+  label_helpdesk_blacklist: Lista negra de emails
+  label_helpdesk_previous_issues: Tickets anteriores de clientes
+  permission_view_helpdesk_tickets: Ver tickets del helpdesk
+  label_helpdesk_last_message: Último mensaje
+  label_helpdesk_enable_modules: Los módulos de Contactos y de Tareas deben estar habilitados para este proyecto.
+  label_helpdesk_customer_profile: Perfil de cliente
+  label_helpdesk_show_contact_card: Mostrar perfiles de clientes
+
+#2.0.0
+  label_helpdesk_send_note_by_default: Enviar mensaje por defecto
+  label_helpdesk_ticket_attributes: Atributos del ticket
+  label_helpdesk_to_address: Dirección "A"
+  label_helpdesk_from_address: Dirección "De"
+  label_helpdesk_ticket_date: Fecha del ticket
+  label_helpdesk_customer: Cliente
+  label_helpdesk_from: De
+  label_helpdesk_cc: Cc
+  label_helpdesk_bcc: Cco
+  label_helpdesk_ticket_plural: Tickets de Helpdesk
+  label_helpdesk_template: Plantilla de Helpdesk
+  label_helpdesk_general: General
+  permission_edit_helpdesk_tickets: Editar información del ticket
+
+#2.1.0
+  label_helpdesk_ticket: Ticket de Helpdesk
+  label_helpdesk_spam: Correo basura
+  label_helpdesk_add_cc: Añadir Cc/Cco
+  label_helpdesk_add_contact_notes: Añadir primer email como nota del contacto
+  text_helpdesk_customer_count: "%{count} cliente(s)"
+  text_helpdesk_ticket_count: "%{count} ticket(s)"
+  label_helpdesk_tickets_report: Informe de tickets de Helpdesk
+  label_helpdesk_staff_report: Informe de personal de Helpdesk
+  label_helpdesk_tickets_email: Email
+  label_helpdesk_tickets_phone: Teléfono
+  label_helpdesk_tickets_web: Web
+  label_helpdesk_tickets_twitter: Twitter
+  label_helpdesk_ticket_source: Origen del ticket
+  label_helpdesk_ticket_time: Hora del ticket
+  label_helpdesk_save_cc: Guardar CC como contacto
+  permission_view_helpdesk_reports: Ver informes
+
+#2.1.2
+  label_helpdesk_answer_template: Plantilla de respuesta
+
+#2.1.3
+  label_helpdesk_previous_tickets: Tickets anteriores
+  label_helpdesk_public_tickets: Habilitar tickets públicos
+  label_helpdesk_public_title: Título de la página pública
+  label_helpdesk_settings_public: Tickets públicos
+  label_helpdesk_public_comments: Permitir añadir comentarios
+  label_helpdesk_public_show_spent_time: Mostrar tiempo invertido
+  label_helpdesk_public_link: Enlace público
+
+#2.1.4
+  label_helpdesk_ticket_new: Nuevo ticket
+  label_helpdesk_report_plural: Informes del Helpdesk
+
+#2.2.0
+  label_helpdesk_customer_company: Compañía cliente
+  label_helpdesk_canned_response_plural: Respuestas predefinidas
+  label_helpdesk_new_canned_response: Nueva respuesta predefinida
+  label_helpdesk_canned_response: Respuesta predefinida
+  permission_manage_public_canned_responses: Gestionar respuestas predefinidas públicas
+  permission_manage_canned_responses: Gestionar respuestas predefinidas
+
+#2.2.1
+  my_helpdesk_tickets: Mis tickets del helpdesk
+  label_helpdesk_view_all_tickets: Ver todos los tickets
+
+#2.2.3
+  label_helpdesk_tickets_conversation: Conversación
+
+#2.2.4
+  label_helpdesk_required_custom_fields_error: Los contactos no deberían tener los campos personalizados requeridos

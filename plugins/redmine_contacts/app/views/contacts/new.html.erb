@@ -1,0 +1,22 @@
+<h2><%= l(:label_crm_contact_new) %></h2>
+
+<%= labelled_form_for :contact, @contact, :url => {:action => 'create', :project_id => @project}, :html => { :multipart => true, :id => 'contact_form'} do |f|  %>
+  <%= render :partial => 'form', :locals => {:f => f}  %>
+  <%= render :partial => 'name_observer' %>
+  <%= submit_tag l(:button_save) -%>
+  <%= submit_tag l(:button_create_and_continue), :name => 'continue' %>
+<% end -%>
+
+<% content_for :sidebar do %>
+	<%= render :partial => 'common/sidebar' %>
+	<%= render :partial => 'contacts_duplicates/duplicates' %>
+	<%= render :partial => 'contacts_vcf/load' %>
+<% end %>
+
+
+
+<% content_for :header_tags do %>
+	<%= javascript_include_tag :contacts, :plugin => 'redmine_contacts'  %>
+	<%= stylesheet_link_tag :contacts_sidebar, :plugin => 'redmine_contacts' %>
+	<%= robot_exclusion_tag %>
+<% end %>

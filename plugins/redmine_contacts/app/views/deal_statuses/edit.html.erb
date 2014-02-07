@@ -1,0 +1,6 @@
+<h2><%= link_to l(:label_crm_deal_status_plural), :controller => 'deal_statuses', :action => 'index' %> &#187; <%=h @deal_status %></h2>
+
+<%= form_tag({:action => 'update', :id => @deal_status}, :class => "tabular", :method => :put) do %>
+  <%= render :partial => 'form' %>
+  <%= submit_tag l(:button_save) %>
+<% end %>

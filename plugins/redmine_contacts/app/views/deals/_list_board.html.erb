@@ -1,0 +1,72 @@
+<% if User.current.allowed_to?(:edit_deals, @project) %>
+  <script>
+    $(function() {
+      $(".deal-status-col" ).sortable({
+        connectWith: ".deal-status-col",
+        receive: function (event, ui) {
+            var status_id = $(this).attr('id').replace(/deal_status_/, '');
+            var deal_id = $(ui.item).attr('id').replace(/deal_/, '')
+            $.ajax({
+               url: '<%= escape_javascript deals_path %>/' + deal_id,
+               type: 'PUT',
+               data: {deal: {status_id: status_id}}
+            });
+        }
+      }).disableSelection();
+    });
+  </script>
+<% end %>
+
+<%= form_tag({}) do -%>
+	<%= hidden_field_tag 'back_url', url_for(params) %>
+	<%= hidden_field_tag 'project_id', @project.id if @project %>
+  <% board_statuses = params[:status_id] == 'o' ? deal_statuses.open : deal_statuses %>
+<div class="autoscroll">
+    <table class="list deal-board ">
+      <thead>
+      <tr>
+        <% board_statuses.each do |deal_status| %>
+        <th style="width: <%= 100/board_statuses.size %>%;">
+          <%= "#{deal_status.name} (#{@deals.where(:status_id => deal_status.id).count})"%>
+        </th>
+        <% end %>
+      </tr>
+      </thead>
+      <tr style="text-align: center;white-space: nowrap;" class="deal <%= cycle('odd', 'even') %>">
+
+      <% board_statuses.each do |deal_status| %>
+        <td class="deal-status-col <%='open' if deal_status.is_open? %> <%='won' if deal_status.is_won? %> <%='lost' if deal_status.is_lost? %> <%='closed' if deal_status.is_closed? %>" id="deal_status_<%= deal_status.id %>">
+        <% @deals.where(:status_id => deal_status.id).each do |deal| %>
+        <div class="deal-card" id="deal_<%= deal.id %>">
+            <p class="amount">
+              <strong><%= deal.price_to_s %></strong>
+                <%= content_tag(:span, " (#{deal.probability}%)" ) if deal.probability  %>
+            </p>
+            <p class="name" ><%= link_to deal.name, deal_path(deal) %></p>
+            <% if deal.contact %>
+            <p class="info">
+              <span class="contact"><%= contact_tag(deal.contact) %></span>
+            </p>
+            <% end %>
+        </div>
+        <% end %>
+        </td>
+
+        <% end %>
+      </tr>
+
+      <thead>
+      <tr>
+        <% board_statuses.each do |deal_status| %>
+        <th style="width: <%= 100/board_statuses.size %>%;">
+          <%=  prices_collection_by_currency(@deals_scope.group(:currency).where(:status_id => deal_status.id).sum(:price), :hide_zeros => true).join('<br/>').html_safe %>
+        </th>
+        <% end %>
+      </tr>
+      </thead>
+
+    </table>
+</div>
+
+<% end %>
+<p class="pagination"><%= pagination_links_full @deals_pages, @deals_count %></p>

@@ -1,0 +1,53 @@
+api.array :contacts, api_meta(:total_count => @contacts_count, :offset => @offset, :limit => @limit) do
+  @contacts.each do |contact|
+    api.contact do
+	  api.id contact.id
+	  api.avatar(:attachment_id => contact.avatar.id) if contact.avatar
+	  api.is_company contact.is_company
+	  api.first_name contact.first_name
+	  api.last_name contact.last_name
+	  api.middle_name contact.middle_name
+	  api.company contact.company
+    api.website contact.website
+    api.skype_name contact.skype_name
+    api.birthday contact.birthday
+    api.job_title contact.job_title
+    api.background contact.background
+    api.author(:id => contact.author_id, :name => contact.author.name) unless contact.author.nil?
+    api.assigned_to(:id => contact.assigned_to_id, :name => contact.assigned_to.name) unless contact.assigned_to.nil?
+
+	  api.address do
+      api.full_address contact.address
+      api.street contact.street1
+      api.city contact.city
+      api.region contact.region
+      api.country contact.country
+      api.country_code contact.address.country_code unless contact.address.blank?
+      api.postcode contact.postcode
+    end
+
+    api.array :phones do
+      contact.phones.each do |phone|
+        api.phone do
+          api.number phone
+        end
+      end
+    end if contact.phones.any?
+
+    api.array :emails do
+      contact.emails.each do |email|
+        api.email do
+          api.address email
+        end
+      end
+    end if contact.emails.any?
+
+
+	  api.tag_list contact.tag_list
+	  render_api_custom_values contact.custom_field_values, api
+
+	  api.created_on contact.created_on
+	  api.updated_on contact.updated_on
+    end
+  end
+end

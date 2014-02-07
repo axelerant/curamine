@@ -1,0 +1,49 @@
+<%= form_tag({}) do -%>
+	<%= hidden_field_tag 'back_url', url_for(params) %>
+	<%= hidden_field_tag 'project_id', @project.id if @project %>
+	<div class="autoscroll">
+	<table class="contacts index">
+	<tbody>
+    <% @deals.each do |deal| %>
+		<tr class="hascontextmenu <%= deal.status_id %>  <%= cycle('odd', 'even') %> ">
+			<td class="checkbox">
+				<%= check_box_tag "ids[]", deal.id, false, :onclick => "toggleContact(event, this);" %>
+			</td>
+			<td class="avatar">
+					<%= link_to avatar_to(deal, :size => "32"), {:controller => 'deals', :action => 'show', :id => deal.id}, :id => "avatar" %>
+			</td>
+			<td class="name">
+					<h1 class="deal_name"><%= link_to deal.name, :controller => 'deals', :action => 'show', :id => deal.id %></h1>
+					<h2>
+						<%= link_to_source(deal.contact) if deal.contact %>
+					</h2>
+			</td>
+
+			<td class="info">
+				<div class="deal-sum"><strong><%= deal_price(deal) %></strong>
+					<%= content_tag(:span, " (#{deal.probability}%)" ) if deal.probability  %>
+					<% if deal.status && deal.project.deal_statuses.any? %>
+          <%= deal_status_tag(deal.status) %>
+					<% end %>
+				</div>
+				<div class="description" >
+					<%= h deal.category %><%= " (#{format_date(deal.due_date)})" if deal.due_date %>
+				</div>
+			</td>
+		</tr>
+    <% end %>
+		<tr class="total">
+			<th/>
+			<th/>
+				<th class="title"> <%= "#{l(:label_total)} (#{@deals_count}):" %> </th>
+			<th class="sum">
+				<%= prices_collection_by_currency(@deals_sum, :hide_zeros => true).join('<br/>').html_safe %>
+			</th>
+		</tr>
+	</tbody>
+  </table>
+  </div>
+
+<% end %>
+
+<p class="pagination"><%= pagination_links_full @deals_pages, @deals_count %></p>

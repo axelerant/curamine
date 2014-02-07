@@ -1,0 +1,81 @@
+<%  if !@issue.blank? && User.current.allowed_to?(:view_helpdesk_tickets, @project) %>
+<span id="cusomer_profile_and_issues">
+		<div id="customer_profile">
+			<div class="contextual">    
+				<%= link_to l(:button_update), 
+					{:controller => 'helpdesk_tickets',
+					:action => 'edit',
+					:issue_id => @issue},
+					:remote => true if User.current.allowed_to?(:edit_helpdesk_tickets, @project) %>
+	
+			 </div>
+			<h3><%= l(:label_helpdesk_customer_profile) %></h3>
+			<% unless !(@show_form == "true") %>
+				<%= form_for @helpdesk_ticket, :url => {:controller => 'helpdesk_tickets',
+		          	              	:action => 'update',
+		     	                    :issue_id => @issue},
+		                    		:html => {:id => 'ticket_data_form',
+		                    							:method => :put} do |f| %>
+
+				<% unless @helpdesk_ticket.new_record? %>
+					<div class="contextual">  
+					<%= link_to image_tag('link_break.png'),
+	                                {:controller => 'helpdesk_tickets', :action => 'destroy', :id => @helpdesk_ticket},
+	                                :method => :delete,
+	                                :data => {:confirm => l(:text_are_you_sure)},
+	                                :title => l(:label_relation_delete) %>
+	        </div>          
+        <% end %>
+        	<p class="contact_auto_complete"><%= label_tag :helpdesk_ticket_contact_id,  l(:label_helpdesk_customer)%><br>
+  					<%= select_contact_tag('helpdesk_ticket[contact_id]', @helpdesk_ticket.customer, :is_select => Contact.visible.by_project(@project).count < 50, :include_blank => false, :add_contact => true, :display_field => @helpdesk_ticket.customer.blank?) %>
+        	</p>
+
+					<p><%= label_tag :helpdesk_ticket_source,  l(:label_helpdesk_ticket_source)%><br>
+						<%= f.select :source, helpdesk_tickets_source_for_select %></p>
+
+				  <p><%= f.text_field :ticket_date, :size => 12, :required => true, :value => @helpdesk_ticket.ticket_date.to_date, :label => l(:label_helpdesk_ticket_date) %> <%= f.text_field :ticket_time, :value => @helpdesk_ticket.ticket_date.to_s(:time), :size => 5 %><%= calendar_for('helpdesk_ticket_ticket_date') %> </p>
+
+					
+					<%= submit_tag l(:button_update) %>
+					<%= link_to l(:button_cancel), {}, :onclick => "$('#ticket_data_form').hide(); return false;" %>						
+
+				<% end %>		                    	
+
+			<% end %>
+	
+			<span class="small-card">
+				<%= render :partial => 'contacts/contact_card', :object => @issue.customer if @issue.customer %>
+			</span>
+		</div>
+	
+		<% if @issue.customer && (issues_count = @issue.customer.all_tickets.visible.count) - 1 > 0 %>
+		<div id="customer_previous_issues">  
+		<style type="text/css">
+			#customer_previous_issues ul {margin: 0;  padding: 0;}
+			#customer_previous_issues li {list-style-type:none; margin: 0px 2px 0px 0px; padding: 0px 0px 0px 0px;}
+		</style>		
+			<h3><%= l(:label_helpdesk_previous_issues) %> </h3>  
+			
+			<ul>
+				<% (@issue.customer.all_tickets.visible.order_by_status.first(11) - [@issue]).each do |issue| %>   
+				<li title="<%= format_time(issue.created_on) %>">  
+					<%= link_to_issue(issue, :truncate => 60, :project => (@project != issue.project)) %> 			
+				 </li>   			
+				<% end %>    
+			</ul>
+			<div class="contextual">
+				<%= link_to l(:label_issue_view_all) + " (#{issues_count})", {:controller => 'issues', 
+								 :action => 'index', 
+								 :set_filter => 1, 
+								 :f => [:customer, :status_id], 
+								 :v => {:customer => [@issue.customer.id]},
+								 :op => {:customer => '=', :status_id => '*'}} %>
+			</div>	 
+		</div>    
+		<% end %>
+	
+	</span>	
+<% end %>
+
+
+

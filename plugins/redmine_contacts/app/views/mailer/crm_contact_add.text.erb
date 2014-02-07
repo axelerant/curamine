@@ -1,0 +1,30 @@
+<%= l(:text_crm_contact_added, :name => h(@contact.name), :author => h(@contact.author)) %>
+
+----------------------------------------
+<%= "#{l(:label_contact)} ##{@contact.id}: #{@contact.name}" %>
+<%= @contact_url %>
+
+<% if @contact.is_company %>
+* <%=l(:field_contact_company)%>: <%=h @contact.first_name %>
+* <%=l(:field_company_field)%>: <%=h @contact.job_title %>
+<% else %>
+* <%=l(:field_contact_first_name)%>: <%=h @contact.first_name %>
+* <%=l(:field_contact_middle_name)%>: <%=h @contact.middle_name %>
+* <%=l(:field_contact_last_name)%>: <%=h @contact.last_name %>
+* <%=l(:field_contact_company)%>: <%=h @contact.company %>
+* <%=l(:field_contact_job_title)%>: <%=h @contact.job_title %>
+* <%=l(:field_birthday)%>: <%=h @contact.birthday %>
+<% end %>
+* <%=l(:field_contact_phone)%>: <%=h @contact.phone %>
+* <%=l(:field_contact_email)%>: <%=h @contact.email %>
+* <%=l(:field_contact_website)%>: <%=h @contact.website %>
+* <%=l(:field_contact_skype)%>: <%=h @contact.skype_name %>
+* <%=l(:field_contact_address)%>: <%=h @contact.address %>
+* <%=l(:field_contact_tag_names)%>: <%=h @contact.tag_list %>
+* <%=l(:field_assigned_to)%>: <%=h @contact.assigned_to %>
+<% if @contact.respond_to?(:custom_field_values) %>
+  <% @contact.custom_field_values.each do |c| %>
+  * <%= c.custom_field.name %>: <%= show_value(c) %>
+  <% end -%>
+<% end %>
+<%= @contact.background %>

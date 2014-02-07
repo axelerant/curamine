@@ -1,0 +1,19 @@
+<%
+  html_options = {:id => "tag_#{tags_item.id}",
+  								:style => "background-color: #{tags_item.color_name}"}
+  taggable_type ||= 'contacts'
+
+  tag_url = {:controller => taggable_type,
+						 :action => 'index',
+						 :set_filter => 1,
+						 :fields => [:tags],
+						 :values => {:tags => [tags_item.name]},
+						 :operators => {:tags => '='}}
+%>
+<span class="tag" >
+	<%- if !is_note -%>
+		<%= link_to tags_item.name + "#{"(" + tags_item.count.to_s + ")" if tags_item.count > 0}", {:project_id => @project}.merge!(tag_url), html_options %>
+	<%- else -%>
+		<%= link_to tags_item.name, {:controller => "contacts", :action => "contacts_notes", :project_id => @project, :tag => tags_item.name}, html_options %>
+	<%- end -%>
+</span>

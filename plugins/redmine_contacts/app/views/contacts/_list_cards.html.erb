@@ -1,0 +1,52 @@
+<%= form_tag({}) do %>
+<%= hidden_field_tag 'back_url', url_for(params) %>
+<%= hidden_field_tag 'project_id', @project.id if @project %>
+    <div class="splitcontentleft">
+    <% i = 0 %>
+    <% split_on = (@contacts.size / 2.0).ceil - 1 %>
+  	<% @contacts.each do |contact| %>
+  	  <% @contact = contact %>
+      <div class="contact card">
+        <table class="subject_header">
+          <tr>
+            <td class="avatar"><%= contact_tag(contact, :type => "avatar", :size => 64) %></td>
+            <td class="name" style="vertical-align: top;">
+              <h2><%= contact_tag(contact, :type => "plain") %> </h2>
+              <p>
+              <%= h contact.job_title %>
+              <% if !contact.is_company %>
+              <%= " #{l(:label_crm_at_company)} " unless (contact.job_title.blank? or contact.company.blank?) %>
+                <% if contact.contact_company %>
+                  <%= link_to contact.contact_company.name, {:controller => 'contacts', :action => 'show', :project_id => contact.contact_company.project(@project), :id => contact.contact_company.id } %>
+                <% else %>
+                  <%= h contact.company %>
+                <% end %>
+              <% end %>
+              </p>
+              <% if contact.phones.any? %>
+                <p class="phone icon icon-phone"><%=  contact.phones.first %></p>
+              <% end %>
+
+              <% if contact.emails.any? %>
+                <p class="email icon icon-email"><%= mail_to contact.emails.first %></p>
+              <% end %>
+              <%= tag_links(contact.tag_list) %>
+
+            </td>
+
+
+          </tr>
+
+        </table>
+      </div>
+
+      <% if i == split_on -%>
+        </div><div class="splitcontentright">
+      <% end -%>
+      <% i += 1 -%>
+    <% end -%>
+    </div>
+    <div style="clear:both;"> </div>
+
+<% end %>
+<p class="pagination"><%= pagination_links_full @contacts_pages, @contacts_count %></p>

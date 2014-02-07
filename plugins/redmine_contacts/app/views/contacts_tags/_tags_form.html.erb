@@ -1,0 +1,3 @@
+<span class="contacts-tags-edit">
+   <%= text_field_tag 'contact[tag_list]', "#{@contact.tags.map(&:name).join(',').html_safe}", :size => 10, :class => 'hol', :id => "allowSpacesTags" %><%= tagsedit_with_source_for('#allowSpacesTags', auto_complete_contact_tags_path(:project_id => @project)) %>
+</span>

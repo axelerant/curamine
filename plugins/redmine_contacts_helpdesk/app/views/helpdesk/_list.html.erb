@@ -1,0 +1,66 @@
+<%= form_tag({}) do -%> 
+  <%= hidden_field_tag 'back_url', url_for(params) %>  
+  <%= hidden_field_tag 'project_id', @project.id if @project %>
+
+    <table class="contacts tickets index">
+    <tbody>
+      <% previous_group = false %>    
+      <% @issues.each do |issue| %>
+        <% if @query.grouped? && (group = @query.group_by_column.value(issue)) != previous_group %>
+          <% reset_cycle %>
+          <tr class="group open">
+            <td colspan="<%= @query.columns.size + 2 %>">
+              <span class="expander" onclick="toggleRowGroup(this);">&nbsp;</span>
+              <%= group.blank? ? 'None' : column_content(@query.group_by_column, issue) %> <span class="count">(<%= @issue_count_by_group[group] %>)</span>
+              <%= link_to_function("#{l(:button_collapse_all)}/#{l(:button_expand_all)}", "toggleAllRowGroups(this)", :class => 'toggle-all') %>
+            </td>
+          </tr>
+          <% previous_group = group %>
+        <% end %>
+      <tr class="hascontextmenu">     
+        <td class="checkbox">
+          <%= check_box_tag("ids[]", issue.id, false, :id => nil)  %>
+        </td>
+        <% if Setting.gravatar_enabled? %>
+        <td class="avatar">
+          <% if issue.customer  %>
+              <%= link_to avatar_to(issue.customer, :size => "32"), {:controller => 'contacts', :action => 'show', :project_id => @project, :id => issue.customer.id}, :id => "avatar" %>
+          <% else %> 
+            <%= avatar(issue.author, :size => "32x32", :height => 32, :width => 32) %>     
+          <% end %>
+        </td>   
+        <% end %>     
+        <td class="name ticket-name">
+            <h1 class="ticket_name"><%= link_to "#{issue.subject}", {:controller => :issues, :action => :show, :id => issue.id} %> <span id="ticket-id">#<%= issue.id %></span></h1>
+            <p class="ticket-description" >
+              <small><%= issue.description.gsub("(\n|\r)", "").strip.truncate(100) unless issue.description.blank? %></small>
+            </p>
+            <p class="contact-info">
+              <%=  issue.customer ? "#{content_tag('span', '', :class => "icon icon-email", :title => l(:label_note_type_email))} #{l(:label_helpdesk_from)}: #{link_to_source(issue.customer)}, ".html_safe : "#{l(:label_helpdesk_from)}: #{link_to_user issue.author}, ".html_safe %>
+              <%= l(:label_updated_time, time_tag(issue.updated_on)).html_safe %>
+            </p>
+        </td>
+        <td class="status">
+          <%= content_tag(:span, issue.status.name, :class => "deal-status ticket-status tags status-#{issue.status.id}")  %>
+        </td>         
+        <td class="info ticket-info"> 
+          <% if issue.assigned_to %>
+          <div class="ticket-sum"><%= l(:field_assigned_to) %>: <strong><%= link_to_user issue.assigned_to %><%# "#{issue.currency} " if issue.currency %><%# issue_price(issue.amount)  %></strong>  
+          </div>
+          <% end %>
+          <div class="ticket-priority"><%= l(:field_priority) %>: <strong><%= issue.priority.name %><%# "#{issue.currency} " if issue.currency %><%# issue_price(issue.amount)  %></strong>  
+          </div>
+          <% if issue.due_date %>
+          <div class="ticket-due-date"><%= l(:field_due_date) %>: <strong><%= format_date issue.due_date %><%# "#{issue.currency} " if issue.currency %><%# issue_price(issue.amount)  %></strong>  
+          </div>
+          <% end %>
+        </td>
+      </tr>
+      <% end %>
+
+    </tbody>  
+    </table>
+
+<% end %>      
+
+

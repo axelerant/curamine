@@ -1,0 +1,54 @@
+<%  if !@issue.blank? && User.current.allowed_to?(:view_contacts, @project)  %>
+
+<div id="issue_contacts">
+	<style type="text/css">
+		#issue_contacts ul {margin: 0;  padding: 0;}
+		#issue_contacts li {list-style-type:none; margin: 0px 2px 0px 0px; padding: 0px 0px 0px 0px;}
+		#issue_contacts select {width: 95%; display: block;}
+		#issue_contacts a.delete {opacity: 0.4;}
+		#issue_contacts a.delete:hover {opacity: 1;}
+		#issue_contacts img.gravatar {vertical-align: middle; margin: 0 4px 2px 0;}
+	</style>
+
+
+
+  <% if User.current.allowed_to?(:edit_contacts, @project) %>
+  <div class="contextual">
+  <%= link_to l(:button_add),
+        {:controller => 'contacts_issues', :action => 'new', :issue_id => @issue},
+        :remote => true,
+        :method => 'get' %>
+  </div>
+  <% end %>
+
+
+	<h3><%= l(:label_contact_plural) %> </h3>
+
+
+	<% User.current.reload %>
+	<ul>
+	  <% @issue.contacts.order_by_name.visible.each do |contact| %>
+		<li id="contact_<%= contact.id%>">
+		<%= contact_tag(contact) %>
+		<%= "(#{contact.job_title}) " unless contact.job_title.blank? %>
+		<% if  User.current.allowed_to?(:delete_contacts, @project) %>
+			<%= link_to(image_tag('delete.png'),
+					{   :controller => 'contacts_issues',
+								:action => 'delete',
+								:issue_id => @issue,
+								:project_id => @project,
+								:id => contact.id},
+					:remote => true,
+					:method => :delete,
+					:confirm => l(:text_are_you_sure),
+  				 	:class  => "delete",
+	   				:title => l(:button_delete) ) %>
+
+		 <% end %>
+		 </li>
+		<% end %>
+	</ul>
+
+</div>
+
+<% end %>

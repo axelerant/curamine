@@ -1,0 +1,159 @@
+it:
+  contacts_title: Contatti
+
+  label_crm_recently_viewed: Visualizzati di recente
+  label_crm_gravatar_enabled: Usa Gravatar
+  label_crm_thumbnails_enabled: Mostra miniature belle note
+  label_crm_max_thumbnail_file_size: Dimensione massima delle note
+  label_crm_view_all_contacts: Vedi tutti i contatti
+  label_crm_background_info: Storico contatto
+  label_crm_company: Azienda
+  label_contact_plural: Lista dei contatti
+  label_crm_contact_edit_information: Modifica le informazione del contatto
+  label_crm_edit_tags: Modifica etichette
+  label_crm_contact_view: Visualizza
+  label_crm_contact_list: Lista
+  label_crm_contact_new: Nuovo
+  label_crm_at_company: at
+  label_crm_last_notes: Note recenti
+  label_crm_tags_plural: Etichette
+  label_crm_multi_tags_plural: Selezione etichette multiple
+  label_crm_single_tag_mode: Etichetta singola
+  label_crm_multiple_tags_mode: Etichette multiple
+  label_crm_contact_tag: Etichetta
+  label_crm_time_ago: fa'
+  label_crm_add_note_plural: Aggiungi note a
+  label_crm_note_plural: Note
+
+  label_crm_add_tags_rule: separarti da virgola
+  label_crm_contact_search: Cerca per nome
+  label_crm_note_for: Nota per
+  label_crm_show_on_map: Mostra nella mappa
+  label_crm_add_another_phone: aggiungi telefono
+  label_crm_contact_note_plural: Tutte le note
+  label_crm_remove: elimina
+  label_crm_related_contacts: Contatti collegati
+  label_crm_assigned_to: Responsabile
+  label_crm_issue_added: Segnalazione aggiunta
+  label_crm_add_emails_rule: separati da virgola
+  label_crm_add_phones_rule: separati da virgola
+  label_crm_add_employee: Nuovo impiegato
+  label_crm_merge_duplicate_plural: Merge
+  label_crm_duplicate_plural: Duplicati ammessi
+  label_crm_duplicate_for_plural: Possible duplicates for
+
+  label_crm_note_show_extras: Dettagli (files, date)
+  label_crm_note_hide_extras: Nascondi dettagli
+  label_crm_note_added: La nota e' stata aggiunta
+  label_crm_note_read_more: (continua)
+
+  label_deal_plural: Contratti
+  label_crm_contractor_plural: Contraenti
+  label_deal: Contratto
+  label_crm_deal_new: Nuovo contratto
+  label_crm_deal_edit_information: Modifica dettagli contratto
+  label_crm_deal_change_status: Cambia stato
+  label_crm_deal_pending: In trattativa
+  label_crm_deal_won: Attivo
+  label_crm_deal_lost: Perso
+  label_crm_deal_expired: Scaduto
+
+
+  field_note_date: Data della nota
+
+  field_deal_name: Nome
+  field_deal_background: Storico
+  field_deal_contact: Contatti
+  field_deal_price: Importo
+  field_price: Importo
+
+  field_contact_avatar: Avatar
+  field_contact_is_company: Azienda
+  field_contact_name: Nome
+  field_contact_last_name: Cognome
+  field_contact_first_name: Nome
+  field_contact_middle_name: Secondo nome
+  field_contact_job_title: Titolo
+  field_contact_company: Azienda
+  field_contact_address: Indirizzo
+  field_contact_phone: Telefono
+  field_contact_email: Email
+  field_contact_website: Sito web
+  field_contact_skype: Skype
+  field_contact_status: Stato
+  field_contact_background: Storico
+  field_contact_tag_names: Etichette
+  field_first_name: Nome
+  field_last_name: Cognome
+  field_company: Azienda
+  field_birthday: Compleanno
+  field_contact_department: Reparto
+
+  field_company_field: Industry
+
+  field_color: Colore
+
+  button_add_note: Aggiungi nota
+  notice_successful_save: Salvato correttamente
+  notice_successful_add: Creato correttamente
+  notice_unsuccessful_save: Salvataggio fallito
+  notice_successful_merged: Uniti correttamente
+
+  notice_merged_warning: Tutte le note, i progetti, le etichette ed i compiti collegati a questo contatto saranno uniti con il contatto scelto in basso. Quindi questo contatto sara' cancellato.
+
+  project_module_contacts: Contatti
+
+  permission_view_contacts: Visualizza contatto
+  permission_edit_contacts: Modifica contatto
+  permission_delete_contacts: Elimina contatto
+  permission_view_deals: Visualizza contratto
+  permission_edit_deals: Modifica contratto
+  permission_delete_deals: Elimina contratto
+  permission_add_notes: Aggiungi note
+  permission_delete_notes: Elimina note
+  permission_delete_own_notes: Elimina le proprie note
+
+  # 2.0.0
+  label_crm_deal_category: categoria affare
+  label_crm_deal_category_plural: categorie di offerte
+  label_crm_deal_category_new: Nuova categoria
+  text_deal_category_destroy_assignments: Rimuovere categoria incarichi
+  text_deal_category_destroy_question: "Alcune occasioni (% {count}) vengono assegnati a questa categoria Cosa vuoi fare.? "
+  text_deal_category_reassign_to: Riassegnare offerte per questa categoria
+  text_deals_destroy_confirmation: "Sei sicuro di voler cancellare l'affare selezionati (s)?"
+  label_crm_deal_status_plural: stati affare
+  label_crm_deal_status: affare di stato
+  field_deal_status_is_closed: chiuso
+  label_crm_deal_status_new: Nuovo
+  permission_manage_contacts: enumerazioni
+  label_crm_sales_funnel: imbuto di vendita
+  label_crm_period: Data dell'arrivo
+  label_crm_count: Conte
+
+  # 2.0.1
+  label_crm_user_format: Nome del contatto formato
+  label_crm_my_contact_plural: Contatti assegnato a me
+  label_crm_my_deal_plural: Offerte aperto assegnato a me
+  label_crm_contact_view_all: Vedi tutti i contatti
+  label_crm_deal_view_all: Mostra tutte le offerte
+
+  #2.0.2
+  label_crm_bulk_edit_selected_contacts: Edit all selected contacts
+  label_crm_bulk_edit_selected_deals: Edit all selected deals
+  label_crm_bulk_send_mail_selected_contacts: Send mail to selected contacts
+  field_add_tags: Add tags
+  field_delete_tags: Delete tags
+  label_crm_send_mail: Send mail
+  error_empty_email: Email can not be blank
+  permission_send_contacts_mail: Send mail
+  field_mail_from: From address
+  text_email_macros: Avaliable macros %{macro}
+  field_message: Message
+
+  #2.0.3
+  label_crm_add_contact: Add contact
+  label_contact: Contact
+  field_age: Age
+  label_crm_vcf_import: Import from vCard
+  label_crm_mail_from: From
+  permission_import_contacts: Import contacts

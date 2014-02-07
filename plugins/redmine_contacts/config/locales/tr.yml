@@ -1,0 +1,159 @@
+# encoding: utf-8
+tr:
+  contacts_title: Kişiler
+
+  label_crm_recently_viewed: Son görüntülenen
+  label_crm_gravatar_enabled: Gravatar kullan
+  label_crm_thumbnails_enabled: Notlarda küçük resimleri göster
+  label_crm_max_thumbnail_file_size: Maksimum küçük resim boyutu
+  label_crm_view_all_contacts: Tüm kişileri göster
+  label_crm_background_info: Geçmiş bilgisi
+  label_crm_company: Şirket
+  label_contact_plural: Kişi Listesi
+  label_crm_contact_edit_information: Kişi Bilgisi Düzenleme
+  label_crm_edit_tags: Etiket düzenleme
+  label_crm_contact_view: Göster
+  label_crm_contact_list: Liste
+  label_crm_contact_new: Yeni
+  label_crm_at_company: at
+  label_crm_last_notes: Son notlar
+  label_crm_tags_plural: Etiketler
+  label_crm_multi_tags_plural: Çoklu etiket seç
+  label_crm_single_tag_mode: Tek etiket
+  label_crm_multiple_tags_mode: Çoklu etiket
+  label_crm_contact_tag: Etiket
+  label_crm_time_ago: önce
+  label_crm_add_note_plural: Not ekle
+  label_crm_note_plural: Notlar
+
+  label_crm_add_tags_rule: virgül ile ayır
+  label_crm_contact_search: İsim ile ara
+  label_crm_note_for: Not ->
+  label_crm_show_on_map: Haritada göster
+  label_crm_add_another_phone: telefon ekle
+  label_crm_contact_note_plural: Tüm notlar
+  label_crm_remove: Sil
+  label_crm_related_contacts: İlgili kişiler
+  label_crm_assigned_to: İlgili kişi
+  label_crm_issue_added: İş eklendi
+  label_crm_add_emails_rule: virgül ile ayır
+  label_crm_add_phones_rule: virgül ile ayır
+  label_crm_add_employee: Yeni çalışan
+  label_crm_merge_duplicate_plural: Birleştir
+  label_crm_duplicate_plural: Potansiyel çift kopyalar
+  label_crm_duplicate_for_plural: Potansiyel çift kopyalar ->
+
+  label_crm_note_show_extras: İleri düzey (dosya(lar), zaman)
+  label_crm_note_hide_extras: İleri düzeyi sakla
+  label_crm_note_added: Not başarıyla eklendi
+  label_crm_note_read_more: (fazlasını göster)
+
+  label_deal_plural: Anlaşmalar
+  label_crm_contractor_plural: Yükleniciler
+  label_deal: Anlaşma
+  label_crm_deal_new: Yeni anlaşma
+  label_crm_deal_edit_information: Anlaşma bilgisi düzenle
+  label_crm_deal_change_status: Durum değiştir
+  label_crm_deal_pending: Beklemede
+  label_crm_deal_won: Kazanıldı
+  label_crm_deal_lost: Kaybedildi
+
+
+  field_note_date: Not tarihi
+
+  field_deal_name: İsim
+  field_deal_background: Bilgi
+  field_deal_contact: Kişi
+  field_deal_price: Toplam
+  field_price: Toplam
+
+  field_contact_avatar: Avatar
+  field_contact_is_company: Şirket
+  field_contact_name: İsim
+  field_contact_last_name: Soyisim
+  field_contact_first_name: İlk isim
+  field_contact_middle_name: Orta isim
+  field_contact_job_title: Görev
+  field_contact_company: Şirket
+  field_contact_address: Adres
+  field_contact_phone: Telefon
+  field_contact_email: Email
+  field_contact_website: Website
+  field_contact_skype: Skype
+  field_contact_status: Durum
+  field_contact_background: Bilgi
+  field_contact_tag_names: Etiketler
+  field_first_name: İsim
+  field_last_name: Soyisim
+  field_company: Şirket
+  field_birthday: Doğumgünü
+  field_contact_department: Bölüm
+
+  field_company_field: İş alanı
+
+  field_color: Renk
+
+  button_add_note: Not ekle
+  notice_successful_save: Başarıyla kaydedildi.
+  notice_successful_add: Başarıyla yaratıldı.
+  notice_unsuccessful_save: Kayıt edilemedi.
+  notice_successful_merged: Başarıyla birleştirildi.
+
+  notice_merged_warning: Bu kişi ile ilgili tüm proje, not ve etiketler seçilen kişiye taşınacak ve bu kişi silinecek.
+
+  project_module_contacts: Kişiler
+
+  permission_view_contacts: Kişileri göster
+  permission_edit_contacts: Kişileri düzenle
+  permission_delete_contacts: Kişileri sil
+  permission_view_deals: Anlaşmaları göster
+  permission_edit_deals: Anlaşmaları düzenle
+  permission_delete_deals: Anlaşmaları sil
+  permission_add_notes: Not ekle
+  permission_delete_notes: Not sil
+  permission_delete_own_notes: Kendi notlarını sil
+
+  # 2.0.0
+  label_crm_deal_category: Deal category
+  label_crm_deal_category_plural: Deals categories
+  label_crm_deal_category_new: New category
+  text_deal_category_destroy_assignments: Remove category assignments
+  text_deal_category_destroy_question: "Some deals (%{count}) are assigned to this category. What do you want to do?"
+  text_deal_category_reassign_to: Reassign deals to this category
+  text_deals_destroy_confirmation: 'Are you sure you want to delete the selected deal(s)?'
+  label_crm_deal_status_plural: Deal statuses
+  label_crm_deal_status: Deal status
+  field_deal_status_is_closed: Closed
+  label_crm_deal_status_new: New
+  permission_manage_contacts: Enumerations
+  label_crm_sales_funnel: Sales funnel
+  label_crm_period: Perion
+  label_crm_count: Count
+
+  #2.0.1
+  label_crm_user_format: Contact name format
+  label_crm_my_contact_plural: Contacts assigned to me
+  label_crm_my_deal_plural: Open deals assigned to me
+  label_crm_contact_view_all: View all contacts
+  label_crm_deal_view_all: View all deals
+
+  #2.0.2
+  label_crm_bulk_edit_selected_contacts: Seçilen tüm kişileri düzenle
+  label_crm_bulk_edit_selected_deals: Seçilen tüm fırsatlar Düzenle
+  label_crm_bulk_send_mail_selected_contacts: Seçili kişileri, e-posta gönder
+  field_add_tags: Etiket ekleyin
+  field_delete_tags: Sil etiketleri
+  label_crm_send_mail: Posta gönder
+  error_empty_email: Email boş olamaz
+  permission_send_contacts_mail: Posta gönder
+  field_mail_from: Kimden adresi
+  text_email_macros: Makrolar% {macro}
+  field_message: Mesaj
+
+  #2.0.3
+  label_crm_add_contact: Add contact
+  label_contact: İletişim
+  field_age: Yaş
+  label_crm_vcf_import: vCard alma
+  label_crm_mail_from:
+  permission_import_contacts: Kişileri al

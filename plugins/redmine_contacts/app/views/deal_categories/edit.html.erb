@@ -1,0 +1,6 @@
+<h2><%=l(:label_crm_deal_category)%></h2>
+
+<%= labelled_form_for :category, @category, :url => { :action => 'edit', :id => @category } do |f| %>
+<%= render :partial => 'deal_categories/form', :locals => { :f => f } %>
+<%= submit_tag l(:button_save) %>
+<% end %>

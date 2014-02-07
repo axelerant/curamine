@@ -1,0 +1,4 @@
+<h3><%= l(:label_crm_recently_viewed) %></h3>
+<div id="recently_viewed">
+	<%= render :partial => 'common/contact_data', :collection => RecentlyViewed.includes(:viewed).last(5).map(&:viewed).select{|v| !v.blank? && v.visible?} %>
+</div>

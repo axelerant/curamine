@@ -1,0 +1,11 @@
+api.note do
+  api.id @note.id
+  api.source(:id => @note.source_id, :name => @note.source.name, :type => @note.source_type) unless @note.source.blank?
+  api.subject @note.subject
+  api.content @note.content
+  api.type_id @note.type_id
+  api.author(:id => @note.author_id, :name => @note.author.name) unless @note.author.nil?
+  render_api_custom_values @note.custom_field_values, api
+  api.created_on @note.created_on
+  api.updated_on @note.updated_on
+end

@@ -1,0 +1,27 @@
+<div class="contextual">
+  <%= link_to_if_authorized l(:label_crm_merge_duplicate_plural),  {:controller => 'contacts_duplicates', :action => 'index', :project_id => @project, :contact_id => @contact}, :class => 'icon icon-merge' unless @contact.new_record? %>
+</div>
+
+<h2><%= l(:label_crm_contact_edit_information) %></h2>
+
+<%= labelled_form_for :contact, @contact,
+                             :url => {:action => 'update', :project_id => @project, :id => @contact},
+                             :html => { :multipart => true, :method => :put, :id => "contact_form" } do |f|  %>
+  <%= render :partial => 'form', :locals => {:f => f} %>
+  <%= render :partial => 'name_observer' %>
+  <%= submit_tag l(:button_save) -%>
+<% end -%>
+
+<% content_for :sidebar do %>
+	<%= render :partial => 'common/sidebar' %>
+	<%= render :partial => 'contacts_duplicates/duplicates' %>
+  <div id="contact_projects">
+	 <%= render :partial => 'contacts_projects/related' %>
+  </div>
+<% end %>
+
+<% content_for :header_tags do %>
+  <%= javascript_include_tag :contacts, :plugin => 'redmine_contacts'  %>
+  <%= stylesheet_link_tag :contacts_sidebar, :plugin => 'redmine_contacts' %>
+  <%= robot_exclusion_tag %>
+<% end %>

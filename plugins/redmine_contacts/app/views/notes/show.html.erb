@@ -1,0 +1,33 @@
+<div class="contextual">
+<%= link_to_if_authorized(l(:button_edit), {:controller => 'notes', :action => 'edit', :project_id => @project, :id => @note}, :class => 'icon icon-edit', :title => l(:button_edit)) %>
+</div>
+
+<%= breadcrumb link_to(@note.source.name, note_source_url(@note.source)) %>
+
+<%= render :partial => 'note_header', :object => @note %>
+<% @note.custom_values.each do |custom_value| %>
+	<% if !custom_value.value.blank? %>
+	<p><%= custom_value.custom_field.name%>: <%=h show_value(custom_value) %></p>
+	<% end %>
+<% end %>
+
+<div class="box wiki note">
+	<%= textilizable(@note, :content) %>
+	<%= auto_contacts_thumbnails(@note) %>
+</div>
+
+<%= link_to_attachments @note, :author => false  %>
+
+<% html_title "#{l(:label_crm_note_for)} #{@note.source.name}" %>
+
+<% content_for :sidebar do %>
+	<%= render :partial => 'common/sidebar' %>
+
+	<%= render :partial => 'common/recently_viewed' %>
+<% end %>
+
+<% content_for :header_tags do %>
+	<%= javascript_include_tag :contacts, :plugin => 'redmine_contacts'  %>
+	<%= stylesheet_link_tag :contacts, :plugin => 'redmine_contacts' %>
+	<%= stylesheet_link_tag :contacts_sidebar, :plugin => 'redmine_contacts' %>
+<% end %>

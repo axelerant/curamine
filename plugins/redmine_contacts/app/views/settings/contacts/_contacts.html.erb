@@ -1,0 +1,12 @@
+<% contacts_tabs = [{:name => 'general', :partial => 'settings/contacts/contacts_general', :label => :label_general},
+                    {:name => 'money', :partial => 'settings/contacts/money', :label => :label_crm_money_settings},
+                    {:name => 'tags', :partial => 'settings/contacts/contacts_tags', :label => :label_crm_tags_plural},
+                    {:name => 'deal_statuses', :partial => 'settings/contacts/contacts_deal_statuses', :label => :label_crm_deal_status_plural},
+
+                    ]   %>
+
+<%  contacts_tabs.push({:name => 'hidden', :partial => 'settings/contacts/contacts_hidden', :label => :label_crm_contacts_hidden}) if params[:hidden] %>
+
+<%= render_tabs contacts_tabs %>
+
+<% html_title(l(:label_settings), l(:label_contact_plural)) -%>

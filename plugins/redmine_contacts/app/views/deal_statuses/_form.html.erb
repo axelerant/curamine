@@ -1,0 +1,40 @@
+<%= error_messages_for 'deal_status' %>
+
+<div class="box tabular">
+<!--[form:deal_status]-->
+<p><label for="deal_status_name"><%=l(:field_name)%><span class="required"> *</span></label>
+<%= text_field 'deal_status', 'name'  %></p>
+
+
+<p><label for="tag_color"><%=l(:field_color)%></label>
+<%= text_field 'deal_status', 'color_name', :class => "colorpicker"  %>
+<!--[eoform:optvalue]-->
+</p>
+
+<script>
+	$(function() {
+	   //use this method to add new colors to pallete
+	   //$.fn.colorPicker.addColors(['000', '000', 'fff', 'fff']);
+
+	   $('#deal_status_color_name').colorPicker();
+	 });
+
+</script>
+
+<p><label for="deal_status_status_type"><%=l(:label_crm_deal_status_type)%></label>
+<%= select_tag 'deal_status[status_type]', options_for_select([[l(:label_open_issues), DealStatus::OPEN_STATUS], [l(:label_crm_deal_status_won), DealStatus::WON_STATUS], [l(:label_crm_deal_status_lost), DealStatus::LOST_STATUS]], @deal_status.status_type) %>
+
+<p><label for="deal_status_is_default"><%=l(:field_is_default)%></label>
+<%= check_box 'deal_status', 'is_default' %></p>
+
+<%= call_hook(:view_deal_statuses_form, :deal_status => @deal_status) %>
+
+<!--[eoform:deal_status]-->
+</div>
+
+
+<% content_for :header_tags do %>
+	<%= javascript_include_tag :contacts, :plugin => 'redmine_contacts'  %>
+	<%= javascript_include_tag :"jquery.colorPicker.min.js", :plugin => 'redmine_contacts'  %>
+	<%= stylesheet_link_tag :"colorPicker.css", :plugin => 'redmine_contacts' %>
+<% end %>

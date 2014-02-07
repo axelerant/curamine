@@ -1,0 +1,557 @@
+# encoding: utf-8
+de:
+  contacts_title: Kontakte
+
+  label_crm_recently_viewed: Kürzlich angesehen
+  label_crm_gravatar_enabled: Gravatar benutzen
+  label_crm_thumbnails_enabled: Bildvorschau in Anmerkungen anzeigen
+  label_crm_view_all_contacts: Alle Kontakte anzeigen
+  label_crm_background_info: Hintergrundinformationen
+  label_crm_company: Unternehmen
+  label_contact_plural: Kontaktliste
+  label_crm_contact_edit_information: Kontaktinformation bearbeiten
+  label_crm_edit_tags: Tags bearbeiten
+  label_crm_contact_view: Anzeigen
+  label_crm_contact_list: Auflisten
+  label_crm_contact_new: Neu
+  label_crm_at_company: bei
+  label_crm_last_notes: Letzte Anmerkungen
+  label_crm_tags_plural: Tags
+  label_crm_contact_tag: Tag
+  label_crm_time_ago: her
+  label_crm_add_note_plural: Anmerkung hinzufügen
+  label_crm_note_plural: Anmerkungen
+
+  label_crm_add_tags_rule: Mit Kommata trennen
+  label_crm_contact_search: Nach Namen suchen
+  label_crm_note_for: Anmerkung für
+  label_crm_show_on_map: Auf Karte anzeigen
+  label_crm_add_another_phone: Telefon hinzufügen
+  label_crm_remove: löschen
+  label_crm_related_contacts: Ähnliche Kontakte
+  label_crm_assigned_to: Verantwortlich
+  label_crm_issue_added: Ticket hinzugefügt
+  label_crm_add_emails_rule: durch Komma separieren
+  label_crm_add_phones_rule: durch Komma separieren
+  label_crm_add_employee: Neuer Angestellter
+  label_crm_merge_duplicate_plural: Zusammenführen
+  label_crm_duplicate_plural: Mögliche Duplikate
+  label_crm_duplicate_for_plural: Mögliche Duplikate für
+  label_crm_add_tag: Neu hinzufügen...
+
+  label_crm_note_show_extras: Erweiterte Optionen (Dateien, Datum)
+  label_crm_note_hide_extras: Erweiterte Optionen ausblenden
+  label_crm_note_added: Die Anmerkung wurde hinzugefügt
+  label_crm_note_read_more: (weiter lesen)
+
+  label_deal_plural: Verkaufspotentiale
+  label_crm_contractor_plural: Verkaufskontakte
+  label_deal: Verkaufspotential
+  label_crm_deal_new: Neues Verkaufspotential
+  label_crm_deal_edit_information: Verkaufspotential bearbeiten
+  label_crm_deal_change_status: Status ändern
+  label_crm_statistics: Statistiken
+
+  label_crm_deal_status_new: Neu
+  label_crm_deal_status_first_contact: Erster Kontakt
+  label_crm_deal_status_negotiations: Verhandlungen
+  label_crm_deal_status_pending: ausstehend
+  label_crm_deal_status_won: Gewonnen
+  label_crm_deal_status_lost: Verloren
+
+  label_crm_created_on: Erstellt
+
+  field_note_date: Datum der Anmerkung
+
+  field_deal_name: Name
+  field_deal_background: Hintergrundinformation
+  field_deal_contact: Kontakt
+  field_deal_price: Preis
+  field_price: Preis
+
+  field_contact_avatar: Avatar
+  field_contact_is_company: Unternehmen
+  field_contact_name: Name
+  field_contact_last_name: Nachname
+  field_contact_first_name: Vorname
+  field_contact_middle_name: Zwischenname
+  field_contact_job_title: Berufsbezeichnung
+  field_contact_company: Unternehmen
+  field_contact_address: Adresse
+  field_contact_phone: Telefon
+  field_contact_email: E-Mail
+  field_contact_website: Website
+  field_contact_skype: Skype
+  field_contact_status: Status
+  field_contact_background: Hintergrundinformationen
+  field_contact_tag_names: Tags
+  field_first_name: Name
+  field_last_name: Nachname
+  field_company: Unternehmen
+  field_birthday: Geburtstag
+  field_contact_department: Abteilung
+
+  field_company_field: Industrie
+
+  field_color: Farbe
+
+  button_add_note: Anmerkung hinzufügen
+  notice_successful_save: Gespeichert
+  notice_successful_add: Erfolgreich hinzugefügt
+  notice_unsuccessful_save: Konnte nicht gespeichert werden
+  notice_successful_merged: Erfolgreich zusammengeführt
+
+  notice_merged_warning: Alle Anmerkungen, Projekte, Tags und Aufgaben die diesem Kontakt zugeordnet sind, werden entsprechend verschoben. Anschliessend wird der Kontakt gelöscht.
+
+  project_module_contacts: Kontakte
+
+  permission_view_contacts: Kontakte anzeigen
+  permission_edit_contacts: Kontakte bearbeiten
+  permission_delete_contacts: Kontakte löschen
+  permission_view_deals: Verkaufspotentiale anzeigen
+  permission_edit_deals: Verkaufspotential bearbeiten
+  permission_delete_deals: Verkaufspotential löschen
+  permission_add_notes: Anmerkungen hinzufügen
+  permission_delete_notes: Anmerkungen löschen
+  permission_delete_own_notes: Eigene Anmerkungen löschen
+
+  # 2.0.0
+  label_crm_deal_category: Vertriebskategorie
+  label_crm_deal_category_plural: Vertriebskategorien
+  label_crm_deal_category_new: Neue Vertriebskategorie
+  text_deal_category_destroy_assignments: Kategoriezuweisungen entfernen
+  text_deal_category_destroy_question: "Einige Verkaufspotentiale (%{count}) sind dieser Kategorie zugeordnet. Was wollen Sie tun?"
+  text_deal_category_reassign_to: Neuzuweisung der Verkaufspotential zu dieser Kategorie
+  text_deals_destroy_confirmation: 'Sind Sie sicher, dass Sie die ausgewählten Verkaufspotentiale löschen wollen?'
+  label_crm_deal_status_plural: Status
+  label_crm_deal_status: Status
+  field_deal_status_is_closed: Geschlossen
+  label_crm_deal_status_new: Neu
+  permission_manage_contacts: Aufzählungen
+  label_crm_sales_funnel: Verkaufskanal
+  label_crm_period: Dauer
+  label_crm_count: Anzahl
+
+  #2.0.1
+  label_crm_user_format: Format Kontaktname
+  label_crm_my_contact_plural: Mir zugeordnete Kontakte
+  label_crm_my_deal_plural: Mir zugeordnete offene Verkaufspotentiale
+  label_crm_contact_view_all: Alle Kontakte anzeigen
+  label_crm_deal_view_all: Alle Verkaufspotentiale anzeigen
+
+  #2.0.2
+  label_crm_bulk_edit_selected_contacts: Alle ausgewählten Kontakte bearbeiten
+  label_crm_bulk_edit_selected_deals: Alle ausgewählten Verkaufspotentiale bearbeiten
+  label_crm_bulk_send_mail_selected_contacts: Sende E-Mail zu ausgewählten Kontakten
+  field_add_tags: Tags hinzufügen
+  field_delete_tags: Tags löschen
+  label_crm_send_mail: Sende E-Mail
+  error_empty_email: E-Mail darf nicht leer sein
+  permission_send_contacts_mail: Sende E-Mail
+  field_mail_from: Absender
+  text_email_macros: Verfügbare Makros %{macro}
+  field_message: Nachricht
+
+  #2.0.3
+  label_crm_add_contact: Add contact
+  label_contact: Kontakt
+  label_import: Import
+  field_age: Alter
+  label_crm_vcf_import: Import von vCard
+  label_crm_mail_from: Von
+  permission_import_contacts: Kontakte importieren
+
+  #2.1.0
+  field_company_name: Unternehmen
+  label_crm_recently_added_contacts: Neuste Kontakte
+  label_crm_created_by_me: Kontakte hinzugefügt von mir
+  my_contacts: Meine Kontakte
+  my_deals: Meine Verkaufspotentiale
+
+  #2.2.0
+  label_crm_note_type_email: E-Mail
+  label_crm_note_type_call: Anruf
+  label_crm_note_type_meeting: Besprechung
+  field_deal_currency: Währung
+  label_crm_my_contacts_stats: Contacts statistics for this month
+  label_crm_contacts_created: Hinzugefügte Kontakte
+  label_crm_deals_created: Hinzugefügte Verkaufspotentiale
+  my_contacts_avatars: Meine Kontaktfotos
+  my_contacts_stats: Statistiken zu Kontakten
+  label_crm_add_into: Hinzufügen in
+  label_crm_delete_from: Löschen von
+  label_crm_show_deaks_tab: Verkaufspotentiale-Reiter anzeigen
+  label_crm_show_on_projects_show: Kontakte auf Projekt-Übersichtsseite anzeigen
+
+  #2.2.1
+  label_crm_contacts_show_in_list: In Liste anzeigen
+
+  #2.3.0
+  label_crm_module_plural: Module
+  label_crm_contacts_default_currency: Standard Währung für Verfaufschange
+  label_crm_contacts_list_partial_style: Kontakt-Listenansicht
+  label_crm_contacts_list_excerpt: Einspalte Liste
+  label_crm_contacts_list_cards: Karten
+  label_crm_contacts_list_list: Tabelle
+  field_contacts: Kontakt
+  field_companies: Unternehmen
+  label_crm_contacts_added_time_by: Hinzugefügt von
+  label_crm_contact_note_authoring_time: Zeige Anmerkung mit Uhrzeit
+  label_crm_contact_issues_filters: Ticketfilter
+  label_crm_contacts_csv_import: Kontakte von CSV importieren
+  label_crm_contacts_upload_encoding: Datei Encoding
+  label_crm_contacts_csv_file: CSV Datei
+  label_crm_contacts_csv_separator: Separator
+  field_middle_name: Zwischenname
+  field_job_title: Berufsbezeichnung
+  field_company: Unternehmen
+  field_address: Adresse
+  field_phone: Telefon
+  field_email: E-Mail
+  field_tags: Tags
+  field_last_note: Letzte Anmerkung
+  field_is_company: Ist Unternehmen
+  field_contact_full_name: Vollständiger Name
+  button_contacts_edit_query: Abfrage bearbeiten
+  button_contacts_delete_query: Abfrage löschen
+  permission_manage_public_contacts_queries: Öffentliche Abfragen verwalten
+  permission_add_deals: Verkaufspotential hinzufügen
+  permission_add_contacts: Kontakte hinzufügen
+  permission_save_contacts_queries: Abfrage speichern
+
+  #2.3.3
+  label_crm_contact_show_in_app_menu: Menüeinträge in der Anwendung anzeigen
+
+  #2.3.4
+  label_crm_contact_show_closed_issues: Geschlossene Tickets anzeigen
+
+  #3.0.0
+  label_crm_import: Importieren
+  label_crm_contact_note_plural: Kontaktanmerkungen
+  label_crm_deal_note_plural: Deal Anmerkungen
+  label_crm_contact_all_note_plural: Alle Anmerkungen
+  error_unable_delete_deal_status: Deal Status kann nicht gelöscht werden
+  label_crm_contacts_hidden: Verborgene Einstellungen
+  #3.1.0
+  label_crm_contact_added: Kontakt hinzugefügt
+  label_crm_note_added: Kommentar hinzugefügt
+  label_crm_deal_added: Verkaufspotential hinzugefügt
+  label_crm_deal_updated: Verkaufspotential aktualisiert
+  text_crm_contact_added: "Kontakt %{name} wurde von %{author} hinzugefügt."
+  text_crm_deal_added: "Verkaufspotential %{name} wurde von %{author} hinzugefügt."
+  text_crm_deal_status_changed: "Status der Verkaufspotential von %{old} auf %{new} geändert"
+  text_crm_deal_updated: "Verkaufspotential %{name} wurde von %{author} geändert."
+  label_crm_contacts_cc: Cc
+  label_crm_contacts_bcc: Bcc
+  label_crm_contact_import: Import von CSV
+  permission_import_deals: Verkaufspotentiale importieren
+  label_crm_single_quotes: "Einfache Anführungszeichen (')"
+  label_crm_double_quotes: "Doppelte Anführungszeichen (\")"
+  label_crm_quotes_type: Anführungszeichentyp
+  label_crm_contacts_visibility: Sichtbarkeit
+  label_crm_contacts_visibility_project: nach Projektberechtigungen
+  label_crm_contacts_visibility_public: Öffentlich
+  label_crm_contacts_visibility_private: Privat
+  permission_view_private_contacts: Private Kontakte anzeigen
+  text_crm_error_on_line: "Fehler in der Zeile %{line}: %{error}."
+
+  #3.2.0
+  label_crm_probability: Wahrscheinlichkeit
+  label_crm_deal_status_type: Statustyp
+  label_crm_select_companies: Filtere Firmen in Verkaufspotentiale
+  label_crm_expected_revenue: Erwarte Einnahmen
+  label_crm_deal_due_date: Fälligkeit
+
+  #3.2.2
+  label_crm_show_deals_in_top_menu: Zeige Verkaufspotentiale im oberen Menü
+  label_crm_show_details: Zeige Details
+  label_crm_has_deals: Hat Verkaufspotentiale
+  label_crm_has_open_issues: Ticket öffnen
+  label_crm_note: Hinweis
+
+  #3.2.5
+  notice_failed_to_save_contacts: "Speichern von %{count} Kontakt(en) von %{total} fehlgeschlagen: %{ids}."
+
+  #3.2.6
+  project_module_deals: Verkaufspotentiale
+  permission_manage_deals: Verkaufspotentiale verwalten
+  label_crm_deals_from_subprojects: Verkaufspotentiale für Unterprojekte anzeigen
+  label_crm_megre_tags: Tags zusammenführen
+  label_crm_monochrome_tags: Schwarzweiß Tags
+
+  #3.2.7
+  label_crm_address: Adresse
+  label_crm_street1: Straße 1
+  label_crm_street2: Straße 2
+  label_crm_city: Ort
+  label_crm_region: Bundesland
+  label_crm_postcode: PLZ
+  label_crm_country: Land
+  label_crm_countries:
+    AF: Afghanistan
+    AX: Alandinseln
+    AL: Albanien
+    DZ: Algerien
+    UM: Amerikanisch-Ozeanien
+    AS: Amerikanisch-Samoa
+    VI: Amerikanische Jungferninseln
+    AD: Andorra
+    AO: Angola
+    AI: Anguilla
+    AQ: Antarktis
+    AG: Antigua und Barbuda
+    AR: Argentinien
+    AM: Armenien
+    AW: Aruba
+    AZ: Aserbaidschan
+    AU: Australien
+    BS: Bahamas
+    BH: Bahrain
+    BD: Bangladesch
+    BB: Barbados
+    BY: Belarus
+    BE: Belgien
+    BZ: Belize
+    BJ: Benin
+    BM: Bermuda
+    BT: Bhutan
+    BO: Bolivien
+    BA: Bosnien und Herzegowina
+    BW: Botsuana
+    BV: Bouvetinsel
+    BR: Brasilien
+    VG: Britische Jungferninseln
+    IO: Britisches Territorium im Indischen Ozean
+    BN: Brunei Darussalam
+    BG: Bulgarien
+    BF: Burkina Faso
+    BI: Burundi
+    CL: Chile
+    CN: China
+    CK: Cookinseln
+    CR: Costa Rica
+    CI: Côte d’Ivoire
+    CD: Demokratische Republik Kongo
+    KP: Demokratische Volksrepublik Korea
+    DE: Deutschland
+    DM: Dominica
+    DO: Dominikanische Republik
+    DJ: Dschibuti
+    DK: Dänemark
+    EC: Ecuador
+    SV: El Salvador
+    ER: Eritrea
+    EE: Estland
+    FK: Falklandinseln
+    FJ: Fidschi
+    FI: Finnland
+    FR: Frankreich
+    GF: Französisch-Guayana
+    PF: Französisch-Polynesien
+    TF: Französische Süd- und Antarktisgebiete
+    FO: Färöer
+    GA: Gabun
+    GM: Gambia
+    GE: Georgien
+    GH: Ghana
+    GI: Gibraltar
+    GD: Grenada
+    GR: Griechenland
+    GL: Grönland
+    GP: Guadeloupe
+    GU: Guam
+    GT: Guatemala
+    GG: Guernsey
+    GN: Guinea
+    GW: Guinea-Bissau
+    GY: Guyana
+    HT: Haiti
+    HM: Heard- und McDonald-Inseln
+    HN: Honduras
+    IN: Indien
+    ID: Indonesien
+    IQ: Irak
+    IR: Iran
+    IE: Irland
+    IS: Island
+    IM: Isle of Man
+    IL: Israel
+    IT: Italien
+    JM: Jamaika
+    JP: Japan
+    YE: Jemen
+    JE: Jersey
+    JO: Jordanien
+    KY: Kaimaninseln
+    KH: Kambodscha
+    CM: Kamerun
+    CA: Kanada
+    CV: Kap Verde
+    KZ: Kasachstan
+    QA: Katar
+    KE: Kenia
+    KG: Kirgisistan
+    KI: Kiribati
+    CC: Kokosinseln
+    CO: Kolumbien
+    KM: Komoren
+    CG: Kongo
+    HR: Kroatien
+    CU: Kuba
+    KW: Kuwait
+    LA: Laos
+    LS: Lesotho
+    LV: Lettland
+    LB: Libanon
+    LR: Liberia
+    LY: Libyen
+    LI: Liechtenstein
+    LT: Litauen
+    LU: Luxemburg
+    MG: Madagaskar
+    MW: Malawi
+    MY: Malaysia
+    MV: Malediven
+    ML: Mali
+    MT: Malta
+    MA: Marokko
+    MH: Marshallinseln
+    MQ: Martinique
+    MR: Mauretanien
+    MU: Mauritius
+    YT: Mayotte
+    MK: Mazedonien
+    MX: Mexiko
+    FM: Mikronesien
+    MC: Monaco
+    MN: Mongolei
+    ME: Montenegro
+    MS: Montserrat
+    MZ: Mosambik
+    MM: Myanmar
+    NA: Namibia
+    NR: Nauru
+    NP: Nepal
+    NC: Neukaledonien
+    NZ: Neuseeland
+    NI: Nicaragua
+    NL: Niederlande
+    AN: Niederländische Antillen
+    NE: Niger
+    NG: Nigeria
+    NU: Niue
+    NF: Norfolkinsel
+    "NO": Norwegen
+    MP: Nördliche Marianen
+    OM: Oman
+    TL: Osttimor
+    PK: Pakistan
+    PW: Palau
+    PS: Palästinensische Gebiete
+    PA: Panama
+    PG: Papua-Neuguinea
+    PY: Paraguay
+    PE: Peru
+    PH: Philippinen
+    PN: Pitcairn
+    PL: Polen
+    PT: Portugal
+    PR: Puerto Rico
+    KR: Republik Korea
+    MD: Republik Moldau
+    RW: Ruanda
+    RO: Rumänien
+    RU: Russische Föderation
+    RE: Réunion
+    SB: Salomonen
+    ZM: Sambia
+    WS: Samoa
+    SM: San Marino
+    SA: Saudi-Arabien
+    SE: Schweden
+    CH: Schweiz
+    SN: Senegal
+    RS: Serbien
+    CS: Serbien und Montenegro
+    SC: Seychellen
+    SL: Sierra Leone
+    ZW: Simbabwe
+    SG: Singapur
+    SK: Slowakei
+    SI: Slowenien
+    SO: Somalia
+    HK: Sonderverwaltungszone Hongkong
+    MO: Sonderverwaltungszone Macao
+    ES: Spanien
+    LK: Sri Lanka
+    BL: St. Barthélemy
+    SH: St. Helena
+    KN: St. Kitts und Nevis
+    LC: St. Lucia
+    MF: St. Martin
+    PM: St. Pierre und Miquelon
+    VC: St. Vincent und die Grenadinen
+    SD: Sudan
+    SR: Suriname
+    SJ: Svalbard und Jan Mayen
+    SZ: Swasiland
+    SY: Syrien
+    ST: São Tomé und Príncipe
+    ZA: Südafrika
+    GS: Südgeorgien und die Südlichen Sandwichinseln
+    TJ: Tadschikistan
+    TW: Taiwan
+    TZ: Tansania
+    TH: Thailand
+    TG: Togo
+    TK: Tokelau
+    TO: Tonga
+    TT: Trinidad und Tobago
+    TD: Tschad
+    CZ: Tschechische Republik
+    TN: Tunesien
+    TM: Turkmenistan
+    TC: Turks- und Caicosinseln
+    TV: Tuvalu
+    TR: Türkei
+    UG: Uganda
+    UA: Ukraine
+    ZZ: Unbekannte oder ungültige Region
+    HU: Ungarn
+    UY: Uruguay
+    UZ: Usbekistan
+    VU: Vanuatu
+    VA: Vatikanstadt
+    VE: Venezuela
+    AE: Vereinigte Arabische Emirate
+    US: Vereinigte Staaten
+    GB: Vereinigtes Königreich
+    VN: Vietnam
+    WF: Wallis und Futuna
+    CX: Weihnachtsinsel
+    EH: Westsahara
+    CF: Zentralafrikanische Republik
+    CY: Zypern
+    EG: Ägypten
+    GQ: Äquatorialguinea
+    ET: Äthiopien
+    AT: Österreich
+  label_crm_cross_project_contacts: Projektübergreifende Kontakte erlauben
+  label_crm_list_board: Board
+  label_crm_default_list_style: Standard-Listenansicht
+  label_crm_show_in_top_menu: Im oberen Menü anzeigen
+  label_crm_show_in_app_menu: In App Menü anzeigen
+  label_crm_money_settings: Währung
+  label_crm_disable_taxes: Stuern deaktiviert
+  label_crm_default_tax: Standard Steuersatz
+  label_crm_tax_type: Steuerart
+  label_crm_tax_type_inclusive: Steuer eingeschlossen
+  label_crm_tax_type_exclusive: Steuer ausgeschlossen
+  label_crm_default_currency: Standard Währung
+  label_crm_thousands_delimiter: Tausendertrennzeichen
+  label_crm_decimal_separator: Dezimaltrennzeichen
+
+  #3.2.10
+  label_crm_add_contact_plural: Kontakt hinzufügen
+  label_crm_search_for_contact: Kontakt suchen
+  label_crm_major_currencies: Aktive Währungen

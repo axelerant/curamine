@@ -1,0 +1,39 @@
+<%= error_messages_for 'helpdesk_settings' %>
+
+<% if @project.module_enabled?(:contacts) && @project.module_enabled?(:issue_tracking) %>
+
+<% if canned_responses = CannedResponse.visible.in_project_or_public(@project).order("#{CannedResponse.table_name}.name") %>
+<table class="list">
+  <thead><tr>
+  <th><%= l(:field_name) %></th>
+  <th><%= l(:field_content) %></th>
+  <th></th>
+  </tr></thead>
+  <tbody>
+<% canned_responses.each do |canned_response| %>
+  <tr class="<%= cycle 'odd', 'even' %>">
+    <td class="name"><%= canned_response.name  %></td>
+    <td class="name"><em class="info"><%= canned_response.content.gsub(/$/, ' ').truncate(250) %></em></td>
+    <td class="buttons">
+      <% if User.current.allowed_to?(:manage_canned_responses, @project) %>
+        <%= link_to l(:button_edit), edit_canned_response_path(canned_response), :class => 'icon icon-edit' %>
+        <%= delete_link canned_response_path(canned_response, :project_id => @project) %>
+      <% end %>
+    </td>
+  </tr>
+<% end %>
+    </tbody>
+</table>
+<% else %>
+<p class="nodata"><%= l(:label_no_data) %></p>
+<% end %>
+
+<p><%= link_to l(:label_helpdesk_new_canned_response), new_project_canned_response_path(@project), :class => 'icon icon-add' if User.current.allowed_to?(:manage_canned_responses, @project) %></p>
+
+<% else %>
+  <p class="nodata"><%= l(:label_helpdesk_enable_modules) %></p>
+<% end %>
+
+
+
+

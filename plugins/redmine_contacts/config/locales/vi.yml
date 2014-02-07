@@ -1,0 +1,230 @@
+# encoding: utf-8
+vi:
+  contacts_title: Danh bạ
+
+  label_crm_recently_viewed: Được xem gần đây
+  label_crm_gravatar_enabled: Sử dụng hình biểu tượng
+  label_thumbnails_enabled: Hiện hình ảnh thu nhỏ trong phần ghi chú
+  label_max_thumbnail_file_size: Kích thước tối đa của hình ảnh thu nhỏ
+  label_crm_view_all_contacts: Xem tất cả danh bạ
+  label_crm_background_info: Thông tin Mô tả
+  label_crm_company: Công ty
+  label_contact_plural: Danh bạ
+  label_crm_contact_edit_information: Thay đổi danh bạ
+  label_crm_edit_tags: Thay đổi đánh dấu
+  label_crm_contact_view: View
+  label_crm_contact_list: List
+  label_crm_contact_new: Tạo danh bạ mới
+  label_crm_at_company: tại
+  label_crm_last_notes: Ghu chú mới nhất
+  label_crm_tags_plural: Đánh dấu
+  label_crm_multi_tags_plural: Chọn nhiều đánh dấu
+  label_crm_single_tag_mode: Môt đánh dấu
+  label_crm_multiple_tags_mode: Nhiều đánh dấu
+  label_crm_contact_tag: đánh dấu
+  label_crm_time_ago: trước
+  label_crm_add_note_plural: Thêm ghi chú vào
+  label_crm_note_plural: Ghi chú
+
+  label_crm_add_tags_rule: phân cách bằng dấu phẩy
+  label_crm_contact_search: Tìm kiếm theo tên
+  label_crm_note_for: Ghi chú cho
+  label_crm_show_on_map: Hiện trên bản đồ
+  label_crm_add_another_phone: thêm số điện thoại
+  label_crm_contact_note_plural: Tất cả ghi chú
+  label_crm_remove: xóa
+  label_crm_related_contacts: Danh bạ liên quan
+  label_crm_assigned_to: Chịu trách nhiệm
+  label_crm_issue_added: Vấn đề đã được thêm
+  label_crm_add_emails_rule: phân cách bằng dấu phẩy
+  label_crm_add_phones_rule: phân cách bằng dấu phẩy
+  label_crm_add_employee: Nhân viên mới
+  label_crm_merge_duplicate_plural: Nhập
+  label_crm_duplicate_plural: Có khả năng bị trùng với
+  label_crm_duplicate_for_plural: Có khả năng bị trùng với (2)
+  label_crm_add_tag: Thêm mới...
+
+  label_crm_note_show_extras: Advanced (type, date, files)
+  label_crm_note_hide_extras: Hide advanced
+  label_crm_note_added: The note is successfully added
+  label_crm_note_read_more: (xem thêm)
+
+  label_deal_plural: Deals
+  label_crm_contractor_plural: Contacts
+  label_deal: Deal
+  label_crm_deal_new: New deal
+  label_crm_deal_edit_information: Edit deal information
+  label_crm_deal_change_status: Change status
+  label_crm_statistics: Statistics
+
+  label_crm_deal_status_new: Mới
+  label_crm_deal_status_first_contact: First contact
+  label_crm_deal_status_negotiations: Negotiations
+  label_crm_deal_status_pending: Pending
+  label_crm_deal_status_won: Won
+  label_crm_deal_status_lost: Lost
+
+  label_crm_created_on: Tạo lúc
+
+  field_note_date: Ngày ghi chú
+
+  field_deal_name: Tên
+  field_deal_background: Mô tả
+  field_deal_contact: Danh bạ
+  field_deal_price: Tổng
+  field_price: Tổng
+
+  field_contact_avatar: Biểu tượng
+  field_contact_is_company: Công ty
+  field_contact_name: Tên
+  field_contact_last_name: Tên
+  field_contact_first_name: Họ
+  field_contact_middle_name: Chữ lót
+  field_contact_job_title: Chức danh
+  field_contact_company: Công ty
+  field_contact_address: Địa chỉ
+  field_contact_phone: Điện thoại
+  field_contact_email: Email
+  field_contact_website: Website
+  field_contact_skype: Skype
+  field_contact_status: Trạng thái
+  field_contact_background: Mô tả
+  field_contact_tag_names: Đánh dấu
+  field_first_name: Tên
+  field_last_name: Họ
+  field_company: Company
+  field_birthday: Ngày sinh
+  field_contact_department: Bộ phận
+
+
+  field_company_field: Lĩnh vực Công ty
+
+  field_color: Màu
+
+  button_add_note: Thêm ghi chú
+  notice_successful_save: Đã lưu thành công
+  notice_successful_add: Đã tạo thành công
+  notice_unsuccessful_save: Lưu bị lỗi
+  notice_successful_merged: Nhập thành công
+
+  notice_merged_warning: Tất cả các ghi chú, dự án, đánh dấu và các công việc liên quan đến người này sẽ bị xóa. Thông tin liên lạc sẽ bị xóa.
+
+  project_module_contacts: Danh bạ
+
+  permission_view_contacts: Xem danh bạ liên lạc
+  permission_edit_contacts: Thay đổi danh bạ
+  permission_delete_contacts: Xóa các danh bạ
+  permission_view_deals: Xem hợp đồng
+  permission_edit_deals: Chỉnh hợp đồng
+  permission_delete_deals: Xóa hợp đồng
+  permission_add_notes: Thêm ghi chú
+  permission_delete_notes: Xóa ghi chú
+  permission_delete_own_notes: Xóa các ghi chú do mình tạo
+
+  # 2.0.0
+  label_crm_deal_category: Deal category
+  label_crm_deal_category_plural: Deals categories
+  label_crm_deal_category_new: New category
+  text_deal_category_destroy_assignments: Remove category assignments
+  text_deal_category_destroy_question: "Some deals (%{count}) are assigned to this category. What do you want to do?"
+  text_deal_category_reassign_to: Reassign deals to this category
+  text_deals_destroy_confirmation: 'Are you sure you want to delete the selected deal(s)?'
+  label_crm_deal_status_plural: Deal statuses
+  label_crm_deal_status: Deal status
+  field_deal_status_is_closed: Closed
+  label_crm_deal_status_new: New
+  permission_manage_contacts: Enumerations
+  label_crm_sales_funnel: Sales funnel
+  label_crm_period: Period
+  label_crm_count: Count
+
+  #2.0.1
+  label_crm_user_format: Contact name format
+  label_crm_my_contact_plural: Contacts assigned to me
+  label_crm_my_deal_plural: Open deals assigned to me
+  label_crm_contact_view_all: View all contacts
+  label_crm_deal_view_all: View all deals
+
+  #2.0.2
+  label_crm_bulk_edit_selected_contacts: Edit all selected contacts
+  label_crm_bulk_edit_selected_deals: Edit all selected deals
+  label_crm_bulk_send_mail_selected_contacts: Send mail to selected contacts
+  field_add_tags: Add tags
+  field_delete_tags: Delete tags
+  label_crm_send_mail: Send mail
+  error_empty_email: Email can not be blank
+  permission_send_contacts_mail: Send mail
+  field_mail_from: From address
+  text_email_macros: Avaliable macros %{macro}
+  field_message: Message
+
+  #2.0.3
+  label_crm_add_contact: Add contact
+  label_contact: Contact
+  field_age: Age
+  label_crm_vcf_import: Import from vCard
+  label_crm_mail_from: From
+  permission_import_contacts: Import contacts
+
+  #2.1.0
+  field_company_name: Tên Công ty
+  label_crm_recently_added_contacts: Recently added contacts
+  label_crm_created_by_me: Contacts created by me
+  my_contacts: My contacts
+  my_deals: My deals
+
+  #2.2.0
+  label_crm_note_type_email: Email
+  label_crm_note_type_call: Call
+  label_crm_note_type_meeting: Meeting
+  field_deal_currency: Currency
+  label_crm_my_contacts_stats: Contacts statistics for this month
+  label_crm_contacts_created: Contacts created
+  label_crm_deals_created: Deals created
+  my_contacts_avatars: My contacts photos
+  my_contacts_stats: Contacts statistics
+  label_crm_add_into: Add into
+  label_crm_delete_from: Delete from
+  label_crm_show_deaks_tab: Show deals tab
+  label_crm_show_on_projects_show: Show contacts on projects overview
+
+  #2.2.1
+  label_crm_contacts_show_in_list: Show in list
+
+  #2.3.0
+  label_crm_module_plural: Modules
+  label_crm_list_partial_style: Contacts list style
+  label_crm_list_excerpt: Excerpt list
+  label_crm_list_cards: Cards
+  label_crm_list_list: Table
+  field_contacts: Contact
+  field_companies: Company
+  label_crm_added_by: Added by
+  label_crm_contact_note_authoring_time: Show note time
+  label_crm_contact_issues_filters: Issues filters
+  label_crm_csv_import: Import contacts from CSV
+  label_crm_upload_encoding: File encoding
+  label_crm_csv_file: CSV file
+  label_crm_csv_separator: Separator
+  field_middle_name: Middle Name
+  field_job_title: Job title
+  field_company: Company
+  field_address: Address
+  field_phone: Phone
+  field_email: Email
+  field_tags: Tags
+  field_last_note: Last note
+  field_is_company: Is company
+  field_contact_full_name: Full name
+  button_contacts_edit_query: Edit query
+  button_contacts_delete_query: Delete query
+  permission_manage_public_contacts_queries: Manage public queries
+  permission_add_deals: Add deals
+  permission_add_contacts: Add contacts
+  permission_save_contacts_queries: Save queries
+
+  #2.3.3
+  label_crm_contact_show_in_app_menu: Show tabs in app menu
+
+  #2.3.4
+  label_crm_contact_show_closed_issues: Show closed issues

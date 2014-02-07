@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<contact>
+  <first_name>API contact name</first_name>
+  <is_company>true</is_company>
+  <project_id>contacts-plugin</project_id>
+  <custom_fields>
+
+  </custom_fields>
+</contact>

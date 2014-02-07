@@ -1,0 +1,64 @@
+<h2><%= l(:label_crm_bulk_send_mail_selected_contacts) %></h2>
+
+
+<div class="box" id="duplicates">
+	<ul>
+	    <% @contacts.each do |contact| %>
+		<li>
+			<%= avatar_to contact, :size => "16" %>
+			<%= link_to_source contact %>
+			<%= "(#{contact.job_title}) " unless contact.job_title.blank? %>
+			- <%= contact.emails.first %>
+        </li>
+		<% end %>
+	</ul>
+</div>
+
+
+<%= form_for(:email_message, :url => {:action => 'send_mails', :project_id => @project}, :html => {:multipart => true, :id => 'message-form'}) do %>
+<%= @contacts.collect {|i| hidden_field_tag('ids[]', i.id)}.join.html_safe %>
+
+<div class="box tabular">
+	<p>
+		<label><%= l(:field_mail_from) %></label>
+		<%= text_field_tag('from', "#{User.current.name} <#{User.current.mail}>", :style => "width: 98%;") %>
+		<%= link_to "#{l(:label_crm_contacts_cc)}/#{l(:label_crm_contacts_bcc)}", '#' , :onclick => "$('#mail_cc').show();$(this).hide();" %>
+	</p>
+
+<span id="mail_cc" style="display:none;">
+  <p>
+    <label><%= l(:label_crm_contacts_cc) %></label>
+    <%= text_field_tag('cc', '', :style => "width: 98%;") %>
+  </p>
+
+  <p>
+    <label><%= l(:label_crm_contacts_bcc) %></label>
+    <%= text_field_tag('bcc', '', :style => "width: 98%;") %>
+  </p>
+</span>
+	<p>
+		<label><%= l(:field_subject) %></label>
+		<%= text_field_tag('subject', '', :id => "subject", :style => "width: 98%;") %>
+	</p>
+	<p>
+		<label><%= l(:field_message) %></label>
+	<%= text_area_tag 'message-content', '', :cols => 60, :rows => 10, :class => 'wiki-edit' %>
+	<em class="info"><%= l(:text_email_macros, :macro => "%%NAME%%, %%LAST_NAME%%, %%MIDDLE_NAME%%, %%FULL_NAME%%, %%COMPANY%%, %%DATE%%, %%[Custom field]%%") %></em>
+	</p>
+	<%= wikitoolbar_for 'message-content' %>
+
+	<p id="attachments_form"><%= label_tag('attachments[1][file]', l(:label_attachment_plural))%><%= render :partial => 'attachments/form' %></p>
+</div>
+
+<p>
+	<%= submit_tag l(:button_submit) %>
+	<%= preview_link({ :controller => 'contacts', :action => 'preview_email' }, 'message-form') %>
+</p>
+
+<% end %>
+
+<div id="preview" class="wiki"></div>
+
+<% content_for :header_tags do %>
+	<%= javascript_include_tag :contacts, :plugin => 'redmine_contacts'  %>
+<% end %>

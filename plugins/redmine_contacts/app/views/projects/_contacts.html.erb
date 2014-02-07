@@ -1,0 +1,45 @@
+<% if ContactsSetting[:contacts_show_on_projects_show, @project.id].to_i > 0 && User.current.allowed_to?(:view_contacts, @project) %>
+
+<% contacts = Contact.visible.by_project(@project).limit(50).order("#{Contact.table_name}.created_on DESC") %>
+
+<% if contacts.length > 0 %>
+  <div class="box" id="duplicates">
+  <h3 class="icon icon-vcard"><%= l(:label_contact_plural) %></h3>
+
+  <% if contacts.select{|c| !c.is_company}.any? %>
+  <div id="duplicates">
+    <% contacts.select{|c| !c.is_company}.each do |contact| %>
+      <div class="avatar tooltip" style="display: inline;">
+        <%= link_to avatar_to(contact, :size => "64"),  contact_path(contact), :id => "avatar" %>
+        <span class="tip contact"><%= render_contact_tooltip(contact, :icon => true) %></span>
+      </div>
+  	<% end %>
+  </div>
+  <% end %>
+
+  <% if contacts.select{|c| c.is_company}.any? %>
+  <div id="duplicates">
+    <% contacts.select{|c| c.is_company}.each do |contact| %>
+      <div class="avatar tooltip" style="display: inline;">
+      <%= link_to avatar_to(contact, :size => "64"),  contact_path(contact), :id => "avatar" %>
+      <span class="tip contact"><%= render_contact_tooltip(contact, :icon => true) %></span>
+      </div>
+  	<% end %>
+  </div>
+  <% end %>
+
+
+
+	<p class="small"><%= link_to l(:label_crm_contact_view_all),
+						 :controller => 'contacts',
+						 :action => 'index',
+						 :project_id => project.id %></p>
+	</div>
+<% end %>
+
+<% content_for(:header_tags) do %>
+	<%= javascript_include_tag :contacts, :plugin => 'redmine_contacts'  %>
+  	<%= stylesheet_link_tag :contacts, :plugin => 'redmine_contacts' %>
+<% end %>
+
+<% end %>

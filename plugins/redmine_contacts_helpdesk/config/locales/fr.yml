@@ -1,0 +1,15 @@
+# French strings go here for Rails i18n
+fr:
+  label_helpdesk: Helpdesk
+  label_helpdesk_auto_answer_template: Modèle de notification de réponse par email
+  text_helpdesk_answer_macros: Macros disponibles %{macro}
+  label_is_send_mail: Envoyer cette note au contact par email
+  label_send_auto_answer: Envoyer la notification
+  label_received_from: Reçu de
+  label_sent_to: Envoyer à
+  project_module_contacts_helpdesk: Helpdesk
+  permission_send_response: Envoyer la réponse au contact
+  permission_edit_helpdesk_settings: Editer les paramètres Helpdesk
+  label_not_create_contacts: Ne pas créer de nouveau contacts
+  field_created_contact_tags: Ajouter les tags après la création
+  label_helpdesk_save_as_attachment: Sauvegarder les emails en pièces jointes

@@ -1,0 +1,31 @@
+api.array :deals, api_meta(:total_count => @deals_count, :offset => @offset, :limit => @limit) do
+  @deals.each do |deal|
+    api.deal do
+	  api.id deal.id
+	  api.price deal.price
+	  api.currency deal.currency
+	  api.price_type deal.price_type
+	  api.duration deal.duration
+	  api.probability deal.probability
+	  api.due_date format_date(deal.due_date)
+	  api.background deal.background
+	  api.project(:id => deal.project_id, :name => deal.project.name) unless deal.project.nil?
+	  api.status(:id => deal.status_id, :name => deal.status.name) unless deal.status.nil?
+	  api.category(:id => deal.category_id, :name => deal.category.name) unless deal.category.nil?
+	  api.author(:id => deal.author_id, :name => deal.author.name) unless deal.author.nil?
+	  api.contact(:id => deal.contact_id, :name => deal.contact.name) unless deal.contact.nil?
+	  api.assigned_to(:id => deal.assigned_to_id, :name => deal.assigned_to.name) unless deal.assigned_to.nil?
+
+    api.array :related_contacts do
+      deal.related_contacts.each do |contact|
+        api.contact(:id => contact.id, :name => contact.name)
+      end
+    end if deal.related_contacts.any?
+
+	  render_api_custom_values deal.custom_field_values, api
+
+	  api.created_on deal.created_on
+	  api.updated_on deal.updated_on
+    end
+  end
+end

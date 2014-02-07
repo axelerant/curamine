@@ -1,0 +1,23 @@
+<div id="duplicates">
+<% if @contact.duplicates.any? %>
+	<% if !@contact.new_record? %>
+	<div class="contextual">
+		<%= link_to_if_authorized l(:label_crm_merge_duplicate_plural), {:controller => 'contacts_duplicates', :action => 'index', :project_id => @project, :contact_id => @contact} %>
+	</div>
+	<% end %>
+
+	<h3><%= l(:label_crm_duplicate_plural) %></h3>
+	<ul class="box">
+	    <% @contact.duplicates.each do |contact| %>
+		<li>
+
+		<%= avatar_to contact, :size => "16" %>
+		<%= link_to_source contact %>
+		<%= "(#{contact.job_title}) " unless contact.job_title.blank? %>
+      </li>
+		<% end %>
+	</ul>
+
+
+<% end %>
+</div>

@@ -1,0 +1,14 @@
+<h2><%= link_to l(:label_crm_tags_plural), {:controller => 'settings', :action => 'plugin', :id => 'redmine_contacts', :tab => "tags"} %> &#187; <%= l(:label_crm_megre_tags) %></h2>
+<%= form_tag(merge_contacts_tags_path(:ids => @tags.map(&:id)), :class => "tabular") do %>
+  <%= error_messages_for 'tag' %>
+  <div class="box">
+    <p>
+      <label for="tag_name"><%=l(:label_crm_tags_plural)%></label>
+      <%= tag_links(@tags.map(&:name)) %>
+    </p>
+    <p><label for="tag_name"><%=l(:field_name)%></label>
+    <%= text_field 'tag', 'name', :value => @tags.first.name  %></p>
+  </div>
+
+  <%= submit_tag l(:button_save) %>
+<% end %>

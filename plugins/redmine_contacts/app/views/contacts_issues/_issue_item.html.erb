@@ -1,0 +1,10 @@
+<tr id=<%="contact_issue_#{issue_item.id}"%>>
+  <td class="done_checkbox">
+    <%= check_box_tag :close, '', issue_item.closed?, :disabled => (issue_item.assigned_to != User.current) || issue_item.closed?,  :onclick => "$(this).attr('disabled', 'disabled'); $('#contact_issue_#{issue_item.id}').css('text-decoration', 'line-through');$.post('#{url_for({:controller => "contacts_issues", :action => "close", :issue_id => issue_item.id})}');".html_safe unless Setting.plugin_redmine_contacts[:one_click_close] %>
+  </td>
+
+  <td class="issue_item_subject">
+    <%= link_to issue_item.subject, {:controller => :issues, :action => :show, :id => issue_item}, :class => "issue status-#{issue_item.status_id} priority-#{issue_item.priority_id} #{'closed' if issue_item.closed?}" %>
+  </td>
+  <td style="vertical-align: top; text-align: right;"><%= format_date(issue_item.due_date) %></td>
+</tr>

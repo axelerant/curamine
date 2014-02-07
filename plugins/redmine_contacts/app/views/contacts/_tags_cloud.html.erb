@@ -1,0 +1,7 @@
+<div id="tags">
+	<span id="single_tags">
+		<h3><%= l(:label_crm_tags_plural) %></h3>
+     <span class="tag_list"><%= tags_cloud.map{|tag| tag_link(tag.name, :count => tag.count)}.join(' ').html_safe %></span>
+	</span>
+
+</div>

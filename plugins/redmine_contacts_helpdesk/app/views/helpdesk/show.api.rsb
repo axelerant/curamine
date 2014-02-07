@@ -1,0 +1,7 @@
+api.message do                                                                   
+  api.journal_id @journal.id 
+  api.content @journal.notes  
+  api.to_address @journal_message.to_address
+  api.message_date format_date(@journal_message.message_date)
+  api.customer(:id => @issue.customer.id, :name => @issue.customer.name) unless @issue.customer.nil?
+end

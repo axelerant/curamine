@@ -1,0 +1,56 @@
+<% tickets_scope = Issue.visible.open.joins(:helpdesk_ticket).where(:assigned_to_id => User.current.id) %>
+
+<% tickets = tickets_scope.limit(10) %>
+
+<h3><%= l(:my_helpdesk_tickets) %> (<%= tickets_scope.count %>)</h3> 
+
+<% if tickets && tickets.any? %>
+<%= form_tag({}) do %>
+  <table class="list tickets">
+    <thead><tr>
+    <th><%=l(:field_subject)%></th>
+    <th><%=l(:field_project)%></th>
+    <th><%=l(:label_helpdesk_customer)%></th>
+    <th><%=l(:label_helpdesk_last_message)%></th>
+    </tr></thead>
+    <tbody>
+    <% for ticket in tickets %>
+    <tr id="ticket-<%= h(ticket.id) %>" class="issue hascontextmenu <%= cycle('odd', 'even') %> <%= ticket.css_classes %>">
+      <td class="subject">
+        <%= check_box_tag("ids[]", ticket.id, false, :style => 'display:none;', :id => nil) %>
+      	<span class="icon <%= ticket.helpdesk_ticket.ticket_source_icon %>"></span>
+        <%= link_to "##{ticket.id} - #{truncate(ticket.subject, :length => 60)}", issue_path(ticket) %> (<%=h ticket.status %>)
+      </td>
+      <td class="project"><%= link_to_project(ticket.project) %></td>
+      <td class="customer"><%= contact_tag(ticket.customer) + (ticket.customer_company.blank? ? "" : " (#{ticket.customer_company})") if ticket.customer %></td>
+      <td class="last_message"><small>
+      	<%= (ticket.last_message.blank? ? ticket.description : ticket.last_message).truncate(250) %>
+      </small></td>
+    </tr>
+    <% end %>
+    </tbody>
+  </table>
+<% end %>
+<% else %>
+  <p class="nodata"><%= l(:label_no_data) %></p>
+<% end %>
+
+<% if tickets.length > 0 %>
+<p class="small"><%= link_to l(:label_helpdesk_view_all_tickets), :controller => 'issues',
+                                                       :action => 'index',
+                                                       :set_filter => 1,
+                                                       :assigned_to_id => 'me',
+                                                       :customer => "*",
+                                                       :status_id => "o",
+                                                       :c => ["project", "tracker", "status", "subject", "customer", "customer_company", "last_message"],
+                                                       # :op => {:assigned_to_id => "=", :customer => "*", :status_id => "o"},
+
+                                                       :sort => 'priority:desc,updated_on:desc' %></p>
+<% end %>
+
+<% content_for :header_tags do %>
+<%= auto_discovery_link_tag(:atom,
+                            {:controller => 'issues', :action => 'index', :set_filter => 1,
+                             :assigned_to_id => 'me', :format => 'atom', :key => User.current.rss_key},
+                            {:title => l(:label_assigned_to_me_issues)}) %>
+<% end %>

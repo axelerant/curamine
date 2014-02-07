@@ -1,0 +1,36 @@
+<% if @deal.all_contacts.any? %>
+<div id="deal_contacts">
+	<div class="contextual">
+		<%= link_to l(:button_add),
+			{:controller => 'deal_contacts',
+			:action => 'add',
+	 		:project_id => @project,
+			:deal_id => @deal},
+			:remote => true if User.current.allowed_to?({:controller => 'deal_contacts', :action => 'add'}, @project) %>
+	</div>
+
+	<h3><%= l(:label_crm_contractor_plural) %></h3>
+
+	<% unless !(@show_form == "true") %>
+	 	<%= form_tag({:controller => 'deal_contacts',
+	  	              :action => 'add',
+		              :deal_id => @deal,
+	            	  :project_id => @project},
+	                 :remote => true,
+	   	             :method => :post,
+	  	             :id => 'add-contact-form') do |f| %>
+		<p>
+	    <%= select_contact_tag('contact_id', nil, :is_select => Contact.visible.by_project(@project).count < 50, :include_blank => true, :display_field => true) %>
+      <br>
+		<%= submit_tag l(:button_add), :class => "button-small" %>
+		<%= link_to l(:button_cancel), {}, :onclick => "$('#add-contact-form').hide(); return false;" %>
+		</p>
+		<% end %>
+	<% end %>
+
+	<%= render :partial => 'common/contact_data', :object => @deal.contact if @deal.contact %>
+	<% @deal.related_contacts.each do |contact| %>
+		<%= render :partial => 'common/contact_data', :object => contact, :locals => {:actions => remove_contractor_link(contact)} %>
+	<% end %>
+</div>
+<% end %>

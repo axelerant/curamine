@@ -1,0 +1,150 @@
+<% content_for(:header_tags) do %>
+	<%= javascript_include_tag :contacts, :plugin => 'redmine_contacts'  %>
+	<%= stylesheet_link_tag :contacts_sidebar, :plugin => 'redmine_contacts' %>
+	<meta name = "format-detection" content = "telephone=no">
+<% end %>
+
+<% content_for :sidebar do %>
+  <%= call_hook(:view_deals_sidebar_top, :deals => @deals) %>
+	<%= render :partial => 'common/sidebar' %>
+	<%= render :partial => 'deals_statistics' %>
+  <%= call_hook(:view_deals_sidebar_after_statistics, :deals => @deals) %>
+	<%= render :partial => 'notes/last_notes', :object => @last_notes %>
+	<%= render :partial => 'common/recently_viewed' %>
+  <%= call_hook(:view_deals_sidebar_bottom, :deals => @deals) %>
+<% end unless (deals_list_style == 'list_board') %>
+
+<div class="contextual">
+  <%= link_to l(:label_crm_deal_new), {:controller => 'deals', :action => 'new', :project_id => @project || Deal.allowed_target_projects.first }, :class => 'icon icon-add' if User.current.allowed_to?(:add_deals, @project, {:global => true}) && Deal.allowed_target_projects.any? %>
+  <%= link_to_if_authorized l(:label_crm_import), {:controller => 'deal_imports', :action => 'new', :project_id => @project}, :class => 'icon icon-import', :id => 'import_from_csv' %>
+</div>
+
+<div class="filters">
+	<%= form_tag(params, :method => :get, :id => "query_form") do %>
+		<%= hidden_field_tag('project_id', @project.to_param) if @project %>
+		<% no_filters = ((params[:status_id].blank? || params[:status_id] == 'o') && params[:period].blank? && params[:assigned_to_id].blank?  && params[:category_id].blank? && params[:probability].blank?) %>
+
+	<h2 class="contacts_header">
+		<span id='scope_header' class="scope_title">
+		<%= l(:label_deal_plural) %>
+		</span>
+
+	<span class="live_search">
+		 	<%= text_field_tag(:search, params[:search], :autocomplete => "off", :class => "live_search_field", :placeholder => l(:label_crm_contact_search) ) %>
+
+        <script type="text/javascript">
+
+           jQuery(function($) {
+              // when the #search field changes
+              $("#search").observe_field(2, function() {
+                var form = $("#query_form"); // grab the form wrapping the search bar.
+                var url = form.attr("action");
+                var formData = form.serialize();
+                $.get(url, formData, function(data) { // perform an AJAX get, the trailing function is what happens on successful get.
+                    $("#contact_list").html(data); // replace the "results" div with the result of action taken
+                });
+              });
+            });
+
+        </script>
+
+	</span>
+
+	</h2>
+
+
+
+	<fieldset id="filters" class="collapsible <%= 'collapsed' if no_filters %>">
+		<legend onclick="toggleFieldset(this);"><%= l(:label_filter_plural) %></legend>
+		<div style="<%= 'display: none;' if no_filters %>">
+			<p>
+        <% if !deal_statuses.empty?  %>
+        <span class="filter-condition">
+					<%= label_tag l(:label_crm_deal_status) + " "  %>
+          <% if deals_list_style == 'list_board' %>
+          <%= select_tag :status_id, options_for_select([[l(:label_open_issues), "o"], [l(:label_all), ""]], params[:status_id]) %>
+          <% else %>
+					<%= select_tag :status_id, options_for_select(collection_for_status_select.insert(0, [l(:label_open_issues), "o"]).insert(0, [l(:label_all), ""]), params[:status_id]) %>
+          <% end %>
+        </span>
+				<% end %>
+        <span class="filter-condition">
+          <%= label_tag l(:label_crm_created_on) + " "%>
+  				<%= select_tag 'period', options_for_period_select(params[:period]) %>
+        </span>
+        <% if @project && !@project.deal_categories.empty? %>
+        <span class="filter-condition">
+					<%= label_tag l(:label_crm_deal_category) + " "%>
+					<%= select_tag 'category_id', options_for_select(@project.deal_categories.collect {|c| [c.name, c.id.to_s]}.insert(0, [""]), params[:category_id]) %>
+        </span>
+				<% end %>
+        <span class="filter-condition">
+				<%= label_tag l(:label_crm_assigned_to) + " "  %>
+				<%= select_tag :assigned_to_id, options_for_select(Deal.available_users(@project).collect{|u| [u.name, u.id.to_s]}.insert(0, [""]),  params[:assigned_to_id]) %>
+        </span>
+
+        <span class="filter-condition">
+        <%= label_tag l(:label_crm_probability) + " "  %>
+        <%= select_tag :probability, options_for_select(((0..10).to_a.collect {|r| ["#{r*10} %", r*10] }).insert(0, [""]),  params[:probability]) %>
+        </span>
+			</p>
+
+		</div>
+	</fieldset>
+    <fieldset class="collapsible collapsed">
+      <legend onclick="toggleFieldset(this);"><%= l(:label_options) %></legend>
+      <div style="display: none;">
+        <table>
+        <% if deals_list_style != 'list' %>
+          <tr>
+            <td><label for='sort'><%= l(:label_sort) %></label></td>
+            <td><%= select_tag('sort',
+                               options_for_select(
+                                 [[]] +
+                                 [[l(:field_contact_status), "#{Deal.table_name}.status_id:desc"],
+                                  [l(:field_due_date), "due_date"],
+                                  [l(:field_created_on), "created_on:desc"],
+                                  [l(:field_updated_on), "updated_on:desc"]],
+                                 params[:sort])
+                       ) %></td>
+          </tr>
+          <% end %>
+
+          <tr>
+            <td><label for='deals_list_style'><%= l(:label_crm_list_partial_style) %></label></td>
+            <td><%= select_tag('deals_list_style', options_for_select([[l(:label_crm_list_excerpt), "list_excerpt"], [l(:label_crm_list_list), "list"], [l(:label_crm_list_board), "list_board"]], deals_list_style)) %></td>
+          </tr>
+
+        </table>
+      </div>
+    </fieldset>
+	<p class="buttons hide-when-print">
+
+		<%= link_to l(:button_apply), "#", :onclick=>"$('#query_form').submit()", :class => 'icon icon-checked' %>
+
+		<%= link_to l(:button_clear),
+		{:project_id => @project, :set_filter => 1 },
+		:method => :get,
+		:update => "contact_list",
+	    :class => 'icon icon-reload'  %>
+	</p>
+	<% end %>
+
+</div>
+
+<div id="contact_list" class="deal_list">
+<% if @deals.empty? %>
+    <p class="nodata"><%= l(:label_no_data) %></p>
+<% else %>
+  	<%= render :partial => deals_list_style %>
+    <% other_formats_links do |f| %>
+        <%= f.link_to 'CSV', :url => params %>
+    <% end %>
+<% end %>
+</div>
+
+
+<%= context_menu url_for( {:controller => "deals", :action => "context_menu"} )%>
+
+
+<% html_title l(:label_deal_plural) %>

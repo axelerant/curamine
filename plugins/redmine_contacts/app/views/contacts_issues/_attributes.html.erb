@@ -1,0 +1,35 @@
+<%= fields_for "issue" do |ff| %>
+
+  <%= label_tag 'task_subject',  l(:field_subject)%> <br>
+  <%= ff.text_field :subject %>
+
+  <p>
+  <%= label_tag :assigned_to_id,  l(:field_assigned_to)%> <br>
+  <%= ff.select :assigned_to_id,  @project.assignable_users.collect {|m| [m.name, m.id]}, :selected =>  User.current.id, :include_blank => true %>
+  </p>
+  <%= label_tag 'due_date',  l(:field_due_date)%> <br>
+  <%= ff.text_field :due_date, :value => Date.today, :size => 12 %><%= calendar_for('issue_due_date') %><br>
+
+  <p>
+  <%= label_tag :description,  l(:field_description)%> <br>
+  <%= ff.text_area :description, :value => "", :rows => 6, :class => 'wiki-edit' , :style => "width: 98%;" %><br>
+  </p>
+
+  <% if @project.issue_categories.any? %>
+    <p>
+    <%= label_tag :category_id,  l(:field_category)%> <br>
+    <%= ff.select :category_id, (@project.issue_categories.collect {|c| [c.name, c.id]}), :include_blank => true %>
+    </p>
+  <% end %>
+
+  <p>
+  <%= label_tag :tracker_id,  l(:field_tracker)%> <br>
+  <%= ff.select :tracker_id,  @project.trackers.collect {|t| [t.name, t.id]} %>
+  </p>
+
+<% end %>
+
+<br>
+<hr>
+<br>
+<%= submit_tag l(:button_add), :class => "button-small" %>

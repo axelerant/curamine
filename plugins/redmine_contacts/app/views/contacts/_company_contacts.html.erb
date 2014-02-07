@@ -1,0 +1,12 @@
+<% if @contact.is_company %>
+<div id="company_contacts">
+	<div class="contextual">
+		<%= link_to_if_authorized l(:label_crm_add_contact), {:controller => 'contacts', :action => 'new', :project_id => @project, :contact => {:company => @contact.name}} %>
+	</div>
+	<h3><%= l(:label_contact_plural) %></h3>
+
+	<%= render :partial => 'common/contact_data', :collection => @company_contacts %>
+  <div style="clear:both;"> </div>
+</div>
+
+<% end %>

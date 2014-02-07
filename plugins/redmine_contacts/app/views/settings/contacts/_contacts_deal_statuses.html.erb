@@ -1,0 +1,28 @@
+<div class="contextual">
+<%= link_to l(:label_crm_deal_status_new), {:controller => "deal_statuses", :action => 'new'}, :class => 'icon icon-add' %>
+</div>
+
+<h3><%=l(:label_crm_deal_status_plural)%></h3>
+
+<table class="list">
+  <thead><tr>
+  <th><%=l(:field_status)%></th>
+  <th><%=l(:field_is_default)%></th>
+  <th><%=l(:label_crm_deal_status_type)%></th>
+  <th><%=l(:button_sort)%></th>
+  <th></th>
+  </tr></thead>
+  <tbody>
+<% for status in DealStatus.all( :order => "status_type, position")  %>
+  <tr class="<%= cycle("odd", "even") %>">
+  <td class="name"><span class="color" style="border: 1px solid #D7D7D7;background-color: <%= status.color_name %>;">&nbsp;&nbsp;&nbsp;&nbsp;</span> <%= link_to status.name, :controller => "deal_statuses", :action => 'edit', :id => status %></td>
+  <td align="center" style="width:15%;"><%= checked_image status.is_default? %></td>
+  <td align="center" style="width:15%;"><%= status.status_type_name %></td>
+  <td align="center" style="width:15%;"><%= reorder_links('deal_status', {:controller => "deal_statuses", :action => 'update', :id => status}, :put) %></td>
+  <td class="buttons">
+    <%= delete_link deal_status_path(status) %>
+  </td>
+  </tr>
+<% end %>
+  </tbody>
+</table>

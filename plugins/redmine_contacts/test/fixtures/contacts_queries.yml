@@ -1,0 +1,62 @@
+contacts_queries_002:
+  id: 2
+  project_id: 1
+  is_public: false
+  name: Private contacts query for cookbook
+  filters: |
+    ---
+    first_name:
+      :values:
+      - "Ivan"
+      :operator: "="
+    last_name:
+      :values:
+      - "Ivanov"
+      :operator: "="
+
+  user_id: 3
+contacts_queries_003:
+  id: 3
+  project_id:
+  is_public: false
+  name: Private query for all projects
+  filters: |
+    ---
+    first_name:
+      :values:
+      - "Ivan"
+      :operator: "="
+
+  user_id: 3
+contacts_queries_004:
+  id: 4
+  project_id:
+  is_public: true
+  name: Public query for all projects
+  filters: |
+    ---
+    first_name:
+      :values:
+      - "Ivan"
+      :operator: "="
+
+  user_id: 2
+contacts_queries_005:
+  id: 5
+  project_id:
+  is_public: true
+  name: Open issues by tags
+  filters: |
+    ---
+    tags:
+      :values:
+      - "main"
+      :operator: "="
+
+  user_id: 1
+  sort_criteria: |
+    ---
+    - - first_name
+      - desc
+    - - last_name
+      - asc

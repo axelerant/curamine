@@ -1,0 +1,5 @@
+<% if RedmineContacts.settings[:show_closed_issues] %>
+	$('#contact_issue_<%= params[:issue_id] %> td.task_item_subject a').toggleClass('closed');
+<% else %>
+	$('#contact_issue_<%= params[:issue_id] %>').effect('fade', {}, 1000);
+<% end %>

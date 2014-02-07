@@ -1,0 +1,37 @@
+<% if  @sales_funnel.any? %>
+	<table class="list sales-funnel">
+		<thead>
+		<tr>
+			<th><%= h l(:label_crm_deal_status) %></th>
+			<th><%= h l(:label_crm_count) %></th>
+			<th><%= h l(:label_total) %></th>
+		</tr>
+		</thead>
+
+		<% index = 0 %>
+		<%  @sales_funnel.each do |deal_status, funnel_data| %>
+		<% index += 1 %>
+		<tr class="deal_status_type-<%= deal_status.status_type %>">
+			<td class="sales-funnel index_<%= deal_status.is_lost? ? 1 : index.to_s %>">
+			  <%= deal_status_tag(deal_status) %>
+			</td>
+			<td class="count">
+				<strong>
+					<%= h funnel_data[:count] %>
+				</strong>
+			</td>
+			<td class="total">
+				<strong>
+					<%= prices_collection_by_currency(funnel_data[:sum]).join(' / ').html_safe %>
+				</strong>
+			</td>
+		</tr>
+		<% end %>
+		<tr class="total">
+			<th colspan="2" class="title" style="text-align: right;"> <%= "#{l(:label_total)} (#{@sales_funnel_total[:count]}):" %> </th>
+			<th class="sum" style="text-align: right;">
+				<%= prices_collection_by_currency(@sales_funnel_total[:sum]).join('<br/>').html_safe %>
+			</th>
+		</tr>
+	</table>
+<% end %>

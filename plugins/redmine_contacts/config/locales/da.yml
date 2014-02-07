@@ -1,0 +1,227 @@
+# encoding: utf-8
+da:
+  contacts_title: Kontakter
+
+  label_crm_recently_viewed: Senest vist
+  label_crm_gravatar_enabled: Brug Gravatar
+  label_crm_thumbnails_enabled: Vis miniaturebilleder i noter
+  label_crm_max_thumbnail_file_size: Maks filstørrelse på miniaturebilleder
+  label_crm_view_all_contacts: Vis alle kontakter
+  label_crm_background_info: Baggrundsinformation
+  label_crm_company: Virksomhed
+  label_contact_plural: Kontakter
+  label_crm_contact_edit_information: Redigerer kontaktinformation
+  label_crm_edit_tags: Rediger tags
+  label_crm_contact_view: Vis
+  label_crm_contact_list: Liste
+  label_crm_contact_new: Ny kontakt
+  label_crm_at_company: hos
+  label_crm_last_notes: Seneste noter
+  label_crm_tags_plural: Tags
+  label_crm_multi_tags_plural: Vælg flere tags
+  label_crm_single_tag_mode: Enkelt tag
+  label_crm_multiple_tags_mode: Flere tags
+  label_crm_contact_tag: Tag
+  label_crm_time_ago: siden
+  label_crm_add_note_plural: Tilføj note til
+  label_crm_note_plural: Noter
+
+  label_crm_add_tags_rule: del med komma
+  label_crm_contact_search: Søg efter navn
+  label_crm_note_for: Note for
+  label_crm_show_on_map: Vis på kort
+  label_crm_add_another_phone: tilføj telefon
+  label_crm_contact_note_plural: Alle noter
+  label_crm_remove: slet
+  label_crm_related_contacts: Relaterede kontakter
+  label_crm_assigned_to: Ansvarlig
+  label_crm_issue_added: Sag tilføjet
+  label_crm_add_emails_rule: del med komma
+  label_crm_add_phones_rule: del med komma
+  label_crm_add_employee: Ny medarbejder
+  label_crm_merge_duplicate_plural: Sammenflet
+  label_crm_duplicate_plural: Mulige kopier
+  label_crm_duplicate_for_plural: Mulige kopier for
+  label_crm_add_tag: Tilføj ny...
+
+  label_crm_note_show_extras: Avanceret (type, dato, filer)
+  label_crm_note_hide_extras: Skjul avanceret
+  label_crm_note_added: Noten er blevet tilføjet
+  label_crm_note_read_more: (læs mere)
+
+  label_deal_plural: Tilbud
+  label_crm_contractor_plural: Kontakter
+  label_deal: Tilbud
+  label_crm_deal_new: Nyt tilbud
+  label_crm_deal_edit_information: Rediger tilbudsinformation
+  label_crm_deal_change_status: Ændre status
+  label_crm_statistics: Statistik
+
+  label_crm_deal_status_new: Ny
+  label_crm_deal_status_first_contact: Første kontakt
+  label_crm_deal_status_negotiations: Forhandlinger
+  label_crm_deal_status_pending: Afventer
+  label_crm_deal_status_won: Vundet
+  label_crm_deal_status_lost: Tabt
+
+  label_crm_created_on: Oprettet d.
+
+  field_note_date: Note dato
+
+  field_deal_name: Navn
+  field_deal_background: Baggrund
+  field_deal_contact: Kontakt
+  field_deal_price: Sum
+  field_price: Sum
+
+  field_contact_avatar: Billede
+  field_contact_is_company: Virksomhed
+  field_contact_name: Navn
+  field_contact_last_name: Efternavn
+  field_contact_first_name: Fornavn
+  field_contact_middle_name: Mellemnavn
+  field_contact_job_title: Stilling
+  field_contact_company: Virksomhed
+  field_contact_address: Addresse
+  field_contact_phone: Telefon
+  field_contact_email: Email
+  field_contact_website: Hjemmeside
+  field_contact_skype: Skype
+  field_contact_status: Status
+  field_contact_background: Baggrund
+  field_contact_tag_names: Tags
+  field_first_name: Fornavn
+  field_last_name: Efternavn
+  field_company: Virksomhed
+  field_birthday: Fødselsdag
+  field_contact_department: Afdeling
+
+
+  field_company_field: Branche
+
+  field_color: Farve
+
+  button_add_note: Tilføj note
+  notice_successful_save: Gemt
+  notice_successful_add: Oprettet
+  notice_unsuccessful_save: Problemer med at gemme
+  notice_successful_merged: Sammenflettet uden problemer
+
+  notice_merged_warning: Alle noter, projekter, tags og opgaver knyttet til denne person vil blive flyttet til nedenstående valg. Herefter vil kontakten blive slettet.
+
+  project_module_contacts: Kontakter
+
+  permission_view_contacts: Vis kontakter
+  permission_edit_contacts: Ret kontakter
+  permission_delete_contacts: Slet kontakter
+  permission_view_deals: Vis tilbud
+  permission_edit_deals: Ret tilbud
+  permission_delete_deals: Slet tilbud
+  permission_add_notes: Tilføj noter
+  permission_delete_notes: Slet noter
+  permission_delete_own_notes: Slet egne noter
+
+  # 2.0.0
+  label_crm_deal_category: Tilbudskategori
+  label_crm_deal_category_plural: Tilbudskategorier
+  label_crm_deal_category_new: Ny kategori
+  text_deal_category_destroy_assignments: Slet tildelte kategorier
+  text_deal_category_destroy_question: "Et antalt tilbud (%{count}) er tildelt denne kategori. Vil vil du gøre?"
+  text_deal_category_reassign_to: Tildel disse tilbud til denne kategori
+  text_deals_destroy_confirmation: 'Er du sikker på du vil slette de(t) valgte tilbud?'
+  label_crm_deal_status_plural: Tilbudsstatus
+  label_crm_deal_status: Tilbudsstatus
+  field_deal_status_is_closed: Lukket
+  label_crm_deal_status_new: Ny
+  permission_manage_contacts: Tællinger
+  label_crm_sales_funnel: Salgstragt
+  label_crm_period: Periode
+  label_crm_count: Antal
+
+  #2.0.1
+  label_crm_user_format: Kontaktformat
+  label_crm_my_contact_plural: Kontakter tildelt til mig
+  label_crm_my_deal_plural: Åbne tilbud tildelt til mig
+  label_crm_contact_view_all: Vis alle kontakter
+  label_crm_deal_view_all: Vis alle tilbud
+
+  #2.0.2
+  label_crm_bulk_edit_selected_contacts: Ret alle valgte kontakter
+  label_crm_bulk_edit_selected_deals: Ret alle valgte tilbud
+  label_crm_bulk_send_mail_selected_contacts: Send email til valgte kontakter
+  field_add_tags: Tilføj tags
+  field_delete_tags: Slet tags
+  label_crm_send_mail: Send email
+  error_empty_email: Email kan ikke være blank
+  permission_send_contacts_mail: Send mail
+  field_mail_from: Fra adresse
+  text_email_macros: Tilgængelige makroer %{macro}
+  field_message: Besked
+
+  #2.0.3
+  label_crm_add_contact: Add contact
+  label_contact: Kontakt
+  field_age: Alder
+  label_crm_vcf_import: Importer fra vCard
+  label_crm_mail_from: Fra
+  permission_import_contacts: Importer kontakter
+
+  #2.1.0
+  field_company_name: Virksomhedsnavn
+  label_crm_recently_added_contacts: Seneste tilføjede kontakter
+  label_crm_created_by_me: Kontakter oprettet af mig
+  my_contacts: Mine kontakter
+  my_deals: Mine tilbud
+
+  #2.2.0
+  label_crm_note_type_email: Email
+  label_crm_note_type_call: Opkald
+  label_crm_note_type_meeting: Møde
+  field_deal_currency: Valuta
+  label_crm_my_contacts_stats: Kontaktens statistik for denne måned
+  label_crm_contacts_created: Kontakter oprettet
+  label_crm_deals_created: Tilbud oprettet
+  my_contacts_avatars: Mine kontakters fotos
+  my_contacts_stats: Mine kontakter statistikker
+  label_crm_add_into: Tilføj til
+  label_crm_delete_from: Slet fra
+  label_crm_show_deaks_tab: Vis tilbudsfane
+  label_crm_show_on_projects_show: Vis kontakter på projektoversigt
+
+  #2.2.1
+  label_crm_contacts_show_in_list: Vis i liste
+
+  #2.3.0
+  label_crm_module_plural: Moduler
+  label_crm_list_partial_style: Kontaktliste udseende
+  label_crm_list_excerpt: Uddragsliste
+  label_crm_list_cards: Kort
+  label_crm_list_list: Tabel
+  field_contacts: Kontakt
+  field_companies: Virksomhed
+  label_crm_added_by: Tilføjet af
+  label_crm_contact_note_authoring_time: Vis notetidspunkt
+  label_crm_contact_issues_filters: Sager filtreret
+  label_crm_csv_import: Importer kontakter fra CSV
+  label_crm_upload_encoding: Filkodning
+  label_crm_csv_file: CSV fil
+  label_crm_csv_separator: Adskiller
+  field_middle_name: Mellemnavn
+  field_job_title: Stilling
+  field_company: Virksomhed
+  field_address: Adresse
+  field_phone: Telefon
+  field_email: Email
+  field_tags: Tags
+  field_last_note: Seneste note
+  field_is_company: Er virksomhed
+  field_contact_full_name: Fulde navn
+  button_contacts_edit_query: Ret forespørgsel
+  button_contacts_delete_query: Slet forespørgsel
+  permission_manage_public_contacts_queries: Administrer offentlige forespørgsler
+  permission_add_deals: Tilføj tilbud
+  permission_add_contacts: Tilføj kontakter
+  permission_save_contacts_queries: Gem forespørgsler
+
+  #2.3.3
+  label_crm_contact_show_is_app_menu: Vis faner i app-menuen

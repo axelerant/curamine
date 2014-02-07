@@ -1,0 +1,15 @@
+<%= call_hook(:view_contacts_sidebar_top) %>
+
+<h3><%= l(:label_crm_module_plural) %></h3>
+<% if User.current.allowed_to?(:view_contacts, @project, :global => true) %>
+<%= link_to l(:label_contact_plural), { :controller => 'contacts', :action => 'index', :project_id => @project, :set_filter => 1} %>
+ |
+ <% end %>
+<% if User.current.allowed_to?(:view_deals, @project, :global => true)  %>
+<%= link_to l(:label_deal_plural), { :controller => 'deals', :action => 'index', :project_id => @project, :set_filter => 1} %>
+ |
+<% end %>
+
+<%= link_to l(:label_crm_note_plural), { :controller => 'contacts', :action => 'contacts_notes', :project_id => @project} %>
+
+<%= call_hook(:view_contacts_sidebar_bottom) %>

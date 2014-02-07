@@ -1,0 +1,113 @@
+# English strings go here for Rails i18n
+sk:
+  label_helpdesk: Helpdesk
+  label_helpdesk_auto_answer_template: Šablóna automatickej odpovede
+  text_helpdesk_answer_macros: Dostupné makrá %{macro}
+  label_is_send_mail: Poslať poznámku
+  label_send_auto_answer: Poslať auto odpoveď
+  label_received_from: Prijaté od
+  label_sent_to: Poslané na
+  project_module_contacts_helpdesk: Helpdesk
+  permission_send_response: Poslať odpoveď kontaktu
+  permission_edit_helpdesk_settings: Upraviť helpdesk nastavenia
+  label_not_create_contacts: Povolené kontakty 
+  field_created_contact_tags: Pridať štítok po vytvorení
+  label_helpdesk_save_as_attachment: Uložiť všetky prílohy
+
+#1.0.2
+  label_helpdesk_assign_author: Odosielateľ ako autor úlohy 
+  
+#1.0.3
+  label_helpdesk_answered_status: Stav odpovede tiketu
+  label_helpdesk_reopen_status: Stav znovu-otvorenia tiketu
+  label_helpdesk_tracker: Tiket sledovač
+  label_helpdesk_assigned_to: Priradiť tiket
+  label_helpdesk_lifetime: Životnosť tiketu
+  label_helpdesk_server_settings: Nastavenia mail serveru
+  label_helpdesk_protocol: Protokol
+  label_helpdesk_host: Server
+  label_helpdesk_port: Port
+  label_helpdesk_username: Užívateľské meno
+  label_helpdesk_password: Heslo
+  label_helpdesk_ssl: SSL
+  label_helpdesk_imap_folder: IMAP adresár
+  label_helpdesk_move_on_success: Presunuté úspešne
+  label_helpdesk_move_on_failure: Presun zlyhal
+  label_helpdesk_apop: APOP
+  label_helpdesk_delete_unprocessed: Vymazať nevybavené správy
+  label_helpdesk_first_answer_template: Šablóna
+  label_helpdesk_test_connection: Test spojenia
+  label_helpdesk_get_mail: Prevziať mail
+  label_helpdesk_get_mail_success: "Spracovaný(ch) %{count} email(ov)"
+  label_helpdesk_css: Štyly emailu (CSS) 
+  label_helpdesk_original: Originál
+
+#1.0.4
+  label_helpdesk_blacklist: Nepovolené emaili
+  label_helpdesk_previous_issues: Zákaznikov predošlí tiket
+  permission_view_helpdesk_tickets: Zobraziť helpdesk tikety
+  label_helpdesk_last_message: Posledná správa
+  label_helpdesk_enable_modules: Modul Kontakty a Úlohy musia byť povolené pre tento projekt
+  label_helpdesk_customer_profile: Zákazníkov profil
+  label_helpdesk_show_contact_card: Zobraziť zákazníkov profil
+
+#2.0.0
+  label_helpdesk_send_note_by_default: Štandartne poslať poznámku
+  label_helpdesk_ticket_attributes: Atribúty tiketu
+  label_helpdesk_to_address: Na adresu
+  label_helpdesk_from_address: Od adresy
+  label_helpdesk_ticket_date: Dátum tiketu
+  label_helpdesk_customer: Zákazník
+  label_helpdesk_from: Od
+  label_helpdesk_cc: Cc
+  label_helpdesk_bcc: Bcc
+  label_helpdesk_ticket_plural: Helpdesk tikety
+  label_helpdesk_template: Helpdesk šablóna
+  label_helpdesk_general: Hlavná
+  permission_edit_helpdesk_tickets: Upraviť tiket info
+
+#2.1.0
+  label_helpdesk_ticket: Helpdesk tiket
+  label_helpdesk_spam: Nevyžiadaný mail
+  label_helpdesk_add_cc: Pridať Cc/Bcc
+  label_helpdesk_add_contact_notes: Pridať prvý email ako poznámka kontaktu
+  text_helpdesk_customer_count: "%{count} zákazník(ov)"
+  text_helpdesk_ticket_count: "%{count} tiket(ov)"
+  label_helpdesk_tickets_report: Helpdesk report tiketov
+  label_helpdesk_staff_report: Helpdesk report pracovníkov
+  label_helpdesk_tickets_email: Email
+  label_helpdesk_tickets_phone: Telefón
+  label_helpdesk_tickets_web: Web
+  label_helpdesk_tickets_twitter: Twitter
+  label_helpdesk_ticket_source: Zdroj tiketu
+  label_helpdesk_ticket_time: Čas tiketu
+  label_helpdesk_save_cc: Uložiť CC ako kontakty
+  permission_view_helpdesk_reports: Zobraziť reporty
+
+#2.1.2
+  label_helpdesk_answer_template: Šablóna odpovede
+
+#2.1.3
+  label_helpdesk_previous_tickets: Predošlý tiket
+  label_helpdesk_public_tickets: Povoliť verejné tikety
+  label_helpdesk_public_title: Stránka verejných tiketov
+  label_helpdesk_settings_public: Verejné tikety
+  label_helpdesk_public_comments: Povoliť pridať komentár
+  label_helpdesk_public_show_spent_time: Zobraziť strávený čas
+  label_helpdesk_public_link: Verejná linka
+
+#2.1.4
+  label_helpdesk_ticket_new: Nový tiket
+  label_helpdesk_report_plural: Helpdesk reporty
+
+#2.2.0
+  label_helpdesk_customer_company: Zakazníkova spoločnosť
+  label_helpdesk_canned_response_plural: Predlohy odpovede
+  label_helpdesk_new_canned_response: Nová predloha odpovede
+  label_helpdesk_canned_response: Predloha odpovede
+  permission_manage_public_canned_responses: Manažment verejných predloh odpovedí
+  permission_manage_canned_responses: Manažment predloh odpovedí
+
+#2.2.1
+  my_helpdesk_tickets: Moje helpdesk tikety  
+  label_helpdesk_view_all_tickets: Zobraziť všetky tikety

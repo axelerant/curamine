@@ -1,0 +1,15 @@
+<div class="note_data_header">
+	<table class="note_data">
+	<tr>
+
+		<td class="avatar"><%= link_to avatar_to(note_header.source, :size => "32"), note_source_url(note_header.source), :id => "avatar" %> </td>
+        <td class="name">
+			<h2 class="note_title">
+			  <%= note_type_icon(note_header) %>
+				<%= l(:label_crm_note_for) %> <%= note_header.source.name %>
+			</h2>
+				<p><%= authoring note_header.created_on, note_header.author %></p>
+		 </td>
+		</tr>
+</table>
+</div>

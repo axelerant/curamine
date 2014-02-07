@@ -1,0 +1,145 @@
+<div class="contextual">
+    <% if !@query.new_record? && @query.editable_by?(User.current) %>
+    <%= link_to l(:button_contacts_edit_query), edit_contacts_query_path(@query), :class => 'icon icon-edit' %>
+    <%= link_to l(:button_contacts_delete_query), contacts_query_path(@query), :confirm => l(:text_are_you_sure), :method => :delete, :class => 'icon icon-del' %>
+    <% end %>
+    <%= link_to_if_authorized l(:label_crm_contact_new), {:controller => 'contacts', :action => 'new', :project_id => @project}, :class => 'icon icon-add' %>
+    <%= link_to_if_authorized l(:label_crm_import), {:controller => 'contact_imports', :action => 'new', :project_id => @project}, :class => 'icon icon-import', :id => 'import_from_csv' %>
+    <%= call_hook(:view_contacts_action_menu) %>
+</div>
+
+
+<% html_title(@query.new_record? ? l(:label_contact_plural) : @query.name) %>
+
+
+<%= form_tag({ :controller => 'contacts', :action => 'index', :project_id => @project }, :method => :get, :id => 'query_form') do %>
+    <script type="text/javascript">
+       jQuery(function($) {
+          // when the #search field changes
+          $("#search").observe_field(2, function() {
+            var form = $("#query_form"); // grab the form wrapping the search bar.
+            var url = form.attr("action");
+            var formData = form.serialize();
+            $.get(url, formData, function(data) { // perform an AJAX get, the trailing function is what happens on successful get.
+                $("#contact_list").html(data); // replace the "results" div with the result of action taken
+            });
+          });
+        });
+    </script>
+
+    <h2 class="contacts_header">
+        <span id='scope_header' class="scope_title">
+        <%= @query.new_record? ? l(:label_contact_plural) : h(@query.name) %>
+        </span>
+
+        <span class="live_search">
+            <%= text_field_tag(:search, params[:search], :autocomplete => "off", :class => "live_search_field", :placeholder => l(:label_crm_contact_search) ) %>
+
+        </span>
+
+        <span class="tags">
+            <%= tag_links(@filter_tags) %>
+        </span>
+
+    </h2>
+
+    <%= hidden_field_tag 'set_filter', '1' %>
+    <div id="query_form_content" class="hide-when-print">
+        <fieldset id="filters" class="collapsible <%= @query.new_record? ? "" : "collapsed" %>">
+          <legend onclick="toggleFieldset(this);"><%= l(:label_filter_plural) %></legend>
+          <div style="<%= @query.new_record? ? "" : "display: none;" %>">
+            <%= render :partial => 'contacts_queries/filters', :locals => {:query => @query} %>
+          </div>
+        </fieldset>
+
+        <fieldset class="collapsible collapsed">
+          <legend onclick="toggleFieldset(this);"><%= l(:label_options) %></legend>
+          <div style="display: none;">
+            <table>
+              <tr style="<%= 'display: none;' if contacts_list_style != 'list' %>">
+                <td><%= l(:field_column_names) %></td>
+                <td><%= render :partial => 'contacts_queries/columns', :locals => {:query => @query} %></td>
+              </tr>
+              <tr>
+              <% if contacts_list_style != 'list_cards' %>
+                <td><label for='group_by'><%= l(:field_group_by) %></label></td>
+                <td><%= select_tag('group_by', options_for_select([[]] + @query.groupable_columns.collect {|c| [c.caption, c.name.to_s]}, @query.group_by)) %></td>
+              <% end -%>
+              <% if contacts_list_style != 'list' %>
+                <td><label for='sort'><%= l(:label_sort) %></label></td>
+                <td><%= select_tag('sort',
+                                   options_for_select(
+                                     [[]] +
+                                     [[l(:field_contact_job_title), "job_title"],
+                                      [l(:field_contact_company), "company"],
+                                      [l(:field_created_on), "created_on:desc"],
+                                      [l(:field_updated_on), "updated_on:desc"]],
+                                     params[:sort])
+                           ) %></td>
+              <% end %>
+              </tr>
+              <tr>
+                <td><label for='contacts_list_style'><%= l(:label_crm_list_partial_style) %></label></td>
+                <td><%= select_tag('contacts_list_style', options_for_select([[l(:label_crm_list_excerpt), "list_excerpt"], [l(:label_crm_list_list), "list"], [l(:label_crm_list_cards), "list_cards"]], contacts_list_style)) %></td>
+              </tr>
+            </table>
+          </div>
+        </fieldset>
+    </div>
+
+    <p class="buttons hide-when-print">
+        <%= link_to_function l(:button_apply), 'submit_query_form("query_form")', :class => 'icon icon-checked' %>
+        <%= link_to l(:button_clear), { :set_filter => 1, :project_id => @project }, :class => 'icon icon-reload'  %>
+        <% if @query.new_record? && User.current.allowed_to?(:save_contacts_queries, @project, :global => true) %>
+            <%= link_to_function l(:button_save),
+                                 "$('#query_form').attr('action', '#{ @project ? new_project_contacts_query_path(@project) : new_contacts_query_path }'); submit_query_form('query_form')",
+                                 :class => 'icon icon-save' %>
+
+        <% end %>
+    </p>
+
+<% end %>
+
+<%= error_messages_for 'query' %>
+<% if @query.valid? %>
+    <div id="contact_list">
+    <% if @contacts.empty? %>
+        <p class="nodata"><%= l(:label_no_data) %></p>
+    <% else %>
+      <%= render :partial => contacts_list_style %>
+    <% end %>
+    </div>
+    <% other_formats_links do |f| %>
+        <%= f.link_to 'Atom', :url => params.merge(:key => User.current.rss_key) %>
+        <%= f.link_to 'CSV', :url => params %>
+        <%- if ContactsSetting.vcard? -%>
+            <%= f.link_to 'VCF', :url => params %>
+        <%- end -%>
+        <%- if ContactsSetting.spreadsheet? -%>
+            <%= f.link_to 'XLS', :url => params %>
+        <%- end -%>
+    <% end %>
+<% end %>
+
+
+<% html_title l(:label_contact_plural) %>
+
+<% content_for :sidebar do %>
+    <%= render :partial => 'common/sidebar' %>
+    <%= render :partial => 'tags_cloud', :object => @tags %>
+    <%= render_sidebar_contacts_queries %>
+    <%= render :partial => 'notes/last_notes', :object => @last_notes %>
+    <%= render :partial => 'common/recently_viewed' %>
+
+    <%= call_hook(:view_contacts_sidebar_contacts_list_bottom) %>
+
+<% end %>
+
+<% content_for(:header_tags) do %>
+    <%= javascript_include_tag :contacts, :plugin => 'redmine_contacts'  %>
+    <%= stylesheet_link_tag :contacts_sidebar, :plugin => 'redmine_contacts' %>
+    <%= auto_discovery_link_tag(:atom, {:format => 'atom', :key => User.current.rss_key}, :title => l(:label_contact_plural)) %>
+
+<% end %>
+
+<%= context_menu url_for( {:controller => "contacts", :action => "context_menu"} )%>

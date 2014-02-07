@@ -1,0 +1,21 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+   "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+  <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <style type="text/css" media="screen">
+        <%= @email_stylesheet %>
+      </style>
+  </head>
+  <body>
+    <div id="email_header">
+      <%= textile(@email_header.to_s).html_safe unless @email_header.blank? %>
+    </div>
+    <div class="wrapper" id="email_body">
+      <%= textile(@email_body.to_s).html_safe %>
+    </div>
+    <div id="email_footer">
+      <%= textile(@email_footer.to_s).html_safe unless @email_footer.blank? %>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,67 @@
+<%= error_messages_for 'helpdesk_settings' %>
+
+<% if @project.module_enabled?(:contacts) && @project.module_enabled?(:issue_tracking) %>
+  <%= form_tag({:controller => :helpdesk, :action => :save_settings, :project_id => @project, :tab => 'helpdesk_template'}, :method => :put, :class => "tabular", :multipart => true, :id => 'helpdesk_template') do %> 
+
+  <fieldset class="box tabular"><legend><%= l(:label_helpdesk_answer_template) %></legend>
+
+  <p>
+    <label><%= l(:field_subject) %></label>
+      <%= text_field_tag :helpdesk_answer_subject, HelpdeskSettings[:helpdesk_answer_subject, @project.id], :style => "width:100%" %>
+  </p>
+    
+
+  <p>
+    <label><%= l(:setting_emails_header) %></label>
+    <%= text_area_tag :helpdesk_emails_header, HelpdeskSettings[:helpdesk_emails_header, @project.id], :class => 'wiki-edit', :rows => 5 %>
+  </p>
+
+  <p>
+    <label><%= l(:setting_emails_footer) %></label>
+    <%= text_area_tag :helpdesk_emails_footer, HelpdeskSettings[:helpdesk_emails_footer, @project.id], :class => 'wiki-edit', :rows => 5 %>
+  </p>
+  </fieldset>
+
+
+  <fieldset class="box" style="background-color: #FFD;"><legend><%= l(:label_helpdesk_auto_answer_template) %></legend>
+    <p>  
+      <label><%= l(:label_send_auto_answer) %></label>
+      
+      <%= hidden_field_tag(:helpdesk_send_notification, 0)  %>
+      <%= check_box_tag :helpdesk_send_notification, 1, ContactsSetting[:helpdesk_send_notification, @project.id].to_i > 0 %>
+    </p>
+
+  <p>  
+    <label><%= l(:field_subject) %></label> 
+    <%= text_field_tag :helpdesk_first_answer_subject, HelpdeskSettings[:helpdesk_first_answer_subject, @project.id], :style => "width:100%" %>
+  </p>
+
+    <p>
+      <label><%= l(:label_helpdesk_first_answer_template) %></label> 
+      <%= text_area_tag :helpdesk_first_answer_template, HelpdeskSettings[:helpdesk_first_answer_template, @project.id], :class => 'wiki-edit', :rows => 15 %>
+      <%= wikitoolbar_for 'helpdesk_first_answer_template' %>
+    </p>
+  </fieldset>
+
+
+ <div> <em class="info"><%= l(:text_helpdesk_answer_macros, :macro => HelpdeskSettings::MACRO_LIST.join(', ')) %></em></div>
+
+  <br/>
+
+  <%= submit_tag l(:button_save) %>
+
+  <% end %>
+
+<% else %>
+  <p class="nodata"><%= l(:label_helpdesk_enable_modules) %></p>
+<% end %>
+
+
+<% content_for :header_tags do %>
+  <%= javascript_include_tag :"tag-it", :plugin => 'redmine_contacts'  %>
+  <%= stylesheet_link_tag :"jquery.tagit.css", :plugin => 'redmine_contacts' %>
+  <%= javascript_include_tag :contacts, :plugin => 'redmine_contacts'  %>
+  <%= stylesheet_link_tag :contacts, :plugin => 'redmine_contacts' %>
+<% end %>
+
+

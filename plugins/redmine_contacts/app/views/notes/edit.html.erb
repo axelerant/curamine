@@ -1,0 +1,51 @@
+<%= breadcrumb link_to(@note.source.name, note_source_url(@note.source)) %>
+
+<%= render :partial => 'note_header', :object => @note %>
+
+<%= form_for @note, :url => {:controller => "notes", :action => 'update', :project_id => @project, :id => @note}, :html => { :multipart => true} do |f|  %>
+	<div class = "box">
+		<table>
+		  <tr>
+		    <td>
+		      <label><%= l(:field_type) %></label><br /><%= f.select :type_id, collection_for_note_types_select %>
+		    </td>
+		    <td>
+		      <label><%= l(:field_note_date) %></label><br /><%= f.text_field :created_on, :value => @note.created_on.to_date, :size => 15 %><%= f.text_field :note_time, :value => (@note.created_on || Time.now).to_s(:time), :size => 5 %><%= calendar_for "note_created_on" %>
+		    </td>
+		  </tr>
+		</table>
+		<p class  = "content"><%= f.text_area :content , :cols => 80, :rows => 8, :class => 'wiki-edit', :label=>l(:field_contact_background)  %>
+		<%= wikitoolbar_for 'note_content' %>  </p>
+		<% if @note.custom_field_values.any? %>
+		<fieldset class="tabular" ><legend><%= l(:label_custom_field_plural) %></legend>
+		<% @note.custom_field_values.each do |value| %>
+		  <p>
+		    <%= custom_field_tag_with_label :note, value %>
+		  </p>
+		<% end -%>
+		</fieldset>
+		<% end %>
+		<%= link_to_attachments @note, :author => false  %>
+	</div>
+
+	<fieldset><legend><%= l(:label_attachment_plural) %></legend>
+		<p><%= render :partial => 'attachments/form', :locals => {:container => @note} %></p>
+	</fieldset>
+	<br>
+	<%= submit_tag l(:button_save) -%>
+<% end -%>
+
+<% html_title "#{l(:label_crm_note_for)} #{@note.source.name}" %>
+
+<% content_for :sidebar do %>
+	<%= render :partial => 'common/sidebar' %>
+
+	<%= render :partial => 'common/recently_viewed' %>
+<% end %>
+
+
+<% content_for :header_tags do %>
+	<%= javascript_include_tag :contacts, :plugin => 'redmine_contacts'  %>
+	<%= stylesheet_link_tag :contacts, :plugin => 'redmine_contacts' %>
+	<%= stylesheet_link_tag :contacts_sidebar, :plugin => 'redmine_contacts' %>
+<% end %>

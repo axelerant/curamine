@@ -1,0 +1,4 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+followup:
+  id: 1
+  journal_id: 1

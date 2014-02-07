@@ -1,0 +1,13 @@
+<% if @contact &&  User.current.allowed_to?(:view_helpdesk_tickets, @project) && User.current.allowed_to?(:add_issues, @project) && HelpdeskSettings[:helpdesk_tracker, @project.id] %>
+    <li><%= context_menu_link l(:label_helpdesk_ticket_new), {:controller => 'issues', 
+                                                   :action => 'new', 
+                                                   :customer_id => @contact, 
+                                                   :tracker_id => HelpdeskSettings[:helpdesk_tracker, @project.id],
+                                                   :project_id => @project, 
+                                                   :back_url => @back}, 
+                              :method => :get,
+                              :class => 'icon-support' %>
+    </li>
+<% end %>
+
+

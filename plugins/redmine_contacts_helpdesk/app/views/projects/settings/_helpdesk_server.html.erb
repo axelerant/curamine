@@ -1,0 +1,124 @@
+<div class="box">  
+  <script type="text/javascript" charset="utf-8">
+    function changeServerSettings(element) {
+      $('#helpdesk_use_ssl_field').show();
+      
+      if (element.value == 'pop3') {
+        $('#server_settings').show();
+        $('#imap_settings').hide();
+        $('#pop3_settings').show();
+        $('#host_settings').show();
+      } 
+      
+      if (element.value == 'imap') {
+        $('#server_settings').show();
+        $('#pop3_settings').hide();
+        $('#imap_settings').show();
+        $('#host_settings').show();
+      } 
+      
+      if (element.value == '') {
+        $('#server_settings').hide();
+      }
+
+      if (element.value == 'gmail' || element.value == 'yahoo' || element.value == 'yandex' ) {
+        $('#server_settings').show();
+        $('#host_settings').hide();
+        $('#imap_settings').show();
+        $('#pop3_settings').hide();
+        $('#helpdesk_use_ssl_field').hide();
+      } 
+      
+    }
+  </script>
+  <p>  
+    <label><%= l(:label_helpdesk_protocol) %></label>
+    <%= select_tag :helpdesk_protocol, options_for_select([['', ""], ["pop3", "pop3"], ["imap", "imap"], ["Gmail", "gmail"], ["Yahoo", "yahoo"], ["Yandex", "yandex"]] , HelpdeskSettings[:helpdesk_protocol, @project.id]), :onchange => "changeServerSettings(this)" %>
+  </p>
+
+  <span id="server_settings"  <%= "style=\"display: none;\"".html_safe if HelpdeskSettings[:helpdesk_protocol, @project.id].blank? %>>
+
+    <span id="host_settings" <%= "style=\"display: none;\"".html_safe if ["gmail","yahoo", "yandex"].include?(HelpdeskSettings[:helpdesk_protocol, @project.id]) %>>
+      <p>  
+        <label><%= l(:label_helpdesk_host) %></label>
+        <%= text_field_tag :helpdesk_host, HelpdeskSettings[:helpdesk_host, @project.id] %>
+      </p>
+
+      <p>  
+        <label><%= l(:label_helpdesk_port) %></label>
+        <%= text_field_tag :helpdesk_port, HelpdeskSettings[:helpdesk_port, @project.id] %>
+      </p>
+    </span>
+
+    <p>  
+      <label><%= l(:label_helpdesk_username) %></label>
+      <%= text_field_tag :helpdesk_username, HelpdeskSettings[:helpdesk_username, @project.id] %>
+    </p>
+
+    <p>  
+      <label><%= l(:label_helpdesk_password) %></label>
+      <%= link_to_function image_tag('edit.png'), '$(this).hide(); $("#helpdesk_password_field").show()' unless HelpdeskSettings[:helpdesk_username, @project.id].blank? %>
+      <%= content_tag 'span', :id => "helpdesk_password_field", :style => (HelpdeskSettings[:helpdesk_username, @project.id].blank? ? nil : 'display:none') do %>
+        <%= password_field_tag :helpdesk_password, '' %>
+      <% end %>      
+    </p>
+    <p <%= "style=\"display: none;\"".html_safe if ["gmail", "yahoo", "yandex"].include?(HelpdeskSettings[:helpdesk_protocol, @project.id]) %> id="helpdesk_use_ssl_field">  
+      <label><%= l(:label_helpdesk_ssl) %></label>
+
+      <%= hidden_field_tag(:helpdesk_use_ssl, 0)  %>
+      <%= check_box_tag :helpdesk_use_ssl, 1, HelpdeskSettings[:helpdesk_use_ssl, @project.id].to_i > 0 %>
+    </p>
+
+    <span id="imap_settings"  <%= "style=\"display: none;\"".html_safe if !["gmail", "yahoo", "yandex", "imap"].include?(HelpdeskSettings[:helpdesk_protocol, @project.id]) %>>
+      
+
+      <p>  
+        <label><%= l(:label_helpdesk_imap_folder) %></label>
+        <%= text_field_tag :helpdesk_imap_folder, HelpdeskSettings[:helpdesk_imap_folder, @project.id] %>
+      </p>
+
+      <p>  
+        <label><%= l(:label_helpdesk_move_on_success) %></label>
+        <%= text_field_tag :helpdesk_move_on_success, HelpdeskSettings[:helpdesk_move_on_success, @project.id] %>
+      </p>
+
+      <p>  
+        <label><%= l(:label_helpdesk_move_on_failure) %></label>
+        <%= text_field_tag :helpdesk_move_on_failure, HelpdeskSettings[:helpdesk_move_on_failure, @project.id] %>
+      </p>
+    </span>
+
+    <span id="pop3_settings" <%= "style=\"display: none;\"".html_safe if HelpdeskSettings[:helpdesk_protocol, @project.id] != "pop3"  %>>
+      <p>  
+        <label><%= l(:label_helpdesk_apop) %></label>
+
+        <%= hidden_field_tag(:helpdesk_apop, 0)  %>
+        <%= check_box_tag :helpdesk_apop, 1, HelpdeskSettings[:helpdesk_apop, @project.id].to_i > 0 %>
+      </p>
+
+      <p>  
+        <label><%= l(:label_helpdesk_delete_unprocessed) %></label>
+
+        <%= hidden_field_tag(:helpdesk_delete_unprocessed, 0)  %>
+        <%= check_box_tag :helpdesk_delete_unprocessed, 1, HelpdeskSettings[:helpdesk_delete_unprocessed, @project.id].to_i > 0 %>
+      </p>
+    </span>   
+
+    <div id="test_connection_messages">
+    </div>
+
+    <%= link_to l(:label_helpdesk_get_mail), 
+          {}, 
+          :remote => true,
+          :onclick => "updateCustomForm('#{url_for(:controller => 'helpdesk', :action => 'get_mail', :project_id => @project)}', $('#helpdesk_settings'))" %>
+
+    
+    <br/>
+
+  </span> <!-- Server settings -->
+
+</div>  
+
+
+
+

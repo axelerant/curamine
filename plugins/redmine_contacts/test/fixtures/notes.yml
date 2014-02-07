@@ -1,0 +1,33 @@
+# Read about fixtures at http:__ar.rubyonrails.org_classes_Fixtures.html
+note_001:
+  id: 1
+  subject: Note 1 subject
+  content: Note 1 _content_ with wiki *syntax*
+  source_id: 1
+  source_type: Contact
+  author_id: 1
+  created_on: <%= (Time.now - 4.days).to_s(:db) %>
+note_002:
+  id: 2
+  subject: Note 2 subject
+  content: Note 2 _content_ with wiki *syntax*
+  source_id: 1
+  source_type: Contact
+  author_id: 2
+  created_on: <%= (Time.now - 2.days).to_s(:db) %>
+note_003:
+  id: 3
+  subject: Note 3 subject
+  content: Note 3 _content_ with wiki *syntax*
+  source_id: 2
+  source_type: Contact
+  author_id: 1
+  created_on: <%= (Time.now - 1.days).to_s(:db) %>
+note_004:
+  id: 4
+  subject: Note 4 subject
+  content: Note 4 _content_ with wiki *syntax*
+  source_id: 3
+  source_type: Contact
+  author_id: 2
+  created_on: <%= (Time.now + 4.days).to_s(:db) %>

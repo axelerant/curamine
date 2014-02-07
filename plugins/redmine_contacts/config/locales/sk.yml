@@ -1,0 +1,144 @@
+# encoding: utf-8-et
+sk:
+  contacts_title: Kontakty
+
+  label_crm_recently_viewed: Nedávno zobrazené
+  label_crm_gravatar_enabled: Použi Gravatar
+  label_crm_view_all_contacts: Zobraz všechny kontakty
+  label_crm_background_info: Poznámky ku kontaktu
+  label_crm_company: Spoločnosť
+  label_contact_plural: Kontakty
+  label_crm_contact_edit_information: Úprava kontaktných informácií
+  label_crm_edit_tags: Upraviť štítky
+  label_crm_contact_view: Zobraziť
+  label_crm_contact_list: Zoznam
+  label_crm_contact_new: Nový kontakt
+  label_crm_at_company: v
+  label_crm_last_notes: Posledné poznámky
+  label_crm_tags_plural: Štítky
+  label_crm_multi_tags_plural: Vybrať viac štitkov
+  label_crm_single_tag_mode: Jeden štítok
+  label_crm_multiple_tags_mode: Viac štítkov
+  label_crm_contact_tag: Štítok
+  label_crm_time_ago: pred
+  label_crm_add_note_plural: Pridať poznámky k
+  label_crm_note_plural: Poznámky
+
+  label_crm_add_tags_rule: oddeliť čiarkami
+  label_crm_contact_search: Vyhľadať podľa mena
+  label_crm_note_for: Poznámka pre
+  label_crm_show_on_map: Zobraziť na mape
+  label_crm_add_another_phone: pridať telefón
+  label_crm_contact_note_plural: Všetky poznámky
+  label_crm_remove: zmazať
+  label_crm_related_contacts: Súvisiace kontakty
+  label_crm_assigned_to: Priradené
+  label_crm_issue_added: Issue pridaná
+  label_crm_add_emails_rule: oddeliť čiarkami
+  label_crm_add_phones_rule: oddeliť čiarkami
+
+  label_crm_note_show_extras: Pokročilé (súbory, dátum)
+  label_crm_note_hide_extras: Skrýť pokročilé
+  label_crm_note_added: Poznámka úspešne pridaná
+
+  label_deal_plural: Ponuky
+  label_crm_contractor_plural: Sprostredkovatelia
+  label_deal: Ponuka
+  label_crm_deal_new: Nová ponuka
+  label_crm_deal_edit_information: Upraviť informácie o ponuke
+  label_crm_deal_change_status: Zmeniť stav
+  label_crm_statistics: Štatistiky
+
+  field_note_date: Dátum poznámky
+
+  field_deal_name: Meno
+  field_deal_background: Poznámky k ponuke
+  field_deal_contact: Kontakt
+  field_deal_price: Suma
+  field_price: Suma
+
+  field_contact_avatar: Avatar
+  field_contact_is_company: Kontakt na spoločnosť
+  field_contact_name: Meno
+  field_contact_last_name: Priezvisko
+  field_contact_first_name: Meno
+  field_contact_middle_name: Stredné meno
+  field_contact_job_title: Pracovná pozícia
+  field_contact_company: Spoločnosť
+  field_contact_address: Adresa
+  field_contact_phone: Telefón
+  field_contact_email: Email
+  field_contact_website: Webová stránka
+  field_contact_skype: Skype
+  field_contact_status: Stav
+  field_contact_background: Poznámky ku kontaktu
+  field_contact_tag_names: Štítky
+  field_first_name: Meno
+  field_last_name: Priezvisko
+  field_company: Spoločnosť
+  field_birthday: Narodeniny
+  field_contact_department: Oddelenie
+
+  field_company_field: Odvetie
+
+  button_add_note: Pridať poznámku
+  notice_successful_save: Uložené
+  notice_successful_add: Vytvorené
+  notice_unsuccessful_save: Chyba pri uložení
+
+  project_module_contacts: Kontakty
+
+  permission_view_contacts: Zobraziť kontakty
+  permission_edit_contacts: Upraviť kontakty
+  permission_delete_contacts: Zmazať kontakty
+  permission_view_deals: Zobraziť nabídky
+  permission_edit_deals: Upraviť nabídky
+  permission_delete_deals: Zmazať nabídky
+  permission_add_notes: Pridať poznámky
+  permission_delete_notes: Vymazať poznámky
+  permission_delete_own_notes: Vymazať vlastné poznámky
+
+  # 2.0.0
+  label_crm_deal_category: Kategória poznámok
+  label_crm_deal_category_plural: Kategórie poznámok
+  label_crm_deal_category_new: Nová kategória
+  text_deal_category_destroy_assignments: Zmazať priradenie kateǵorie
+  text_deal_category_destroy_question: "Niektoré ponuky (%{count}) sú priradené do tejto kategórie. Čo s nimi urobíme?"
+  text_deal_category_reassign_to: Zmeniť kategóriu ponuky
+  text_deals_destroy_confirmation: 'Ste si istý, že chcete vymazať vybrané ponuky?'
+  label_crm_deal_status_plural: Stavy ponúk
+  label_crm_deal_status: Stav ponuky
+  field_deal_status_is_closed: Uzavretý
+  label_crm_deal_status_new: Nový
+  permission_manage_contacts: Oprávnenia
+  label_crm_sales_funnel: Predajný lievik
+  label_crm_period: Perióda
+  label_crm_count: Počet
+
+  #2.0.1
+  label_crm_user_format: Formát mena kontaktu
+  label_crm_my_contact_plural: Kontakty priradené mne
+  label_crm_my_deal_plural: Otvorené ponuky priradené mne
+  label_crm_contact_view_all: Zobraziť všetky kontakty
+  label_crm_deal_view_all: Zobraziť všetky ponuky
+
+  #2.0.2
+  label_crm_bulk_edit_selected_contacts: Upraviť všetky vybrané kontakty
+  label_crm_bulk_edit_selected_deals: Upraviť vybrané ponuky
+  label_crm_bulk_send_mail_selected_contacts: Poslať email vybraným kontaktom
+  field_add_tags: Pridať štítky
+  field_delete_tags: Vymazať štítky
+  label_crm_send_mail: Poslať mail
+  error_empty_email: Email nesmie byť prázdny
+  permission_send_contacts_mail: Poslať mail
+  field_mail_from: Z adresy
+  text_email_macros: Dostupné makra %{macro}
+  field_message: Správa
+
+  #2.0.3
+  label_crm_add_contact: Add contact
+  label_contact: Kontakt
+  field_age: Vek
+  label_crm_vcf_import: Import z vCard
+  label_crm_mail_from: Od
+  permission_import_contacts: Importuj kontakty

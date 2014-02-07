@@ -1,0 +1,71 @@
+<div class="box" >
+
+  <p>  
+    <label><%= l(:field_mail_from) %></label> 
+    <%= text_field_tag :helpdesk_answer_from, HelpdeskSettings[:helpdesk_answer_from, @project.id], :size => "60", :placeholder => RedmineHelpdesk.settings[:helpdesk_answer_from] %>
+  </p>
+  
+  
+  <p>  
+    <label><%= l(:label_helpdesk_answered_status) %></label>
+    <%= select_tag :helpdesk_answered_status, ("<option value=\"\">#{l(:label_no_change_option)}</option>" + options_for_select(IssueStatus.all.collect {|p| [p.name, p.id.to_s]}, HelpdeskSettings[:helpdesk_answered_status, @project.id])).html_safe %>
+  </p>
+  
+  <p>  
+    <label><%= l(:label_helpdesk_reopen_status) %></label>
+    <%= select_tag :helpdesk_reopen_status, ("<option value=\"\">#{l(:label_no_change_option)}</option>" + options_for_select(IssueStatus.all.collect {|p| [p.name, p.id.to_s]}, HelpdeskSettings[:helpdesk_reopen_status, @project.id])).html_safe %>
+  </p>
+  
+  <p>  
+    <label><%= l(:label_helpdesk_tracker) %></label>
+    <%= select_tag :helpdesk_tracker, options_for_select(@project.trackers.collect {|t| [t.name, t.id.to_s]}, HelpdeskSettings[:helpdesk_tracker, @project.id]), :include_blank => true %>
+  </p>
+
+  <p>  
+    <label><%= l(:label_helpdesk_assigned_to) %></label>
+    <%= select_tag :helpdesk_assigned_to, ("<option value=\"\">#{l(:label_no_change_option)}</option>" + options_for_select(@project.assignable_users.collect {|t| [t.name, t.id.to_s]}, HelpdeskSettings[:helpdesk_assigned_to, @project.id])).html_safe %>
+  </p>
+  
+  <p>  
+    <label><%= l(:label_helpdesk_lifetime) %></label> 
+    <%= text_field_tag :helpdesk_lifetime, HelpdeskSettings[:helpdesk_lifetime, @project.id], :size => "5" %> <%= l(:label_day_plural) %>
+  </p>
+  
+  <hr/>
+  <p>  
+    <label><%= l(:label_helpdesk_save_as_attachment) %></label>
+    
+    <%= hidden_field_tag(:helpdesk_save_as_attachment, 0)  %>
+    <%= check_box_tag :helpdesk_save_as_attachment, 1, HelpdeskSettings[:helpdesk_save_as_attachment, @project.id].to_i > 0 %>
+  </p>
+
+
+  <p>  
+    <label><%= l(:label_not_create_contacts) %></label>
+    
+    <%= hidden_field_tag(:helpdesk_is_not_create_contacts, 0)  %>
+    <%= check_box_tag :helpdesk_is_not_create_contacts, 1, HelpdeskSettings[:helpdesk_is_not_create_contacts, @project.id].to_i > 0, :onclick => '$("#add_tags").toggle();' %>
+  </p>
+
+  <p>  
+    <label><%= l(:label_helpdesk_assign_author) %></label>
+    
+    <%= hidden_field_tag(:helpdesk_assign_author, 0)  %>
+    <%= check_box_tag :helpdesk_assign_author, 1, HelpdeskSettings[:helpdesk_assign_author, @project.id].to_i > 0 %>
+  </p>
+
+  <p>  
+    <label><%= l(:label_helpdesk_blacklist) %></label>
+    <%= text_area_tag :helpdesk_blacklist, HelpdeskSettings[:helpdesk_blacklist, @project.id].blank? ? '' : HelpdeskSettings[:helpdesk_blacklist, @project.id].split("\n").map{|u| u.strip}.join("\n"), :rows => 10 %>
+  <br /><em class="info"><%= l(:text_custom_field_possible_values_info) %></em>  </p>
+  
+  
+  
+  <div id="add_tags" class="contacts-tags-edit" <%= "style=\"display: none;\"" if HelpdeskSettings[:helpdesk_is_not_create_contacts, @project.id].to_i > 0  %>>
+    <p>
+  	<label><%= l(:field_created_contact_tags) %></label>
+  	<%= text_field_tag :helpdesk_created_contact_tag, HelpdeskSettings[:helpdesk_created_contact_tag, @project.id], :size => 10, :class => 'hol' %><%= tagsedit_for('#helpdesk_created_contact_tag', Contact.available_tags(:project => @project).map(&:name).join("\',\'").html_safe ) %>
+    </p>
+  </div>
+  
+</div>

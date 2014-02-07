@@ -1,0 +1,16 @@
+<h2><%= l(:label_crm_deal_edit_information) %></h2>
+
+<%= labelled_form_for :deal, @deal, :url => {:action => 'update', :id => @deal}, :html => {:method => :put, :id => "deal_form"} do |f|  %>
+  <%= error_messages_for 'deal' %>
+  <div class="box tabular">
+	  <div id="all_attributes">
+	  <%= render :partial => 'form', :locals => {:f => f}  %>
+	  </div>
+	</div>
+  <%= submit_tag l(:button_save) -%>
+<% end -%>
+
+<% content_for :header_tags do %>
+	<%= javascript_include_tag :contacts, :plugin => 'redmine_contacts'  %>
+	<%= robot_exclusion_tag %>
+<% end %>

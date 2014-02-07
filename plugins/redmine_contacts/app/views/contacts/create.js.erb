@@ -1,0 +1,14 @@
+hideModal();
+<% select = select_tag("#{params[:contact_field_name]}",
+    options_for_select(contacts_for_select(@project,
+        :is_company => false),
+        @contact.id),
+    :include_blank => true)
+  field_id = params[:contact_field_name].to_s.gsub("[", "_").gsub("]", "")
+-%>
+$('select#<%= field_id %>').replaceWith('<%= escape_javascript(select) %>');
+$('#<%= field_id %>_selected_contact').text('<%= @contact.name %>');
+$('#<%= field_id %>_selected_contact').show();
+$('#<%= field_id %>_selected_contact').scrollTop( 0 );
+$('input#<%= field_id %>').hide();
+$('#<%= field_id %>_edit_link').show();

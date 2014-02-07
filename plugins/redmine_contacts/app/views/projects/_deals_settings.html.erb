@@ -1,0 +1,28 @@
+<h3><%= l(:label_crm_deal_category_plural) %></h3>
+
+<% if @project.deal_categories.any? %>
+<table class="list">
+	<thead><tr>
+	<th><%= l(:field_name) %></th>
+	<th></th>
+	</tr></thead>
+	<tbody>
+<% for category in @project.deal_categories %>
+	<% unless category.new_record? %>
+	<tr class="<%= cycle 'odd', 'even' %>">
+	<td><%= link_to_if_authorized h(category.name), { :controller => 'deal_categories', :action => 'edit', :id => category } %></td>
+    <td class="buttons">
+    	<%= link_to_if_authorized l(:button_delete), {:controller => 'deal_categories', :action => 'destroy', :id => category}, :method => :post, :confirm => l(:text_are_you_sure), :class => 'icon icon-del' %>
+    </td>
+	</tr>
+	<% end %>
+<% end %>
+    </tbody>
+</table>
+<% else %>
+<p class="nodata"><%= l(:label_no_data) %></p>
+<% end %>
+
+<p><%= link_to_if_authorized l(:label_crm_deal_category_new), :controller => 'deal_categories', :action => 'new', :project_id => @project %></p>
+
+<%= render :partial => "projects/deal_statuses" %>

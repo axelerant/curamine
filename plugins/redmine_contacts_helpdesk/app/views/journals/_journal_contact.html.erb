@@ -1,0 +1,38 @@
+<% if User.current.allowed_to?(:view_helpdesk_tickets, @project) && journal.contact %>
+  <p class="journal_message">
+    <span class="icon <%= journal.journal_message.is_incoming? ? 'icon-email' : 'icon-email-to' %>">
+      <%= journal.journal_message.is_incoming? ? l(:label_received_from) : l(:label_sent_to) %>
+    </span>
+      <span class="contact" style="white-space: nowrap;display: inline-block;">
+      <%= contact_tag(journal.contact) %>
+      (<%= journal.journal_message.is_incoming? ? journal.journal_message.from_address : journal.journal_message.to_address %>)
+      </span>
+
+    <% if attachment = journal.journal_message.message_file %>
+      <span class="attachment" style="white-space: nowrap;display: inline-block;">
+        <%= link_to_attachment attachment, :text => l(:label_helpdesk_original), :class => 'icon icon-attachment' -%>
+        <%= h(" - #{attachment.description}") unless attachment.description.blank? %>
+          <span class="size">(<%= number_to_human_size attachment.filesize %>)</span>
+          <%= link_to_if_authorized image_tag('magnifier.png', :plugin => "redmine_contacts_helpdesk"),
+                :controller => 'helpdesk', :action => 'show_original',
+                :id => attachment, :project_id => @project %>
+      </span> 
+    <% end %>
+    <span class="helpdesk-message-date"><%= format_time(journal.journal_message.message_date) %></span> 
+
+    <% unless journal.journal_message.bcc_address.blank? && journal.journal_message.cc_address.blank? %>
+    <br>
+    <span class="heldesk_cc helpdesk-message-date">
+      <%= "#{l(:label_helpdesk_cc)}: #{journal.journal_message.cc_address}" unless journal.journal_message.cc_address.blank? %><%= ", #{l(:label_helpdesk_bcc)}: #{journal.journal_message.bcc_address}" unless journal.journal_message.bcc_address.blank? %>
+    </span>
+    <% end %>
+
+    <% if false && journal.journal_message.is_incoming?  %>
+    <span class="actions" style="float: right;">
+        <%= link_to "Split", "", :class => "icon icon-split" %>
+    </span> 
+    <% end %>
+
+  </p>
+<% end %>  
+

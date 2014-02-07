@@ -1,0 +1,12 @@
+<% @contact = Contact.visible.find(:first, :conditions => ["#{Contact.table_name}.email LIKE ?", "%#{@user.mail}%" ]) unless @user.mail.blank? %>
+
+<h3><%= l(:label_contact) %></h3>
+<% unless @contact.blank? || !@contact.visible? %>
+  <%= render :partial => 'contacts/contact_card', :object => @contact %>
+<% end %>
+
+
+<% content_for :header_tags do %>
+	<%= javascript_include_tag :contacts, :plugin => 'redmine_contacts'  %>
+	<%= stylesheet_link_tag :contacts, :plugin => 'redmine_contacts' %>
+<% end %>

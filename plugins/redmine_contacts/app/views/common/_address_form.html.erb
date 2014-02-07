@@ -1,0 +1,8 @@
+<p class="address">
+<label><%= l(:label_crm_address) %></label>
+<%= f.text_field :street1, :no_label => true, :placeholder => l(:label_crm_street1), :style => "width:90%;"  -%></p>
+<p class="address street2"><%= f.text_field :street2, :no_label => true, :placeholder => l(:label_crm_street2) -%></p>
+<p class="address city"><%= f.text_field :city, :no_label => true, :placeholder => l(:label_crm_city) -%>
+<%= f.text_field :region, :no_label => true, :placeholder => l(:label_crm_region) -%>
+<%= f.text_field :postcode, :no_label => true, :placeholder => l(:label_crm_postcode), :size => 12 -%></p>
+<p class="address country"><%= f.select :country_code, l(:label_crm_countries).map{|k, v| [v, k.to_s]},  :no_label => true, :placeholder => l(:label_crm_country), :include_blank => true  -%></p>

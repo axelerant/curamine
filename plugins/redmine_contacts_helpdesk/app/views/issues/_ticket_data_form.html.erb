@@ -1,0 +1,16 @@
+<% if @issue.new_record? && !@copy_from && User.current.allowed_to?(:edit_helpdesk_tickets, @project) && @issue.tracker_id.to_s == HelpdeskSettings[:helpdesk_tracker, @project.id] %>
+
+  <p><%= label_tag :helpdesk_ticket_contact_id,  l(:label_helpdesk_customer) %>
+    <%= select_contact_tag('helpdesk_ticket[contact_id]', @issue.helpdesk_ticket.try(:customer), :is_select => Contact.visible.by_project(@project).count < 50, :include_blank => true, :add_contact => true, :display_field => @issue.helpdesk_ticket.try(:customer).blank?) %>
+  </p>
+
+  <p><%= label_tag :helpdesk_ticket_source,  l(:label_helpdesk_ticket_source)%>
+    <%= select_tag 'helpdesk_ticket[source]', options_for_select(helpdesk_tickets_source_for_select) %></p>
+
+  <p class="required"><%= label_tag :helpdesk_ticket_date,  l(:label_helpdesk_ticket_date)%>
+    <%= text_field_tag 'helpdesk_ticket[ticket_date]', Date.today, :size => 12 %> <%= text_field_tag 'helpdesk_ticket[ticket_time]', Time.now.to_s(:time), :size => 5 %><%= calendar_for('helpdesk_ticket_ticket_date') %> </p>
+
+  <p><%= label_tag :helpdesk_send_auto_answer,  l(:label_send_auto_answer)%>
+    <%= check_box_tag 'helpdesk_send_auto_answer', 1, false %></p>
+
+<% end %>

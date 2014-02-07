@@ -1,0 +1,26 @@
+<h3><%= l(:label_crm_my_contact_plural) %></h3>
+<% User.current.reload %>
+<% contacts = Contact.visible.find(:all, :conditions => {:assigned_to_id  => User.current.id}, :limit => 20) %>
+
+<div class="box" id="duplicates">
+	<ul>
+	    <% contacts.each do |contact| %>
+		<li>
+			<%= contact_tag(contact) %>
+			<%= "(#{contact.job_title}) " unless contact.job_title.blank? %>
+    </li>
+		<% end %>
+	</ul>
+</div>
+
+<% if contacts.length > 0 %>
+	<p class="small"><%= link_to l(:label_crm_contact_view_all),
+						 :controller => 'contacts',
+						 :action => 'index',
+						 :assigned_to_id => User.current.id %></p>
+<% end %>
+
+<% content_for(:header_tags) do %>
+	<%= javascript_include_tag :contacts, :plugin => 'redmine_contacts'  %>
+  	<%= stylesheet_link_tag :contacts, :plugin => 'redmine_contacts' %>
+<% end %>

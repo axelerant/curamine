@@ -1,0 +1,19 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+new:
+  id: 1
+  name: Pending
+  color: 11184810
+  is_default: true
+  status_type: 0
+won:
+  id: 2
+  name: Won
+  color: 32768
+  is_default: false
+  status_type: 1
+lost:
+  id: 3
+  name: Lost
+  color: 16711680
+  is_default: false
+  status_type: 2

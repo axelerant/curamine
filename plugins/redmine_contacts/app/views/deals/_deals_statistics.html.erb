@@ -1,0 +1,26 @@
+<% if deal_statuses.any? %>
+	<div id="deals_statistics">
+		<% if !(@project && !authorize_for(:sales_funnel, :index)) %>
+			<div class="contextual">
+				<%= link_to l(:label_crm_sales_funnel), {:controller => 'sales_funnel', :action => 'index', :project_id => @project} %>
+			</div>
+		<% end %>
+		<h3><%= l(:label_crm_statistics) %></h3>
+		<table class="deals_statistics">
+			<% deal_statuses.each do |deal_status| %>
+			<tr>
+				<td>
+					<span class="tag-label-color" style=<%= "background-color:#{deal_status.color_name};color:white;" %> >
+						<%= link_to "#{deal_status.name}(#{@project ? @project.deals.visible.count(:conditions => {:status_id => deal_status.id}) : Deal.visible.count(:conditions => {:status_id => deal_status.id})})".html_safe, {:controller => "deals", :action => "index", :status_id => deal_status.id, :project_id => @project } %>
+					</span>
+				</td>
+				<td>
+					<strong>
+						<%= prices_collection_by_currency(Deal.by_project(@project).visible.sum(:price, :conditions => {:status_id => deal_status.id}, :group => :currency), :hide_zeros => true).join(' / ').html_safe %>
+					</strong>
+				</td>
+			</tr>
+			<% end %>
+		</table>
+	</div>
+<% end %>
