@@ -1,0 +1,17 @@
+<fieldset>
+  <legend><%=l :label_custom_field_plural %></legend>
+  <div class="splitcontentleft">
+    <p>
+      <label><%=l :label_user_plural %></label>
+      <%= select_tag 'settings[users_custom_field]',
+          '<option></option>' + options_from_collection_for_select(UserCustomField.all, :id, :name, @settings['users_custom_field'].to_i) %>
+    </p>
+  </div>
+  <div class="splitcontentright">
+    <p>
+      <label><%=l :label_project_plural %></label>
+      <%= select_tag 'settings[projects_custom_field]',
+          '<option></option>' + options_from_collection_for_select(ProjectCustomField.all, :id, :name, @settings['projects_custom_field'].to_i) %>
+    </p>
+  </div>
+</fieldset>

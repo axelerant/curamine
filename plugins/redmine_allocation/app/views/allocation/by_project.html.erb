@@ -1,0 +1,39 @@
+<h2><%=l :"allocation.label_by_project" %></h2>
+
+<% @projects.each do |project| %>
+
+  <h3><%= link_to_project project %></h3>
+
+  <table class="list" style="text-align:center">
+    <thead>
+      <tr>
+        <th><%=l :"allocation.label_person" %></th>
+        <th><%=l :field_allocation %></th>
+        <th><%=l :field_from_date %></th>
+        <th><%=l :field_to_date %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <%- if project.members.empty? -%>
+        <tr>
+          <td colspan="4"><%=l :label_no_data %></td>
+        </tr>
+      <%- else -%>
+        <%- project.members.each do |member| -%>
+          <tr class="<%= cycle("odd", "even") %>">
+            <td><%=h member.user %></td>
+            <td><%= member.allocation ? "#{member.allocation} %" : "--" %></td>
+            <td><%= format_date(member.from_date) %></td>
+            <td><%= format_date(member.to_date) %></td>
+          </tr>
+        <%- end -%>
+      <%- end -%>
+    </tbody>
+  </table>
+<% end %>
+
+<% content_for :sidebar do %>
+  <%= render :partial => 'hooks/allocation/view_projects_show_sidebar_bottom' %>
+<% end %>
+
+<% html_title "#{h @project}: #{l :'allocation.by_project'}" %>

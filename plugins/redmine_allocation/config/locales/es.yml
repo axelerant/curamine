@@ -1,0 +1,17 @@
+# Spanish strings go here
+es:
+  field_allocation: Dedicación
+  field_from_date: Inicio
+  field_to_date: Fin
+
+  allocation:
+    plugin_name: Dedicación de usuarios
+    plugin_description: Permite seguir y visualizar la carga de trabajo de los usuarios.
+
+    label_all_allocation: RRHH
+    label_allocation: Dedicaciones
+    label_by_project: Por proyecto
+    label_by_user: Por usuario
+    label_group_allocation: Personas del grupo
+    label_outside_allocation: Personas externas
+    label_person: Persona

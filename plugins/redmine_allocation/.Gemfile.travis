@@ -1,0 +1,14 @@
+# A sample Gemfile
+source "http://rubygems.org"
+
+gem "rake"
+gem "rails", "2.3.14"
+gem "i18n", "~>0.4.2"
+gem "coderay", "~>1.0.6"
+gem "fastercsv", "~> 1.5.0"
+gem "tzinfo", "~> 0.3.31"
+gem "net-ldap", "~> 0.3.1"
+gem "shoulda", "~>2.10.3"
+gem "edavis10-object_daddy", :require => "object_daddy"
+gem "mocha"
+gem "mysql"

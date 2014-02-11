@@ -1,0 +1,2 @@
+The main authors of this plugin are:
+ * José Manuel Prieto <jmprieto@emergya.com>

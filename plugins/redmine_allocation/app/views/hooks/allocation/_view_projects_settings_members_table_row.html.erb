@@ -1,0 +1,43 @@
+<%
+  if Redmine::VERSION::MAJOR > 1 or (Redmine::VERSION::MAJOR == 1 and Redmine::VERSION::MINOR >= 4)
+    url = membership_path(member)
+    method = :put
+  else
+    url = {:controller => 'members', :action => 'edit', :id => member}
+    method = :post
+  end
+%>
+<td>
+  <%= form_for(:allocation,
+                     :as => member,
+                     :url => url,
+                     :remote => true,
+                     :method => method) do |f| %>
+    <%= f.select :allocation, ((0..10).to_a.collect {|r| ["#{r*10} %", r*10] }), {:selected => member.allocation}, :id => "member-#{member.id}-allocation", :onchange => "submit_it(this);"%>
+  <% end %>
+</td>
+<td>
+  <%= form_for(:allocation,
+                     :as => member,
+                     :url => url,
+                     :remote => true,
+                     :method => method) do |f| %>
+    <%= f.text_field :from_date, :value => member.from_date, :size => 10, :id => "member-#{member.id}-from_date", :onchange => "submit_it(this);" %><%= calendar_for("member-#{member.id}-from_date") %>
+  <% end %>
+</td>
+<td>
+  <%= form_for(:allocation,
+              :as => member,
+              :url => url,
+              :remote => true,
+              :method => method) do |f| %>
+    <%= f.text_field :to_date, :value => member.to_date, :size => 10, :id => "member-#{member.id}-to_date", :onchange => "submit_it(this);"%><%= calendar_for("member-#{member.id}-to_date") %>
+  <% end %>
+</td>
+
+<script type="text/javascript">
+function submit_it(elem)
+{
+    $(elem).parents('form').submit();
+}
+</script>

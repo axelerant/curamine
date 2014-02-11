@@ -1,0 +1,7 @@
+<%- if User.current.allowed_to? :manage_members, @project -%>
+  <p>
+    <%= l(:"allocation.label_allocation") %>:
+    <%= link_to l(:"allocation.label_by_project"), allocation_by_project_path %> |
+    <%= link_to l(:"allocation.label_by_user"), allocation_by_user_path %>
+  </p>
+<%- end -%>

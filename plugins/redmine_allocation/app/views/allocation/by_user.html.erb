@@ -1,0 +1,37 @@
+<h2><%=l :"allocation.label_by_user" %></h2>
+
+<% @allocation.each do |header, allocation| %>
+
+  <table class="list" style="text-align:center">
+    <thead>
+      <tr>
+        <th><%=l :label_user %></th>
+        <%- @months.each do |month| -%>
+          <th><%=h month[:month_name] %></th>
+        <%- end -%>
+      </tr>
+    </thead>
+    <tbody>
+      <%- if allocation.empty? -%>
+        <tr>
+          <td colspan="13"><%=l :label_no_data %></td>
+        </tr>
+      <%- else -%>
+        <%- allocation.each do |user, user_allocation| -%>
+          <tr class="<%= cycle("odd", "even") %>">
+            <td><%=h user %></td>
+            <%- user_allocation.each do |month_allocation| %>
+              <td style="text-align:right"><%= percent month_allocation %></td>
+            <%- end -%>
+          </tr>
+        <%- end -%>
+      <%- end -%>
+    </tbody>
+  </table>
+<% end %>
+
+<% content_for :sidebar do %>
+  <%= render :partial => 'hooks/allocation/view_projects_show_sidebar_bottom' %>
+<% end %>
+
+<% html_title "#{h @project}: #{l :'allocation.by_project'}" %>

@@ -1,0 +1,57 @@
+== Redmine Allocation Plugin {<img src="https://secure.travis-ci.org/Emergya/redmine_allocation.png?branch=master" alt="Build Status" />}[http://travis-ci.org/Emergya/redmine_allocation]
+
+Allocation is a Redmine plugin to record and keep track of people's allocation
+to projects.
+
+== Features
+
+* Records allocation percent, assignment and unassignment dates when adding
+  members to projects.
+* Shows summary views of people's allocation.
+
+== Install
+
+1. Follow Redmine {plugin installation instructions}[http://www.redmine.org/projects/redmine/wiki/Plugins#Installing-a-plugin].
+2. In _Administration_, _plugins_ you may *optionally* configure the plugin.
+   You can setup a user and a project custom field wich designate groups or
+   teams. This is only used in the allocation by user view, to distinguish
+   between members of the team and outside collaborators and list them
+   separate.
+
+== Uninstall
+
+1. Follow Redmine {plugin uninstall instructions}[http://www.redmine.org/projects/redmine/wiki/Plugins#Uninstalling-a-plugin].
+
+== FAQ
+
+* Does the plugin control that no user is ever allocated at more than 100%?
+
+  No, not yet, at least. By now this is up to you. Patches welcome.
+
+* What if I don't set an assignment or unassignment date?
+
+  That is interpreted as since ever or forever.
+
+* Who is allowed to see the allocation summaries?
+
+  Every member of the project with the permission to manage members (and
+  administrators).
+
+* What are the custom fields in the settings page used for?
+
+  They are optional. They specify a group or team. They're only used to show
+  separately the _inside_ and _outside_ members in the allocation by user
+  summary.
+
+== License
+
+This program is free software; you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation; either version 2 of the License, or (at your option) any later
+version. See LICENSE.txt for details.
+
+== Contributing
+
+Just fork the repository[https://github.com/Emergya/redmine_allocation] and
+do a pull request. If you are going to do a major change that you would like
+to see accepted upstream you can contact me at jmprieto@emergya.com before.

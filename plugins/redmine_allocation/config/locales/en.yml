@@ -1,0 +1,20 @@
+# English strings go here
+en:
+  field_allocation: Allocation
+  field_from_date: Start date
+  field_to_date: Finish date
+
+  allocation:
+    plugin_name: User Allocation
+    plugin_description: Helps to track and see user allocation.
+
+    label_all_allocation: HHRR
+    label_allocation: Allocation
+    label_by_project: By project
+    label_by_user: By user
+    label_group_allocation: Group users
+    label_outside_allocation: Outside users
+    label_person: Person
+    by_project: Allocation by project
+    by_user: Allocation by user
+    
