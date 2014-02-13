@@ -12,7 +12,7 @@ RedmineApp::Application.routes.draw do
 
   get 'admin_process_models', :controller => 'admin_process_models', :action => 'index'
   get ':parent_type/:parent_id/show_subs', :controller => 'admin_process_models', :action => 'show_subs'
-  get ':type/new', :controller => 'admin_process_models', :action => 'new_elem'
+  get ':type/new', :controller => 'admin_process_models', :action => 'new_elem', :constraints => { :type => /Activity|ProcessModel|Action|PfTask/ }
   get ':type/:parent_id/new', :controller => 'admin_process_models', :action => 'new_elem'
   get ':type/:elem/show_details', :controller => 'admin_process_models', :action => 'show_details'
   put ':type/:elem/update_elem', :controller => 'admin_process_models', :action=>'update_elem'
