@@ -112,7 +112,7 @@ class Deal < ActiveRecord::Base
   end
 
   def expected_revenue
-    self.probability ? (self.probability.to_f / 100) * self.price : self.price
+    (self.probability and self.price) ? (self.probability.to_f / 100) * self.price : self.price
   end
 
   def full_name
