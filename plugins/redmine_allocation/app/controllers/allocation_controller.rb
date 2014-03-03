@@ -14,11 +14,24 @@ class AllocationController < ApplicationController
     @months = months
     user_group_field = Setting.plugin_redmine_allocation['users_custom_field']
     project_group_field = Setting.plugin_redmine_allocation['projects_custom_field']
+
     subproject_users = User.active.find :all,
                                         :select => "DISTINCT #{User.table_name}.*",
                                         :joins => { :members => :project },
                                         :include => :members,
                                         :conditions => @project.project_condition(true)
+    #filter based on custom setting
+    company_website_filter = Setting.plugin_redmine_allocation['filter_users_company_website']
+
+    if company_website_filter.present?
+      field = CustomField.find_by_name_and_type('Company Website', 'UserCustomField')
+
+      subproject_users.reject! do |user| 
+        cus_value = user.custom_value_for(field)
+        company_website_filter != cus_value.value
+      end if field.present?
+    end
+
     if user_group_field.present? and project_group_field.present?
       group = @project.custom_value_for(project_group_field)
       quoted_group = CustomValue.connection.quote group

@@ -7,7 +7,7 @@
       <tr>
         <th><%=l :label_user %></th>
         <%- @months.each do |month| -%>
-          <th><%=h month[:month_name] %></th>
+          <th><%=h month[:month_name] %> %</th>
         <%- end -%>
       </tr>
     </thead>
@@ -21,7 +21,7 @@
           <tr class="<%= cycle("odd", "even") %>">
             <td><%=h user %></td>
             <%- user_allocation.each do |month_allocation| %>
-              <td style="text-align:right"><%= percent month_allocation %></td>
+              <td style="text-align:center"><%= percent month_allocation %></td>
             <%- end -%>
           </tr>
         <%- end -%>
