@@ -1,6 +1,8 @@
 Redmine DMSF Plugin
 ===================
 
+The current version of Redmine DMSF is **1.4.7**
+
 Redmine DMSF is Document Management System Features plugin for Redmine issue tracking system; It is aimed to replace current Redmine's Documents module.
 
 Redmine DMSF now comes bundled with Webdav functionality: if switched on within plugin settings this will be accessible from /dmsf/webdav.
@@ -17,11 +19,6 @@ Redmine is a flexible project management web application, released under the ter
 Further information about the GPL license can be found at
 <http://www.gnu.org/licenses/old-licenses/gpl-2.0.html#SEC1>
 
-Redmine 1.5.0 development
--------------------------
-Although regular logs are not publicly updated - you can keep an eye on the 1.5.0 codebase or the changelog:
-https://github.com/danmunn/redmine_dmsf/blob/devel-1.5.0/CHANGELOG.md
-
 Features
 --------
 
@@ -32,7 +29,7 @@ Features
   * Multi (drag/drop depending on browser) upload/download
   * Multi download via zip
   * Direct document sending via email
-  * Simple document approval workflow
+  * Configurable document approval workflow
   * Document access auditing
   * Integration with Redmine's activity feed
   * Wiki macros for quick content linking
@@ -48,8 +45,7 @@ As of version 1.4.4 of this plugin:
   * Bundler 1.1 or greater (Gem)
   * Redmine 2.0.x 
   * Rails 3.2.x (Inline with Redmine installation requirement) 
-  * zip (Gem)
-  * Nokogiri 1.4.2 or greater (Gem)
+  * rubyzip 1.0.0 (Gem)
   * UUIDTools 2.1.1 or greater (less than 2.2.0) (Gem)
   * simple_enum (Gem)
 
@@ -151,19 +147,24 @@ Before installing ensure that the Redmine instance is stopped.
 5. Restart web server
 6. You should configure plugin via Redmine interface: Administration -> Plugins -> DMSF -> Configure
 7. Assign DMSF permissions to appropriate roles
+8. There are two rake tasks:
+    a) To convert documents from the standard Redmine document module
+       rake redmine:dmsf_convert_documents project=test RAILS_ENV="production"
+    b) To alert all users who are expected to do an approval in the current approval steps
+       rake redmine:dmsf_alert_approvals RAILS_ENV="production"
 
 ### Fulltext search (optional)
 If you want to use fulltext search features, you must setup file content indexing.
 
 It is necessary to index DMSF files with omega before searching attemts to recieve some output:
 
-    omindex -s english -l 1 -U / --db {path to index database from configuration} {path to storage from configuration}
+    omindex -s english --url / --db {path to index database from configuration} {path to storage from configuration}
 
 This command must be run on regular basis (e.g. from cron)
 
 Example of cron job (once per hour at 8th minute):
 
-    8 * * * * root /usr/bin/omindex -s english -l 1 -U / --db /opt/redmine/files/dmsf_index /opt/redmine/files/dmsf
+    8 * * * * root /usr/bin/omindex -s english --url / --db /vat/tmp/dmsf_index /opt/redmine/files/dmsf
 
 Use omindex -h for help.
 
@@ -172,7 +173,7 @@ Uninstalling DMSF
 Before uninstalling the DMSF plugin, please ensure that the Redmine instance is stopped.
 
 1. `cd [redmine-install-dir]`
-2. `rake redmine:plugin:migrate NAME=redmine_dmsf VERSION=0`
+2. `rake redmine:plugins:migrate NAME=redmine_dmsf VERSION=0 RAILS_ENV=production`
 3. `rm plugins/redmine_dmsf -Rf`
 
 After these steps re-start your instance of Redmine.

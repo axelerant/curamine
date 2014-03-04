@@ -1,7 +1,8 @@
 # Redmine plugin for Document Management System "Features"
 #
 # Copyright (C) 2011   Vít Jonáš <vit.jonas@gmail.com>
-# Copyright © 2012 Daniel Munn <dan.munn@munnster.co.uk>
+# Copyright (C) 2012   Daniel Munn <dan.munn@munnster.co.uk>
+# Copyright (C) 2013   Karel Pičman <karel.picman@kontron.com>
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -35,7 +36,7 @@ RedmineApp::Application.routes.draw do
   post '/projects/:id/dmsf/entries/email', :controller => 'dmsf', :action => 'entries_email'
   post '/projects/:id/dmsf/lock', :controller => 'dmsf', :action => 'lock'
   post '/projects/:id/dmsf/unlock', :controller => 'dmsf', :action => 'unlock'
-  get '/projects/:id/dmsf/', :controller => 'dmsf', :action => 'show'
+  get '/projects/:id/dmsf/', :controller => 'dmsf', :action => 'show', :as => 'dmsf'
   get '/projects/:id/dmsf/new', :controller => 'dmsf', :action => 'new'
   get '/projects/:id/dmsf/edit', :controller=> 'dmsf', :action => 'edit'
   get '/projects/:id/dmsf/edit/root', :controller=> 'dmsf', :action => 'edit_root'
@@ -73,6 +74,9 @@ RedmineApp::Application.routes.draw do
   # Just to keep backward compatibility of external url links
   get '/dmsf_files/:id', :controller => 'dmsf_files', :action => 'show'
 
+  # Just to keep backward compatibility with old external direct links
+  get '/dmsf_files/:id', :controller => 'dmsf_files', :action => 'show'
+
   #
   # files_copy controller
   #   /dmsf/files/<file id>/copy
@@ -97,4 +101,21 @@ RedmineApp::Application.routes.draw do
     :resource_class => RedmineDmsf::Webdav::ResourceProxy,
     :controller_class => RedmineDmsf::Webdav::Controller
   ), :at => "/dmsf/webdav"
+  
+  # Approval workflow    
+  resources :dmsf_workflows do
+    member do
+      get 'autocomplete_for_user'
+      get 'action'
+      get 'assign'
+      get 'log'
+      post 'new_action'
+      post 'start'
+      post 'assignment'
+    end
+  end
+  
+  match 'dmsf_workflows/:id/edit', :controller => 'dmsf_workflows', :action => 'add_step', :id => /\d+/, :via => :post
+  match 'dmsf_workflows/:id/edit', :controller => 'dmsf_workflows', :action => 'remove_step', :id => /\d+/, :via => :delete
+  match 'dmsf_workflows/:id/edit', :controller => 'dmsf_workflows', :action => 'reorder_steps', :id => /\d+/, :via => :put    
 end
