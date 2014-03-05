@@ -1,0 +1,28 @@
+# Russian strings go here for Rails i18n
+ru:
+  label_questions: 'Поддержка'
+  label_questions_search: 'Поиск вопросов и ответов ...'
+  label_questions_new: Новая тема
+  label_questions_message: Сообщение
+  label_questions_added_time: "Добавлена %{value} назад"
+  label_questions_related_messages: Связанные темы
+  label_questions_latest_messages: Последние сообщения
+  label_questions_views: '%{count} просмотров'
+  label_questions_votes: '%{count} голосов'
+  label_questions_answers: '%{count} ответов'
+  label_questions_tags: Тэги
+  label_questions_tagged_by: '%{count} тем с тэгом %{tag}'
+  label_questions_notice_message: Сообщение справа
+  label_questions_notice: Информация
+  label_questions_most_voted: Больше голосов
+
+  button_questions_vote: Голосовать
+  button_questions_unvote: Отменить голос
+  button_questions_like: Like
+  button_questions_unlike: Unlike
+
+  field_questions_tags: Тэги
+
+  permission_view_questions: View Help & Support
+  permission_edit_messages_tags: Edit tags
+  permission_edit_vote_messages: Vote messages

@@ -1,0 +1,30 @@
+<% if @topics && @topics.any? %>
+  <% unless params[:tag].blank? %>
+  <div class="title-bar">
+    <h4><%= l(:label_questions_tagged_by, :count => @topics.count, :tag => params[:tag]) %></h4>
+  </div>
+  <% end %>
+  <div id="topics_container">
+    <% @topics.each do |topic| %>
+      <div class="topic">
+        <h3 class="subject">
+          <%= link_to h(topic.subject), { :controller => 'messages', :action => 'show', :board_id => topic.board, :id => topic } %>
+        </h3>
+        <p><%= truncate(topic.content.gsub(/\r\n/, ' ').strip , :length => 100) %></p>
+        <ul class="meta">
+            <li class="votes icon icon-vote"><%= l(:label_questions_votes, :count => topic.count_votes_up - topic.count_votes_down ) %></li>
+            <li class="answers icon icon-comment"><%= l(:label_questions_answers, :count => topic.replies_count) %></li>
+        </ul>        
+      </div>
+    <% end %>
+
+  </div>
+  <% if @topic_pages %>
+    <% params[:controller] = 'questions' 
+       params[:action] = 'topics' 
+     %>
+    <p class="pagination"><%= pagination_links_full @topic_pages, @topic_count %></p>
+  <% end %>
+<% else %>
+<p class="nodata"><%= l(:label_no_data) %></p>
+<% end %>

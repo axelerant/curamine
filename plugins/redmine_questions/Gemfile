@@ -1,0 +1,2 @@
+gem 'acts_as_votable', '~> 0.4.0'
+gem "acts-as-taggable-on", "~> 2.3.1"

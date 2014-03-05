@@ -1,0 +1,236 @@
+#forum_list div.list-item {
+  margin-bottom: 10px;
+}
+
+#forum_list div.list-item .last-author {
+  font-size: 80%;
+  color: gray;
+}
+
+#forum_list div.list-item .last-author a {
+  color: gray;
+}
+
+#forum_list > ul > li {
+  float: left;
+  width: 44%;
+  padding: 0;
+  margin: 15px 3% 0 0;
+}
+
+#forum_list div.project-forums {
+  border-bottom: 1px solid #CCC;
+  padding-top: 20px;
+  clear: left;
+}
+
+#forum_list > ul {
+  list-style: none;
+  padding: 0px;
+  margin-top: 0px;
+}
+
+#forum_list > ul > li.even {
+  margin-right: 0;
+  width: 46%;
+}
+
+#forum_list > ul > li.odd {
+  clear: left;
+}
+
+#forum_list > ul > li.odd, #forum_list > ul > li.even {
+  background-color: inherit;
+}
+
+.topic {
+  padding: 10px 0 20px;
+}
+
+div.topic p {
+  margin: 5px 0;
+}
+
+div.topic h3.subject {
+  margin: 0px;
+}
+
+div.topic ul.meta {
+  margin: 0px;
+  padding: 0px;
+}
+
+div.topic  ul.meta li {
+  display: block;
+  float: left;
+  font-size: 11px;
+  color: #999;
+  margin-right: 8px;
+  list-style: none;
+}
+
+#topics_list div.title-bar h4 {
+  padding: 15px 0;
+  border-bottom: 1px dotted #bbb;
+}
+
+input.questions-search {
+  background: url(/images/magnifier.png) no-repeat 6px 50%;
+  border: 1px solid #D7D7D7;
+  background-color: white;
+  padding-left: 30px;
+  border-radius: 3px;
+  height: 1.5em;
+  width: 94%;
+  font-size: 16px;
+}
+
+input.questions-search.ajax-loading {
+  background-image: url(/images/loading.gif);
+}
+
+div.message.reply {
+  margin-bottom: 20px;
+}
+
+div.message.reply div.avatar {
+  position: absolute;
+}
+
+div.message.reply div.reply-details.use-avatar {
+  padding-left: 50px;
+}
+
+div.message.reply .author{
+  margin-bottom: 5px;
+}
+
+div.message.reply .wiki > p:first-child {
+  margin-top: 0px;
+}
+
+div.message.reply .contextual .icon.vote {
+  position: relative;
+  bottom: 5px;
+}
+
+div.message.details img.gravatar {
+  float: left;
+  margin-right: 5px;
+}
+
+div.message.details p.author {
+  margin-top: 15px;
+}
+
+div.message.details .wiki {
+  margin-top: 15px;
+  padding-top: 10px;
+  border-top: 1px dotted #BBB;
+}
+
+/* Question meta */
+
+#sidebar ul.question-meta, #sidebar ul.related-topics  {
+  list-style: none;
+  padding: 0px;
+}
+
+#sidebar ul.question-meta li {
+  margin-bottom: 10px;
+}
+
+#sidebar ul.related-topics li {
+  margin-bottom: 5px;
+}
+
+/* Tags cloud */
+
+#sidebar ul.questions-tags  {
+  list-style: none;
+  padding: 0px;
+}
+
+#sidebar ul.questions-tags li {
+  margin-bottom: 5px;
+}
+
+#sidebar ul.questions-tags  span.count {
+  color: gray; 
+}
+
+
+
+/**********************************************************************/
+/* TAGS
+/**********************************************************************/
+.message-tags-edit ul.tagit li.tagit-choice:hover, ul.tagit li.tagit-choice.remove {
+  background-color: #E5E5E5;
+  text-decoration: none;
+  color: black;
+}
+
+.message-tags-edit ul.tagit {
+  border: 1px solid #D7D7D7;
+  -moz-border-radius: 0px;
+  -webkit-border-radius: 0px;
+  -khtml-border-radius: 0px;
+  border-radius: 0px;
+  background: white;
+  padding: 0px;
+  margin-top: 0px;
+}
+
+.message-tags-edit ul.tagit li.tagit-choice {
+  font-weight: normal;
+  -moz-border-radius: 0px;
+  -webkit-border-radius: 0px;
+  border-radius: 0px;
+  font-size: 11px;
+  color: inherit;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  background-color: #F7F7F7;
+  margin: 1px;
+}
+
+.message-tags-edit ul.tagit li.tagit-choice {
+  font-weight: normal;
+  font-size: 11px;
+  color: inherit;
+}
+
+.message-tags-edit ul.tagit li.tagit-choice a.tagit-close {
+  text-decoration: none;
+}
+
+.message-tags-edit ul.tagit li.tagit-choice .tagit-close .text-icon {
+  display: inline;
+  line-height: 16px;
+}
+
+.message-tags-edit ul.tagit li.tagit-choice .ui-icon {
+  display: none;
+}
+
+.message-tags-edit ul.tagit li.tagit-new {
+  padding: 0px;
+}
+
+.message-tags-edit ul.tagit li.tagit-new input {
+  font-size: 11px;
+  background: white;
+  margin-bottom: 2px;
+  margin-left: 2px;
+  width: 200px;
+}
+
+/**********************************************************************/
+/* ICONS
+/**********************************************************************/
+
+.icon-vote { background-image:  url(../images/thumb_up.png); }    
+.icon-unvote { background-image:  url(../images/unvote.png); }    
+.icon-view { background-image:  url(../images/eye.png); }    
+.icon-calendar { background-image:  url(/images/calendar.png); }    
+.icon-tag { background-image:  url(../images/tag_blue.png); }    

@@ -1,0 +1,16 @@
+<%  
+  scope = Message.scoped({}) 
+  scope = scope.where("#{Message.table_name}.parent_id IS NULL")
+  scope = scope.where(["#{Board.table_name}.project_id = ?", @project.id]) if @project
+  scope = scope.where(["#{Message.table_name}.board_id = ?", @board.id]) if @board
+  scope = scope.where("#{Message.table_name}.cached_votes_up > 0")
+  @most_voted_topics = scope.visible.includes(:board).order("#{Message.table_name}.cached_votes_up DESC").limit(5)
+%>
+<h3><%= l(:label_questions_most_voted) %></h3>
+<ul class="related-topics">
+  <% @most_voted_topics.each do |topic| %>
+  <li class="related-topic">
+    <%= link_to h(topic.subject), { :controller => 'messages', :action => 'show', :board_id => topic.board, :id => topic } %>
+  </li>
+  <% end unless @most_voted_topics.blank? %>
+</ul>

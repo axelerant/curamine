@@ -1,0 +1,35 @@
+<% 
+    limit = 30
+
+    scope = ActsAsTaggableOn::Tag.scoped({})
+    scope = scope.scoped(:conditions => ["#{Project.table_name}.id = ?", @project]) if @project
+    scope = scope.scoped(:conditions => [Project.allowed_to_condition(User.current, :view_messages)]) 
+                                                                     
+    joins = []
+    joins << "JOIN #{ActsAsTaggableOn::Tagging.table_name} ON #{ActsAsTaggableOn::Tagging.table_name}.tag_id = #{ActsAsTaggableOn::Tag.table_name}.id "
+    joins << "JOIN #{Message.table_name} ON #{Message.table_name}.id = #{ActsAsTaggableOn::Tagging.table_name}.taggable_id AND #{ActsAsTaggableOn::Tagging.table_name}.taggable_type =  '#{Message.name}' " 
+    joins << "JOIN #{Board.table_name} ON #{Board.table_name}.id = #{Message.table_name}.board_id" 
+    joins << "JOIN #{Project.table_name} ON #{Project.table_name}.id = #{Board.table_name}.project_id" 
+    
+    options = {}
+    options[:select] = "#{ActsAsTaggableOn::Tag.table_name}.*, COUNT(DISTINCT #{ActsAsTaggableOn::Tagging.table_name}.taggable_id) AS count"
+    options[:joins] = joins.flatten   
+    group_fields = ""
+    group_fields << ", #{ActsAsTaggableOn::Tag.table_name}.created_at" if ActsAsTaggableOn::Tag.respond_to?(:created_at)
+    group_fields << ", #{ActsAsTaggableOn::Tag.table_name}.updated_at" if ActsAsTaggableOn::Tag.respond_to?(:updated_at)
+    options[:group] = "#{ActsAsTaggableOn::Tag.table_name}.id, #{ActsAsTaggableOn::Tag.table_name}.name #{group_fields} HAVING COUNT(*) > 0"
+    options[:order] = "#{ActsAsTaggableOn::Tag.table_name}.name"
+    options[:limit] = limit if limit
+         
+    @available_tags = scope.find(:all, options) 
+ %>
+
+<h3><%= l(:label_questions_tags) %></h3>
+<ul class="questions-tags">
+    <% @available_tags.each do |tag| %>
+    <li>
+      <%= link_to tag, {:controller => "questions", :action => "topics", :project_id => @project, :tag => tag.name} %>
+      <span class="count"><%= tag.count %></span>
+    </li>
+    <% end if @available_tags %>
+</ul>  

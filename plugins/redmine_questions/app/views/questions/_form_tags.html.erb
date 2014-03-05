@@ -1,0 +1,23 @@
+<script type="text/javascript">
+  $(function(){
+      <% available_tags = ActsAsTaggableOn::Tag.joins(:taggings).joins("INNER JOIN messages ON taggings.taggable_id = messages.id AND taggings.taggable_type = 'Message'").joins("INNER JOIN boards ON messages.board_id = boards.id").where(["boards.project_id = ?", @project]) %>
+      var currentTags = ['<%= available_tags.map(&:name).join("\',\'").html_safe %>'];
+
+      $('#allowSpacesTags').tagit({
+          availableTags: currentTags,
+          allowSpaces: true,
+          caseSensitive: false,
+          removeConfirmation: true
+      });
+  });
+</script>
+
+<span class="message-tags-edit"> 
+   <%= text_field_tag 'message[tag_list]', "#{@message.tags.map(&:name).join(',').html_safe}", :size => 10, :class => 'hol', :id => "allowSpacesTags" %>
+</span> 
+
+
+<% content_for :header_tags do %>
+  <%= javascript_include_tag :"tag-it", :plugin => 'redmine_questions'  %>
+  <%= stylesheet_link_tag :"jquery.tagit.css", :plugin => 'redmine_questions' %>
+<% end %>

@@ -1,0 +1,31 @@
+
+<% if @board %>
+  <%= board_breadcrumb(@board) %>
+  <div class="board details">
+  <h2><%=h @board.name %></h2>
+  <p class="subtitle"><%=h @board.description %></p>
+<% else %>
+  <h2><%= l(:label_questions) %></h2>
+<% end %>
+
+  <div class="filters">   
+    <%= form_tag({:controller => "questions", :action => "topics"}, :method => :get,  :id => "query_form") do %> 
+      <%= hidden_field_tag('project_id', @project.to_param) if @project %>   
+      <%= hidden_field_tag('board_id', @board.to_param) if @board %>   
+      <%= text_field_tag(:topic_search, params[:topic_search], :autocomplete => "off", :class => "questions-search", :placeholder => l(:label_questions_search) ) %>    
+      <%= javascript_tag "observeSearchfield('topic_search', 'topics_list', '#{ escape_javascript(autocomplete_for_topic_questions_path(:project_id => @project, :board_id => @board)) }')" %>                                     
+
+    <% end %>  
+
+  </div>
+<% if @board %>  
+</div>
+<% end %>
+
+<div id="topics_list" >
+  <%= render :partial => "questions/topic_list" %>
+</div>
+
+<% content_for :sidebar do %>  
+  <%= render :partial => "questions/latest_topics" %>
+<% end %>

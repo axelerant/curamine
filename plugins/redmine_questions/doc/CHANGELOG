@@ -1,0 +1,15 @@
+== Redmine Q&A plugin changelog
+
+Redmine Q&A plugin
+Copyright (C) 2011-2013 Kirill Bezrukov
+http://www.redminecrm.com/
+
+== 2013-05-28 v0.0.5
+
+* Redmine 2.3 support
+* Search by all words
+
+== 2013-01-20 v0.0.3
+
+* Redmine 2.2.0 support
+* License files

@@ -1,0 +1,14 @@
+<%  
+  scope = Message.scoped({}) 
+  scope = scope.where("#{Message.table_name}.parent_id IS NULL")
+  scope = scope.where(["#{Board.table_name}.project_id = ?", @project.id]) if @project
+  @latest_topics = scope.visible.includes(:board).order("#{Message.table_name}.created_on DESC").limit(5)
+%>
+<h3><%= l(:label_questions_latest_messages) %></h3>
+<ul class="related-topics">
+  <% @latest_topics.each do |topic| %>
+  <li class="related-topic">
+    <%= link_to h(topic.subject), { :controller => 'messages', :action => 'show', :board_id => topic.board, :id => topic } %>
+  </li>
+  <% end unless @latest_topics.blank? %>
+</ul>

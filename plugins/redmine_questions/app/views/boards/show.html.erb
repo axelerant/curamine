@@ -1,0 +1,63 @@
+<%= board_breadcrumb(@board) %>
+
+<div class="board details">
+<div class="contextual">
+<%= link_to_if_authorized l(:label_message_new),
+                          {:controller => 'messages', :action => 'new', :board_id => @board},
+                          :class => 'icon icon-add',
+                          :onclick => 'showAndScrollTo("add-message", "message_subject"); return false;' %>
+<%= watcher_tag(@board, User.current) %>
+</div>
+
+<div id="add-message" style="display:none;">
+<% if authorize_for('messages', 'new') %>
+<h2><%= link_to h(@board.name), :controller => 'boards', :action => 'show', :project_id => @project, :id => @board %> &#187; <%= l(:label_message_new) %></h2>
+<%= form_for @message, :url => {:controller => 'messages', :action => 'new', :board_id => @board}, :html => {:multipart => true, :id => 'message-form'} do |f| %>
+  <%= render :partial => 'messages/form', :locals => {:f => f} %>
+  <p><%= submit_tag l(:button_create) %>
+  <%= preview_link({:controller => 'messages', :action => 'preview', :board_id => @board}, 'message-form') %> |
+  <%= link_to l(:button_cancel), "#", :onclick => '$("#add-message").hide(); return false;' %></p>
+<% end %>
+<div id="preview" class="wiki"></div>
+<% end %>
+</div>
+
+<h2><%=h @board.name %></h2>
+<p class="subtitle"><%=h @board.description %></p>
+
+<div class="filters">   
+  <%= form_tag({:controller => "questions", :action => "topics" }, :method => :get,  :id => "query_form") do %> 
+    <%= hidden_field_tag('project_id', @project.to_param) if @project %>   
+    <%= hidden_field_tag('board_id', @board.to_param) if @board %>   
+    <% no_filters = true %> 
+
+    <%= text_field_tag(:topic_search, params[:topic_search], :autocomplete => "off", :class => "questions-search", :placeholder => l(:label_questions_search) ) %>    
+    <%= javascript_tag "observeSearchfield('topic_search', 'topics_list', '#{ escape_javascript(autocomplete_for_topic_questions_path(:project_id => @project, :board_id => @board)) }')" %>    
+                                                         
+  <% end %>  
+
+</div>
+
+</div>
+
+<div id="topics_list" >
+<%= render :partial => "questions/topic_list" %>
+</div>
+
+<% other_formats_links do |f| %>
+  <%= f.link_to 'Atom', :url => {:key => User.current.rss_key} %>
+<% end %>
+
+
+<% content_for :sidebar do %>
+  <%= render :partial => "questions/notice" %>
+  <%= render :partial => "questions/tag_cloud" %>  
+  <%= render :partial => "questions/voted_topics" %>
+<% end %>
+
+<% html_title @board.name %>
+
+<% content_for :header_tags do %>
+    <%= auto_discovery_link_tag(:atom, {:format => 'atom', :key => User.current.rss_key}, :title => "#{@project}: #{@board}") %>
+  <%= javascript_include_tag :questions, :plugin => 'redmine_questions'  %>
+<% end %>

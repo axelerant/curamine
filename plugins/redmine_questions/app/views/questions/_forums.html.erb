@@ -1,0 +1,66 @@
+<h2><%= l(:label_questions) %></h2>
+
+<div class="filters">   
+  <%= form_tag({:controller => "questions", :action => "topics"}, :method => :get,  :id => "query_form") do %> 
+    <%= hidden_field_tag('project_id', @project.to_param) if @project %>   
+    <%= text_field_tag(:topic_search, params[:topic_search] , :autocomplete => "off", :class => "questions-search", :placeholder => l(:label_questions_search) ) %>    
+    <%= javascript_tag "observeSearchfield('topic_search', 'forum_list', '#{ escape_javascript(autocomplete_for_topic_questions_path(:project_id => @project, :board_id => @board)) }')" %>                                     
+
+  <% end %>  
+
+</div>
+
+<div id="forum_list"> 
+  <% previous_group = false %>   
+  <% boards = @project ? @boards : @boards.select{|b| b.topics_count > 0} %> 
+  <% if @project %>
+    <ul>
+  <% end %>
+  <% boards.each do |board| %>
+    <% if @project.blank? && (group = board.project) != previous_group %>
+      <% reset_cycle %>
+      </ul>
+      <div class="project-forums">
+      <h3><%= group.blank? ? 'None' : group.name %><%= link_to " \xc2\xbb", project_boards_path(:project_id => group) %></h3>
+      </div>
+      <ul>
+      <% previous_group = group %>
+    <% end %>
+
+      <li class="<%= cycle('odd', 'even') %> ">
+        <h3>
+          <%= link_to h(board.name), {:controller => "boards", :action => 'show', :id => board, :project_id => board.project_id}, :class => "board"  %>
+          <span class="topic-count"><%= "(#{board.topics_count})" %></span>
+        </h3>
+        <div class="topic-list">
+          <%  board.topics.sort_by{|m| [m.sticky, m.updated_on] }.reverse.first(5).each do |topic| %>
+          <div class="list-item">
+            <span class="topic-subject">
+              <%= link_to h(topic.subject), { :controller => 'messages', :action => 'show', :board_id => board, :id => topic } %>
+            </span><br>
+            <span class="last-author">
+            <% last_update = [topic.last_reply ? topic.last_reply.updated_on : topic.created_on, topic.updated_on].max %>
+            <% last_author = (topic.last_reply && topic.last_reply.updated_on) ? topic.last_reply.author : topic.author %>
+
+              <%= authoring last_update, last_author, :label => :label_updated_time_by %><br />
+
+            </span>
+          </div>
+          <% end %>
+        </div>
+      </li>
+  <% end %>
+  </ul>
+</div>
+
+<% content_for :sidebar do %>  
+  <%= render :partial => "questions/notice" %>
+  <%= render :partial => "questions/tag_cloud" %>  
+  <%= render :partial => "questions/latest_topics" %>
+  <%= render :partial => "questions/voted_topics" %>
+<% end %>
+
+<% content_for :header_tags do %>
+  <%= javascript_include_tag :questions, :plugin => 'redmine_questions'  %>
+<% end %>
+

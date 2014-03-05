@@ -1,0 +1,4 @@
+<% unless Setting.plugin_redmine_questions[:notice_message].blank? %>
+  <h3><%= l(:label_questions_notice) %></h3>
+  <div class="wiki"><%= textilizable(Setting.plugin_redmine_questions[:notice_message]) %></div>
+<% end %>
