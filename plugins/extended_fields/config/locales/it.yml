@@ -1,0 +1,30 @@
+it:
+  label_wiki_text: Wiki text
+  label_link: Link
+
+  field_is_for_new: In registrazione
+  field_hint: Suggerimento
+
+  label_full_name: Nome Completo
+  label_latest_version: Ultima versione
+  label_next_version: Prossimaversione
+  label_tracker_column: "%{tracker} Segnalazioni"
+  label_open_tracker_column: Apri %{tracker} segnalazioni
+  label_priority_column: "%{priority} segnalazioni"
+  label_open_priority_column: Open %{priority} segnalazioni
+  label_issue_status_column: "%{status} segnalazioni"
+  label_last_activity: Ultima attività
+  label_maximum_downloads: Massimo num. di downloads
+  label_latest_downloads: Ultimi downloads
+  label_repository_type: Tipo di Repository
+  label_latest_files: Files Più recenti
+  label_project_module: "%{module} modulo"
+  label_total_issues: Totale segnalazioni
+  label_total_open_issues: Totale segnalazioni aperte
+  label_assigned_issues: Segnalazioni assegnate
+  label_assigned_open_issues: Segnalazioni aperte e assegnate
+  label_repository_files: Repository files
+  label_forum_messages: Messaggi del Forum 
+
+  description_available_columns: Colonne disponibili
+  description_selected_columns: Colonne selezionate

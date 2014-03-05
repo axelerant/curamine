@@ -4,35 +4,56 @@ module ExtendedFieldsHelper
         filename = custom_field.name.gsub(%r{[^a-z0-9_]+}i, '_').downcase
         filename.gsub!(%r{(^_+|_+$)}, '')
 
-        unless filename.empty?
-            format_extension = ''
-            # Redmine 2.x.x
-            if respond_to?(:formats)
-                format_extension = ".#{formats.first}"
+        format_extension = ''
+        # Redmine 2.x.x
+        if respond_to?(:formats)
+            format_extension = ".#{formats.first}"
+        # Redmine 1.x.x
+        elsif request && request.respond_to?(:template_format)
+            format_extension = ".#{request.template_format}"
+        # Mailer
+        elsif controller
             # Redmine 1.x.x
-            elsif request && request.respond_to?(:template_format)
-                format_extension = ".#{request.template_format}"
-            # Mailer
-            elsif controller
-                # Redmine 1.x.x
-                if controller.respond_to?(:template)
-                    format_extension = ".#{controller.template.template_format}"
-                # Redmine 2.x.x
-                elsif controller.respond_to?(:lookup_context)
-                    format_extension = ".#{controller.lookup_context.formats.first}"
-                end
+            if controller.respond_to?(:template)
+                format_extension = ".#{controller.template.template_format}"
+            # Redmine 2.x.x
+            elsif controller.respond_to?(:lookup_context)
+                format_extension = ".#{controller.lookup_context.formats.first}"
             end
+        end
 
+        unless filename.empty?
             self.view_paths.each do |load_path|
                 if template = load_path["custom_values/#{custom_field.field_format}/_#{filename}#{format_extension}"]
                     return "custom_values/#{custom_field.field_format}/#{filename}"
                 end
             end
+        end
 
+        self.view_paths.each do |load_path|
+            if template = load_path["custom_values/common/_#{custom_field.field_format}#{format_extension}"]
+                return "custom_values/common/#{custom_field.field_format}"
+            end
+        end
+
+        nil
+    end
+
+    def find_custom_field_edit_template(custom_field)
+        filename = custom_field.name.gsub(%r{[^a-z0-9_]+}i, '_').downcase
+        filename.gsub!(%r{(^_+|_+$)}, '')
+
+        unless filename.empty?
             self.view_paths.each do |load_path|
-                if template = load_path["custom_values/common/_#{custom_field.field_format}#{format_extension}"]
-                    return "custom_values/common/#{custom_field.field_format}"
+                if template = load_path["custom_edits/#{custom_field.field_format}/_#{filename}.html"]
+                    return "custom_edits/#{custom_field.field_format}/#{filename}"
                 end
+            end
+        end
+
+        self.view_paths.each do |load_path|
+            if template = load_path["custom_edits/common/_#{custom_field.field_format}.html"]
+                return "custom_edits/common/#{custom_field.field_format}"
             end
         end
 

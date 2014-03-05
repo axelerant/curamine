@@ -4,3 +4,27 @@ fr:
 
   field_is_for_new: A l'enregistrement
   field_hint: Indication
+
+  label_full_name: Nom complet
+  label_latest_version: Dernière version
+  label_next_version: Prochaine version
+  label_tracker_column: "%{tracker} demandes"
+  label_open_tracker_column: Open %{tracker} demandes
+  label_priority_column: "%{priority} demandes"
+  label_open_priority_column: Open %{priority} demandes
+  label_issue_status_column: "%{status} demandes"
+  label_last_activity: Dernière activité
+  label_maximum_downloads: Téléchargements maximum
+  label_latest_downloads: Deniers téléchargements
+  label_repository_type: Type de dépôt
+  label_latest_files: Deniers fichiers
+  label_project_module: "%{module} module"
+  label_total_issues: Total de demandes
+  label_total_open_issues: Total de demandes ouvertes
+  label_assigned_issues: Demandes assignées
+  label_assigned_open_issues: Demandes ouvertes assignées
+  label_repository_files: Fichiers de dépot
+  label_forum_messages: Messages de forum
+
+  description_available_columns: Colonnes disponibles
+  description_selected_columns: Colonnes sélectionnées

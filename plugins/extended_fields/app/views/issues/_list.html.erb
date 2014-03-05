@@ -19,7 +19,9 @@
                               :onclick => "toggleIssuesSelection(#{this_form}); return false;",
                               :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}" %>
       </th>
-      <!-- <%= sort_header_tag('id', :caption => '#', :default_order => 'desc') %> -->
+      <% if Redmine::VERSION::MAJOR < 2 || Redmine::VERSION::MINOR < 3 || defined?(ChiliProject) %>
+      <%= sort_header_tag('id', :caption => '#', :default_order => 'desc') %>
+      <% end %>
       <% inline_columns.each do |column| %>
         <%= column_header(column) %>
       <% end %>
@@ -43,7 +45,9 @@
   <% end %>
   <tr id="issue-<%= issue.id %>" class="hascontextmenu <%= cycle('odd', 'even') %> <%= issue.css_classes %> <%= level > 0 ? "idnt idnt-#{level}" : nil %>">
     <td class="checkbox hide-when-print"><%= check_box_tag("ids[]", issue.id, false, :id => nil) %></td>
-    <!-- <td class="id"><%= link_to issue.id, :controller => 'issues', :action => 'show', :id => issue %></td> -->
+    <% if Redmine::VERSION::MAJOR < 2 || Redmine::VERSION::MINOR < 3 || defined?(ChiliProject) %>
+    <td class="id"><%= link_to issue.to_param, :controller => 'issues', :action => 'show', :id => issue %></td>
+    <% end %>
     <% inline_columns.each do |column| %><%= content_tag 'td', column_content(column, issue), :class => column.respond_to?(:css_classes) ? column.css_classes : column.name %><% end %>
   </tr>
   <% if @query.respond_to?(:block_columns) %>

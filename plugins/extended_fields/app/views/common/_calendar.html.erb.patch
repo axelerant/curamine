@@ -1,0 +1,32 @@
+--- /usr/share/redmine/app/views/common/_calendar.html.erb	2012-06-18 23:23:44.000000000 +0300
++++ app/views/common/_calendar.html.erb	2013-09-08 00:40:01.627606290 +0300
+@@ -16,6 +16,29 @@
+   <%= link_to_issue i, :truncate => 30 %>
+   <span class="tip"><%= render_issue_tooltip i %></span>
+   </div>
++  <% elsif i.is_a? CustomValue %>
++    <% if i.customized.is_a? Issue %>
++      <div class="<%= i.customized.css_classes %> tooltip">
++        <span class="icon icon-time">
++          <%= h(i.custom_field.name) %>:
++          <%= h("#{i.customized.project} -") unless @project && @project == i.customized.project %>
++          <%= link_to_issue(i.customized, :subject => false) %>
++        </span>
++        <span class="tip"><%= render_issue_tooltip(i.customized) %></span>
++      </div>
++    <% elsif i.customized.is_a? Project %>
++      <span class="icon icon-time">
++        <%= h(i.custom_field.name) %><% unless @project && @project == i.customized %>:
++          <%= link_to_project(i.customized) %>
++        <% end %>
++      </span>
++    <% else %>
++      <span class="icon icon-time">
++        <%= h(i.custom_field.name) %>:
++        <%= h("#{i.customized.project} -") unless @project && @project == i.customized.project %>
++        <%= link_to_version(i.customized) %>
++      </span>
++    <% end %>
+   <% else %>
+   <span class="icon icon-package">
+     <%= h("#{i.project} -") unless @project && @project == i.project %>

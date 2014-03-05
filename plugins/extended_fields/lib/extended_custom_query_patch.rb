@@ -3,18 +3,16 @@ require_dependency 'query'
 module ExtendedCustomQueryPatch
 
     def self.included(base)
-        if Redmine::VERSION::MAJOR < 2 || (Redmine::VERSION::MAJOR == 2 && Redmine::VERSION::MINOR == 0)
+        if Redmine::VERSION::MAJOR < 2 || (Redmine::VERSION::MAJOR == 2 && Redmine::VERSION::MINOR == 0) || defined?(ChiliProject)
             base.send(:include, Redmine1InstanceMethods)
         else
             base.send(:include, Redmine2InstanceMethods)
         end
-        #base.send(:include, CommonInstanceMethods)
 
         base.class_eval do
             unloadable
 
             alias_method_chain :add_custom_fields_filters, :extended
-            #alias_method_chain :versions, :extended
         end
     end
 
@@ -51,22 +49,12 @@ module ExtendedCustomQueryPatch
                     options = { :type => :list_optional, :values => field.possible_values_options, :order => 20 }
                 end
 
-                options.merge!({:format => field.field_format}) if options && Redmine::VERSION::MAJOR == 2
+                options.merge!({:format => field.field_format}) if options && Redmine::VERSION::MAJOR == 2 && !defined?(ChiliProject)
 
                 @available_filters["cf_#{field.id}"] = options.merge({ :name => field.name }) if options
             end
         end
 
     end
-
-    #module CommonInstanceMethods
-
-        #def versions_with_extended(options = {})
-            #options => {:conditions=>["effective_date BETWEEN ? AND ?", Sun, 30 Dec 2012, Sat, 02 Feb 2013]}
-            #ExtendedDateField.find(options[:conditions][1], options[:conditions][2]) #Date
-        #    versions_without_extended(options)
-        #end
-
-    #end
 
 end

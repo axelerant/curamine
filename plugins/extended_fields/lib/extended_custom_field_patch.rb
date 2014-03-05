@@ -3,15 +3,22 @@ require_dependency 'custom_field'
 module ExtendedCustomFieldPatch
 
     def self.included(base)
+        base.send(:include, AliasCastValueMethod)
         if base.method_defined?(:possible_values_options)
             base.send(:include, AliasPossibleValuesOptionsMethod)
             base.class_eval do
                 unloadable
 
                 alias_method_chain :possible_values_options, :extended
+                alias_method_chain :cast_value,              :extended
             end
         else
             base.send(:include, OverridePossibleValuesMethod)
+            base.class_eval do
+                unloadable
+
+                alias_method_chain :cast_value, :extended
+            end
         end
     end
 
@@ -45,6 +52,25 @@ module ExtendedCustomFieldPatch
         end
 
         alias_method :possible_values_options, :possible_values
+
+    end
+
+    module AliasCastValueMethod
+
+        def cast_value_with_extended(value)
+            case field_format
+            when 'wiki', 'link'
+                value.blank? ? nil : value
+            when 'project'
+                unless value.blank?
+                    Project.find_by_id(value)
+                else
+                    nil
+                end
+            else
+                cast_value_without_extended(value)
+            end
+        end
 
     end
 

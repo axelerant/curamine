@@ -1,4 +1,4 @@
-<% projects = Project.all_public.active(:order => 'name').collect{ |project| [ project.name, project.id ] } %>
+<% projects = Project.all_public.active.sort_by(&:name).collect{ |project| [ project.name, project.id ] } %>
 
 <% unless defined? observe_field %>
 
@@ -27,7 +27,7 @@
 <% unless defined? observe_field %>
   <%= javascript_tag('$("#custom_field_multiple").parent().hide()') if custom_field.field_format == 'project' %>
 
-  <% if Redmine::VERSION::MAJOR > 1 && Redmine::VERSION::MINOR > 1 %>
+  <% if Redmine::VERSION::MAJOR > 1 && Redmine::VERSION::MINOR > 1 && !defined?(ChiliProject) %>
     <%= javascript_tag('toggle_extended_field_format();') %>
   <% end %>
 

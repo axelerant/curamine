@@ -14,13 +14,18 @@ module ExtendedQueriesHelperPatch
     module InstanceMethods
 
         def column_content_with_extended(column, issue)
-            value = column.value(issue)
+            if column.is_a?(QueryCustomFieldColumn)
+                value = issue.custom_field_values.detect{ |value| value.custom_field_id == column.custom_field.id }
 
-            case value.class.name
-            when 'CustomValue'
                 h(show_value(value))
             else
-                column_content_without_extended(column, issue)
+                value = column.value(issue)
+
+                if value.is_a?(CustomValue)
+                    h(show_value(value))
+                else
+                    column_content_without_extended(column, issue)
+                end
             end
         end
 

@@ -30,7 +30,11 @@ module ExtendedFieldsHelperPatch
                                                          :request      => request,
                                                          :custom_field => custom_value }))
                 else
-                    Redmine::CustomFieldFormat.format_value(custom_value.value, custom_value.custom_field.field_format)
+                    if respond_to?(:format_value)
+                        format_value(custom_value.value, custom_value.custom_field.field_format)
+                    else # Redmine < 2.2.x
+                        Redmine::CustomFieldFormat.format_value(custom_value.value, custom_value.custom_field.field_format)
+                    end
                 end
             end
         end
@@ -62,6 +66,18 @@ module ExtendedFieldsHelperPatch
                 tag << content_tag(:em, h(custom_field.hint))
             end
 
+            template = find_custom_field_edit_template(custom_field)
+            if template
+                tag << render(:partial => template,
+                              :locals  => { :controller   => controller,
+                                            :project      => @project,
+                                            :request      => request,
+                                            :custom_field => custom_value,
+                                            :name         => name,
+                                            :field_name   => field_name,
+                                            :field_id     => field_id })
+            end
+
             tag
         end
 
@@ -86,6 +102,18 @@ module ExtendedFieldsHelperPatch
             unless custom_field.hint.blank?
                 tag << tag(:br)
                 tag << content_tag(:em, h(custom_field.hint))
+            end
+
+            template = find_custom_field_edit_template(custom_field)
+            if template
+                tag << render(:partial => template,
+                              :locals  => { :controller   => controller,
+                                            :project      => @project,
+                                            :request      => request,
+                                            :custom_field => custom_value,
+                                            :name         => name,
+                                            :field_name   => field_name,
+                                            :field_id     => field_id })
             end
 
             tag

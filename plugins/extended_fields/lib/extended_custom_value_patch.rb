@@ -25,6 +25,14 @@ module ExtendedCustomValuePatch
             to_s == x.to_s
         end
 
+        def start_date
+            nil
+        end
+
+        def due_date
+            value.to_date rescue nil
+        end
+
     end
 
 end

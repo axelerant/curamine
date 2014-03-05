@@ -1,0 +1,30 @@
+sv:
+  label_wiki_text: Wiki text
+  label_link: Link
+
+  field_is_for_new: Vid registrering
+  field_hint: Hint
+
+  label_full_name: Hela namnet
+  label_latest_version: Senaste version
+  label_next_version: Nästa version
+  label_tracker_column: "%{tracker} ärende"
+  label_open_tracker_column: Öppna  ärende
+  label_priority_column: "{priority} ärende"
+  label_open_priority_column: Öppna  ärende
+  label_issue_status_column: "{status} ärende"
+  label_last_activity: Senaste aktivitet
+  label_maximum_downloads: Max nerladningar
+  label_latest_downloads: Senast nerladdat
+  label_repository_type: Arkiv typ
+  label_latest_files: Senaste filer
+  label_project_module: "%{module} module"
+  label_total_issues: Ärenden totalt
+  label_total_open_issues: Öppna ärende totalt
+  label_assigned_issues: Tilldelade ärenden
+  label_assigned_open_issues: Tilldelade öppna ärende
+  label_repository_files: Arkiv filer
+  label_forum_messages: Forum meddelande
+
+  description_available_columns: Tillgängliga kolumner
+  description_selected_columns: Valda kolumner
