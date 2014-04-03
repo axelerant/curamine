@@ -1,0 +1,89 @@
+<% if User.current.allowed_to?(:edit_issues, @project) %>
+  <script type="text/javascript">
+    new AgileBoard().init({
+      update_agile_board_path: '<%= escape_javascript update_agile_board_path %>',
+      issues_path: '<%= escape_javascript issues_path %>',
+      load_more_issues: '<%= escape_javascript load_more_issues_path %>'
+    });
+  </script>
+<% end %>
+
+
+<div class="contextual">
+<% if !@query.new_record? && @query.editable_by?(User.current) %>
+  <%= link_to l(:button_edit), edit_query_path(@query), :class => 'icon icon-edit' %>
+  <%= delete_link query_path(@query) %>
+<% end %>
+</div>
+
+<h2><%= @query.new_record? ? l(:label_agile_board) : h(@query.name) %></h2>
+<% html_title(@query.new_record? ? l(:label_agile_board) : @query.name) %>
+
+<%= form_tag({ :controller => 'agile_board', :action => 'index', :project_id => @project },
+            :method => :get, :id => 'query_form') do %>
+  <div id="query_form_with_buttons" class="hide-when-print">
+    <%= hidden_field_tag 'set_filter', '1' %>
+    <div id="query_form_content">
+    <fieldset id="filters" class="collapsible <%= @query.new_record? ? "" : "collapsed" %>">
+      <legend onclick="toggleFieldset(this);"><%= l(:label_filter_plural) %></legend>
+      <div style="<%= @query.new_record? ? "" : "display: none;" %>">
+        <%= render :partial => 'queries/filters', :locals => {:query => @query} %>
+      </div>
+    </fieldset>
+    <fieldset class="collapsible collapsed">
+      <legend onclick="toggleFieldset(this);"><%= l(:label_options) %></legend>
+      <div style="display: none;">
+        <table>
+          <tr>
+            <td><%= l(:button_show) %></td>
+            <td>
+              <label for="show_description" class="inline">
+                <%= check_box_tag('show_description', 1, params[:show_description]) %>
+                <%= l(:field_description) %>
+              </label>
+              <label for="show_thumbnails" class="inline">
+                <%= check_box_tag('show_thumbnails', 1,  params[:show_thumbnails]) %>
+                <%= l(:label_agile_board_thumbnails) %>
+              </label>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </fieldset>
+    </div>
+    <p class="buttons">
+    <%= link_to_function l(:button_apply), 'submit_query_form("query_form")', :class => 'icon icon-checked' %>
+    <%= link_to l(:button_clear), { :set_filter => 1, :project_id => @project }, :class => 'icon icon-reload'  %>
+    <% if @query.new_record? && User.current.allowed_to?(:save_queries, @project, :global => true) %>
+        <%= link_to_function l(:button_save),
+                             "$('#query_form').attr('action', '#{ @project ? new_project_query_path(@project) : new_query_path }'); submit_query_form('query_form')",
+                             :class => 'icon icon-save' %>
+    <% end %>
+    </p>
+  </div>
+<% end %>
+
+<%= error_messages_for 'query' %>
+<% if @query.valid? %>
+  <% if @issues.empty? %>
+    <p class="nodata"><%= l(:label_no_data) %></p>
+  <% else %>
+    <%= render 'board' %>
+  <% end %>
+<% end %>
+
+<% content_for :sidebar do %>
+  <% if @project && @project.users.any? %>
+    <%= render 'members' %>
+  <% end %>
+  <%= render :partial => 'board_sidebar' %>
+
+<% end %>
+
+<% html_title l(:label_agile_board) %>
+
+<% content_for :header_tags do %>
+  <%= javascript_include_tag 'select_list_move' %>
+  <%= javascript_include_tag :redmine_agile, :plugin => 'redmine_agile' %>
+  <%= stylesheet_link_tag :redmine_agile, :plugin => 'redmine_agile' %>
+<% end %>

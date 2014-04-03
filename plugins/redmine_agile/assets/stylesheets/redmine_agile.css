@@ -1,0 +1,66 @@
+/**********************************************************************/
+/* ISSUES SIDEBAR
+/**********************************************************************/
+
+#sidebar ul li {
+  list-style-type: none;
+  margin: 0px 2px 0px 0px;
+  padding: 0px 0px 0px 0px;
+}
+
+/**********************************************************************/
+/* AGILE BOARD
+/**********************************************************************/
+table.list.issues-board tbody tr,
+table.list.issues-board tbody tr:hover {background-color: white;}
+.issues-board .issue-card {
+  padding: 5px;
+  border: solid 1px #d5d5d5;
+  background-color: white;
+  margin: 5px;
+  word-wrap: break-word;
+}
+.issues-board .issue-card {background-color: #ffffdd;}
+.issues-board .issue-card .thumbnail {
+  height: 145px;
+  background-size: auto;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin: 5px;
+}
+
+.issues-board .issue-status-col {text-align: left; white-space: normal;}
+.issues-board .avatar {float: left; margin-right: 5px;}
+.issues-board p.name {
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+.issues-board .info {
+  border-top: 1px solid #d5d5d5;
+  padding-top: 5px;
+  margin-top: 5px;
+}
+.issues-board td.issue-status-col.closed .issue-card {background-color: #EDEDED;}
+
+.assignable-user.draggable-active {
+  padding: 5px;
+  border: 1px solid #D5D5D5;
+  background-color: #ffffdd;
+}
+
+.issue-card.ui-sortable-helper {
+  -moz-transform: rotate(5deg); /* Для Firefox */
+  -ms-transform: rotate(5deg); /* Для IE */
+  -webkit-transform: rotate(5deg); /* Для Safari, Chrome, iOS */
+  -o-transform: rotate(5deg); /* Для Opera */
+  transform: rotate(5deg);
+  box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.05);
+  -moz-box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.05);
+  -webkit-box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.05);
+}
+
+
+.issues-board td.issue-status-col.droppable-hover, .issues-board td.issue-status-col .issue-card.droppable-hover {
+  border-style: dotted;
+  background-color: #E9F8FD;
+}

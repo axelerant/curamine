@@ -1,0 +1,24 @@
+<div class="issue-card" data-id="<%= issue.id %>">
+    <p class="issue-id">
+      <strong><%= issue_heading(issue) %></strong>
+        <%#= content_tag(:span, " (#{"%0.2f" % issue.total_spent_hours.to_f}h)" ) if issue.total_spent_hours > 0  %>
+        <%= content_tag(:span, " (#{issue.priority.name})" )  %>
+    </p>
+<!--    <p class="name"><%#= link_to issue.subject.truncate(100), issue_path(issue) %></p> -->
+    <p class="name"><%= link_to issue.subject.truncate(100), issue_path(issue), :style => "color:#C28686" %></p>
+    <% if params[:show_description] && !issue.description.blank? %>
+    <em class="info" title="<%= issue.description %>">
+      <%= issue.description.truncate(200) %>
+    </em>
+    <% end %>
+    <% if params[:show_thumbnails] %>
+      <% image = issue.attachments.select(&:thumbnailable?).last %>
+      <% if image %>
+      <div class="thumbnail" style="background-image: url('<%= thumbnail_path(image, :size => 250) %>')"/>
+      </div>
+      <% end %>
+    <% end %>
+    <p class="info" style="<%= 'display: none;' unless issue.assigned_to %>">
+      <span class="user"><%= avatar(issue.assigned_to, :size => "14").to_s.html_safe + " " + link_to_user(issue.assigned_to) if issue.assigned_to %></span>
+    </p>
+</div>

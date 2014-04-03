@@ -1,0 +1,17 @@
+== Redmine Agile plugin changelog
+
+Redmine Agile plugin - Agile board plugin for redmine
+Copyright (C) 2011-2014 RedmineCRM
+http://www.redminecrm.com/
+
+== 2014-02-28 v1.0.1
+
+* Sorting issues inside status
+* Issues lazy loading
+
+== 2014-02-28 v1.0.0
+
+* Initial release
+* Draggable issues
+* Draggable assignees
+* Issue description and attached image preview

@@ -1,0 +1,1 @@
+$('td.issue-status-col[data-id="<%= params[:column_id] %>"]').append('<%= escape_javascript(render :partial => 'agile_board/issue_card', :collection => @issues, :as => :issue) %>')

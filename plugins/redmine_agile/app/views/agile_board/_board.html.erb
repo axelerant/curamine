@@ -1,0 +1,36 @@
+<%= form_tag({}) do -%>
+  <%= hidden_field_tag 'back_url', url_for(params) %>
+  <%= hidden_field_tag 'project_id', @project.id if @project %>
+  <% board_statuses = IssueStatus.sorted %>
+<div class="autoscroll">
+    <table class="list issues-board ">
+      <thead>
+      <tr>
+        <% @board_columns.each do |column| %>
+        <th style="width: <%= 100/@board_columns.size %>%;" data-column-id="<%= column[:status].id %>">
+          <%= "#{column[:status].name} (#{column[:total_count]})"%>
+        </th>
+        <% end %>
+      </tr>
+      </thead>
+      <tr style="text-align: center;white-space: nowrap;" class="issue <%= cycle('odd', 'even') %>">
+
+      <% @board_columns.each do |column| %>
+        <td class="issue-status-col <%= 'closed' if column[:status].is_closed? %>" data-id="<%= column[:status].id %>">
+        <% column[:issues].each do |issue| %>
+          <%= render :partial => 'issue_card', :locals => {:issue => issue} %>
+        <% end %>
+        <% if column[:limited_count] < column[:total_count] %>
+          <div class="load-more-issues-wrapper">
+            <%= link_to l(:label_agile_board_more_issues), nil, :class => 'load-more-issues contextual', :id => "load_more_for_#{column[:status].id}" %>
+          </div>
+        <% end %>
+        </td>
+
+        <% end %>
+      </tr>
+
+    </table>
+</div>
+
+<% end %>

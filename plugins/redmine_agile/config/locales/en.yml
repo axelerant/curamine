@@ -1,0 +1,8 @@
+# English strings go here for Rails i18n
+en:
+  label_agile_board: Agile board
+  label_agile_board_thumbnails: Thumbnails
+  label_agile_board_issues_per_column: Issues per column
+  label_agile_board_more_issues: More issues
+  permission_view_agile_board: View agile board
+  error_redmine_agile_status_transition: Can’t change issue status

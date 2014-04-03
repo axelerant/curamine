@@ -1,0 +1,8 @@
+# Russian strings go here for Rails i18n
+ru:
+  label_agile_board: Доска задач
+  label_agile_board_thumbnails: Превью
+  label_agile_board_issues_per_column: Количество задач в колонке
+  label_agile_board_more_issues: Еще задачи
+  permission_view_agile_board: Просмотр доски задач
+  error_redmine_agile_status_transition: Невозможно изменить статус
