@@ -75,18 +75,20 @@
         end -%>
     <th width="#{width}%" align="left"><%= l(:field_issue) %></th>
     <%- if User.current.allowed_to?(:view_issue_estimated_hours, @project) -%>
-      <th width="9%" align="center"><%= l(:field_estimated_hours) %></th>
+      <th width="9%" style="text-align:center">Estimated</th>
     <%- end -%>
     <%- if User.current.allowed_to?(:view_time_entries, @project) -%>
-      <th width="9%" align="center"><%= l(:label_spent_time) %></th>
+      <th width="9%" style="text-align:center">Spent</th>
     <%- end -%>
-    <th width="9%" align="center"><%= l(:field_done_ratio) %></th>
+    <th width="9%" style="text-align:center"><%= l(:field_done_ratio) %></th>
     <%- if User.current.allowed_to?(:view_time_entries, @project) and
            User.current.allowed_to?(:view_issue_estimated_hours, @project) -%>
-      <th width="9%" align="center"><%= l(:label_roadmap_due_in, "") %></th>
+      <th width="9%" style="text-align:center"><%= l(:label_roadmap_due_in, "") %></th>
       <%- if !version_estimated_speed.nil? -%>
-        <th width="9%" align="center"><%= l(:label_roadmap_due_in, "") %><br />(<%= l(:label_estimated_speed) %>)</th>
+        <th width="9%" style="text-align:center"><%= l(:label_roadmap_due_in, "") %><br />(<%= l(:label_estimated_speed) %>)</th>
       <%- end -%>
+<th>Priority</th>
+<th>Due Date</th>
     <%- end -%>
   </thead>
   <tbody>
@@ -110,9 +112,9 @@
     <tr class="hascontextmenu <%= cycle("odd", "even") %>\">
       <%- tab = "&nbsp;" * 3 * issue.parents_count -%>
       <td class="checkbox"><%= check_box_tag("ids[]", issue.id) %></td>
-      <td align="left">
+      <td style="text-align:left">
         <div class="tooltip">
-          <%= tab %>
+          <%= tab.html_safe %>
           <font color="<%= color %>"><%= begin_strike %>
             <%= link_to_issue(issue, :project => (@project != issue.project)) %>
           <%= end_strike %></font>
@@ -145,6 +147,8 @@
         <%- if !version_estimated_speed.nil? -%>
           <td align="center"><font color="<%= color %>"><%= begin_strike %><%= ("%.2f" % (issue_rest_hours * ((!issue.closed? and (!issue_spent_hours or issue_spent_hours <= 0.0) and !version_estimated_speed.nil?) ? version_estimated_speed : 1.0))) if issue_estimated_hours or issue_spent_hours %><%= end_strike %></font></td>
         <%- end -%>
+<td><%= issue.priority.name %></td>
+<td><%= format_date(issue.due_date) %></td>
       <%- end -%>
     </tr>
   <%- end -%>
@@ -152,18 +156,19 @@
   <thead>
     <th align="left"><%= l(:label_total) %></th>
     <%- if User.current.allowed_to?(:view_issue_estimated_hours, @project) -%>
-      <th align="center"><%= ("%.2f" % version.estimated_hours) %></th>
+      <th style="text-align:center"><%= ("%.2f" % version.estimated_hours) %></th>
     <%- end -%>
     <%- if User.current.allowed_to?(:view_time_entries, @project) -%>
-      <th align="center"><%= ("%.2f" % version_spent_hours) %></th>
+      <th style="text-align:center"><%= ("%.2f" % version_spent_hours) %></th>
     <%- end -%>
-    <th align="center"><%= ("%.0f" % version.completed_pourcent) %>%</th>
+    <th style="text-align:center"><%= ("%.0f" % version.completed_pourcent) %>%</th>
     <%- if User.current.allowed_to?(:view_time_entries, @project) and
            User.current.allowed_to?(:view_issue_estimated_hours, @project) -%>
-      <th align="center"><%= ("%.2f" % version_rest_hours) %></th>
+      <th style="text-align:center"><%= ("%.2f" % version_rest_hours) %></th>
       <%- if !version_estimated_speed.nil? -%>
-        <th align="center"><%= ("%.2f" % version_speed_rest_hours) %></th>
+        <th style="text-align:center"><%= ("%.2f" % version_speed_rest_hours) %></th>
       <%- end -%>
+<th></th><th></th>
     <%- end -%>
   </thead>
 </table>
