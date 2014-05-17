@@ -1,0 +1,48 @@
+= Bulk Time Entry Plugin
+
+This is a plugin to enter multiple time entries at one time.
+
+== Features
+
+* Enter multiple time entries from a single page
+* Auto fills the issue id based on the selected project
+
+== Getting the plugin
+
+A copy of the plugin can be found in the {downloads}[https://projects.littlestreamsoftware.com/projects/list_files/redmine-bte] at Little Stream Software and also on {GitHub}[http://github.com/edavis10/redmine-bulk_time_entry_plugin/tree/master].
+
+== Install
+
+1. Follow the Redmine plugin installation steps at: http://www.redmine.org/wiki/redmine/Plugins Make sure the plugin is installed to <tt>vendor/plugins/bulk_time_entry_plugin</tt>
+2. The link to the plugin should appear on the top left of your menu, called "Bulk Time Entries"
+
+== Usage
+
+1. Enter the time entry details
+2. Click "Add Another" or use the accesskey of Alt + A to add another time entry form
+3. Click "Save" to save all the time entries
+
+=== CSV Import
+
+A Rake task is included to allow importing Time Entries in bulk.  The CSV file should be in the following format:
+
+* No header
+* Column 1 - Issue id
+* Column 2 - Time Entry comment (optional)
+* Column 3 - Date spent on. e.g. YYYY-MM-DD
+* Column 4 - Activity name. e.g. Development
+* Column 5 - Number of hours
+* Column 6 - User login. e.g. edavis
+
+The rake task should be run in your Redmine root like:
+
+    rake bulk_time_entry:import:csv RAILS_ENV=production CSV_FILE=/path/to/time_entries.csv
+
+== License
+
+This plugin is licensed under the GNU GPL v2.  See COPYRIGHT.txt and GPL.txt for details.
+
+== Project help
+
+If you need help you can contact the maintainer at the Bug Tracker.  The bug tracker is located at https://projects.littlestreamsoftware.com
+

@@ -1,0 +1,36 @@
+<%= fields_for @time_entry do |f| %>
+  <%# trick to have automatically populated html id/names of fields %>
+  <% 
+  @time_entry.id = rnd = rand(9999)
+  -%>
+  <div class="box" id="entry_<%= rnd %>">
+
+    <p>
+      <%= label_for_field :project_id, rnd, :required => true %>
+      <% projects = project_tree_options_for_select(@projects, :selected => @first_project) %>
+      <%= select_tag "time_entries[#{rnd}][project_id]", projects, :data => { :project_selector => "#{rnd}" } %> 
+    </p>
+    <p id="entry_<%= rnd %>_issues">
+    <% @issues = get_issues @first_project.id %>
+    <%= render :partial => 'issues_selector', :locals => { :issues => @issues, :f => f, :rnd => rnd } %>
+    </p>
+    <p>
+      <%= label_for_field :spent_on, rnd, :required => true %>
+      <%= f.text_field :spent_on, :size => 10, :name => "time_entries[#{rnd}][spent_on]", :id => "time_entries_#{rnd}_spent_on", :class => 'spent_on', :required => true %><%= calendar_for("time_entries_#{rnd}_spent_on") %>
+    </p>
+    <p>
+      <%= label_for_field :hours, rnd, :required => true %>
+      <%= f.text_field :hours, :size => 6, :maxlength => 6, :name => "time_entries[#{rnd}][hours]", :id => "time_entries_#{rnd}_hours", :required => true %>
+    </p>
+    <p>
+      <%= label_for_field :comments, rnd %>
+      <%= f.text_field :comments, :size => 100, :maxlength => 255,  :name => "time_entries[#{rnd}][comments]", :id => "time_entries_#{rnd}_comments" %>
+    </p>
+    <p id="entry_<%= rnd %>_activities">
+      <%= render :partial => 'activities_selector', :locals => {:rnd => rnd, :activities => @first_project.activities } %>
+    </p>
+    <% @time_entry.custom_field_values.each do |value| %>
+      <p><%= custom_field_tag_with_label "time_entries[#{rnd}]", value %></p>
+    <% end if time_entry.respond_to?(:custom_field_values) %>
+  </div>
+<% end %>
