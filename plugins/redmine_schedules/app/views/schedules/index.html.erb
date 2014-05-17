@@ -21,11 +21,14 @@
         <%= select_day(@date.day, :prefix => "day", :discard_type => true) %>
         <%= select_month(@date.month, :prefix => "month", :discard_type => true) %>
         <%= select_year(@date.year, :prefix => "year", :discard_type => true) %>
+        Or <%= link_to "Month View", { :year => (@date).year, :month => (@date).month, :day => (@date).day, :month_view => true } %>
     </fieldset>
-    <p style="float:right; margin:0px;">
+    <% if :week == @period %>
+      <p style="float:right; margin:0px;">
         <%= link_to ("&#171; #{l(:label_previous)} #{l(:label_week).downcase}").html_safe, { :year => (@date-7).year, :month => (@date-7).month, :day => (@date-7).day } %> |
         <%= link_to ("#{l(:label_next)} #{l(:label_week).downcase} &#187;").html_safe, { :year => (@date+7).year, :month => (@date+7).month, :day => (@date+7).day } %>
-    </p>
+      </p>
+    <% end %>
     <p class="buttons">
         <%= link_to_function l(:button_apply), '$("#date_form").submit()', :class => 'icon icon-checked' %>
         <%= link_to l(:button_clear), {:controller => controller_name, :action => action_name, :project_id => @project, :issue_id => @issue}, :class => 'icon icon-reload' %>

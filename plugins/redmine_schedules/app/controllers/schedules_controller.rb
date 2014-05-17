@@ -411,7 +411,8 @@ class SchedulesController < ApplicationController
         @date = Date.parse(params[:date]) if params[:date]
         @date ||= Date.civil(params[:year].to_i, params[:month].to_i, params[:day].to_i) if params[:year] && params[:month] && params[:day]
         @date ||= Date.today
-        @calendar = Redmine::Helpers::Calendar.new(@date, current_language, :week)
+        @period = params[:month_view].present? ? :month : :week
+        @calendar = Redmine::Helpers::Calendar.new(@date, current_language, @period)
 
     rescue ActiveRecord::RecordNotFound
         render_404
