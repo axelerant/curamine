@@ -1,4 +1,4 @@
-<li class="schedule_entry" style="min-height: <%= 2.7*entry.hours %>em">
+<li class="schedule_entry">
     <div title="<%= ScheduleCompatibility::I18n.lwr(:label_f_hour, :value => entry.hours) %>" style="<%= entry.style(@user.nil? ? entry.user.id : entry.project.id) %>"> 
         <%= link_to entry.project, :controller => 'schedules', :action => 'index', :date => entry.date, :project_id => entry.project, :user_id => nil if @project.nil? or @projects and @project != entry.project %> <p>(<%= entry.hours %> h)</p>
         <% if @project.nil? or @projects and @project != entry.project and @user.nil? %><br/><% end %>

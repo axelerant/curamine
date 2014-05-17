@@ -1,5 +1,5 @@
 <% if hours > 0 %>
-    <li class="availability_entry" style="min-height: <%= 2.7*hours %>em">
+    <li class="availability_entry">
         <div title="<%= ScheduleCompatibility::I18n.lwr(:label_f_hour, :value => hours) %>">
             <% if @project.nil? %><em><%= l(:label_schedules_available) %></em><% end %>
             <% if @project.nil? && @user.nil? %><br/><% end %>
