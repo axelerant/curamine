@@ -447,6 +447,13 @@ function randomKey(size) {
 }
 
 function updateIssueFrom(url) {
+    //custom patch
+    var option_selected = $("#issue_status_id option:selected").text();
+    if("Closed" === option_selected){
+        $("#issue_priority_id  option:contains(Normal)").attr("selected", "selected")
+    }
+
+
   $('#all_attributes input, #all_attributes textarea, #all_attributes select').each(function(){
     $(this).data('valuebeforeupdate', $(this).val());
   });
