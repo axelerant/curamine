@@ -1,0 +1,31 @@
+
+<% if User.current.allowed_to?(:edit_checklists, @project) %>
+<div class="tabular">
+  <p id="checklist_form">
+    <label><%=l(:label_checklist_plural)%></label>
+		<% @issue.checklists.build if @issue.checklists.blank? || @issue.checklists.last.subject.present? %>
+	  <%= fields_for :issue, issue do |f| -%>
+	    <span id="checklist_form_items" data-checklist-fields='<%= fields(f, :checklists) %>'>
+			  <%= f.fields_for :checklists do |builder| %>
+				  <%= render :partial => 'checklist_fields', :locals => {:f => builder, :checklist => @checklist} %>
+			  <% end %>
+      </span>
+		<% end %>
+  </p>
+</div>
+<% end %>
+
+<% content_for :header_tags do %>
+    <%= javascript_include_tag :checklists, :plugin => 'redmine_checklists'  %>
+    <%= stylesheet_link_tag :checklists, :plugin => 'redmine_checklists'  %>
+<% end %>
+
+<% unless User.current.allowed_to?(:edit_checklists, @project) %>
+  <%= javascript_tag do %>
+    $("#checklist_form_items :input").attr("disabled", true);
+  <% end if !User.current.allowed_to?(:done_checklists, @project) %>
+<% end %>
+
+<%= javascript_tag do %>
+    $("#checklist_form_items .delete").hide();
+<% end if !User.current.allowed_to?(:edit_checklists, @project) %>

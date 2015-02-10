@@ -1,0 +1,23 @@
+== Redmine Checklists plugin changelog
+
+Redmine Checklists plugin - managing issue checklists plugin for Redmine
+Copyright (C) 2011-2014 Kirill Bezrukov
+http://www.redminecrm.com/
+
+== 2014-12-09 v3.0.2
+
+* Fixed bug wuth empty subject with CKEditor plugin
+
+== 2014-09-15 v3.0.1
+
+* Bulgarian translation (Иван Ценов)
+* Fixed bug with IE browser
+
+== 2014-09-10 v3.0.0
+
+* Editing checklist items
+* REST API for index, create, destroy, update, show
+* Change issues progress in real time
+* Sync checked items with show and edit forms
+* Fixed bug with rejecting new checklist items on update issue status
+* Japan translation (Yukio KANEDA)
