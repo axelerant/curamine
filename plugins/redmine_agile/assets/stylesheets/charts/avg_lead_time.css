@@ -1,0 +1,6 @@
+text {font-size: 12px; font-family: "Arial", sans-serif; font-weight: normal;}
+
+.line1 { stroke: #F7AF7D !important; stroke-width: 2px !important;} .fill1 { fill: none !important; } .key1 { fill: #F7AF7D !important; }
+.dataPoint1 { stroke: #F7AF7D !important; stroke-width: 4px !important; fill: #F7AF7D !important;}
+
+.guideLines { stroke-opacity: 0.2 !important; }

@@ -1,0 +1,12 @@
+<% if @issue.safe_attribute? 'agile_color_attributes' -%>
+  <%= form.fields_for :agile_color do |f| %>
+    <p><%= f.select :color, options_for_select(AgileColor::AGILE_COLORS, @issue.color), {:label => l(:label_agile_color), :include_blank => true} %></p>
+  <% end %>
+
+  <%= javascript_tag "$('#issue_agile_color_attributes_color').simplecolorpicker({picker: true});"%>
+  <% content_for :header_tags do %>
+    <%= javascript_include_tag 'jquery.simplecolorpicker.js', :plugin => "redmine_agile" %>
+    <%= stylesheet_link_tag 'jquery.simplecolorpicker.css', :plugin => 'redmine_agile' %>
+  <% end %>
+
+<% end %>

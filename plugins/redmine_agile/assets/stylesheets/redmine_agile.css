@@ -1,6 +1,67 @@
 /**********************************************************************/
+/* ICONS
+/**********************************************************************/
+#admin-menu a.agile { background-image: url(../images/agile.png);}
+.icon-fullscreen { background-image:  url(../images/fullscreen.png); }
+
+/**********************************************************************/
+/* FULLSCREEN
+/**********************************************************************/
+html.agile-board-fullscreen {
+  overflow: hidden;
+}
+
+html.agile-board-fullscreen div.agile-board {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  z-index: 20;
+  background: white;
+}
+
+html.agile-board-fullscreen table.list.issues-board {
+  min-height: 100%;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+}
+
+html.agile-board-fullscreen .icon-fullscreen {
+  position: fixed;
+  right: 5px;
+  top: 5px;
+  z-index: 21;
+  text-indent: -9999px;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+div.agile-board.autoscroll {
+  overflow-y: scroll;
+}
+
+/**********************************************************************/
+/* BOARD SETTINGS
+/**********************************************************************/
+table.options tr > td {
+  white-space: nowrap;
+}
+
+.card-fields label.floating {
+  text-align: left;
+  width: 200px;
+  float: left;
+}
+
+/**********************************************************************/
 /* ISSUES SIDEBAR
 /**********************************************************************/
+#sidebar ul {
+  margin: 0;
+  padding: 0;
+}
 
 #sidebar ul li {
   list-style-type: none;
@@ -9,19 +70,77 @@
 }
 
 /**********************************************************************/
+/* PLANNING BOARD
+/**********************************************************************/
+table.versions-planning-board {
+  border-spacing: 10px;
+  width: 100%;
+}
+
+table.versions-planning-board td.issue-version-col {
+  vertical-align: top;
+  height: 400px;
+}
+
+table.list.versions-planning-board input#search.autocomplete {width: 80%;}
+
+table.list.versions-planning-board tbody tr,
+table.list.versions-planning-board tbody tr:hover {background-color: white;}
+
+/**********************************************************************/
 /* AGILE BOARD
 /**********************************************************************/
+table.list.issues-board {table-layout: fixed;}
+table.list.issues-board th {overflow: hidden; text-overflow: ellipsis;}
+
 table.list.issues-board tbody tr,
 table.list.issues-board tbody tr:hover {background-color: white;}
-.issues-board .issue-card {
+
+.assignable-user.draggable-active {
+  padding: 5px;
+  border: 1px solid #D5D5D5;
+  background-color: #ffffdd;
+}
+
+table.issues-board td.issue-status-col.closed {background-color: #FAFAFA;}
+
+table.issues-board tr.group.swimlane {height: 30px;}
+table.issues-board tr.group.swimlane td {border-top: 0px;}
+
+table.issues-board tbody td,
+table.issues-board tbody tr.issue:hover td {border: 0px;}
+
+table.issues-board.minimize-closed td.issue-status-col.closed .issue-card {
+  width: 10px;
+  float: left;
+}
+table.issues-board.minimize-closed td.issue-status-col.closed .issue-card span.fields {display: none;}
+
+/**********************************************************************/
+/* ISSUE CARD
+/**********************************************************************/
+.issue-card {
   padding: 5px;
   border: solid 1px #d5d5d5;
-  background-color: white;
+  background-color: #ffffdd;
   margin: 5px;
   word-wrap: break-word;
+  text-align: left;
+  white-space: normal;
+  cursor: pointer;
 }
-.issues-board .issue-card {background-color: #ffffdd;}
-.issues-board .issue-card .thumbnail {
+
+.issue-card:not(.context-menu-selection) .attributes,
+.issue-card:not(.context-menu-selection) span.hours  {color: #888;}
+
+.issue-card .attributes,
+.issue-card span.hours {font-size: 90%;}
+
+.issue-card span.hours {
+  float: right;
+}
+
+.issue-card .thumbnail {
   height: 145px;
   background-size: auto;
   background-position: center;
@@ -29,24 +148,45 @@ table.list.issues-board tbody tr:hover {background-color: white;}
   margin: 5px;
 }
 
-.issues-board .issue-status-col {text-align: left; white-space: normal;}
-.issues-board .avatar {float: left; margin-right: 5px;}
-.issues-board p.name {
+.issue-card .checkbox {display: none;}
+.issue-card .avatar {float: left; margin-right: 5px;}
+.issue-card p.name {font-weight: bold;}
+.issue-card p.project {
+  border: 1px solid #d5d5d5;
+  padding: 5px;
   margin-bottom: 5px;
-  font-weight: bold;
+  text-align: center;
+  background-color: white;
 }
-.issues-board .info {
+.issue-card .info {
   border-top: 1px solid #d5d5d5;
   padding-top: 5px;
   margin-top: 5px;
 }
-.issues-board td.issue-status-col.closed .issue-card {background-color: #EDEDED;}
-
-.assignable-user.draggable-active {
-  padding: 5px;
-  border: 1px solid #D5D5D5;
-  background-color: #ffffdd;
+.issue-card table.progress {
+  float: none;
+  margin-top: 5px;
 }
+
+.issue-card table.progress td {
+  height: 5px;
+  padding: 0px;
+}
+
+.issue-card .issue-id.without-tracker {
+  float: right;
+}
+
+.issue-card.context-menu-selection p.project {
+  color: black;
+}
+
+.issue-card.context-menu-selection .attributes,
+.issue-card.context-menu-selection em.info {
+  color: white;
+}
+
+.issues-board td.issue-status-col.closed .issue-card {background-color: #EDEDED;}
 
 .issue-card.ui-sortable-helper {
   -moz-transform: rotate(5deg); /* Для Firefox */
@@ -57,10 +197,74 @@ table.list.issues-board tbody tr:hover {background-color: white;}
   box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.05);
   -moz-box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.05);
   -webkit-box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.05);
+  cursor: -moz-grabbing;
+  cursor: -webkit-grabbing;
+  cursor: grabbing;
 }
-
 
 .issues-board td.issue-status-col.droppable-hover, .issues-board td.issue-status-col .issue-card.droppable-hover {
   border-style: dotted;
   background-color: #E9F8FD;
 }
+
+.issue-card.bk-red {background-color: #FFE2E3; border-color: rgb(255, 201, 201);}
+.issue-card.bk-green {background-color: #DFFFCC; border-color: rgb(190, 239, 190);}
+.issue-card.bk-blue {background-color: #DCE7FF; border-color: rgb(189, 189, 233);}
+.issue-card.bk-turquoise {background-color: #C4FDFF; border-color: rgb(151, 222, 214);}
+.issue-card.bk-lightgreen {background-color: #D2FFEF; border-color: rgb(184, 228, 226);}
+.issue-card.bk-yellow {background-color: #FFFD9C; border-color: rgb(234, 234, 94);}
+.issue-card.bk-orange {background-color: #FFDBBA; border-color: rgb(255, 202, 105);}
+.issue-card.bk-purple {background-color: #EFDFFC; border-color: rgb(233, 186, 233);}
+.issue-card.bk-gray {background-color: #e1e1e1; border-color: rgb(198, 198, 198);}
+
+div.issue.details.br-red div.subject div > h3::before, div.issue.details.bk-red div.subject div > h3::before, a.issue.bk-red::before, a.issue.br-red::before {content: "\25CF  "; color: red;}
+div.issue.details.br-green div.subject div > h3::before, div.issue.details.bk-green div.subject div > h3::before, a.issue.bk-green::before, a.issue.br-green::before {content: "\25CF  "; color: green;}
+div.issue.details.br-blue div.subject div > h3::before, div.issue.details.bk-blue div.subject div > h3::before, a.issue.bk-blue::before, a.issue.br-blue::before {content: "\25CF  "; color: blue;}
+div.issue.details.br-turquoise div.subject div > h3::before, div.issue.details.bk-turquoise div.subject div > h3::before, a.issue.bk-turquoise::before, a.issue.br-turquoise::before {content: "\25CF  "; color: turquoise;}
+div.issue.details.br-lightgreen div.subject div > h3::before, div.issue.details.bk-lightgreen div.subject div > h3::before, a.issue.bk-lightgreen::before, a.issue.br-lightgreen::before {content: "\25CF  "; color: lightgreen;}
+div.issue.details.br-yellow div.subject div > h3::before, div.issue.details.bk-yellow div.subject div > h3::before, a.issue.bk-yellow::before, a.issue.br-yellow::before {content: "\25CF  "; color: yellow;}
+div.issue.details.br-orange div.subject div > h3::before, div.issue.details.bk-orange div.subject div > h3::before, a.issue.bk-orange::before, a.issue.br-orange::before {content: "\25CF  "; color: orange;}
+div.issue.details.br-purple div.subject div > h3::before, div.issue.details.bk-purple div.subject div > h3::before, a.issue.bk-purple::before, a.issue.br-purple::before {content: "\25CF  "; color: purple;}
+div.issue.details.br-gray div.subject div > h3::before, div.issue.details.bk-gray div.subject div > h3::before, a.issue.bk-gray::before, a.issue.br-gray::before {content: "\25CF  "; color: gray;}
+
+table.list.issues tr.issue:not(.context-menu-selection).bk-red td.id a {background-color: #FFE2E3; padding: 2px; border: 1px solid #DDD;}
+table.list.issues tr.issue:not(.context-menu-selection).bk-green td.id a {background-color: #DFFFCC; padding: 2px; border: 1px solid #DDD;}
+table.list.issues tr.issue:not(.context-menu-selection).bk-blue td.id a {background-color: #DCE7FF; padding: 2px; border: 1px solid #DDD;}
+table.list.issues tr.issue:not(.context-menu-selection).bk-turquoise td.id a {background-color: #C4FDFF; padding: 2px; border: 1px solid #DDD;}
+table.list.issues tr.issue:not(.context-menu-selection).bk-lightgreen td.id a {background-color: #D2FFEF; padding: 2px; border: 1px solid #DDD;}
+table.list.issues tr.issue:not(.context-menu-selection).bk-yellow td.id a {background-color: #FFFD9C; padding: 2px; border: 1px solid #DDD;}
+table.list.issues tr.issue:not(.context-menu-selection).bk-orange td.id a {background-color: #FFDBBA; padding: 2px; border: 1px solid #DDD;}
+table.list.issues tr.issue:not(.context-menu-selection).bk-purple td.id a {background-color: #EFDFFC; padding: 2px; border: 1px solid #DDD;}
+table.list.issues tr.issue:not(.context-menu-selection).bk-gray td.id a {background-color: #e1e1e1; padding: 2px; border: 1px solid #DDD;}
+
+.issue-card.br-red {border-left: 5px solid red;}
+.issue-card.br-green {border-left: 5px solid green;}
+.issue-card.br-blue {border-left: 5px solid blue;}
+.issue-card.br-turquoise {border-left: 5px solid turquoise;}
+.issue-card.br-lightgreen {border-left: 5px solid lightgreen;}
+.issue-card.br-yellow {border-left: 5px solid yellow;}
+.issue-card.br-orange {border-left: 5px solid orange;}
+.issue-card.br-purple {border-left: 5px solid purple;}
+.issue-card.br-gray {border-left: 5px solid gray;}
+
+table.list.issues tr.issue.br-red, .issue-card.br-red {border-left: 5px solid red;}
+table.list.issues tr.issue.br-green, .issue-card.br-green {border-left: 5px solid green;}
+table.list.issues tr.issue.br-blue, .issue-card.br-blue {border-left: 5px solid blue;}
+table.list.issues tr.issue.br-turquoise, .issue-card.br-turquoise {border-left: 5px solid turquoise;}
+table.list.issues tr.issue.br-lightgreen, .issue-card.br-lightgreen {border-left: 5px solid lightgreen;}
+table.list.issues tr.issue.br-yellow, .issue-card.br-yellow {border-left: 5px solid yellow;}
+table.list.issues tr.issue.br-orange, .issue-card.br-orange {border-left: 5px solid orange;}
+table.list.issues tr.issue.br-purple, .issue-card.br-purple {border-left: 5px solid purple;}
+table.list.issues tr.issue.br-gray, .issue-card.br-gray {border-left: 5px solid gray;}
+
+/*
+tr.issue.br-red td.id::before,
+tr.issue.br-green td.id::before,
+tr.issue.br-blue td.id::before,
+tr.issue.br-turquoise td.id::before,
+tr.issue.br-lightgreen td.id::before,
+tr.issue.br-yellow td.id::before,
+tr.issue.br-orange td.id::before,
+tr.issue.br-purple td.id::before,
+tr.issue.br-gray td.id::before,
+*/

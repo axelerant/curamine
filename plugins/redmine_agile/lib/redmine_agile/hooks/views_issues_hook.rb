@@ -1,7 +1,7 @@
 # This file is a part of Redmin Agile (redmine_agile) plugin,
 # Agile board plugin for redmine
 #
-# Copyright (C) 2011-2014 RedmineCRM
+# Copyright (C) 2011-2015 RedmineCRM
 # http://www.redminecrm.com/
 #
 # redmine_agile is free software: you can redistribute it and/or modify
@@ -20,10 +20,16 @@
 module RedmineAgile
   module Hooks
     class ViewsIssuesHook < Redmine::Hook::ViewListener
-      # require_dependency "contacts_helper"
-
-      render_on :view_issues_sidebar_issues_bottom, :partial => "agile_board/issues_sidebar"
-
+      def view_issues_sidebar_issues_bottom(context={})
+        context[:controller].send(:render_to_string, {
+          :partial => 'agile_boards/issues_sidebar',
+          :locals => context }) +
+        context[:controller].send(:render_to_string, {
+          :partial => "agile_charts/agile_charts",
+          :locals => context })
+      end
+      render_on :view_issues_form_details_bottom, :partial => "issues/issue_color_form"
+      # render_on :view_issues_show_details_bottom, :partial => "issues/issue_color"
     end
   end
 end

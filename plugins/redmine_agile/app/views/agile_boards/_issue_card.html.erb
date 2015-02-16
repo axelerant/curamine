@@ -1,0 +1,42 @@
+<div class="issue-card hascontextmenu <%= agile_color_class(issue, :color_base => @query.respond_to?(:color_base) && @query.color_base) %>" data-id="<%= issue.id %>">
+    <span class="fields">
+    <% if @query.has_column_name?(:project) %>
+        <p class="project">
+          <%= issue.project.name %>
+        </p>
+        <% end %>
+        <p class="issue-id <%= 'without-tracker' if @query.has_column_name?(:tracker).blank? %>">
+          <%= check_box_tag("ids[]", issue.id, false, :id => nil, :class => 'checkbox') %>
+          <% if @query.has_column_name?(:tracker) %>
+          <strong><%= issue_heading(issue) %></strong>
+          <% end %>
+          <%= render_issue_card_hours(@query, issue) %>
+        </p>
+        <p class="name" ><%= link_to "#{'#' + issue.id.to_s + ': ' if @query.has_column_name?(:id) && @query.has_column_name?(:tracker).blank?}#{issue.subject.truncate(100)}", issue_path(issue) %></p>
+        <p class="attributes">
+          <% @query.card_columns.select{|c| !c.value(issue).blank? }.each do |column| %>
+            <b><%= column.caption %></b>: <%= column_content(column, issue) %> <br>
+          <% end %>
+        </p>
+        <% if @query.has_column_name?(:description) && !issue.description.blank? %>
+        <em class="info description">
+          <%= issue.description.truncate(200) %>
+        </em>
+        <% end %>
+        <% if @query.has_column_name?(:thumbnails)  %>
+          <% image = issue.attachments.select(&:thumbnailable?).last %>
+          <% if image %>
+          <div class="thumbnail" style="background-image: url('<%= thumbnail_path(image, :size => 250) %>')"/>
+          </div>
+          <% end %>
+        <% end %>
+        <% if @query.has_column_name?(:assigned_to) %>
+        <p class="info" style="<%= 'display: none;' unless issue.assigned_to %>">
+          <span class="user"><%= avatar(issue.assigned_to, :size => "14").to_s.html_safe + " " + link_to_user(issue.assigned_to) if issue.assigned_to %></span>
+        </p>
+        <% end %>
+        <% if @query.has_column_name?(:done_ratio) %>
+          <%= progress_bar(issue.done_ratio, :width => '100%') %>
+        <% end %>
+    </span>
+</div>

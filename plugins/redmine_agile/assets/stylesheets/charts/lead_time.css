@@ -1,0 +1,8 @@
+text {font-size: 12px; font-family: "Arial", sans-serif; font-weight: normal;}
+
+.fill1, .fill2 { fill-opacity: 0.7 !important;}
+
+.line1 { stroke: #666666 !important; } .fill1 { fill: #9B9B9B !important; stroke: #666666 !important;} .key1 { fill: #666666 !important; }
+.line2 { stroke: #507AAA !important; } .fill2 { fill: #BACCE0 !important; stroke: #507AAA !important; } .key2 { fill: #507AAA !important; }
+
+.guideLines { stroke-opacity: 0.2 !important; }

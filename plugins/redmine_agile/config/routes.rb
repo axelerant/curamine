@@ -1,7 +1,7 @@
 # This file is a part of Redmin Agile (redmine_agile) plugin,
 # Agile board plugin for redmine
 #
-# Copyright (C) 2011-2014 RedmineCRM
+# Copyright (C) 2011-2015 RedmineCRM
 # http://www.redminecrm.com/
 #
 # redmine_agile is free software: you can redistribute it and/or modify
@@ -21,13 +21,33 @@
 # See: http://guides.rubyonrails.org/routing.html
 
 resources :projects do
-  resources :issues do
-    collection do
-      get 'board', :to => 'agile_board#index'
-    end
+  resources :agile_queries, :only => [:new, :create]
+  resources :agile_versions, :only => [:index] do
+    post :index, :on => :collection
   end
 end
 
-get 'agile_board', :to => 'agile_board#index'
-put 'agile_board', :to => 'agile_board#update', :as => 'update_agile_board'
-get 'agile_board/load_more', :to => 'agile_board#load_more', :as => 'load_more_issues'
+resources :agile_versions, :only => [:update, :show] do
+  collection do
+    get 'load'
+    get 'autocomplete'
+  end
+end
+
+resources :issues do
+  get "done_ratio", :to => "agile_journal_details#done_ratio"
+  get "status", :to => "agile_journal_details#status"
+  get "assignee", :to => "agile_journal_details#assignee"
+end
+
+resources :agile_queries
+get '/agile_colors/:object_type', :to => "agile_colors#index", :as => "agile_colors"
+put '/agile_colors/:object_type', :to => "agile_colors#update", :as => "update_agile_colors"
+
+get '/projects/:project_id/agile/charts', :to => "agile_charts#show", :as => "project_agile_charts"
+get '/agile/charts/', :to => "agile_charts#show", :as => "agile_charts"
+get '/agile/charts/render_chart', :to => "agile_charts#render_chart"
+get '/agile/charts/select_version_chart', :to => "agile_charts#select_version_chart"
+get '/projects/:project_id/agile/board', :to => 'agile_boards#index'
+get '/agile/board', :to => 'agile_boards#index'
+put '/agile/board', :to => 'agile_boards#update', :as => 'update_agile_board'

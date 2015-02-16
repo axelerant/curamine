@@ -1,0 +1,11 @@
+<% if @safe_attributes.include?('agile_color_attributes') %>
+<li class="folder">
+  <a href="#" class="submenu"><%= l(:label_agile_color) %></a>
+  <ul>
+  <% AgileColor::AGILE_COLORS.each do |k, color| %>
+      <li><%= context_menu_link "<span style=\"background-color: #{color}; width: 8em; height: 1.2em; display: block;border: 1px solid #222;\"></span>".html_safe, bulk_update_issues_path(:ids => @issue_ids, :issue => {:agile_color_attributes => {:color => color}}, :back_url => @back), :method => :post,
+                                    :selected => (@issue && @issue.color == color), :disabled => (!@can[:edit]) %></li>
+  <% end -%>
+  </ul>
+</li>
+<% end %>

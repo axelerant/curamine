@@ -1,0 +1,36 @@
+
+<p>
+  <label><%= l(:label_agile_board_items_limit) %></label>
+  <%= text_field_tag 'settings[board_items_limit]', RedmineAgile.board_items_limit, :size => 3 %>
+</p>
+<p>
+  <label><%= l(:label_agile_status_colors) %></label>
+  <%= hidden_field_tag 'settings[status_colors]', 0, :id => nil %>
+  <%= check_box_tag 'settings[status_colors]', 1, RedmineAgile.status_colors? %>
+</p>
+
+<p>
+  <label><%= l(:label_agile_color_based_on) %></label>
+  <%= select_tag 'settings[color_on]', options_card_colors_for_select(@settings["color_on"]) %> <%= link_to l(:label_agile_manage_colors), agile_colors_path("tracker") %>
+</p>
+
+<p>
+  <label><%= l(:label_agile_board_default_fields) %></label>
+  <%= select_tag 'settings[default_columns]', options_for_select(AgileQuery.new(:column_names => RedmineAgile.default_columns).available_columns.collect{|column| [column.caption, column.name]}, RedmineAgile.default_columns), :multiple => true, :include_blank => true, :size => 10, :style => "width:150px" %>
+</p>
+
+<p>
+  <label><%= l(:label_agile_default_chart) %></label>
+  <%= select_tag 'settings[default_chart]', options_charts_for_select(RedmineAgile.default_chart) %>
+</p>
+
+<p>
+  <label><%= l(:label_agile_exclude_weekends) %></label>
+  <%= hidden_field_tag 'settings[exclude_weekends]', 0, :id => nil %>
+  <%= check_box_tag 'settings[exclude_weekends]', 1, RedmineAgile.exclude_weekends? %>
+</p>
+
+<p>
+  <label><%= l(:label_agile_time_reports_items_limit) %></label>
+  <%= text_field_tag 'settings[time_reports_items_limit]', RedmineAgile.time_reports_items_limit, :size => 3 %>
+</p>

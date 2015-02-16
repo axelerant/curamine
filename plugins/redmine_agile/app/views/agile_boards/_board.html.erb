@@ -1,0 +1,50 @@
+<%= form_tag({}) do -%>
+  <%= hidden_field_tag 'back_url', url_for(params) %>
+  <%= hidden_field_tag 'project_id', @project.id if @project %>
+  <% board_statuses = IssueStatus.sorted %>
+<div class="agile-board autoscroll">
+    <div class="flash error" style="display: none;" id="agile-board-errors">
+    </div>
+    <table class="list issues-board <%= 'status-colors' if RedmineAgile.status_colors? %> <%= 'minimize-closed' if RedmineAgile.minimize_closed? %>">
+      <thead>
+      <%= render_board_headers(@board_columns) %>
+      </thead>
+      <% if @swimlanes.any? %>
+        <% @swimlanes.each do |swimlane| %>
+          <tr class="group open swimlane" data-id="<%= swimlane && swimlane.id || swimlane %>">
+            <td colspan="<%= @board_columns.size %>">
+              <span class="expander" onclick="toggleRowGroup(this);">&nbsp;</span>
+              <%= swimlane.blank? ? l(:label_none) : format_swimlane_object(swimlane) %><span class="count"><%= @query.issue_count_by_swimlane[swimlane && swimlane.id || swimlane] %></span>
+              <%= link_to_function("#{l(:button_collapse_all)}/#{l(:button_expand_all)}",
+                                   "toggleAllRowGroups(this)", :class => 'toggle-all') %>
+            </td>
+          </tr>
+
+          <tr style="text-align: center;white-space: nowrap;" class="swimlane issue <%= cycle('odd', 'even') %>" data-id="<%= swimlane && swimlane.id || swimlane %>" data-field="<%= @query.grouped? && "#{@query.group_by_column.name}_id" %>">
+          <% @board_columns.each do |column| %>
+            <td class="issue-status-col <%= 'closed' if column.is_closed? %>" data-id="<%= column.id %>">
+            <% @issue_board[[column.id, swimlane && swimlane.id || swimlane]].to_a.each do |issue| %>
+              <%= render :partial => 'issue_card', :locals => {:issue => issue} %>
+            <% end %>
+            </td>
+
+            <% end %>
+          </tr>
+        <% end %>
+      <% else %>
+          <tr style="text-align: center;white-space: nowrap;" class="issue <%= cycle('odd', 'even') %>">
+          <% @board_columns.each do |column| %>
+            <td class="issue-status-col <%= 'closed' if column.is_closed? %>" data-id="<%= column.id %>">
+            <% @issue_board[[column.id]].to_a.each do |issue| %>
+              <%= render :partial => 'issue_card', :locals => {:issue => issue} %>
+            <% end %>
+            </td>
+
+            <% end %>
+          </tr>
+      <% end %>
+
+    </table>
+</div>
+
+<% end %>

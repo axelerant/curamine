@@ -1,0 +1,29 @@
+<h2><%=l(:label_agile_color) %> <%= select_tag "object_type", options_for_select([[l(:label_agile_tracker_colors), "tracker"], [l(:label_agile_issue_priority_colors), "issue_priority"]],  params[:object_type]), :onchange => "location = this.options[this.options.selectedIndex].value" %></h2>
+
+<%= form_tag(update_agile_colors_path(:object_type => params[:object_type]), :method => :put) do %>
+  <% if @coloreds.any? %>
+    <table class="list"><thead>
+    <tr>
+        <th><%= l(:field_name) %></th>
+    </tr></thead>
+    <% @coloreds.each do |colored| %>
+      <tr class="<%= cycle('odd', 'even') %>">
+          <td class="name">
+            <%= hidden_field_tag 'coloreds[][id]', colored.id %>
+            <%= select_tag 'coloreds[][color]', options_for_select(AgileColor::AGILE_COLORS, colored.color), :include_blank => true, :id => "color_select_#{colored.id}", :class => "agile-color" %>  <%= colored %>
+          </td>
+      </tr>
+    <% end %>
+    </table>
+    <%= javascript_tag "$('.agile-color').simplecolorpicker({picker: true});"%>
+
+  <% end %>
+  <%= submit_tag l(:button_save) %>
+<% end %>
+
+<% content_for :header_tags do %>
+  <%= javascript_include_tag 'jquery.simplecolorpicker.js', :plugin => "redmine_agile" %>
+  <%= stylesheet_link_tag 'jquery.simplecolorpicker.css', :plugin => 'redmine_agile' %>
+<% end %>
+
+<% html_title(l(:enumeration_issue_priorities)) -%>

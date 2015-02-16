@@ -1,0 +1,25 @@
+<div class="contextual">
+<%= link_to l(:label_query_new), new_agile_query_path(:project_id => @project), :class => 'icon icon-add' if User.current.allowed_to?(:add_agile_queries, nil, :global => true)%>
+</div>
+
+<h2><%= l(:label_agile_board_plural) %></h2>
+
+<% if @queries.empty? %>
+  <p><i><%=l(:label_no_data)%></i></p>
+<% else %>
+  <table class="list">
+  <% @queries.each do |query| %>
+    <tr class="<%= cycle('odd', 'even') %>">
+      <td class="name">
+        <%= link_to h(query.name), :controller => 'agile_boards', :action => 'index', :project_id => query.project_id, :query_id => query %>
+      </td>
+      <td class="buttons">
+        <% if query.editable_by?(User.current) %>
+        <%= link_to l(:button_edit), edit_agile_query_path(query), :class => 'icon icon-edit' %>
+        <%= delete_link agile_query_path(query) %>
+      <% end %>
+      </td>
+    </tr>
+  <% end %>
+  </table>
+<% end %>

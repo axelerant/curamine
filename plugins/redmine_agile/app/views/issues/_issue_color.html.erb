@@ -1,0 +1,11 @@
+<% if User.current.allowed_to?(:view_agile_queries, @project) && @issue.color && RedmineAgile.issue_colors? %>
+
+<%= issue_fields_rows do |rows|
+  rows.left l(:label_agile_color), "<span class=\"simplecolorpicker button\" style=\"background-color: #{@issue.color};\"></span>".html_safe
+end %>
+
+  <% content_for :header_tags do %>
+    <%= stylesheet_link_tag 'jquery.simplecolorpicker.css', :plugin => 'redmine_agile' %>
+  <% end %>
+
+<% end %>

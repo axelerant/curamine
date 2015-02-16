@@ -1,0 +1,13 @@
+<% if User.current.allowed_to?(:view_agile_charts, @project, :global => true) %>
+<h3><%= l(:label_agile_chart_plural) %></h3>
+<ul>
+  <li><%= link_to l(:label_agile_charts_issues_burndown), {:controller => "agile_charts", :action => "show", :chart => "issues_burndown", :project_id => @project}, :class => "#{'selected' if @chart == 'issues_burndown'}" %></li>
+  <li><%= link_to l(:label_agile_charts_burnup), {:controller => "agile_charts", :action => "show", :chart => "burnup", :project_id => @project}, :class => "#{'selected' if @chart == 'burnup'}" %></li>
+  <li><%= link_to l(:label_agile_charts_issues_velocity), {:controller => "agile_charts", :action => "show", :chart => "issues_velocity", :project_id => @project}, :class => "#{'selected' if @chart == 'issues_velocity'}" %></li>
+  <li><%= link_to l(:label_agile_charts_lead_time), {:controller => "agile_charts", :action => "show", :chart => "lead_time", :project_id => @project}, :class => "#{'selected' if @chart == 'lead_time'}" %></li>
+  <li><%= link_to l(:label_agile_charts_trackers_cumulative_flow), {:controller => "agile_charts", :action => "show", :chart => "trackers_cumulative_flow", :project_id => @project}, :class => "#{'selected' if @chart == 'trackers_cumulative_flow'}" %></li>
+</ul>
+<% end %>
+<% if User.current.allowed_to?(:view_agile_queries, @project, :global => true) %>
+  <%= render_sidebar_agile_queries %>
+<% end %>
