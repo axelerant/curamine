@@ -21,7 +21,7 @@
 
 require File.expand_path('../../test_helper', __FILE__)
 
-class ChecklistTest < ActiveSupport::TestCase
+class ProjectTest < ActiveSupport::TestCase
   fixtures :projects,
            :users,
            :roles,
@@ -52,42 +52,25 @@ class ChecklistTest < ActiveSupport::TestCase
     RedmineChecklists::TestCase.prepare
     Setting.default_language = 'en'
     @project_1 = Project.find(1)
-    @issue_1 = Issue.create(:project_id => 1, :tracker_id => 1, :author_id => 1,
+    @issue_1 = Issue.create(:project => @project_1, :tracker_id => 1, :author_id => 1,
                             :status_id => 1, :priority => IssuePriority.first,
-                            :subject => 'Invoice Issue 1')
+                            :subject => 'TestIssue')
     @checklist_1 = Checklist.create(:subject => 'TEST1', :position => 1, :issue => @issue_1)
-
+    @checklist_1 = Checklist.create(:subject => 'TEST2', :position => 2, :issue => @issue_1, :is_done => true)
   end
 
 
 
-  test "should save checklist" do
-    assert @checklist_1.save, "Checklist save error"
-  end
+  test "should copy checklists" do
+    project_copy = Project.copy_from(Project.find(1))
+    project_copy.name = "Test name"
+    project_copy.identifier = Project.next_identifier
+    project_copy.copy(Project.find(1))
 
-  test "should not save checklist without subject" do
-    @checklist_1.subject = nil
-    assert !@checklist_1.save, "Checklist save with nil subject"
-  end
-
-  test "should not save checklist without position" do
-    @checklist_1.position = nil
-    assert !@checklist_1.save, "Checklist save with nil position"
-  end
-
-  test "should not save checklist with non integer position" do
-    @checklist_1.position = "string"
-    assert !@checklist_1.save, "Checklist save with non ingeger position"
-  end
-
-  test "should return project info" do
-    assert_equal @project_1, @checklist_1.project, "Helper project broken"
-  end
-
-  test "should return info about checklist" do
-    assert_equal "[ ] #{@checklist_1.subject}", @checklist_1.info, "Helper info broken"
-    @checklist_1.is_done = 1
-    assert_equal "[x] #{@checklist_1.subject}", @checklist_1.info, "Helper info broken"
+    checklists_copies = project_copy.issues.last.checklists
+    assert_equal(checklists_copies.count, 2)
+    assert_equal(checklists_copies.first.subject, 'TEST1')
+    assert_equal(checklists_copies.last.is_done, true)
   end
 
 end

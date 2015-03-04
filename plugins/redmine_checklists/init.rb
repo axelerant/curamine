@@ -1,7 +1,7 @@
 # This file is a part of Redmine Checklists (redmine_checklists) plugin,
 # issue checklists management plugin for Redmine
 #
-# Copyright (C) 2011-2014 Kirill Bezrukov
+# Copyright (C) 2011-2015 Kirill Bezrukov
 # http://www.redminecrm.com/
 #
 # redmine_checklists is free software: you can redistribute it and/or modify
@@ -20,7 +20,7 @@
 require 'redmine'
 require 'redmine_checklists/redmine_checklists'
 
-CHECKLISTS_VERSION_NUMBER = '3.0.2'
+CHECKLISTS_VERSION_NUMBER = '3.0.3'
 CHECKLISTS_VERSION_TYPE = "Light version"
 
 Redmine::Plugin.register :redmine_checklists do

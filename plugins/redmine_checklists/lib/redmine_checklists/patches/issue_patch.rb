@@ -1,7 +1,7 @@
 # This file is a part of Redmine Checklists (redmine_checklists) plugin,
 # issue checklists management plugin for Redmine
 #
-# Copyright (C) 2011-2014 Kirill Bezrukov
+# Copyright (C) 2011-2015 Kirill Bezrukov
 # http://www.redminecrm.com/
 #
 # redmine_checklists is free software: you can redistribute it and/or modify
@@ -26,9 +26,13 @@ module RedmineChecklists
       def self.included(base) # :nodoc:
         base.class_eval do
           unloadable # Send unloadable so it will not be unloaded in development
-
-          has_many :checklists, :class_name => "Checklist", :dependent => :destroy, :inverse_of => :issue,
-                   :order => 'position'
+          attr_reader :copied_from
+          if ActiveRecord::VERSION::MAJOR >= 4
+            has_many :checklists,  lambda { order("#{Checklist.table_name}.position") }, :class_name => "Checklist", :dependent => :destroy, :inverse_of => :issue
+          else
+            has_many :checklists, :class_name => "Checklist", :dependent => :destroy, :inverse_of => :issue,
+                     :order => 'position'
+          end
 
           accepts_nested_attributes_for :checklists, :allow_destroy => true, :reject_if => proc { |attrs| attrs["subject"].blank? }
 
@@ -36,9 +40,12 @@ module RedmineChecklists
             :if => lambda {|issue, user| (user.allowed_to?(:done_checklists, issue.project) ||
                                           user.allowed_to?(:edit_checklists, issue.project))}
 
+          def copy_checklists(arg)
+            issue = arg.is_a?(Issue) ? arg : Issue.visible.find(arg)
+            issue.checklists.each{ |checklist| Checklist.create(checklist.attributes.except('id','issue_id').merge(:issue => self)) } if issue
+          end
+          
         end
-
-
       end
 
     end

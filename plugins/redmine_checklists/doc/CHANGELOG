@@ -1,8 +1,16 @@
 == Redmine Checklists plugin changelog
 
 Redmine Checklists plugin - managing issue checklists plugin for Redmine
-Copyright (C) 2011-2014 Kirill Bezrukov
+Copyright (C) 2011-2015 Kirill Bezrukov
 http://www.redminecrm.com/
+
+== 2015-02-23 v3.0.3
+
+* Swedish translation update (Khedron Wilk)
+* Portuguese Brazilian translation (Leandro Gehlen)
+* Redmine 3.0 (Rails4) support
+* Copying checklists with project copying (Andrew Reshetov)
+* Fixed bug with unable editing checklist after tracker or status changed
 
 == 2014-12-09 v3.0.2
 

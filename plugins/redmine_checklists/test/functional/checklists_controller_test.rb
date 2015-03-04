@@ -3,7 +3,7 @@
 # This file is a part of Redmine Checklists (redmine_checklists) plugin,
 # issue checklists management plugin for Redmine
 #
-# Copyright (C) 2011-2014 Kirill Bezrukov
+# Copyright (C) 2011-2015 Kirill Bezrukov
 # http://www.redminecrm.com/
 #
 # redmine_checklists is free software: you can redistribute it and/or modify
@@ -44,7 +44,7 @@ class ChecklistsControllerTest < ActionController::TestCase
            :journals,
            :journal_details,
            :queries
-  ActiveRecord::Fixtures.create_fixtures(Redmine::Plugin.find(:redmine_checklists).directory + '/test/fixtures/',
+  RedmineChecklists::TestCase.create_fixtures(Redmine::Plugin.find(:redmine_checklists).directory + '/test/fixtures/',
                                          [:checklists])
 
   def setup

@@ -3,7 +3,7 @@
 # This file is a part of Redmine Checklists (redmine_checklists) plugin,
 # issue checklists management plugin for Redmine
 #
-# Copyright (C) 2011-2014 Kirill Bezrukov
+# Copyright (C) 2011-2015 Kirill Bezrukov
 # http://www.redminecrm.com/
 #
 # redmine_checklists is free software: you can redistribute it and/or modify
@@ -50,7 +50,7 @@ class IssuesControllerTest < ActionController::TestCase
            :queries
 
 
-  ActiveRecord::Fixtures.create_fixtures(Redmine::Plugin.find(:redmine_checklists).directory + '/test/fixtures/',
+  RedmineChecklists::TestCase.create_fixtures(Redmine::Plugin.find(:redmine_checklists).directory + '/test/fixtures/',
                                          [:checklists])
 
 
@@ -77,7 +77,7 @@ class IssuesControllerTest < ActionController::TestCase
     get :new, :project_id => 1, :copy_from => 1
     assert_response :success
     assert_select "span#checklist_form_items span.checklist-subject", {:count => 3}
-    assert_select "span#checklist_form_items span.checklist-edit input[value=?]", /First todo/
+    assert_select "span#checklist_form_items span.checklist-edit input[value=?]", "First todo"
   end
 
   def test_put_update_form

@@ -3,7 +3,7 @@
 # This file is a part of Redmine Checklists (redmine_checklists) plugin,
 # issue checklists management plugin for Redmine
 #
-# Copyright (C) 2011-2014 Kirill Bezrukov
+# Copyright (C) 2011-2015 Kirill Bezrukov
 # http://www.redminecrm.com/
 #
 # redmine_checklists is free software: you can redistribute it and/or modify
@@ -21,7 +21,7 @@
 
 require File.dirname(__FILE__) + '/../../test_helper'
 
-class Redmine::ApiTest::ChecklistsTest < ActionController::IntegrationTest
+class Redmine::ApiTest::ChecklistsTest < Redmine::ApiTest::Base
   fixtures :projects,
            :users,
            :roles,
@@ -46,7 +46,7 @@ class Redmine::ApiTest::ChecklistsTest < ActionController::IntegrationTest
            :journal_details,
            :queries
 
-    ActiveRecord::Fixtures.create_fixtures(Redmine::Plugin.find(:redmine_checklists).directory + '/test/fixtures/',
+    RedmineChecklists::TestCase.create_fixtures(Redmine::Plugin.find(:redmine_checklists).directory + '/test/fixtures/',
                             [:checklists])
 
   def setup
@@ -54,31 +54,18 @@ class Redmine::ApiTest::ChecklistsTest < ActionController::IntegrationTest
   end
 
   def test_get_checklists_xml
-    Redmine::ApiTest::Base.should_allow_api_authentication(:get, "/issues/1/checklists.xml")
-
     get '/issues/1/checklists.xml', {}, credentials('admin')
 
-    assert_tag :tag => 'checklists',
-      :attributes => {
-        :type => 'array',
-        :total_count => 2
-      },
-      :child => {
-        :tag => 'checklist',
-        :child => {
-          :tag => 'id',
-          :content => '1',
-          :sibling => {
-            :tag => 'subject',
-            :content => 'First todo'
-          }
-        }
-      }
+    assert_select 'checklists[type=array]' do
+      assert_select 'checklist' do
+        assert_select 'id', :text => "1"
+        assert_select 'subject', :text => "First todo"
+      end
+    end
+
   end
 
   def test_get_checklists_1_xml
-    Redmine::ApiTest::Base.should_allow_api_authentication(:get, "/checklists/1.xml")
-
     get '/checklists/1.xml', {}, credentials('admin')
 
     assert_select 'checklist' do
@@ -91,30 +78,20 @@ class Redmine::ApiTest::ChecklistsTest < ActionController::IntegrationTest
     parameters = {:checklist => {:issue_id => 1,
                                  :subject => 'api_test_001',
                                  :is_done => true}}
-    Redmine::ApiTest::Base.should_allow_api_authentication(:post,
-                                    '/issues/1/checklists.xml',
-                                    parameters,
-                                    {:success_code => :created})
-
     assert_difference('Checklist.count') do
       post '/issues/1/checklists.xml', parameters, credentials('admin')
     end
 
-    checklist = Checklist.first(:order => 'id DESC')
+    checklist = Checklist.order('id DESC').first
     assert_equal parameters[:checklist][:subject], checklist.subject
 
     assert_response :created
     assert_equal 'application/xml', @response.content_type
-    assert_tag 'checklist', :child => {:tag => 'id', :content => checklist.id.to_s}
+    assert_select 'checklist id', :text => checklist.id.to_s
   end
 
   def test_put_checklists_1_xml
     parameters = {:checklist => {:subject => 'Item_UPDATED'}}
-
-    Redmine::ApiTest::Base.should_allow_api_authentication(:put,
-                                  '/checklists/1.xml',
-                                  parameters,
-                                  {:success_code => :ok})
 
     assert_no_difference('Checklist.count') do
       put '/checklists/1.xml', parameters, credentials('admin')

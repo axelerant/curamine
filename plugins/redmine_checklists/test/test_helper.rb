@@ -3,7 +3,7 @@
 # This file is a part of Redmine Checklists (redmine_checklists) plugin,
 # issue checklists management plugin for Redmine
 #
-# Copyright (C) 2011-2014 Kirill Bezrukov
+# Copyright (C) 2011-2015 Kirill Bezrukov
 # http://www.redminecrm.com/
 #
 # redmine_checklists is free software: you can redistribute it and/or modify
@@ -22,7 +22,22 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../../test/test_helper')
 
 
+if ActiveRecord::VERSION::MAJOR >= 4
+  class RedmineChecklists::IntegrationTest < ActionDispatch::IntegrationTest; end
+else
+  class RedmineChecklists::IntegrationTest < ActionController::IntegrationTest; end
+end
+
 class RedmineChecklists::TestCase
+
+  def self.create_fixtures(fixtures_directory, table_names, class_names = {})
+    if ActiveRecord::VERSION::MAJOR >= 4
+      ActiveRecord::FixtureSet.create_fixtures(fixtures_directory, table_names, class_names = {})
+    else
+      ActiveRecord::Fixtures.create_fixtures(fixtures_directory, table_names, class_names = {})
+    end
+  end
+
   def self.prepare
     Role.find(1, 2, 3, 4).each do |r|
       r.permissions << :edit_checklists

@@ -17,20 +17,36 @@
 # You should have received a copy of the GNU General Public License
 # along with redmine_checklists.  If not, see <http://www.gnu.org/licenses/>.
 
-Rails.configuration.to_prepare do
-  require 'redmine_checklists/hooks/controller_issue_hook'
-  require 'redmine_checklists/hooks/views_issues_hook'
-
-  require 'redmine_checklists/patches/issue_patch'
-  require 'redmine_checklists/patches/project_patch'
-  require 'redmine_checklists/patches/issues_controller_patch'
-  require 'redmine_checklists/patches/add_helpers_for_checklists_patch'
-  require 'redmine_checklists/patches/compatibility_patch'
-end
+require_dependency 'project'
 
 module RedmineChecklists
+  module Patches
 
-  def self.settings() Setting[:plugin_redmine_checklists].blank? ? {} : Setting[:plugin_redmine_checklists] end
+    module ProjectPatch
+      def self.included(base) # :nodoc:
+        base.send(:include, InstanceMethods)
+        base.class_eval do
+          unloadable # Send unloadable so it will not be unloaded in development
+          alias_method_chain :copy_issues, :checklist
 
+        end
+      end
+
+      module InstanceMethods
+
+        def copy_issues_with_checklist(project)
+          copy_issues_without_checklist(project)
+          issues.each{ |issue| issue.copy_checklists(issue.copied_from)}
+        end
+
+      end
+
+    end
+
+  end
 end
 
+
+unless Project.included_modules.include?(RedmineChecklists::Patches::ProjectPatch)
+  Project.send(:include, RedmineChecklists::Patches::ProjectPatch)
+end

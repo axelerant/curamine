@@ -279,8 +279,3 @@ Redmine.Checklist = $.klass({
 $.fn.checklist = function(element){
   new Redmine.Checklist(this);
 }
-
-$(function(){
-  $('span#checklist_form_items').checklist()
-  $('#checklist_items').checklist()
-})
